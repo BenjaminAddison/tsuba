@@ -1,0 +1,16 @@
+starting in 3...
+starting in 2...
+starting in 1...
+--- BOOSTER: play riffs and chords
+[ 1] booster type 6  FAT DS (known reference)
+[ 2] booster type 7  ?? not in Tone Studio (maybe LEAD DS)
+[ 3] booster type 20 MUFF FUZZ (known reference)
+[ 4] booster type 21 ?? not in Tone Studio
+[ 5] booster type 22 ?? not in Tone Studio
+[ 6] booster OFF (dry clean amp)
+--- REVERB: play short chords and stop to hear the tail
+[ 7] reverb type 1 ROOM (known reference)
+[ 8] reverb type 0 AMBIENCE ?? not in Tone Studio
+[ 9] reverb type 2 HALL1 ?? not in Tone Studio
+[10] reverb type 3 HALL2 (Tone Studio's HALL)
+edit buffer restored: OK

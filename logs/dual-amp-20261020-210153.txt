@@ -1,0 +1,39 @@
+patch 0; original A=[1, 1, 100, 10, 69, 64, 75, 50, 22] B=[0, 0, 50, 10, 50, 50, 50, 0, 50] DIV=[0, 0, 0, 50, 0, 9, 0, 50, 0, 9] MIX=[0, 0, 0]
+starting in 3... play continuously
+starting in 2... play continuously
+starting in 1... play continuously
+[step 1] SINGLE, Ch A = JC-120 (clean)
+    divider SINGLE, Ch A
+    Preamp A type JC-120
+[step 2] SINGLE, Ch B = 5150 DRIVE (high gain). Dirty = Preamp B works
+    Preamp B on, 5150 DRIVE, gain 70, A's EQ/level  ** READ BACK [0, 24, 70, 10, 69, 64, 75, 50, 22, 0, 1, 0, 50, 0, 1, 1] **
+    divider Ch B  ** READ BACK [0] **
+[step 3] back to Ch A (clean)
+    divider Ch A
+[step 4] DUAL, balance 50 (both amps together)
+    mixer balance 50  ** READ BACK [0] **
+    divider DUAL  ** READ BACK [0] **
+[step 5] DUAL, balance sweep 0 -> 100 over 1s (clean -> dirty if 0 = all A)
+    balance 0
+    balance 5
+    balance 10
+    balance 15
+    balance 20
+    balance 25
+    balance 30
+    balance 35
+    balance 40
+    balance 45
+    balance 50
+    balance 55
+    balance 60
+    balance 65
+    balance 70
+    balance 75
+    balance 80
+    balance 85
+    balance 90
+    balance 95
+    balance 100
+restored original settings: OK
+editor mode OFF

@@ -1,0 +1,17 @@
+COMP         Tone Studio  8 types; amp accepts  8: [0, 1, 2, 3, 4, 5, 6, 7]
+ODDS         Tone Studio 20 types; amp accepts 23: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
+               NOT in Tone Studio: [7, 21, 22]
+EQ           Tone Studio  2 types; amp accepts  2: [0, 1]
+FX1          Tone Studio 30 types; amp accepts 30: [0, 1, 2, 3, 4, 6, 7, 9, 10, 12, 14, 15, 16, 18, 19, 20, 21, 22, 23, 25, 26, 27, 28, 29, 31, 35, 36, 37, 38, 39]
+FX2          Tone Studio 30 types; amp accepts 30: [0, 1, 2, 3, 4, 6, 7, 9, 10, 12, 14, 15, 16, 18, 19, 20, 21, 22, 23, 25, 26, 27, 28, 29, 31, 35, 36, 37, 38, 39]
+DELAY        Tone Studio  8 types; amp accepts  8: [0, 1, 2, 6, 7, 8, 9, 10]
+DELAY2       Tone Studio  8 types; amp accepts  8: [0, 1, 2, 6, 7, 8, 9, 10]
+CHORUS       Tone Studio  3 types; amp accepts  3: [0, 1, 2]
+REVERB       Tone Studio  5 types; amp accepts  7: [0, 1, 2, 3, 4, 5, 6]
+               NOT in Tone Studio: [0, 2]
+PEDAL_FX     Tone Studio  3 types; amp accepts  3: [0, 1, 2]
+SEND_RETURN  Tone Studio  0 types; amp accepts  3: [0, 1, 2]
+               NOT in Tone Studio: [0, 1, 2]
+ACCEL_FX     Tone Studio  6 types; amp accepts  6: [0, 1, 2, 3, 4, 5]
+edit buffer restored: OK
+results saved to C:\Users\Ben\Documents\laughing-broccoli\notes\effect-types-scan.json

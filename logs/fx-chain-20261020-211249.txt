@@ -1,0 +1,12 @@
+original: ptn 1, chain DIV PDL OD FX1 PrA NS1 FV EQ S/R DLY FX2 CHO REV MXDV CMP PrB ACC MIX NS2 USB
+High gain + big hall reverb. Play chords and let them ring out / stop to hear the tail.
+starting in 3...
+starting in 2...
+starting in 1...
+    chain -> standard: reverb at the end
+[step 1] reverb AFTER the amp (normal)
+    chain -> reverb BEFORE the amp
+[step 2] reverb BEFORE the amp: should sound like a distorted, smeared wash
+    chain -> standard
+[step 3] reverb AFTER the amp again (normal)
+restored original settings: OK

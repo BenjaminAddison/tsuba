@@ -1,0 +1,16 @@
+original patch 2
+== SysEx patch change (00 01 00 00), as Tone Studio does
+  write 1: amp pushed current patch [1], names ['vlgr dop'], 29 msgs; read back [0, 1]
+  write 2: amp pushed current patch [2], names ['KATANA'], 29 msgs; read back [0, 2]
+== MIDI Program Change on channel 1
+  PC# 1 (byte 0): amp pushed patch [1] ['vlgr dop'], 29 msgs
+  PC# 2 (byte 1): amp pushed patch [2] ['KATANA'], 29 msgs
+  PC# 3 (byte 2): amp pushed patch [] [], 0 msgs
+  PC# 4 (byte 3): amp pushed patch [] [], 0 msgs
+  PC# 5 (byte 4): amp pushed patch [0] ['KATANA'], 22 msgs
+  PC# 6 (byte 5): amp pushed patch [5] ['KATANA'], 19 msgs
+  PC# 7 (byte 6): amp pushed patch [6] ['grt sthrn tk#2'], 29 msgs
+  PC# 8 (byte 7): amp pushed patch [] [], 0 msgs
+  PC# 9 (byte 8): amp pushed patch [] [], 0 msgs
+  PC#10 (byte 9): amp pushed patch [] [], 0 msgs
+back on patch 2; edit EXP FUNC now [4]

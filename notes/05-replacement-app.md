@@ -17,9 +17,10 @@ Everything Tone Studio does above the protocol (Tone Central downloads, telemetr
 
 | Capability | How | Confidence |
 |---|---|---|
-| All 28 GT amp models instead of 5 | Write `60 00 00 51` = 0–27 | High: factory patches use them. Sound per value still to test |
-| Dual amp (A/B) with divider/mixer | `60 00 01 00` PREAMP B, `60 00 06 40/50` | Unknown on 50 MK1 |
-| Free FX chain order | `60 00 07 20` (20 positions) | Medium |
+| Hidden effect types: booster 7, reverb AMBIENCE (0) and HALL1 (2) | Type registers; block booster 21/22 (mute) | **Confirmed on hardware** |
+| 26 GT amp models instead of 5 | Write `60 00 00 51` = 0–25 (26 and 27 mute the 50 MK1) | **Confirmed on hardware** |
+| ~~Dual amp (A/B) with divider/mixer~~ | `60 00 01 00` PREAMP B, `60 00 06 40/50` | **Locked on the 50 MK1**: writes are dropped |
+| Free FX chain order (not just 3 patterns) | One 20-byte DT1 to `60 00 07 20` | **Confirmed on hardware** (by ear) |
 | Every effect parameter (~270 each for FX1 and FX2, DELAY2, Pedal FX, NS×2, Master EQ, Accel FX) | `60 00 …` | High: the addresses exist |
 | Live automation (morphing, LFOs, MIDI/phone controller mapping) | Stream DT1s. Tone Studio paces bulk writes at 30 ms per message | High |
 | Unlimited patch library, full backup and restore | Read/write `10 nn …` (+ system `00 …`) | High |
