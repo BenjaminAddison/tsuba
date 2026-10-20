@@ -1,0 +1,576 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
+<!-- saved from url=(0024)http://www.roland.co.jp/ -->
+<HTML lang="fr">
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>README_FR - Pilote KATANA Ver.1.0.1 pour Windows&reg; 11</TITLE>
+<STYLE type="text/css">
+<!--
+BODY	{background-color: #FFFFFF;	color: #000000;}
+DL	{margin-left: 15pt;}
+DT	{font-weight: bold;	margin-bottom: 5pt;}
+DT.FN	{font-weight: normal;	margin-bottom: 0pt;}
+DD.FS	{font-size: smaller;}
+OL.FS	{font-size: smaller;}
+LI.OL	{margin-bottom: 15pt;}
+TABLE	{margin-top: 3pt;	margin-bottom: 5pt;}
+TD	{vertical-align: top;	font-size: smaller;}
+TH	{vertical-align: middle;	font-size: smaller;}
+H3	{color: #000080;}
+-->
+</STYLE>
+</HEAD>
+<BODY>
+
+<H2>Pilote KATANA Ver.1.0.1 pour Windows&reg; 11</H2>
+
+<P><FONT size="-1">(Remarque)<BR>
+Roland Corporation (« Roland ») ne peut en aucun cas être tenu responsable, vis-à-vis des utilisateurs finaux, de quelque dommage que ce soit, incluant, mais sans s'y limiter, les préjudices financiers occasionnés par la perte de bénéfices commerciaux ou la perte de données commerciales résultant de l'exploitation de ce produit ou de l'impossibilité d'utiliser celui-ci. La disposition présente s'applique même dans le cas où Roland a été informé de l'éventualité de tels dommages.
+</FONT></P>
+
+<TABLE><TR><TD>*</TD><TD>Toute modification, duplication, distribution ou reproduction des supports (y compris les fichiers se rapportant à ce pilote) sans l'autorisation de Roland Corporation (« Roland ») est interdite.</TD></TR></TABLE>
+
+<TABLE cellspacing="0">
+	<TR><TD>*</TD><TD>	Microsoft et Windows sont des marques déposées de Microsoft Corporation.</TD></TR>
+	<TR><TD>*</TD><TD>ASIO est une marque commerciale et un logiciel de Steinberg Media Technologies GmbH.</TD></TR>
+	<TR><TD>*</TD><TD>Tous les noms de produits mentionnés dans le présent document sont des marques ou des marques déposées appartenant à leurs propriétaires respectifs.</TD></TR>
+</TABLE>
+
+
+<P>
+	Consultez la page d’assistance de Roland pour obtenir les dernières informations.<BR>
+<a href="https://www.boss.info/global/support" target="_blank">https://www.boss.info/global/support</a>
+</P>
+<HR>
+
+<H2><A name="anchor0000">Pilote pour Windows 11</A></H2>
+
+<P>
+<font color=red><strong><u>Votre ordinateur télécharge automatiquement le pilote Windows&reg; 11 pour l'appareil KATANA depuis Internet lorsque l'appareil KATANA est connecté à l'ordinateur.</u></strong></font><BR>
+
+<UL><LI>Ce pilote prend également en charge ASIO(Steinberg Audio Stream I/O Interface).</LI></UL>
+
+
+
+
+
+	
+	
+
+<TABLE><TR><TD>*</TD><TD>Si vous utilisez un ordinateur compatible avec la fonction tactile, remplacez les mots &quot;cliquez&quot; et &quot;faites un clic droit&quot; dans ce document par &quot;appuyez&quot; et &quot;exercez une pression prolongée&quot;, respectivement.</TD></TR></TABLE>
+</P>
+
+<H3><A name="anchor0030">Configuration système requise</A></H3>
+
+
+<DL>
+  <DT>Système d'exploitation</DT>
+
+	<DD>Microsoft&reg; Windows&reg; 11</DD>
+	<DD>&nbsp;</DD>
+
+  <DT>Ordinateur</DT>
+    <DD>PC compatible Windows avec port USB
+    </DD>
+
+<BLOCKQUOTE><TABLE>
+  <TR><TD>*</TD><TD>Les PC dotés d’un processeur ARM ne sont pas compatibles.</TD></TR>
+  <TR><TD>*</TD><TD>Vous ne pouvez pas les utiliser dans un environnement virtuel Windows.</TD></TR>
+  <TR><TD>*</TD><TD>L’environnement Windows fonctionnant sur Mac n’est pas pris en charge.</TD></TR>
+</TABLE></BLOCKQUOTE>
+
+
+
+  <DT>Autre</DT>
+    <DD>Connexion Internet
+      <TABLE><TR><TD>*</TD><TD>Vous devez disposer d'une connexion Internet pour télécharger le pilote.</TD></TR></TABLE>
+    </DD>
+</DL>
+
+<H3><A name="anchor0040">Précautions et restrictions d'utilisation</A></H3>
+<UL>
+	<LI>Des coupures de son ou d'autres phénomènes indésirables pourront se produire si les performances et les spécifications de votre ordinateur sont inadéquates. Les types et les modes d’utilisation des applications que vous exploitez ont également une incidence sur les résultats obtenus.</LI>
+	<LI>Si le KATANA ne fonctionne pas correctement lorsque l'ordinateur passe du mode &quot;Veille&quot; au mode de fonctionnement normal, fermez toutes les applications utilisant le KATANA et mettez le KATANA hors tension, puis sous tension à nouveau.</LI>
+	<LI>Si vous débranchez le câble USB puis rebranchez celui-ci alors que le KATANA est en cours d’utilisation, ou si le KATANA est mis hors tension, puis sous tension à nouveau, il est possible que l'appareil cesse de fonctionner normalement. Dans ce cas, quittez toutes les applications utilisant le KATANA et mettez le KATANA hors tension, puis sous tension à nouveau.</LI>
+	<LI>Des clics et des craquements peuvent se produire lors de la lecture ou de l'enregistrement si vous connectez ou déconnectez d'autres périphériques USB (comme une clé USB) ou activez/désactivez un autre périphérique USB au cours de l'utilisation du KATANA.</LI>
+	<LI>Dans certains cas, il est possible que les performances obtenues soient inférieures au niveau attendu si vous utilisez un disque dur USB et le KATANA simultanément. N'utilisez pas de disque dur USB comme destination de stockage pour la lecture ou l'enregistrement de fichiers audio.</LI>
+</UL>
+
+
+<HR>
+
+
+<H2><A name="anchor0100">Installation</A></H2>
+
+<TABLE>
+	
+
+
+  <TR><TD>*</TD><TD>Pour réinstaller ou mettre à jour le pilote, reportez-vous au chapitre &quot;<A href="#anchor0400">Réinstaller le pilote</A>&quot;.</TD></TR>
+</TABLE>
+
+<OL>
+  <LI class="OL">Débranchez tous les périphériques USB à l'exception du clavier et de la souris, puis démarrez Windows.</LI>
+  <LI class="OL">Vérifiez que l'ordinateur est connecté à Internet.</LI>
+  <LI class="OL">Quittez l’application en cours.</LI>
+  <LI class="OL">
+    Mettez l'appareil KATANA sous tension et raccordez-le à l'ordinateur au moyen d'un câble USB.
+	<BR>
+    Le pilote sera automatiquement installé.</LI>
+  <LI class="OL">Après quelques minutes, cliquez sur le bouton Écran de démarrage puis cliquez sur &quot;Toutes les applications&quot;.
+  <LI class="OL">Ouvrez le dossier BOSS.<BR>Si l'icône &quot;KATANA&quot; s'affiche, l'installation est terminée.</LI>
+    <TABLE>
+    <TR><TD>*</TD><TD>En règle générale, l'installation du pilote s'effectue en quelques minutes.Elle peut nécessiter 10 minutes environ selon la connectivité Internet ou dans le cas où d'autres pilotes sont en cours d'installation pour d'autres périphériques.</TD></TR>
+    <TR><TD>*</TD><TD>Il se peut qu'un problème se soit produit si l'appareil KATANA est connecté mais ne peut pas être utilisé après un délai de 10 minutes.Voir &quot;<A href="#anchor0600">Dysfonctionnements</A>&quot;.</TD></TR>
+    </TABLE>
+</OL>
+
+<HR>
+
+
+<H2><A name="anchor0200">Avant de commencer</A></H2>
+
+<H3><A name="anchor0220">Choix des périphériques d’entrée/sortie dans votre application</A></H3>
+
+<P>Pour obtenir des performances optimales de vos applications, choisissez les périphériques d’entrée/sortie spécifiques à vos applications tel qu’indiqué ci-dessous. (Pour les détails sur les modalités de réglages, reportez-vous au mode d’emploi de l’application concernée.)</P>
+
+<TABLE>
+  <TR><TD>*</TD><TD>Si vous n'arrivez pas à sélectionner le périphérique KATANA, reportez-vous au chapitre &quot;<A href="#anchor0600">Dysfonctionnements</A>&quot;.</TD></TR>
+</TABLE>
+
+<H4>Périphériques Lecture/Enregistrement audio</H4>
+
+<DL>
+<DT class="FN">[Périphériques Lecture]</DT>
+		<DD>PRIMARY (KATANA)</DD>
+	<DD>SECONDARY (KATANA)</DD>
+  <DD>&nbsp;</DD>
+
+<DT class="FN">[Périphériques Enregistrement]</DT>
+		<DD>PRIMARY (KATANA)</DD>
+	<DD>SECONDARY (KATANA)</DD>
+  <DD>&nbsp;</DD>
+</DL>
+
+<H4>Paramètres des périphériques de lecture et d’enregistrement devant être utilisés pour les applications Windows</H4>
+<P>
+Définissez les paramètres d’utilisation du KATANA pour les applications Windows.
+<TABLE><TR><TD>*</TD><TD>Certaines applications peuvent accepter une configuration personnalisée des périphériques de lecture ou d’enregistrement.</TD></TR></TABLE>
+</P>
+<OL>
+  <LI class="OL">Cliquez sur le bouton « Écran de démarrage », puis cliquez sur « Paramètres ».</LI>
+  <LI class="OL">Cliquez sur « Système », puis sur « Son ».</LI>
+  <LI class="OL">Dans « Sortie », sélectionnez le périphérique à utiliser pour la lecture, par exemple le « <B>PRIMARY</B> » du KATANA.<BR>Dans « Entrée », sélectionnez le périphérique à utiliser pour l’enregistrement, par exemple le « <B>PRIMARY</B> » du KATANA.
+    <TABLE>
+	<TR><TD>*</TD><TD>Il se peut qu'un problème se soit produit si les périphériques ci-dessus ne peuvent pas être sélectionnés. Voir &quot;<A href="#anchor0600">Dysfonctionnements</A>&quot;.</TD></TR>
+	</TABLE></LI>
+  <LI class="OL">Fermez la boîte de dialogue « Paramètres ».</LI>
+</OL>
+
+<H4>Paramètres du périphérique pour les applications compatibles ASIO</H4>
+<P>Lors de l’utilisation du KATANA avec une application compatible ASIO, sélectionnez &quot;<B>KATANA</B>&quot; dans les paramètres ASIO de votre application.</P>
+<TABLE>
+    <TR><TD>*</TD><TD>Pour empêcher tout effet de boucle ou de double monitoring audio, effectuez les réglages nécessaires dans votre application pour désactiver le monitoring.</TD></TR>
+    <TR><TD>*</TD><TD>L’unité principale KATANA ne prend pas en charge ASIO Monitoring Direct, mais si vous utilisez Cubase, en activant Monitoring Direct dans le paramètre Cubase, vous pouvez empêcher les boucles de retour et la double surveillance.</TD></TR>
+    <TR><TD>*</TD><TD>Lors de l'utilisation du KATANA en mode ASIO, nous vous recommandons de régler votre application de façon à ce que celle-ci n’utilise pas Microsoft GS Wavetable Synth. (Pour diminuer la charge et faciliter l'ajustement de la Taille de la mémoire tampon du pilote.)</TD></TR>
+</TABLE>
+
+<H4>Périphériques d’entrée/sortie MIDI</H4>
+<TABLE><TR><TD>*</TD><TD>Dans Lecteur Windows Media, il est impossible d’utiliser les ports d’entrée/sortie MIDI du KATANA.<BR>Veuillez sélectionner le périphérique suivant dans votre application compatible MIDI.</TD></TR></TABLE>
+
+<DL>
+<DT class="FN">[Périphériques MIDI OUT]</DT>
+		<DD>KATANA</DD>
+	<DD>KATANA DAW CTRL</DD>
+	<DD>KATANA CTRL</DD>
+	<DD>&nbsp;</DD>
+
+<DT class="FN">[Périphériques MIDI IN]</DT>
+		<DD>KATANA</DD>
+	<DD>KATANA DAW CTRL
+	</DD>
+	<DD>KATANA CTRL</DD>
+	<DD>&nbsp;</DD>
+
+</DL>
+
+
+<H3><A name="anchor0250">Ouvrir le fichier README</A></H3>
+Une fois l'installation du pilote terminé, vous pouvez ouvrir le fichier Readme (le présent document) en suivant la procédure décrite ci-dessous.<BR>Utilisez ce fichier pour le dépannage et pour vérifier la procédure d'installation du pilote.
+<OL>
+  <LI class="OL">Cliquez sur le bouton « Écran de démarrage », puis cliquez sur « Toutes les applications ».
+  <LI class="OL">Ouvrez le dossier BOSS puis cliquez sur &quot;KATANA Readme&quot;.</LI>
+</OL>
+
+<HR>
+
+
+<H2><A name="anchor0300">Modification/vérification des paramètres du pilote</A></H2>
+
+<H3><A name="anchor0310">Modification/vérification des paramètres du pilote</A></H3>
+
+<OL>
+
+  <LI class="OL">  Cliquez sur le bouton « Écran de démarrage », puis cliquez sur « Toutes les applications ».</LI>
+<LI class="OL">
+  Ouvrez le dossier BOSS puis cliquez sur &quot;KATANA&quot;.
+</LI>
+  <LI class="OL">La boîte de dialogue &quot;<B>KATANA Paramètres du pilote</B>&quot; s’ouvre.
+    <TABLE><TR><TD>*</TD><TD>Pour plus d’informations sur les différents paramètres, reportez-vous au paragraphe &quot;<A href="#anchor0320">À propos des éléments de la boîte de dialogue Paramètres du pilote</A>&quot;.</TD></TR></TABLE>
+  </LI>
+</OL>
+
+<H3><A name="anchor0320">À propos des éléments de la boîte de dialogue Paramètres du pilote</A></H3>
+
+<DL>
+	<BR>
+	<DT>SAMPLE RATE</DT>
+	<DD>Affiche la fréquence d'échantillonnage actuelle.
+		<BR>Pour modifier la fréquence d'échantillonnage, sélectionnez la fréquence d'échantillonnage dans le menu.
+      <TABLE>
+      <TR><TD>*</TD><TD>Lors d’une modification de la fréquence d’échantillonnage, un léger bruit de claquement peut être émis, mais il ne s’agit pas d’un dysfonctionnement.</TD></TR>
+      </TABLE>
+    </DD>
+
+    <DD>&nbsp;</DD>
+
+  <DT>Taille de la mémoire tampon</DT>
+    <DD>Vous pouvez modifier la taille de la mémoire tampon pour l'entrée/sortie audio. (Le réglage par défaut correspond à la sixième position depuis la gauche.)</DD>
+<DD>Une mémoire tampon moins importante permet de réduire la latence et d'améliorer les performances en temps réel mais peut augmenter les risques d'apparitions de clics et de craquements selon la puissance de traitement de votre ordinateur et la quantité de données du morceau.<BR>Une mémoire tampon plus importante augmente la latence mais permet de stabiliser la diffusion audio en continu et diminue les risques d'apparition de clics et de craquements.</DD>
+<DD>De manière générale, il est conseillé de réduire la taille de la mémoire tampon pour améliorer les performances lors de la lecture en temps réel d'un synthétiseur logiciel ou lors du contrôle d'un signal audio d'entrée traité par votre logiciel DAW.<BR>À l'inverse, augmentez la mémoire tampon pour éviter l'apparition de clics et de craquements lors de l'enregistrement et la lecture de morceaux comprenant plusieurs pistes et qui représentent une charge de traitement importante.</DD>
+<DD>En adaptant la taille de la mémoire tampon à vos besoins, vous pouvez obtenir le bon équilibre entre les performances en temps réel et la stabilité de diffusion audio en continu.
+      <P><FONT size="-1">* Remarque !<BR>Si vous utilisez une application avec une fonction de test d'équipement audio, après avoir modifié la taille du tampon, effectuez un test.</FONT></P>
+  <DT>ASIO Taille de la mémoire tampon</DT>
+    <DD>Il s'agit de la taille minimale de la mémoire tampon configurable par l'application ASIO.
+    <DD>&nbsp;</DD>
+
+
+
+
+
+
+
+
+
+
+	<DT>Case à cocher " Synchroniser avec la fréquence d'échantillonnage ASIO "</DT>
+	<DD>Cette option correspond à la fréquence d'échantillonnage Windows, par exemple MME, DirectSound ou WASAPI, avec la fréquence d'échantillonnage ASIO.
+	Activez cette case à cocher lorsque vous utilisez une application compatible ASIO avec une application compatible avec l'audio Windows, telle que le Lecteur Windows Media.<BR>
+	</DD>
+	
+	<DD>&nbsp;</DD>
+
+
+  <DT>Bouton &quot;Afficher Lisezmoi&quot;</DT>
+    <DD>Ce bouton permet d'afficher le fichier README (ce document).</DD>
+    <DD>&nbsp;</DD>
+
+  <DT>Information</DT>
+    <DD>Ce champ indique la version de pilote utilisée.</DD>
+
+</DL>
+
+
+
+<HR>
+
+
+<H2><A name="anchor0400">Réinstaller le pilote</A></H2>
+
+<OL>
+  <LI class="OL">Supprimez le pilote tel qu’indiqué au chapitre &quot;<A href="#anchor0500">Désinstallation du pilote</A>&quot;.
+    <TABLE>
+      <TR><TD>*</TD><TD>Lors de la désinstallation, les réglages de la boîte de dialogue Paramètres du pilote sont initialisés. Pour plus d’informations sur les différents paramètres, reportez-vous au paragraphe &quot;<A href="#anchor0320">À propos des éléments de la boîte de dialogue Paramètres du pilote</A>&quot;.</TD></TR>
+    </TABLE>
+  <LI class="OL">Installez le pilote tel qu’indiqué au chapitre &quot;<A href="#anchor0100">Installation</A>&quot;.</LI>
+</OL>
+
+
+<HR>
+
+
+<H2><A name="anchor0500">Désinstallation du pilote</A></H2>
+
+<OL>
+  <LI class="OL">Débranchez tous les périphériques USB à l'exception du clavier et de la souris, puis démarrez Windows.
+    <TABLE><TR><TD>*</TD><TD>Veillez également à retirer le câble USB de l'appareil KATANA.</TD></TR></TABLE></LI>
+  <LI class="OL">Fermez toutes les applications avant d’effectuer la désinstallation.
+    <TABLE>
+	<TR><TD>*</TD><TD>Patientez environ 10 secondes jusqu'à ce que ces applications soient complètement fermées.</TD></TR>
+    </TABLE>
+  </LI>
+  <LI class="OL">Cliquez sur le bouton « Écran de démarrage », puis cliquez sur « Paramètres ».</LI>
+  <LI class="OL">Cliquez sur « Applications », puis sur « Applications et fonctionnalités ».</LI>
+  <LI class="OL">Dans la liste, cliquez sur « &#8285; » à côté du KATANA Driver et sélectionnez « Désinstaller ».
+	<TABLE><TR><TD>*</TD><TD>Le pilote n'est pas installé si Pilote KATANA n'apparaît pas dans la liste.Vous n'avez pas besoin de désinstaller le pilote.</TD></TR></TABLE>
+  </LI>
+  <LI class="OL">Si un message de confirmation de la désinstallation s'affiche, cliquez sur &quot;Désinstaller&quot;.</LI>
+  <LI class="OL">Si une boîte de dialogue relative à Contrôle de compte d'utilisateur s’ouvre, cliquez sur [Oui].
+    <TABLE><TR><TD>*</TD><TD>Si vous êtes invité à entrer le mot de passe d’un compte administrateur, connectez-vous à Windows en tant qu’Administrateur, puis lancez la désinstallation.</TD></TR></TABLE></LI>
+  <LI class="OL">L'écran affiche &quot;Le pilote KATANA installé va être désinstallé&quot;. Cliquez sur [OK].</LI>
+  <LI class="OL">Lorsque le message &quot;La désinstallation est terminée.&quot; s’affiche, cliquez sur [OK] pour redémarrer  Windows.</LI>
+</OL>
+
+
+<HR>
+
+
+<H2><A name="anchor0600">Dysfonctionnements</A></H2>
+
+<H3><A name="anchor0660">Impossible d'installer le pilote</A></H3>
+<DL>
+<DT>Vérifiez l'état de l'appareil</DT>
+	<DD class="FS">En règle générale, l'installation du pilote s'effectue en quelques minutes.</DD>
+	<DD class="FS">Si l'appareil KATANA est connecté mais ne peut pas être utilisé après un délai de 10 minutes, suivez la procédure ci-dessous et vérifiez l'état de l'appareil.</DD>
+	<OL class="FS">
+		<LI class="OL">
+		Mettez l'appareil KATANA sous tension et raccordez-le à l'ordinateur au moyen d'un câble USB.
+		</LI>
+		<LI class="OL">Cliquez sur le bouton « Écran de démarrage », puis cliquez sur « Paramètres ».</LI>
+		<LI class="OL">Cliquez sur « Système », puis sur « Informations système ».</LI>
+		<LI class="OL">Dans Paramètres associés, cliquez sur « Gestionnaire de périphériques ».</LI>
+		<LI class="OL">Dans le menu Affichage, cliquez sur &quot;Périphériques par type&quot;.</LI>
+		<LI class="OL">Cliquez sur &quot;Contrôleurs audio, vidéo et jeu&quot; ou &quot;Autres périphériques&quot; pour afficher l'appareil KATANA.</LI>
+		<LI class="OL">Lorsque l'appareil KATANA apparaît, double-cliquez dessus pour ouvrir l'écran &quot;Propriétés de l'appareil KATANA&quot;.</LI>
+		<LI class="OL">Sous l'onglet Général, vérifiez le champ &quot;État du périphérique&quot;.</LI>
+	</OL>
+	<DD class="FS">Si le message est &quot;Ce périphérique fonctionne correctement.&quot; s'affiche dans ce champ, l'installation du pilote est terminée.</DD>
+	<DD class="FS">Sinon, il est possible que l'installation du pilote ait échoué.</DD>
+	<DD class="FS">Reportez-vous à d'autres rubriques dans Dysfonctionnements pour des informations sur les problèmes d'installation du pilote.</DD>
+	<DD class="FS">&nbsp;</DD>
+
+<DT>Votre ordinateur est-il connecté à Internet ?</DT>
+	<DD class="FS">Pour que vous puissiez installer ce pilote, votre ordinateur doit être connecté à Internet.</DD>
+	<DD class="FS">Vérifiez que votre ordinateur est connecté à Internet (par exemple en utilisant -*un navigateur Web), puis réinstallez le pilote suivant la procédure décrite dans la section &quot;<A href="#anchor0100">Installation</A>&quot;.</DD>
+	<DD class="FS">&nbsp;</DD>
+
+<DT>Reconnectez l'appareil KATANA</DT>
+	<DD class="FS">Il est possible que l'identification de l'appareil ait échoué.</DD>
+	<DD class="FS">Débranchez le câble USB de l'appareil KATANA, mettez l'appareil KATANA hors tension puis à nouveau sous tension, puis reconnectez-le à votre ordinateur.</DD>
+	<DD class="FS">&nbsp;</DD>
+
+
+<DT>Si Windows Update est en cours d'exécution, il se peut que vous ne puissiez pas installer le pilote.</DT>
+	<DD class="FS">Une fois le processus Windows Update terminé, réinstallez le pilote en suivant la procédure &quot;<A href="#anchor0100">Installation</A>&quot;.</DD>
+	<DD class="FS">&nbsp;</DD>
+</DL>
+
+<DL>
+
+
+
+
+
+</DL>
+
+<H3><A name="anchor0620">Impossible de sélectionner ou d’utiliser le périphérique KATANA</A></H3>
+
+<DL>
+<DT><A name="anchor0621">Le pilote a-t-il été installé correctement ?</A></DT>
+	<DD class="FS">Il est possible que le pilote n'ait pas été correctement installé.Voir la section &quot;<A href="#anchor0660">Impossible d'installer le pilote</A>&quot;.</DD>
+	<DD class="FS">Si vous ne pouvez pas utiliser le KATANA après l'installation du pilote, réinstallez le pilote en suivant la procédure décrite dans la section &quot;<A href="#anchor0400">Réinstaller le pilote</A>&quot;.</DD>
+	<DD>&nbsp;</DD>
+
+<DT><A name="anchor0622">Le KATANA est-il utilisé par un autre logiciel ?</A></DT>
+	<DD class="FS">	Fermez toutes les applications utilisant le KATANA et mettez le KATANA hors tension, puis sous tension à nouveau.<BR>Si ceci ne résout pas le problème, suivez la procédure décrite au chapitre &quot;<A href="#anchor0400">Réinstaller le pilote</A>&quot; afin de réinstaller le pilote.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>Le nom du périphérique WAVE/MIDI du KATANA est-il affiché ?</DT>
+	<DD class="FS">	Si le nom du périphérique ne s’affiche pas, fermez toutes les applications utilisant le KATANA et mettez le KATANA hors tension, puis sous tension à nouveau.<BR>Si ceci ne résout pas le problème, suivez la procédure décrite au chapitre &quot;<A href="#anchor0400">Réinstaller le pilote</A>&quot; afin de réinstaller le pilote.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>		L'ordinateur est-il passé en mode &quot;Veille&quot; alors que le KATANA est connecté et sous tension ?</DT>
+	<DD class="FS">	Si le KATANA ne fonctionne pas correctement lorsque l'ordinateur passe du mode &quot;Veille&quot; au mode de fonctionnement normal, fermez toutes les applications utilisant le KATANA et mettez le KATANA hors tension, puis sous tension à nouveau.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>		Le câble USB a-t-il été débranché, puis rebranché alors que le KATANA était en cours d’utilisation ou le KATANA a-t-il été mis hors tension, puis sous tension à nouveau ?</DT>
+	<DD class="FS">	Si vous débranchez le câble USB, puis rebranchez celui-ci alors que le KATANA est en cours d’utilisation, ou si le KATANA est mis hors tension, puis sous tension à nouveau, il risque de ne plus fonctionner normalement. Si ceci se produit, fermez toutes les applications utilisant le KATANA et mettez le KATANA hors tension, puis sous tension à nouveau.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>		Si l'ordinateur est démarré alors que le KATANA est encore connecté à l'ordinateur et sous tension, le pilote peut ne pas être chargé correctement et il se peut que vous ne soyez pas en mesure d'utiliser le KATANA.</DT>
+	<DD class="FS">	Dans ce cas, connectez le KATANA à un autre port USB ou mettez le KATANA sous tension après le démarrage de l'ordinateur.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>Assurez-vous que l’accès au microphone soit autorisé</DT>
+	<DD><OL class="FS">
+	<LI class="OL">Cliquez sur le bouton « Écran de démarrage », puis cliquez sur « Paramètres ».</LI>
+	<LI class="OL">Cliquez sur « Confidentialité et sécurité », puis sur « Microphone ».</LI>
+	<LI class="OL">Activez l’option « Accès au micro ».</LI>
+	<LI class="OL">Fermez la boîte de dialogue « Paramètres ».</LI>
+	</OL></DD>
+	<DD>&nbsp;</DD>
+
+</DL>
+
+<H3><A name="anchor0680">Impossible de modifier la fréquence d'échantillonnage à partir des paramètres du pilote ou de l'application.</A></H3>
+<DL>
+<DT>Au cours de la lecture ou de l'enregistrement, la fréquence d'échantillonnage ne peut pas être modifiée dans la boîte de dialogue Paramètres du pilote.</DT>
+	<DD class="FS">Modifiez la fréquence d'échantillonnage dans l'application utilisée, ou quittez l'application puis modifiez la fréquence d'échantillonnage dans la boîte de dialogue Paramètres du pilote.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>Vous utilisez une autre application ?</DT>
+	<DD class="FS">Au cours de la lecture ou de l'enregistrement avec une autre application, la fréquence d'échantillonnage ne peut pas être modifiée.</DD>
+	<DD>&nbsp;</DD>
+
+
+<DT>L’option Paramètres est-elle activée dans Windows ?</DT>
+	<DD class="FS">Si l’option Paramètres est activée dans Windows, il peut se révéler impossible de modifier la fréquence.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>Le Panneau de configuration Son de Windows est-il ouvert ?</DT>
+	<DD class="FS">Si le Panneau de configuration Son Windows est ouvert, la fréquence d'échantillonnage peut parfois ne pas être modifiée.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>Si la fonction de surveillance Windows est activée, la fréquence d'échantillonnage ne peut pas être modifiée.</DT>
+	<DD class="FS">Reportez-vous à &quot;<A href="#TPC-CTLFBE">La fonction d'écoute de Windows est-elle activée ?</A>&quot; et désactivez la fonction d'écoute.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>Si la fonction Microsoft GS Wavetable Synth est utilisée, la fréquence d’échantillonnage ne peut pas être modifiée.</DT>
+	<DD class="FS">N'utilisez pas la fonction Microsoft GS Wavetable Synth.</DD>
+	<DD>&nbsp;</DD>
+</DL>
+
+<H3><A name="anchor0625">Un chiffre tel que &quot;2-&quot; a été ajouté au début du nom du périphérique</A></H3>
+<DL>
+<DT>Avez-vous connecté le KATANA à un autre port USB ?</DT>
+	<DD class="FS">Si vous connectez le KATANA à un autre port USB, le système d’exploitation peut ajouter automatiquement un numéro au début du nom du périphérique.<BR>Cela n’entraîne aucun problème de fonctionnement du KATANA.
+    <TABLE><TR><TD>*</TD><TD>Pour rétablir le nom d’origine du périphérique et lui ôter ce numéro ajouté, connectez le KATANA au même port USB que vous avez utilisé lors de sa première installation, ou réinstallez le pilote tel qu’indiqué sous &quot;<A href="#anchor0400">Réinstaller le pilote</A>&quot;.</TD></TR></TABLE>
+</DL>
+
+<H3><A name="SCT-DeviceCurrentlyUsed">&quot;Le périphérique est actuellement utilisé par une autre application.&quot; s'affiche à l'écran et il est impossible de configurer le pilote.</A></H3>
+<DL>
+<DT>Vous utilisez une autre application ?</DT>
+	<DD class="FS">Les paramètres du pilote ne peuvent pas être modifiés pendant qu'ils sont utilisés par une application.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>L’option Paramètres est-elle activée dans Windows ?</DT>
+	<DD class="FS">Si l’option Paramètres est activée dans Windows, il peut se révéler impossible de modifier les paramètres du pilote.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>Le Panneau de configuration Son de Windows est-il ouvert ?</DT>
+	<DD class="FS">Si le panneau de contrôle des sons est ouvert dans Windows, il peut se révéler impossible de modifier les paramètres du pilote.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>Si la fonction d'écoute de Windows est activée, il est impossible de modifier les paramètres du pilote.</DT>
+    <DD class="FS">Reportez-vous à &quot;<A href="#TPC-CTLFBE">La fonction d'écoute de Windows est-elle activée ?</A>&quot; et désactivez la fonction d'écoute.</DD>
+    <DD>&nbsp;</DD>
+
+<DT>Si Microsoft GS Wavetable Synth est utilisé, il peut se révéler impossible de modifier les paramètres du pilote.</DT>
+	<DD class="FS">N'utilisez pas la fonction Microsoft GS Wavetable Synth.</DD>
+	<DD>&nbsp;</DD>
+	
+</DL>
+
+<H3><A name="anchor0630">Aucun son ne sort. Impossible de lire ou d’enregistrer</A></H3>
+<DL>
+  <DT><A href="#anchor0621">Le pilote a-t-il été installé correctement ?</A></DT>
+    <DD>&nbsp;</DD>
+
+  <DT><A href="#anchor0622">Le KATANA est-il utilisé par un autre logiciel ?</A></DT>
+    <DD>&nbsp;</DD>
+
+<DT>Avez-vous effectué les réglages indiqués au chapitre &quot;Avant de commencer&quot; de façon à ce que le pilote KATANA puisse être utilisé dans de bonnes conditions ?</DT>
+    <DD class="FS">Vous ne serez pas en mesure d’utiliser le KATANA  dans de bonnes conditions à moins de procéder à ces réglages. Reportez-vous aux différentes sections du chapitre &quot;<A href="#anchor0200">Avant de commencer</A>&quot;.</DD>
+    <DD>&nbsp;</DD>
+
+
+<DT>Êtes-vous passé en mode &quot;Veille&quot; en cours de lecture ou d'enregistrement ?</DT>
+	<DD class="FS">	Si le KATANA ne fonctionne pas correctement lorsque l'ordinateur passe du mode &quot;Veille&quot; au mode de fonctionnement normal, fermez toutes les applications utilisant le KATANA et mettez le KATANA hors tension, puis sous tension à nouveau.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>		Durant la lecture ou l’enregistrement, avez-vous mis le KATANA sous tension, puis hors tension ou avez-vous débranché, puis rebranché le câble USB ?</DT>
+	<DD class="FS">	Si vous déconnectez et reconnectez le câble USB en cours de lecture ou d’enregistrement, le KATANA ne sera pas capable de reprendre la lecture ou l'enregistrement. Arrêtez la lecture ou l’enregistrement, puis relancez l’une ou l’autre de ces opérations. Si vous êtes toujours dans l’incapacité de reprendre la lecture ou l’enregistrement, fermez tous les programmes utilisant le KATANA, puis déconnectez et reconnectez le câble USB du KATANA.</DD>
+    <DD>&nbsp;</DD>
+
+
+<DT>Essayez de régler la taille de la mémoire tampon audio du pilote</DT>
+	<DD class="FS">Si la taille de la mémoire tampon audio est trop petite, le son ne peut être émis ou il est impossible d’effectuer des opérations de lecture ou d’enregistrement dans des conditions normales.</DD>
+	<DD class="FS">Dans ce cas, voir &quot;<A href="#anchor0300">Modification/vérification des paramètres du pilote</A>,&quot; et augmentez la taille de la mémoire tampon. </DD>
+	<DD>&nbsp;</DD>
+
+
+
+</DL>
+
+<H3><A name="SCT-SPBYCIIOTS">Les sons émis par l'ordinateur sont inaudibles ou leur volume est trop faible</A></H3>
+<DL>
+
+<DT>Avez-vous baissé le volume du périphérique ou de l’application avec le Mélangeur de volume ?</DT>
+		<DD class="FS">La commande Mélangeur de volume du système vous permet de régler le volume pour chaque périphérique ou application séparément.</DD>
+	<DD><OL class="FS">
+		<LI class="OL">Cliquez sur le bouton « Écran de démarrage », puis cliquez sur « Paramètres ».</LI>
+		<LI class="OL">Cliquez sur « Système », puis sur « Son ».</LI>
+		<LI class="OL">Dans Avancés, cliquez sur « Mélangeur de volume ».</LI>
+		<LI class="OL">Lorsque Mélangeur de volume apparaît, ajustez le volume.</LI>
+		<LI class="OL">Fermez la boîte de dialogue « Paramètres ».</LI>
+	</OL></DD>
+
+</DL>
+
+<H3><A name="anchor0640">La lecture est en partie incorrecte : par ex., les notes s’interrompent prématurément ou certaines notes se perdent.</A></H3>
+<P><FONT size="-1">Il est possible de corriger ce type de problème en réglant les paramètres indiqués ci-dessous.</FONT></P>
+
+<DL>
+<DT><A name="TPC-TATABSOYS">Essayez de régler la taille de la mémoire tampon audio de votre logiciel</A></DT>
+	<DD class="FS">Si votre logiciel permet le réglage de la taille de la mémoire tampon audio, essayez de modifier ce paramètre.</DD>
+	<DD class="FS">Les clics et autres bruits parasites peuvent être éliminés en augmentant la taille de la mémoire tampon.</DD>
+	<DD>&nbsp;</DD>
+
+<DT><A name="TPC-TATABSOTD">Essayez de régler la taille de la mémoire tampon audio du pilote</A></DT>
+	<DD class="FS">Si votre logiciel ne permet pas le réglage de la mémoire tampon ou si la modification de ce paramètre ne règle pas le problème, il est possible qu'il puisse être résolu en modifiant la taille de la mémoire tampon d'entrée/sortie audio du pilote.</DD>
+	<DD class="FS">Essayez de régler la taille de la mémoire tampon comme décrit à la section &quot;<A href="#anchor0300">Modification/vérification des paramètres du pilote</A>&quot;.</DD>
+	<DD>&nbsp;</DD>
+
+
+
+<DT>Windows Update</A></DT>
+	<DD class="FS">Lancez l’exécution de la Windows Update de Microsoft et mettez le système à jour.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>Vérifiez les paramètres de Mode d'alimentation. </DT>
+	<DD><OL class="FS">
+		<LI class="OL">Cliquez sur le bouton « Écran de démarrage », puis cliquez sur « Paramètres ».</LI>
+		<LI class="OL">Cliquez sur « Système », puis sur « Batterie et alimentation ».</LI>
+		<LI class="OL">Dans « Mode d'alimentation », sélectionnez « Performances optimales ».</LI>
+		<LI class="OL">Fermez la boîte de dialogue « Paramètres ».</LI>
+	</OL></DD>
+
+<DT>Réglage des &quot;Options de performances&quot; des propriétés de Système</DT>
+	<DD><OL class="FS">
+		<LI class="OL">Cliquez sur le bouton « Écran de démarrage », puis cliquez sur « Paramètres ».</LI>
+		<LI class="OL">Cliquez sur « Système », puis sur « Informations système ».</LI>
+		<LI class="OL">Dans Liens connexes, cliquez sur « Paramètres avancés du système  ».</LI>
+		<LI class="OL">Si une boîte de dialogue relative à Contrôle de compte d'utilisateur s’ouvre, cliquez sur [Oui].
+			<TABLE><TR><TD>*</TD><TD>Si vous êtes invité à entrer le mot de passe d’un compte administrateur, connectez-vous à Windows en tant qu'Administrateur.</TD></TR></TABLE>
+		<LI class="OL">Cliquez d’abord sur [Paramètres] dans la section Performances, puis sur l’onglet [Avancé].</li>
+		<LI class="OL">Sélectionnez &quot;Les services d’arrière-plan&quot; et cliquez sur [OK].</LI>
+		<LI class="OL">Cliquez sur [OK] pour fermer &quot;Propriétés système&quot;.</LI>
+		<LI class="OL">Fermez la boîte de dialogue « Paramètres ».</LI>
+	</OL>
+
+
+<DT><A name="TPC-CTLFBE">
+La fonction d'écoute de Windows est-elle activée ?
+</A></DT>
+	<DD class="FS">Si la fonction d'écoute de Windows est activée, il est possible que le signal sonore d'entrée soit entendu en double ou qu'un effet de boucle (oscillation) se produise.<BR>
+	Si c'est le cas, désactivez la fonction d'écoute de Windows comme suit.</DD>
+	<DD><OL class="FS">
+		<LI class="OL">Cliquez sur le bouton « Écran de démarrage », puis cliquez sur « Paramètres ».</LI>
+		<LI class="OL">Cliquez sur « Système », puis sur « Son ».</LI>
+		<LI class="OL">Dans Avancés, cliquez sur « Autres paramètres audio ».</LI>
+    	<LI class="OL">Dans &quot;Enregistrement,&quot; sélectionnez le périphérique d'entrée que vous utilisez (par exemple KATANA &quot;<B>PRIMARY</B>&quot;), et cliquez sur &quot;Propriétés.&quot;</LI>
+    	<LI class="OL">Ouvrez l'onglet &quot;Écouter&quot; et décochez la case &quot;Écouter ce périphérique.&quot;</LI>
+    	<LI class="OL">Cliquez sur [OK] pour fermer &quot;Propriétés&quot;.</LI>
+    	<LI class="OL">Cliquez sur [OK] pour fermer &quot;Son&quot;.</LI>
+		<LI class="OL">Fermez la boîte de dialogue « Paramètres ».</LI>
+	</OL></DD>
+
+
+</DL>
+
+<HR>
+
+<P>Copyright (C) 2021 Roland Corporation. Tous droits réservés.</P>
+
+</BODY>
+</HTML>

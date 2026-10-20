@@ -16,14 +16,15 @@ fully custom replacement app.
 
 ## Layout
 
-| Folder | Contents | In git? |
-|---|---|---|
-| `notes/` | Findings | yes |
-| `tools/extract.sh` | Rebuilds `extracted/` and `decompiled/` from `vendor/archives/` | yes |
-| `tools/build_effects_map.py` | Regenerates `notes/effects-map.json` from `decompiled/` | yes |
-| `vendor/` | Original Roland downloads (Tone Studio v4.0.0 installer + manuals, USB driver v1.0.1) | no (Roland copyright) |
-| `extracted/tone_studio_air_app/` | The unpacked Adobe AIR app (SWF, address map, presets, native extension) | no |
-| `decompiled/` | JPEXS ActionScript output: `tone_studio_as3/` (app), `rwc_ane_as3/` (native extension) | no |
+| Folder | Contents |
+|---|---|
+| `notes/` | Findings |
+| `tools/extract.sh` | Rebuilds `extracted/` and `decompiled/` from `vendor/archives/` |
+| `tools/build_effects_map.py` | Regenerates `notes/effects-map.json` from `decompiled/` |
+| `vendor/` | Original Roland downloads (Tone Studio v4.0.0 installer + manuals, USB driver v1.0.1) |
+| `extracted/tone_studio_air_app/` | The unpacked Adobe AIR app (SWF, address map, presets, native extension) |
+| `decompiled/` | JPEXS ActionScript output: `tone_studio_as3/` (app), `rwc_ane_as3/` (native extension) |
 
-To rebuild: put `bts_katana_w400.zip` (Tone Studio for KATANA v4.0.0, Windows) in `vendor/archives/`, install the
+The repo is private and includes the Roland downloads, the unpacked app and the decompiled code, so agents and other
+machines get everything on clone. To rebuild them from scratch: put `bts_katana_w400.zip` (Tone Studio for KATANA v4.0.0, Windows) in `vendor/archives/`, install the
 JPEXS FFDec flatpak (`com.jpexs.decompiler.flash`), then run `tools/extract.sh`.

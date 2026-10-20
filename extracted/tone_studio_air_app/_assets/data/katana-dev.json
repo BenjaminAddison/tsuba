@@ -1,0 +1,69 @@
+{
+	"model" : "KATANA",
+	"enable" : "true",
+	"connect" : "true",
+	"btc" : {
+		"domain" : "http://dev.bosstonecentral.com",
+		"dataapi" : "/apps/katana/",
+		"update_xml" : "/apps/katana/update.xml",
+		"update_xml_list" : {
+			"katana100_212" : "/apps/katana-100_212/update.xml",
+			"katana100" : "/apps/katana-100/update.xml",
+			"katana50" : "/apps/katana-50/update.xml",
+			"katana_head" : "/apps/katana-head/update.xml",
+			"katana_artist" : "/apps/katana-artist/update.xml"
+		},
+		"preset_artwork" : "/apps/katana/presetArtwork/index.json",
+		"liveset" : "/liveset/category/katana/index.json",
+		"promotion" : "/promotion/index.json",
+		"pickup" : "/pickup/index.json",
+		"liveset_file": "/apps/katana/liveset/",
+		"tags": "/tags.json"
+	},
+	"api" : {
+		"domain" : "http://dev-api.roland.com",
+		"user" : "/app/btc/1/user/",
+		"errorlogs" : "/app/btc/1/errorlogs/",
+		"statuslogs" : "/app/btc/1/statuslogs/",
+		"updatelogs" : "/app/btc/1/updatelogs/",
+		"patchuselogs" : "/app/btc/1/patchuselogs/",
+		"livesetaddlogs" : "/app/btc/1/livesetaddlogs/",
+		"livesetlogs" : "/app/btc/1/liveset_logs/",
+		"youtubelogs" : "/app/btc/1/youtube_logs/",
+		"soundcloudlogs" : "/app/btc/1/soundcloud_logs/"
+	},
+	"external_service" : {
+		"youtube" : {
+			"enable" : "true",
+			"url" : "http://www.youtube.com/v/"
+		},
+		"soundcloud" : {
+			"enable" : "true",
+			"client_id" : "b2432090a67bd92ab40c6e8090660c4b",
+			"domain" : "http://api.soundcloud.com",
+			"resolve" : "/resolve.json"
+		}
+	},
+	"firmDownload" : {
+		"katana_100_212" : {
+			"jp": "https://www.boss.info/jp/support/by_product/katana-100_212/updates_drivers/",
+			"en" : "https://www.boss.info/global/support/by_product/katana-100_212/updates_drivers/"
+		},
+		"katana_100" : {
+			"jp": "https://www.boss.info/jp/support/by_product/katana-100/updates_drivers/",
+			"en" : "https://www.boss.info/global/support/by_product/katana-100/updates_drivers/"
+		},
+		"katana_50" : {
+			"jp": "https://www.boss.info/jp/support/by_product/katana-50/updates_drivers/",
+			"en" : "https://www.boss.info/global/support/by_product/katana-50/updates_drivers/"
+		},
+		"katana_head" : {
+			"jp": "https://www.boss.info/jp/support/by_product/katana-head/updates_drivers/",
+			"en" : "https://www.boss.info/global/support/by_product/katana-head/updates_drivers/"
+		},
+		"katana_artist" : {
+			"jp": "https://www.boss.info/jp/support/by_product/katana-artist/updates_drivers/",
+			"en" : "https://www.boss.info/global/support/by_product/katana-artist/updates_drivers/"
+		}
+	}
+}

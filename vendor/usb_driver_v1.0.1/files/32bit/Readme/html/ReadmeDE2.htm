@@ -1,0 +1,606 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
+<!-- saved from url=(0024)http://www.roland.co.jp/ -->
+<HTML lang="de">
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>README_DE - KATANA-Treiber Ver.1.0.0 für Windows&reg; 10</TITLE>
+<STYLE type="text/css">
+<!--
+BODY	{background-color: #FFFFFF;	color: #000000;}
+DL	{margin-left: 15pt;}
+DT	{font-weight: bold;	margin-bottom: 5pt;}
+DT.FN	{font-weight: normal;	margin-bottom: 0pt;}
+DD.FS	{font-size: smaller;}
+OL.FS	{font-size: smaller;}
+LI.OL	{margin-bottom: 15pt;}
+TABLE	{margin-top: 3pt;	margin-bottom: 5pt;}
+TD	{vertical-align: top;	font-size: smaller;}
+TH	{vertical-align: middle;	font-size: smaller;}
+H3	{color: #000080;}
+-->
+</STYLE>
+</HEAD>
+<BODY>
+
+<H2>KATANA-Treiber Ver.1.0.0 für Windows&reg; 10</H2>
+
+<P><FONT size="-1">(Hinweis)<BR>
+Roland Corporation („Roland“) ist unter keinen Umständen haftbar für Schäden jeglicher Art, insbesondere nicht für finanzielle Schäden aus entgangenem Gewinn oder dem Verlust geschäftlicher Informationen, die aus der Verwendung oder der Unfähigkeit, dieses Produkt zu verwenden, entstehen. Dies gilt auch dann, wenn Roland über die Möglichkeit des Auftretens solcher Schäden informiert wurde.
+</FONT></P>
+
+<TABLE><TR><TD>*</TD><TD>Jede Änderung, Vervielfältigung, Verteilung oder Wiedergabe des Materials (einschließlich der Dateien für diesen Treiber) ist ohne die Genehmigung von Roland Corporation ("Roland") nicht gestattet.</TD></TR></TABLE>
+
+<TABLE cellspacing="0">
+	<TR><TD>*</TD><TD>	Microsoft und Windows sind eingetragene Marken der Microsoft Corporation.</TD></TR>
+	<TR><TD>*</TD><TD>ASIO ist eine eingetragene Marke und Software der Steinberg Media Technologies GmbH.</TD></TR>
+	<TR><TD>*</TD><TD>Alle in diesem Dokument aufgeführten Produktnamen sind Warenzeichen oder eingetragene Warenzeichen ihrer entsprechenden Eigentümer.</TD></TR>
+</TABLE>
+
+
+<HR>
+
+
+<H2><A name="anchor0000">Treiber für Windows 10</A></H2>
+
+<P>
+<font color=red><strong><u>Der Windows&reg; 10-Treiber für KATANA wird automatisch aus dem Internet auf Ihren Computer heruntergeladen, wenn das KATANA mit dem Computer verbunden ist.</u></strong></font><BR>
+
+<UL><LI>Diese Treiber unterstützt auch ASIO(Steinberg Audio Stream I/O Interface).</LI></UL>
+
+
+	
+	
+
+<TABLE><TR><TD>*</TD><TD>Bei der Verwendung eines Touch-fähigen PCs ersetzen Sie die Ausdrücke „klicken“ und „mit der rechten Maustaste klicken“ in diesem Dokument entsprechend mit „tippen“ und „drücken und halten“.</TD></TR></TABLE>
+</P>
+
+<H3><A name="anchor0030">Systemanforderungen</A></H3>
+
+
+<DL>
+  <DT>Betriebssystem</DT>
+
+    <DD>Microsoft&reg; Windows&reg; 10 (64-Bit-Edition/32-Bit-Edition) 
+    <TABLE><TR><TD>*</TD><TD>Windows 10 Mobile wird nicht unterstützt.</TD></TR></TABLE>
+    </DD>
+
+  <DT>Computer</DT>
+    <DD>Windows-kompatibler Computer mit USB-Anschluss
+      <TABLE>
+        <TR><TD>*</TD><TD>Intel-Chipset wird empfohlen.</TD></TR>
+        <TR><TD>*</TD><TD>Die Leistungsfähigkeit des KATANA kann möglicherweise nicht voll ausgeschöpft werden, wenn es mit einer zusätzlichen USB 2.0-Schnittstellenkarte verwendet wird.</TD></TR>
+        <TR><TD>*</TD><TD>Dieses Produkt kann nicht mit einem USB 3.0-Anschluss verwendet werden, der nicht kompatibel mit den USB 2.0-Spezifikationen ist.</TD></TR>
+        <TR><TD>*</TD><TD>Wenn dieses Produkt beim Anschließen an einen USB 3.0-Anschluss nicht ordnungsgemäß funktioniert, schließen Sie es an einen USB 2.0-Anschluss an.</TD></TR>
+        <TR><TD>*</TD><TD>Die Leistung des Produkts ändert sich auch bei einem Anschluss an einen USB 3.0-Anschluss nicht.</TD></TR>
+      </TABLE>
+    </DD>
+
+<BLOCKQUOTE><TABLE>
+  <TR><TD>*</TD><TD>Dieser Treiber kann nicht in einer virtuellen Windows-Umgebung wie z. B. Hyper-V oder Virtual PC verwendet werden.</TD></TR>
+  <TR><TD>*</TD><TD>Mac-Computer mit Microsoft Windows werden nicht unterstützt.</TD></TR>
+</TABLE></BLOCKQUOTE>
+
+
+
+  <DT>Weitere</DT>
+    <DD>Internetverbindung
+      <TABLE><TR><TD>*</TD><TD>Zum Herunterladen des Treibers wird eine Internetverbindung benötigt.</TD></TR></TABLE>
+    </DD>
+</DL>
+
+
+<H3><A name="anchor0040">Warnungen und Einschränkungen</A></H3>
+
+<UL>
+  <LI>Wenn Leistung und Spezifikationen Ihres Computers in irgendeiner Form unangemessen sind, können Tonunterbrechungen oder andere Unvollkommenheiten auftreten. Die von Ihnen genutzten Anwendungen und die Art ihrer Verwendung, können sich auf Ihre Erfahrung auswirken.</LI>
+  <LI>Wenn der Computer gestartet wird, während das KATANA noch im eingeschalteten Zustand mit dem Computer verbunden ist, wird der Treiber möglicherweise nicht richtig geladen, und Sie können das KATANA möglicherweise nicht verwenden. Schließen Sie in diesem Fall das KATANA an einen anderen USB-Anschluss an, oder schalten Sie dasKATANA nach dem Starten des Computers ein.</LI>
+  <LI>Wenn das KATANA nach der Rückkehr aus dem Energie sparen-Modus nicht korrekt funktioniert, sollten Sie alle Anwendungen beenden, die das KATANA verwenden, und anschließend das KATANA aus- und wieder einschalten.</LI>
+  <LI>Wenn das USB-Kabel während der Verwendung des KATANA entfernt und wieder angeschlossen wird oder wenn das KATANA aus- und wieder eingeschaltet wird, kann es ggf. nicht mehr korrekt funktionieren. Nachdem der Computer aus dem Ruhezustand zurückgekehrt ist, sollten Sie in diesem Fall alle Anwendungen beenden, die das KATANA verwenden, und das KATANA aus- und wieder einschalten.</LI>
+  <LI>Wenn der Prozessor Ihres Computers bei Verwendung des KATANA stark ausgelastet war (beispielsweise durch einen Zugriff auf ein CD-ROM-Laufwerk oder ein Netzwerk ), kann das KATANA möglicherweise nicht mehr fehlerfrei betrieben werden. Halten Sie in diesem Fall die Wiedergabe oder Aufnahme an und versuchen Sie es erneut. Ist die Wiedergabe oder Aufnahme immer noch nicht möglich, beenden Sie alle Programme, die das KATANA verwenden, und schalten Sie anschließend das KATANA aus und wieder ein.</LI>
+  <LI>Es können Klick- und Poppgeräusche auftreten, wenn Sie während der Wiedergabe oder Aufnahme andere USB-Geräte (z. B. den USB-Speicher) anschließen oder entfernen bzw. während der Verwendung von KATANA ein anderes USB-Gerät ein- oder ausschalten.</LI>
+  <LI>In einigen Fällen wird nicht das gewünschte Performance-Niveau erreicht, wenn Sie eine USB-Festplatte gleichzeitig mit KATANA verwenden. Verwenden Sie als Speicherziel für die wiedergegebenen bzw. aufgezeichneten Audiodaten keine USB-Festplatte.</LI>
+</UL>
+
+
+<HR>
+
+
+<H2><A name="anchor0100">Installation</A></H2>
+
+<TABLE>
+	
+
+
+  <TR><TD>*</TD><TD>Hinweise zur Neuinstallation oder Aktualisierung des Treibers finden Sie unter &quot;<A href="#anchor0400">Eine Neuinstallation vornehmen</A>.&quot;</TD></TR>
+</TABLE>
+
+<OL>
+  <LI class="OL">Trennen Sie alle USB-Geräte außer Tastatur und Maus, und starten Sie dann Windows.</LI>
+  <LI class="OL">Stellen Sie sicher, dass der Computer mit dem Internet verbunden ist.</LI>
+  <LI class="OL">Schließen Sie unter Windows in der Systemsteuerung den Bildschirm mit den Einstellungen für „Sound“ und alle aktiven Anwendungen.</LI>
+  <LI class="OL">
+    Schalten Sie das KATANA ein, und schließen Sie das Gerät mit einem USB-Kabel an den Computer an.
+	<BR>
+    Der Treiber wird automatisch installiert.</LI>
+  <LI class="OL">Klicken Sie nach einigen Minuten auf die Schaltfläche „Start“ und dann auf „Alle Apps“.<BR>Öffnen Sie den BOSS-Ordner. Wenn das Symbol für „KATANA“ angezeigt wird, ist die Installation abgeschlossen.</LI>
+    <TABLE>
+    <TR><TD>*</TD><TD>Unter normalen Bedingungen dauert die Treiberinstallation einige Minuten.Je nach Internetkonnektivität oder bei der Installation anderer Treiber für andere Geräte kann der Vorgang bis zu zehn Minuten dauern.</TD></TR>
+    <TR><TD>*</TD><TD>Wenn das KATANA verbunden ist, aber nach einer Wartezeit von zehn Minuten nicht verwendet werden kann, ist möglicherweise ein Problem aufgetreten.Siehe &quot;<A href="#anchor0600">Fehlerbehebung</A>.&quot;</TD></TR>
+    </TABLE>
+</OL>
+
+<HR>
+
+
+<H2><A name="anchor0200">Vorbereitung</A></H2>
+
+
+<H3><A name="anchor0220">Eingabe-/Ausgabegeräte-Einstellungen für Ihre Anwendung</A></H3>
+
+<P>Um die optimale Leistung Ihrer Anwendungen zu erreichen, geben Sie wie unten beschrieben das Eingabe-/Ausgabegerät für Ihre Anwendungen an. (Näheres zu diesen Einstellungen finden Sie in der Bedienungsanleitung Ihrer Anwendung.)</P>
+
+<TABLE>
+  <TR><TD>*</TD><TD>Wenn Sie das Gerät KATANA nicht auswählen können, ist möglicherweise ein Problem aufgetreten. Siehe &quot;<A href="#anchor0600">Fehlerbehebung</A>.&quot;</TD></TR>
+</TABLE>
+
+<H4>Audiogeräte für Wiedergabe/Aufnahme</H4>
+<P>Unter den Audioeingangs-/Ausgangskanälen des KATANA befinden sich 2 Eingänge und 2 Ausgänge<BR>Sie können die nachstehend aufgeführten Geräte für Wiedergabe/Aufnahme verwenden.</P>
+
+<DL>
+<DT class="FN">[Wiedergabe-Geräte]</DT>
+		<DD>PRIMARY (KATANA)</DD>
+	<DD>SECONDARY (KATANA)</DD>
+  <DD><TABLE><TR><TD>*</TD><TD>Wenn Sie in den &quot;Sound&quot;-Einstellungen der Systemsteuerung einen anderen Namen angeben haben, wird diese Name angezeigt.</TD></TR></TABLE></DD>
+  <DD>&nbsp;</DD>
+
+<DT class="FN">[Aufnahme-Geräte]</DT>
+		<DD>PRIMARY (KATANA)</DD>
+	<DD>SECONDARY (KATANA)</DD>
+  <DD><TABLE><TR><TD>*</TD><TD>Wenn Sie in den &quot;Sound&quot;-Einstellungen der Systemsteuerung einen anderen Namen angeben haben, wird diese Name angezeigt.</TD></TR></TABLE></DD>
+  <DD>&nbsp;</DD>
+</DL>
+
+<H4>Einstellen des Geräts für Wiedergabe und Aufzeichnungen unter Windows</H4>
+<P>Legen Sie KATANA als Standardgerät fest, um die Verwendung in der Option &quot;Groove-Musik&quot; und unter Windows Media Player zuzulassen.</P>
+<OL>
+  <LI class="OL">Klicken Sie mit der rechten Maustaste auf die Schaltfläche „Start“ und dann auf „Systemsteuerung“.</LI>
+  <LI class="OL">Klicken Sie auf „Hardware und Sound“ und dann auf „Sound“.
+    <TABLE><TR><TD>*</TD><TD>Wenn die Symboldarstellung für Systemsteuerung ausgewählt ist, klicken Sie auf &quot;Sound.&quot;</TD></TR></TABLE>
+  <LI class="OL">Klicken Sie unter &quot;Wiedergabe,&quot; mit der rechten Maustaste auf das Gerät, das Sie zur Wiedergabe verwenden möchten (z. B. &quot;<B>PRIMARY</B>&quot; des KATANA). Wählen Sie anschließend &quot;Als Standardgerät auswählen.&quot;
+    <TABLE><TR><TD>*</TD><TD>Es ist möglicherweise ein Problem aufgetreten, wenn die oben aufgeführten Geräte nicht ausgewählt werden können.</TD></TR></TABLE>
+  <LI class="OL">Klicken Sie unter &quot;Aufnahme,&quot; mit der rechten Maustaste auf das Gerät, das Sie für die Aufzeichnung verwenden möchten (z. B. &quot;<B>PRIMARY</B>&quot; des KATANA). Wählen Sie anschließend &quot;Als Standardgerät auswählen.&quot;
+    <TABLE><TR><TD>*</TD><TD>Es ist möglicherweise ein Problem aufgetreten, wenn die oben aufgeführten Geräte nicht ausgewählt werden können.</TD></TR></TABLE>
+  <LI class="OL">Klicken Sie auf [OK], um &quot;Sound&quot; zu schließen.</LI>
+</OL>
+
+<H4>Geräteeinstellungen für ASIO-kompatible Anwendungen</H4>
+<P>Wenn Sie das KATANA mit einer ASIO-kompatiblen Anwendung verwenden, wählen Sie &quot;<B>KATANA</B>&quot; als ASIO-Einstellung für Ihre Anwendung.</P>
+<TABLE>
+    <TR><TD>*</TD><TD>Um eine Audio-Rückkopplung bzw. einen doppelten Monitoreffekt zu vermeiden, deaktivieren Sie das Mithören in der Anwendung.</TD></TR>
+    <TR><TD>*</TD><TD>Die KATANA-Haupteinheit unterstützt ASIO Direktes Mithören nicht, wenn Sie jedoch Cubase verwenden und in den Cubase-Einstellungen Direktes Mithören aktiveren, können Sie Audio-Rückkopplungsschleifen und doppelte Überwachung vermeiden.</TD></TR>
+    <TR><TD>*</TD><TD>Wenn Sie das KATANA mit ASIO verwenden, empfehlen wir Ihnen, in Ihrer Anwendung die Verwendung des Microsoft GS Wavetable Synth zu deaktivieren. (Um die Belastung zu reduzieren und aus praktischen Gründen beim Ändern der Audiopuffergröße des Treibers.)</TD></TR>
+</TABLE>
+
+<H4>MIDI-Eingabe-/Ausgabegerät</H4>
+<TABLE><TR><TD>*</TD><TD>Im Windows Media Player kann das MIDI-Eingabe-/Ausgabegerät des KATANA nicht verwendet werden.<BR>Wählen Sie in Ihrer MIDI-kompatiblen Anwendung folgendes Gerät aus.</TD></TR></TABLE>
+
+<DL>
+<DT class="FN">[MIDI-OUT-Geräte]</DT>
+		<DD>KATANA</DD>
+	<DD>KATANA DAW CTRL</DD>
+	<DD>KATANA CTRL</DD>
+	<DD>&nbsp;</DD>
+
+<DT class="FN">[MIDI-IN-Geräte]</DT>
+		<DD>KATANA</DD>
+	<DD>KATANA DAW CTRL
+	</DD>
+	<DD>KATANA CTRL</DD>
+	<DD>&nbsp;</DD>
+
+</DL>
+
+
+<H3><A name="anchor0250">Öffnen des Online-Dokuments</A></H3>
+Nach dem erfolgreichen Abschluss der Treiberinstallation können Sie die Readme-Datei (dieses Dokument) öffnen, indem Sie die nachfolgenden Schritte ausführen.<BR>Verwenden Sie diese Datei zur Fehlerbehebung und als Referenz zur Einrichtung des Treibers.
+<OL>
+  <LI class="OL">Klicken Sie auf die Schaltfläche „Start“ und dann auf „Alle Apps“. </LI>
+  <LI class="OL">Öffnen Sie den BOSS-Ordner, und klicken Sie auf „KATANA Readme“.</LI>
+  <LI class="OL">Das Online-Dokument für den Treiber wird angezeigt.</LI>
+</OL>
+
+<HR>
+
+
+<H2><A name="anchor0300">Ändern/Überprüfen der Treibereinstellungen</A></H2>
+
+<H3><A name="anchor0310">Ändern/Überprüfen der Treibereinstellungen</A></H3>
+
+<OL>
+	<TABLE><TR><TD>*</TD><TD>Wenn die Windows-Überwachungsfunktion aktiviert ist, können die Treibereinstellungen nicht geändert werden. Schauen Sie sich die Hinweise unter &quot;<A href="#TPC-CTLFBE">Konnte die Windows-Überwachungsfunktion aktiviert werden?</A>&quot; an, und deaktivieren Sie die Überwachung.</TD></TR></TABLE>
+
+  <LI class="OL">  Klicken Sie auf die Schaltfläche „Start“ und dann auf „Alle Apps“. </LI>
+<LI class="OL">
+  Öffnen Sie den BOSS-Ordner, und klicken Sie auf „KATANA“.
+
+  </LI>
+  <LI class="OL">Das Dialogfeld &quot;<B>KATANA Treibereinstellungen</B>&quot; wird angezeigt.
+    <TABLE><TR><TD>*</TD><TD>Sie können das Dialogfeld „KATANA Treibereinstellungen“ auch über die Windows-Systemsteuerung öffnen.Klicken Sie in der Systemsteuerung auf „Anzeige:“, und legen Sie fest, dass Symbole angezeigt werden. Doppelklicken Sie dann auf das Symbol für KATANA.</TD></TR></TABLE>
+    <TABLE><TR><TD>*</TD><TD>Nähere Hinweise zu diesen Einstellungen finden Sie unter &quot;<A href="#anchor0320">Informationen zu den Optionen im Dialogfeld „Treibereinstellungen“</A>.&quot;</TD></TR></TABLE>
+  </LI>
+</OL>
+
+<H3><A name="anchor0320">Informationen zu den Optionen im Dialogfeld „Treibereinstellungen“</A></H3>
+
+<DL>
+	<BR>
+	<DT>SAMPLE RATE</DT>
+	<DD>Zeigt die aktuelle Abtastrate an.
+		<BR>Um die Abtastrate zu ändern, wählen Sie eine Abtastrate aus dem Menü aus.
+      <TABLE>
+      <TR><TD>*</TD><TD>Wenn die Sampling-Frequenz verändert wird, kann ein leises Plop-Geräusch zu hören sein; dies weist jedoch nicht auf eine Fehlfunktion hin.</TD></TR>
+      </TABLE>
+    </DD>
+
+    <DD>&nbsp;</DD>
+
+  <DT>Audiopuffergröße</DT>
+    <DD>Sie können die Puffergröße des Audioeingangs/-ausgangs anpassen. (Im Regelfall entspricht die Einstellung der sechsten Position von links.)</DD>
+<DD>Durch eine Reduzierung der Puffergröße wird die Latenz verkürzt. Dies steigert die Echtzeit-Performance, erhöht jedoch auch je nach Rechenleistung des Computers und nach Audiodatenlast die Wahrscheinlichkeit von Klick- und Poppgeräuschen.<BR>Eine Erhöhung der Puffergröße führt zu einer Verlängerung der Latenz, aber die Stabilität des Audio-Streaming nimmt ebenfalls zu, und die Wahrscheinlichkeit von Popp- und Klickgeräuschen nimmt ab.</DD>
+<DD>Im Allgemeinen empfiehlt sich eine Reduzierung der Puffergröße zur Verbesserung der Echtzeit-Performance, wenn Sie eine Synthesizer-Software in Echtzeit wiedergeben oder einen Audioeingang über die DAW-Software überwachen.<BR>Umgekehrt können Sie durch eine Erhöhung der Puffergröße verhindern, dass bei der Aufzeichnung oder Wiedergabe von Audiodaten, die aus zahlreichen Titeln bestehen und eine große Verarbeitungsleistung erfordern, Klick- und Poppgeräusche auftreten.</DD>
+<DD>Indem Sie die Puffergröße je nach Situation individuell einstellen, erhalten Sie die richtige Balance zwischen Echtzeit-Performance und Stabilität des Audio-Streams.
+      <P><FONT size="-1">* Hinweis!<BR>Wenn Sie eine Anwendung mit einer Testfunktion für Audiogeräte verwenden, führen Sie den Test nach dem Ändern der Puffergröße aus.</FONT></P>
+  <DT>ASIO Puffergröße</DT>
+    <DD>Hierbei handelt es sich um die Mindestgröße des Puffers, die in der Anwendung ASIO eingestellt werden kann.
+    <DD>&nbsp;</DD>
+
+
+
+
+
+
+
+
+
+	<DT>Kontrollkästchen &quot;An die ASIO-Abtastrate anpassen&quot;</DT>
+	<DD>Diese Option passt die Windows-Klangabtastrate, z. B. MME, DirectSound oder WASAPI an die ASIO-Abtastrate an.
+	Aktivieren Sie dieses Kontrollkästchen, wenn Sie zurzeit eine ASIO-kompatible Anwendung mit einer Windows-kompatiblen Anwendung wie Windows Media Player verwenden.<BR>
+	</DD>
+	
+	<DD>&nbsp;</DD>
+
+
+  <DT>Taste &quot;README anzeigen&quot;</DT>
+    <DD>Mit dieser Taste wird die README-Datei (dieses Dokument) aufgerufen.</DD>
+    <DD>&nbsp;</DD>
+
+  <DT>Information</DT>
+    <DD>In diesem Feld wird die Treiberversion angezeigt.</DD>
+
+</DL>
+
+
+
+<HR>
+
+
+<H2><A name="anchor0400">Eine Neuinstallation vornehmen</A></H2>
+
+<OL>
+  <LI class="OL">Löschen Sie den Treiber wie unter &quot;<A href="#anchor0500">Deinstallieren</A> beschrieben.&quot;
+    <TABLE>
+      <TR><TD>*</TD><TD>Bei einer Deinstallation wird das Dialogfeld Treibereinstellungen initialisiert. Nähere Hinweise zu diesen Einstellungen finden Sie unter &quot;<A href="#anchor0320">Informationen zu den Optionen im Dialogfeld „Treibereinstellungen“</A>.&quot;</TD></TR>
+    </TABLE>
+  <LI class="OL">Installieren Sie den Treiber wie unter &quot;<A href="#anchor0100">Installation</A> beschrieben.&quot;</LI>
+</OL>
+
+
+<HR>
+
+
+<H2><A name="anchor0500">Deinstallieren</A></H2>
+
+<OL>
+  <LI class="OL">Trennen Sie alle USB-Geräte außer Tastatur und Maus, und starten Sie dann Windows.
+  <TABLE><TR><TD>*</TD><TD>Stellen Sie sicher, dass Sie auch das USB-Kabel des KATANA entfernen.</TD></TR></TABLE></LI>
+  <LI class="OL">Beenden Sie sämtliche Anwendungen, bevor Sie mit der Deinstallation beginnen.
+    <TABLE>
+	<TR><TD>*</TD><TD>Bitte warten Sie ca. 10 Sekunden, bis diese Anwendungen vollständig beendet wurden.</TD></TR>
+    </TABLE>
+  </LI>
+  <LI class="OL">Klicken Sie mit der rechten Maustaste auf die Schaltfläche „Start“ und dann auf „Programme und Features“.</LI>
+  <LI class="OL">Wählen Sie in der Liste den &quot;KATANA-Treiber&quot; und klicken Sie auf &quot;Deinstallieren/ändern.&quot;
+    <TABLE><TR><TD>*</TD><TD>Der Treiber ist nicht installiert, wenn der KATANA-Treiber nicht in der Liste angezeigt wird.Sie müssen den Treiber nicht deinstallieren.</TD></TR></TABLE>
+  </LI>
+  <LI class="OL">Wenn das Dialogfeld zur Benutzerkontensteuerung angezeigt wird, klicken Sie auf [Ja].
+    <TABLE><TR><TD>*</TD><TD>Wenn Sie aufgefordert werden, ein Kennwort für ein Administratorkonto einzugeben, melden Sie sich bei Windows als Benutzer mit dem Kontotyp Administratoran, und führen anschließend die Deinstallation durch.</TD></TR></TABLE></LI>
+  <LI class="OL">Auf dem Bildschirm erscheint die Meldung &quot;Der installierte KATANA-Treiber wird deinstalliert.&quot; Klicken Sie auf [OK].</LI>
+  <LI class="OL">Wenn die Meldung &quot;Die Deinstallation ist abgeschlossen.&quot; angezeigt wird, klicken Sie auf [OK], um Windows neu zu starten.</LI>
+</OL>
+
+
+<HR>
+
+
+<H2><A name="anchor0600">Fehlerbehebung</A></H2>
+
+<H3><A name="anchor0660">Treiber kann nicht installiert werden</A></H3>
+<DL>
+<DT>Überprüfung des Gerätestatus</DT>
+	<DD class="FS">Unter normalen Bedingungen dauert die Treiberinstallation einige Minuten.</DD>
+	<DD class="FS">Wenn das KATANA verbunden ist, aber nach einer Wartezeit von zehn Minuten nicht verwendet werden kann, führen Sie die nachfolgenden Schritte aus, und überprüfen Sie den Status des Geräts.</DD>
+	<OL class="FS">
+		<LI class="OL">
+		Schalten Sie das KATANA ein, und schließen Sie das Gerät mit einem USB-Kabel an den Computer an.
+		</LI>
+		<LI class="OL">Klicken Sie mit der rechten Maustaste auf die Schaltfläche „Start“ und dann auf „Geräte-Manager“.</LI>
+		<LI class="OL">Klicken Sie im Menü „Ansicht“ auf „Geräte nach Typ“.</LI>
+		<LI class="OL">Klicken Sie auf „Audio-, Video- und Gamecontroller“ oder „Andere Geräte“, um das KATANA-Gerät anzuzeigen.</LI>
+		<LI class="OL">Wenn das KATANA-Gerät angezeigt wird, doppelklicken Sie auf das Gerät, um den Bildschirm mit den Eigenschaften für das KATANA anzuzeigen.</LI>
+		<LI class="OL">Überprüfen Sie auf der Registerkarte „Allgemein“ das Feld „Gerätestatus“.</LI>
+	</OL>
+	<DD class="FS">Wenn die Nachricht in dem Feld „Das Gerät funktioniert einwandfrei.“ lautet, ist die Treiberinstallation abgeschlossen.</DD>
+	<DD class="FS">Andernfalls ist die Treiberinstallation möglicherweise fehlgeschlagen.</DD>
+	<DD class="FS">Weitere Informationen zu Problemen bei der Treiberinstallation finden Sie im Abschnitt zur Fehlerbehebung.</DD>
+	<DD class="FS">&nbsp;</DD>
+
+<DT>Ist Ihr Computer mit dem Internet verbunden?</DT>
+	<DD class="FS">Für die Installation dieses Treibers muss Ihr PC mit dem Internet verbunden sein.</DD>
+	<DD class="FS">Stellen Sie sicher, dass Ihr PC mit dem Internet verbunden ist (beispielsweise durch die Verwendung eines Web-Browsers), und installieren Sie den Treiber erneut, indem Sie die im Abschnitt „<A href="#anchor0100">Installation</A>“ aufgeführten Schritte ausführen.</DD>
+	<DD class="FS">&nbsp;</DD>
+
+<DT>Erneute Verbindung des KATANA</DT>
+	<DD class="FS">Das Gerät wurde möglicherweise nicht erkannt.</DD>
+	<DD class="FS">Trennen Sie das USB-Kabel des KATANA vom PC, schalten Sie das KATANA aus und dann wieder an, und schließen Sie das Gerät erneut an den PC an.</DD>
+	<DD class="FS">&nbsp;</DD>
+
+<DT>Manuelle Installation des Treibers</DT>
+	<DD class="FS">Je nach Internetkonnektivität wird der Treiber möglicherweise nicht automatisch installiert.</DD>
+	<DD class="FS">Ist dies der Fall, befolgen Sie die nachfolgenden Schritte, um den Treiber zu installieren.</DD>
+	<OL class="FS">
+		<LI class="OL">
+		Schalten Sie das KATANA ein, und schließen Sie das Gerät mit einem USB-Kabel an den Computer an.
+		</LI>
+		<LI class="OL">Klicken Sie mit der rechten Maustaste auf die Schaltfläche „Start“ und dann auf „Geräte-Manager“.</LI>
+		<LI class="OL">Klicken Sie im Menü „Ansicht“ auf „Geräte nach Typ“.</LI>
+		<LI class="OL">Klicken Sie auf „Audio-, Video- und Gamecontroller“ oder „Andere Geräte“, um das KATANA-Gerät anzuzeigen.</LI>
+		<LI class="OL">Wenn das KATANA-Gerät angezeigt wird, klicken Sie mit der rechten Maustaste auf das Gerät, und wählen Sie „Treibersoftware aktualisieren“ aus.</LI>
+		<LI class="OL">Wählen Sie „Automatisch nach aktueller Treibersoftware suchen“ aus.<BR>Ihr PC startet die Suche nach dem Treiber, und der Treiber wird automatisch installiert.</LI>
+	</OL>
+	<DD class="FS">Die Installation ist abgeschlossen, wenn die Nachricht „Die Treibersoftware wurde erfolgreich aktualisiert.“ angezeigt wird. Klicken Sie auf „Schließen“.</DD>
+	<DD class="FS">Wenn das Dialogfeld &quot;Geänderte Systemeinstellungen&quot; angezeigt wird, klicken Sie auf [Ja], um Windows neu zu starten.</DD>
+	<DD class="FS">&nbsp;</DD>
+</DL>
+<DL>
+
+
+
+
+
+</DL>
+
+<H3><A name="anchor0620">Auswahl/Verwendung des KATANA-Geräts nicht möglich</A></H3>
+
+<DL>
+<DT><A name="anchor0621">Wurde der Treiber korrekt installiert?</A></DT>
+	<DD class="FS">Der Treiber wurde möglicherweise nicht ordnungsgemäß installiert.Weitere Informationen finden Sie im Abschnitt „<A href="#anchor0660">Treiber kann nicht installiert werden</A>“.</DD>
+	<DD class="FS">Wenn Sie das KATANA nach der Installation des Treibers nicht verwenden können, installieren Sie den Treiber erneut, indem Sie die im Abschnitt „<A href="#anchor0400">Eine Neuinstallation vornehmen</A>“ aufgeführten Schritte durchführen.</DD>
+	<DD>&nbsp;</DD>
+
+<DT><A name="anchor0622">Wird das KATANA von einem anderen Programm verwendet?</A></DT>
+	<DD class="FS">	Beenden Sie alle Anwendungen, die das KATANA verwenden, und das Gerät aus- und wieder einschalten.<BR>Wenn das Problem dadurch nicht gelöst wird, verwenden Sie das unter &quot;<A href="#anchor0400">Eine Neuinstallation vornehmen</A>&quot; beschriebene Verfahren zur Neuinstallation des Treibers.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>Wird der KATANA WAVE/MIDI-Gerätename angezeigt?</DT>
+	<DD class="FS">	Wenn der Gerätename nicht angezeigt wird, sollten Sie alle Anwendungen beenden, die das KATANA verwenden, und das Gerät aus- und wieder einschalten.<BR>Wenn das Problem dadurch nicht gelöst wird, verwenden Sie das unter &quot;<A href="#anchor0400">Eine Neuinstallation vornehmen</A>&quot; beschriebene Verfahren zur Neuinstallation des Treibers.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>		Ist der Computer in einen Energie sparen-Modus übergegangen, während das KATANA verbunden und eingeschaltet war?</DT>
+	<DD class="FS">	Wenn das KATANA nach der Rückkehr aus dem Energie sparen-Modus nicht korrekt funktioniert, sollten Sie alle Anwendungen beenden, die das KATANA verwenden, und anschließend das KATANA aus- und wieder einschalten.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>		Wurde das USB-Kabel entfernt und wieder angeschlossen, während das KATANA verwendet wurde, oder wurde das KATANA aus und wieder eingeschaltet?</DT>
+	<DD class="FS">	Wenn das USB-Kabel während der Verwendung des KATANA entfernt und wieder angeschlossen wird oder wenn das KATANA aus- und wieder eingeschaltet wird, kann es ggf. nicht mehr korrekt funktionieren. In diesem Fall sollten Sie alle Anwendungen beenden, die das KATANA verwenden, und das KATANA aus- und wieder einschalten.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>		Wenn der Computer gestartet wird, während das KATANA noch im eingeschalteten Zustand mit dem Computer verbunden ist, wird der Treiber möglicherweise nicht richtig geladen, und Sie können das KATANA möglicherweise nicht verwenden.</DT>
+	<DD class="FS">	Schließen Sie in diesem Fall das KATANA an einen anderen USB-Anschluss an, oder schalten Sie dasKATANA nach dem Starten des Computers ein.</DD>
+	<DD>&nbsp;</DD>
+</DL>
+
+<H3><A name="anchor0680">Die Abtastrate von Treibereinstellungen/Anwendung kann nicht geändert werden.</A></H3>
+<DL>
+<DT>Während der Wiedergabe oder Aufnahme kann die Abtastrate im Dialogfeld Treibereinstellungen nicht geändert werden.</DT>
+	<DD class="FS">Ändern Sie die Abtastrate in der zurzeit verwendeten Anwendung, oder beenden Sie die Anwendung, und ändern Sie die Abtastrate im Dialogfeld Treibereinstellungen.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>Verwenden Sie eine weitere Anwendung?</DT>
+	<DD class="FS">Während der Wiedergabe oder der Aufnahme unter Verwendung einer weiteren Anwendung kann die Abtastrate nicht geändert werden.</DD>
+	<DD>&nbsp;</DD>
+
+
+
+<DT>Ist die Windows-Systemsteuerung &quot;Sound&quot; geöffnet?</DT>
+	<DD class="FS">Wenn die Windows-Systemsteuerung &quot;Sound&quot; geöffnet ist, kann die Abtastrate manchmal nicht geändert werden.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>
+Wenn die Windows-Überwachungsfunktion aktiviert ist, kann die Abtastrate nicht geändert werden.
+</DT>
+	<DD class="FS">Schauen Sie sich die Hinweise unter &quot;<A href="#TPC-CTLFBE">Konnte die Windows-Überwachungsfunktion aktiviert werden?</A>&quot; an, und deaktivieren Sie die Überwachung.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>Wenn Microsoft GS Wavetable Synth verwendet wird, kann die Abtastrate nicht geändert werden.</DT>
+	<DD class="FS">Verwenden Sie Microsoft GS Wavetable Synth nicht.</DD>
+	<DD>&nbsp;</DD>
+</DL>
+
+<H3><A name="anchor0625">Am Anfang des Gerätenamens wird jetzt eine Zahl angezeigt (z. B. &quot;2-&quot;).</A></H3>
+<DL>
+<DT>Haben Sie vielleicht das KATANA mit einem anderen USB-Anschluss verbunden?</DT>
+	<DD class="FS">Wenn Sie das KATANA mit einem anderen USB-Anschluss verbunden haben, fügt das Betriebssystem möglicherweise am Anfang des Gerätenamens automatisch eine Zahl ein.<BR>Dadurch sind jedoch keinerlei Problem mit dem Betrieb des KATANA verbunden.
+    <TABLE><TR><TD>*</TD><TD>Wenn Sie den Gerätenamen ohne diese Zahl wiederherstellen möchten, verbinden Sie das KATANA mit demselben USB-Anschluss wie bei der Installation, oder installieren Sie den Treiber nach den Anweisungen unter &quot;<A href="#anchor0400">Eine Neuinstallation vornehmen</A> neu.&quot;</TD></TR></TABLE>
+</DL>
+
+<H3><A name="SCT-DeviceCurrentlyUsed">Am Bildschirm wird &quot;Gerät wird zur Zeit von einer anderen Anwendung verwendet.&quot; angezeigt, und es können keine Treibereinstellungen vorgenommen werden.</A></H3>
+
+<DL>
+<DT>Verwenden Sie eine weitere Anwendung?</DT>
+	<DD class="FS">Die Treibereinstellungen können nicht verändert werden, während sie von einer Anwendung verwendet werden.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>
+Wenn die Windows-Überwachungsfunktion aktiviert ist, können die Treibereinstellungen nicht geändert werden.
+</DT>
+    <DD class="FS">Schauen Sie sich die Hinweise unter &quot;<A href="#TPC-CTLFBE">Konnte die Windows-Überwachungsfunktion aktiviert werden?</A>&quot; an, und deaktivieren Sie die Überwachung.</DD>
+    <DD>&nbsp;</DD>
+</DL>
+
+<H3><A name="anchor0630">Es wird kein Ton ausgegeben, die Wiedergabe oder Aufnahme ist nicht möglich</A></H3>
+<DL>
+  <DT><A href="#anchor0621">Wurde der Treiber korrekt installiert?</A></DT>
+    <DD>&nbsp;</DD>
+
+  <DT><A href="#anchor0622">Wird das KATANA von einem anderen Programm verwendet?</A></DT>
+    <DD>&nbsp;</DD>
+
+<DT>Haben Sie die unter &quot;Vorbereitung&quot; beschriebenen Einstellungen für die Verwendung des KATANA-Treibers vorgenommen?</DT>
+    <DD class="FS">Das KATANA kann verwendet werden, wenn diese Einstellungen vorgenommen wurden. Lesen Sie hierzu die entsprechenden Abschnitte unter &quot;<A href="#anchor0200">Vorbereitung</A>.&quot;</DD>
+    <DD>&nbsp;</DD>
+
+
+<DT>Kann es sein, dass Sie den Computer während der Wiedergabe oder der Aufnahme in den Energie sparen-Modus versetzt haben?</DT>
+	<DD class="FS">	Wenn das KATANA nach der Rückkehr aus dem Energie sparen-Modus nicht korrekt funktioniert, sollten Sie alle Anwendungen beenden, die das KATANA verwenden, und anschließend das KATANA aus- und wieder einschalten.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>		Haben Sie während der Wiedergabe oder Aufnahme das KATANA ein- oder ausgeschaltet oder das USB-Kabel entfernt und wieder angeschlossen?</DT>
+	<DD class="FS">	Wenn Sie während der Wiedergabe oder Aufnahme das KATANA ein- oder ausschalten oder das USB-Kabel entfernen und wieder anschließen, ist eine Aufnahme oder Wiedergabe mit dem KATANA nicht mehr möglich. Halten Sie die Wiedergabe bzw. Aufnahme an, und versuchen Sie es erneut. Ist die Wiedergabe oder Aufnahme immer noch nicht möglich, beenden Sie alle Programme, die das KATANA verwenden, und schalten Sie anschließend das KATANA aus und wieder ein.</DD>
+    <DD>&nbsp;</DD>
+
+
+<DT>Ändern Sie die Audiopuffergröße des Treibers.</DT>
+	<DD class="FS">Wenn der Audiopuffer des Treibers zu klein ist, wird möglicherweise kein Ton ausgegeben, oder eine normale Wiedergabe oder Aufnahme ist nicht möglich.</DD>
+	<DD class="FS">In diesem Fall finden Sie unter &quot;<A href="#anchor0300">Ändern/Überprüfen der Treibereinstellungen</A>&quot; weitere Informationen, wie Sie die Größe des Puffers erhöhen. </DD>
+	<DD>&nbsp;</DD>
+
+
+
+</DL>
+
+<H3><A name="SCT-SPBYCIIOTS">Der von Ihrem Computer erzeugte Ton ist kaum hörbar</A></H3>
+<DL>
+
+<DT>Kann es sein, dass Sie die Lautstärke des Geräts oder der Anwendung im Lautstärkemixer heruntergeregelt haben?</DT>
+		<DD class="FS">Mit dem Lautstärkemixer können Sie die Lautstärke der einzelnen Geräte und Anwendungen anpassen.</DD>
+	<DD><OL class="FS">
+		<LI class="OL">Öffnen Sie &quot;Systemsteuerung,&quot; und wechseln Sie unter &quot;Anzeige:&quot; zu &quot;Kategorie.&quot;
+		</LI>
+		<LI class="OL">Klicken Sie auf &quot;Hardware und Sound,&quot; und anschließend auf &quot;Systemlautstärke anpassen.&quot;</LI>
+		<LI class="OL">Das Lautstärkemixer wird angezeigt. Wählen Sie im &quot;Gerät&quot;-Menü Ihr Wiedergabegerät aus, und passen Sie die Lautstärke an.
+	<TABLE><TR><TD>*</TD><TD>Alternativ können Sie das Lautstärkemixer per Rechtsklick auf das Lautsprechersymbol unten rechts am Desktop-Rand öffnen und die Option &quot;Lautstärkemixer öffnen&quot; wählen.</TD></TR></TABLE>
+    </LI>
+	</OL></DD>
+
+<DT>
+Verwenden Sie Software für die Sprachkommunikation?
+</DT>
+	<DD class="FS">Bei der Verwendung von Sprachkommunikationssoftware wird die Lautstärke des Audiogeräts unter Umständen automatisch an den Status der Kommunikation angepasst.<BR>In diesem Fall können Sie die automatische Lautstärkeanpassung wie folgt deaktivieren:</DD>
+	<DD><OL class="FS">
+		<LI class="OL">Öffnen Sie die &quot;Systemsteuerung,&quot; klicken Sie auf &quot;Hardware und Sound,&quot; und anschließend auf &quot;Sound.&quot;
+			<TABLE><TR><TD>*</TD><TD>Wenn die Symboldarstellung für Systemsteuerung ausgewählt ist, klicken Sie auf &quot;Sound.&quot;</TD></TR></TABLE>
+		</LI>
+		<LI class="OL">Ändern Sie auf der Registerkarte &quot;Kommunikation&quot; die Einstellung des Elements &quot;Beim Erkennen von Kommunikationsaktivitäten:&quot; in &quot;Nichts unternehmen.&quot;</LI>
+		<LI class="OL">Klicken Sie auf [OK], um &quot;Sound&quot; zu schließen.</LI>
+	</OL></DD>
+
+</DL>
+
+<H3><A name="anchor0640">Ein Teil der Wiedergabe ist fehlerhaft: z. B. Noten werden vorzeitig abgebrochen oder gehen verloren</A></H3>
+<P><FONT size="-1">Die Probleme können möglicherweise durch die unten aufgeführten Einstellungen behoben werden.</FONT></P>
+
+<DL>
+<DT><A name="TPC-TATABSOYS">Ändern Sie die Audiopuffergröße in Ihrer Software.</A></DT>
+	<DD class="FS">Ändern Sie die Audiopuffergröße, wenn diese Einstellungen in Ihrer Software möglich ist.</DD>
+	<DD class="FS">Klickund Poppgeräusche können in der Regel durch eine Erhöhung der Audiopuffergröße unterbunden werden.</DD>
+	<DD>&nbsp;</DD>
+
+<DT><A name="TPC-TATABSOTD">Ändern Sie die Audiopuffergröße des Treibers.</A></DT>
+	<DD class="FS">Wenn eine Änderung der Audiopuffergröße in Ihrer Software nicht möglich ist oder diese Einstellung nicht zur Lösung des Problems führt, ändern Sie die Eingangs-/Ausgangspuffergröße des Treibers.</DD>
+	<DD class="FS">Ändern Sie die Puffergröße wie unter &quot;<A href="#anchor0300">Ändern/Überprüfen der Treibereinstellungen</A>&quot; beschrieben.</DD>
+	<DD>&nbsp;</DD>
+
+
+<DT>Aktualisieren Sie den Treiber Ihrer Grafikkarte</A></DT>
+	<DD class="FS">Klick- und Poppgeräusche lassen sich evtl. durch eine Aktualisierung Ihrer Grafikkarte unterbinden.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>Windows Update / Microsoft Update</A></DT>
+	<DD class="FS">Das Problem kann möglicherweise behoben werden, indem Sie Ihr System mit &quot;Windows Update&quot; oder &quot;Microsoft Update&quot; von Microsoft aktualisieren.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>Überprüfen Sie die Einstellung der Energieoptionen</DT>
+	<DD><OL class="FS">
+		<LI class="OL">Öffnen Sie die &quot;Systemsteuerung,&quot; klicken Sie auf &quot;System und Sicherheit,&quot; und anschließend auf &quot;Energieoptionen.&quot;
+			<TABLE><TR><TD>*</TD><TD>Wenn die Symboldarstellung für Systemsteuerung ausgewählt ist, klicken Sie auf &quot;Energieoptionen.&quot;</TD></TR></TABLE>
+		<LI class="OL">Wählen Sie auf der Seite &quot;Auswählen oder Anpassen eines Energiesparplans&quot; den Energieplan &quot;Höchstleistung.&quot;
+			<TABLE><TR><TD>*</TD><TD>Falls der &quot;Höchstleistung&quot;-Plan nicht angezeigt wird, klicken Sie auf &quot;Weitere Energiesparpläne einblenden.&quot;</TD></TR></TABLE>
+		<LI class="OL">Klicken Sie im Aufgabenbereich Höchstleistung auf &quot;Energiesparplaneinstellungen ändern.&quot;</LI>
+		<LI class="OL">Klicken Sie auf &quot;Erweiterte Energieeinstellungen ändern.&quot;</LI>
+		<LI class="OL">Klicken Sie unter Erweiterte Einstellungen auf das Symbol „+“ für &quot;Festplatte&quot; sowie auf das Symbol „+“ für &quot;Festplatte ausschalten nach,&quot; um diese zu öffnen.</LI>
+		<LI class="OL">Klicken Sie auf &quot;Einstellung (Minuten)&quot; und wählen Sie mithilfe des Nach-unten-Pfeils die Option &quot;Nie&quot; aus.</LI>
+		<LI class="OL">Klicken Sie auf [OK], um das Dialogfeld Energieoptionen zu schließen.</LI>
+		<LI class="OL">Schließen Sie das Fenster &quot;Energiesparplaneinstellungen bearbeiten.&quot;</LI>
+	</OL>
+
+<DT>&quot;Leistungsoptionen&quot;-Einstellungen der System-Eigenschaften</DT>
+	<DD><OL class="FS">
+		<LI class="OL">Öffnen Sie die &quot;Systemsteuerung,&quot; klicken Sie auf &quot;System und Sicherheit,&quot; und anschließend auf &quot;System.&quot;
+			<TABLE><TR><TD>*</TD><TD>Wenn die Symboldarstellung für Systemsteuerung ausgewählt ist, klicken Sie auf &quot;System.&quot;</TD></TR></TABLE>
+		<LI class="OL">Klicken Sie links auf &quot;Erweiterte Systemeinstellungen.&quot;</LI>
+		<LI class="OL">Wenn das Dialogfeld zur Benutzerkontensteuerung angezeigt wird, klicken Sie auf [Ja].
+			<TABLE><TR><TD>*</TD><TD>Wenn Sie aufgefordert werden, ein Kennwort für ein Administratorkonto einzugeben, melden Sie sich bei Windows als Benutzer mit dem Kontotyp Administratoran, und nehmen Sie anschließend die Einstellungen erneut vor.</TD></TR></TABLE>
+		<LI class="OL">Klicken Sie im Abschnitt Leistung auf [Einstellungen] und anschließend auf die Registerkarte [Erweitert].</li>
+		<LI class="OL">Wählen Sie &quot;Hintergrunddienste&quot; aus, und klicken Sie auf [OK].</LI>
+		<LI class="OL">Klicken Sie auf [OK], um &quot;Systemeigenschaften&quot; zu schließen.</LI>
+	</OL>
+
+
+<DT><A name="TPC-CTLFBE">
+Konnte die Windows-Überwachungsfunktion aktiviert werden?
+</A></DT>
+    <DD class="FS">Falls die Windows-Überwachungsfunktion aktiviert ist, kann es zu einer Dopplung der Eingangs-Audiodaten oder zu einer Rückkopplung kommen.<BR>
+    Deaktivieren Sie die Windows-Überwachungsfunktionen in diesem Fall wie folgt:</DD>
+    <DD><OL class="FS">
+      <LI class="OL">Öffnen Sie die &quot;Systemsteuerung,&quot; klicken Sie auf &quot;Hardware und Sound,&quot; und anschließend auf &quot;Sound.&quot;
+        <TABLE><TR><TD>*</TD><TD>Wenn die Symboldarstellung für Systemsteuerung ausgewählt ist, klicken Sie auf &quot;Sound.&quot;</TD></TR></TABLE>
+      <LI class="OL">Wählen Sie unter &quot;Aufnahme,&quot; das Gerät für den Eingang aus (z. B. KATANA &quot;<B>PRIMARY</B>&quot;). Klicken Sie anschließend auf &quot;Eigenschaften.&quot;
+      <TABLE><TR><TD>*</TD><TD>Wenn die oben stehenden WAVE-Buchsen nicht ausgewählt werden können, ist möglicherweise ein Problem aufgetreten. Siehe &quot;<A href="#anchor0600">Fehlerbehebung</A>.&quot;</TD></TR></TABLE>
+      <LI class="OL">Klicken Sie auf die Registerkarte &quot;Abhören&quot;, und deaktivieren Sie das Kontrollkästchen &quot;Dieses Gerät als Wiedergabequelle verwenden.&quot;</LI>
+      <LI class="OL">Klicken Sie auf [OK], um &quot;Eigenschaften&quot; zu schließen.</LI>
+      <LI class="OL">Klicken Sie auf [OK], um &quot;Sound&quot; zu schließen.</LI>
+    </OL>
+
+<DT>Bei der Wiedergabe oder Aufzeichnung kann es unmittelbar nach dem Start des Systems oder nach dem Ende des Standby-Modus zu Klick- und Poppgeräuschen kommen.</DT>
+    <DD class="FS">Warten Sie daher einen Moment, bevor Sie mit der Wiedergabe oder Aufzeichnung beginnen.</DD>
+	<DD>&nbsp;</DD>
+
+<DT>Bei Verwendung einer LAN-Verbindung treten Klick- oder Poppgeräusche auf</DT>
+    <DD class="FS">Versuchen Sie, die LAN-Verbindung im Geräte-Manager zu deaktivieren.</DD>
+	<DD>&nbsp;</DD>
+
+</DL>
+
+<H3><A name="anchor0650">Wiedergabe oder Aufnahme werden unterbrochen und können nicht fortgesetzt werden.</A></H3>
+
+<DL>
+<DT>War der Prozessor Ihres Computers stark ausgelastet?</DT>
+	<DD class="FS">Wenn der Prozessor Ihres Computers stark ausgelastet war, während das KATANA verwendet wurde, kann das KATANA ggf. nicht mehr korrekt funktionieren. Halten Sie in diesem Fall die Wiedergabe oder Aufnahme an und versuchen Sie es erneut.<BR>Ist die Wiedergabe oder Aufnahme immer noch nicht möglich, beenden Sie alle Programme, die das KATANA verwenden, und schalten Sie anschließend das KATANA aus und wieder ein.</DD>
+</DL>
+
+
+<HR>
+
+<P>Copyright (C) 2016 Roland Corporation. Alle Rechte vorbehalten.</P>
+
+</BODY>
+</HTML>
