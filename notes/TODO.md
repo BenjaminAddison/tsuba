@@ -40,6 +40,8 @@ Hardware testing started 2026-10-20 on Windows. Results are in [07-hardware-resu
 
 ## 5. Foot control
 
+On hold (2026-10-20): no footswitch or expression pedal available. MIDI PC/CC over USB is done.
+
 - [ ] Rear **SEL CH1 CH2/EXP PEDAL** jack: from the manual, get the wiring for a footswitch and for an expression pedal. How does the amp tell them apart?
 - [ ] Expression pedal function per patch `60 00 12 1F` (0 VOLUME … 9 PEDAL FX): check it with a real or DIY pedal.
 - [x] Read the MIDI receive settings: RX channel `00 02 00 00` (= 1, omni off), MAP SELECT `00 02 00 0D`, PC map `00 02 01 00` (2 bytes per PC#). There are no CC-number settings; the CCs are fixed.
