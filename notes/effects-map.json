@@ -1,0 +1,9865 @@
+{
+ "COMP": {
+  "on_off_address": "60 00 00 20",
+  "type_address": "60 00 00 21",
+  "types": [
+   {
+    "val": 0,
+    "name": "BOSS COMP"
+   },
+   {
+    "val": 1,
+    "name": "HI-BAND"
+   },
+   {
+    "val": 2,
+    "name": "LIGHT"
+   },
+   {
+    "val": 3,
+    "name": "D-COMP"
+   },
+   {
+    "val": 4,
+    "name": "ORANGE"
+   },
+   {
+    "val": 5,
+    "name": "FAT"
+   },
+   {
+    "val": 6,
+    "name": "MILD"
+   },
+   {
+    "val": 7,
+    "name": "STEREO COMP"
+   }
+  ],
+  "params": {
+   "DEFAULT": [
+    {
+     "id": "comp_sustain",
+     "name": "SUSTAIN",
+     "address": "60 00 00 22",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "comp_attack",
+     "name": "ATTACK",
+     "address": "60 00 00 23",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "comp_tone",
+     "name": "TONE",
+     "address": "60 00 00 24",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "comp_level",
+     "name": "LEVEL",
+     "address": "60 00 00 25",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ]
+  }
+ },
+ "ODDS": {
+  "on_off_address": "60 00 00 30",
+  "type_address": "60 00 00 31",
+  "types": [
+   {
+    "val": 1,
+    "name": "CLEAN BOOST"
+   },
+   {
+    "val": 2,
+    "name": "TREBLE BOOST"
+   },
+   {
+    "val": 0,
+    "name": "MID BOOST"
+   },
+   {
+    "val": 3,
+    "name": "CRUNCH OD"
+   },
+   {
+    "val": 10,
+    "name": "BLUES DRIVE"
+   },
+   {
+    "val": 11,
+    "name": "OVERDRIVE"
+   },
+   {
+    "val": 4,
+    "name": "NATURAL OD"
+   },
+   {
+    "val": 5,
+    "name": "WARM OD"
+   },
+   {
+    "val": 13,
+    "name": "TURBO OD"
+   },
+   {
+    "val": 12,
+    "name": "T-SCREAM"
+   },
+   {
+    "val": 14,
+    "name": "DISTORTION"
+   },
+   {
+    "val": 6,
+    "name": "FAT DS"
+   },
+   {
+    "val": 17,
+    "name": "DST+"
+   },
+   {
+    "val": 16,
+    "name": "GUV DS"
+   },
+   {
+    "val": 15,
+    "name": "RAT"
+   },
+   {
+    "val": 18,
+    "name": "METAL ZONE"
+   },
+   {
+    "val": 8,
+    "name": "METAL DS"
+   },
+   {
+    "val": 19,
+    "name": "'60S FUZZ"
+   },
+   {
+    "val": 20,
+    "name": "MUFF FUZZ"
+   },
+   {
+    "val": 9,
+    "name": "OCT FUZZ"
+   }
+  ],
+  "params": {
+   "DEFAULT": [
+    {
+     "id": "od_ds_drive",
+     "name": "DRIVE",
+     "address": "60 00 00 32",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    },
+    {
+     "id": "od_ds_tone",
+     "name": "TONE",
+     "address": "60 00 00 34",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "od_ds_bottom",
+     "name": "BOTTOM",
+     "address": "60 00 00 33",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "od_ds_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 00 37",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "od_ds_solo_sw",
+     "name": "SOLO SW",
+     "address": "60 00 00 35",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "OFF",
+      "ON"
+     ]
+    },
+    {
+     "id": "od_ds_solo_level",
+     "name": "SOLO LEVEL",
+     "address": "60 00 00 36",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "od_ds_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 00 38",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ]
+  }
+ },
+ "PREAMP_A": {
+  "on_off_address": "60 00 00 50",
+  "type_address": "60 00 00 51",
+  "types": [
+   {
+    "val": 0,
+    "name": "NATURAL CLEAN"
+   },
+   {
+    "val": 1,
+    "name": "FULL RANGE"
+   },
+   {
+    "val": 2,
+    "name": "COMBO CRUNCH"
+   },
+   {
+    "val": 3,
+    "name": "STACK CRUNCH"
+   },
+   {
+    "val": 4,
+    "name": "HiGAIN STACK"
+   },
+   {
+    "val": 5,
+    "name": "POWER DRIVE"
+   },
+   {
+    "val": 6,
+    "name": "EXTREME LEAD"
+   },
+   {
+    "val": 7,
+    "name": "CORE METAL"
+   },
+   {
+    "val": 8,
+    "name": "JC-120"
+   },
+   {
+    "val": 9,
+    "name": "CLEAN TWIN"
+   },
+   {
+    "val": 10,
+    "name": "PRO CRUNCH"
+   },
+   {
+    "val": 11,
+    "name": "TWEED"
+   },
+   {
+    "val": 12,
+    "name": "DELUXE CRUNCH"
+   },
+   {
+    "val": 13,
+    "name": "VO DRIVE"
+   },
+   {
+    "val": 14,
+    "name": "VO LEAD"
+   },
+   {
+    "val": 15,
+    "name": "MATCH DRIVE"
+   },
+   {
+    "val": 16,
+    "name": "BG LEAD"
+   },
+   {
+    "val": 17,
+    "name": "BG DRIVE"
+   },
+   {
+    "val": 18,
+    "name": "MS1959 I"
+   },
+   {
+    "val": 19,
+    "name": "MS1959 I+II"
+   },
+   {
+    "val": 20,
+    "name": "R-FIER VINTAGE"
+   },
+   {
+    "val": 21,
+    "name": "R-FIER MODERN"
+   },
+   {
+    "val": 22,
+    "name": "T-AMP LEAD"
+   },
+   {
+    "val": 23,
+    "name": "SLDN"
+   },
+   {
+    "val": 24,
+    "name": "5150 DRIVE"
+   },
+   {
+    "val": 26,
+    "name": "BGNR UB METAL"
+   },
+   {
+    "val": 27,
+    "name": "ORNG ROCK REVERB"
+   },
+   {
+    "val": 25,
+    "name": "CUSTOM"
+   }
+  ],
+  "params": {
+   "DEFAULT": [
+    {
+     "id": "preamp_a_gain",
+     "name": "GAIN",
+     "address": "60 00 00 52",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    },
+    {
+     "id": "preamp_a_gain_sw",
+     "name": "GAIN SW",
+     "address": "60 00 00 5A",
+     "bytes": 1,
+     "min": 0,
+     "max": 2,
+     "step": 1,
+     "values": [
+      "LOW",
+      "MIDDLE",
+      "HIGH"
+     ]
+    },
+    {
+     "id": "preamp_a_t_comp",
+     "name": "T-COMP",
+     "address": "60 00 00 53",
+     "bytes": 1,
+     "min": -10,
+     "max": 10,
+     "step": 1
+    },
+    {
+     "id": "preamp_a_level",
+     "name": "LEVEL",
+     "address": "60 00 00 58",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "preamp_a_bright",
+     "name": "BRIGHT",
+     "address": "60 00 00 59",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "OFF",
+      "ON"
+     ]
+    },
+    {
+     "id": "preamp_a_bass",
+     "name": "BASS",
+     "address": "60 00 00 54",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "preamp_a_middle",
+     "name": "MIDDLE",
+     "address": "60 00 00 55",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "preamp_a_treble",
+     "name": "TREBLE",
+     "address": "60 00 00 56",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "preamp_a_presence",
+     "name": "PRESENCE",
+     "address": "60 00 00 57",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "preamp_a_solo_sw",
+     "name": "SOLO SW",
+     "address": "60 00 00 5B",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "OFF",
+      "ON"
+     ]
+    },
+    {
+     "id": "preamp_a_solo_level",
+     "name": "SOLO LEVEL",
+     "address": "60 00 00 5C",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "preamp_a_custom_char",
+     "name": "CUSTOM CHARACTER",
+     "address": "60 00 00 6A",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "preamp_a_custom_bottom",
+     "name": "CUSTOM BOTTOM",
+     "address": "60 00 00 64",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "preamp_a_custom_edge",
+     "name": "CUSTOM EDGE",
+     "address": "60 00 00 65",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "preamp_a_custom_preamp_low",
+     "name": "CUSTOM PREAMP LOW",
+     "address": "60 00 00 68",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "preamp_a_custom_preamp_high",
+     "name": "CUSTOM PREAMP HIGH",
+     "address": "60 00 00 69",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "preamp_a_sp_type",
+     "name": "SP TYPE",
+     "address": "60 00 00 5D",
+     "bytes": 1,
+     "min": 0,
+     "max": 9,
+     "step": 1,
+     "values": [
+      "OFF",
+      "ORIGIN",
+      "1x8\"",
+      "1x10\"",
+      "1x12\"",
+      "2x12\"",
+      "4x10\"",
+      "4x12\"",
+      "8x12\"",
+      "CUSTOM"
+     ]
+    },
+    {
+     "id": "preamp_a_mic_type",
+     "name": "MIC TYPE",
+     "address": "60 00 00 5E",
+     "bytes": 1,
+     "min": 0,
+     "max": 4,
+     "step": 1,
+     "values": [
+      "DYN57",
+      "DYN421",
+      "CND451",
+      "CND87",
+      "FLAT"
+     ]
+    },
+    {
+     "id": "preamp_a_mic_dis",
+     "name": "MIC DISTANCE",
+     "address": "60 00 00 5F",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "OFF MIC",
+      "ON MIC"
+     ]
+    },
+    {
+     "id": "preamp_a_mic_pos",
+     "name": "MIC POSITION",
+     "address": "60 00 00 60",
+     "bytes": 1,
+     "min": 0,
+     "max": 10,
+     "step": 1,
+     "values": [
+      "CENTER",
+      "1cm",
+      "2cm",
+      "3cm",
+      "4cm",
+      "5cm",
+      "6cm",
+      "7cm",
+      "8cm",
+      "9cm",
+      "10cm"
+     ]
+    },
+    {
+     "id": "preamp_a_mic_level",
+     "name": "MIC LEVEL",
+     "address": "60 00 00 61",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "preamp_a_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 00 62",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "preamp_a_custom_sp_size",
+     "name": "CUSTOM SPEAKER SIZE",
+     "address": "60 00 00 6B",
+     "bytes": 1,
+     "min": 0,
+     "max": 10,
+     "step": 1,
+     "values": [
+      "5\"",
+      "6\"",
+      "7\"",
+      "8\"",
+      "9\"",
+      "10\"",
+      "11\"",
+      "12\"",
+      "13\"",
+      "14\"",
+      "15\""
+     ]
+    },
+    {
+     "id": "preamp_a_custom_sp_num",
+     "name": "CUSTOM SPEAKER NUMBER",
+     "address": "60 00 00 6E",
+     "bytes": 1,
+     "min": 0,
+     "max": 3,
+     "step": 1,
+     "values": [
+      "x1",
+      "x2",
+      "x4",
+      "x8"
+     ]
+    },
+    {
+     "id": "preamp_a_custom_sp_cabinet",
+     "name": "CUSTOM CABINET",
+     "address": "60 00 00 6F",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "OPEN",
+      "CLOSE"
+     ]
+    },
+    {
+     "id": "preamp_a_custom_sp_color_low",
+     "name": "CUSTOM COLOR LOW",
+     "address": "60 00 00 6C",
+     "bytes": 1,
+     "min": -10,
+     "max": 10,
+     "step": 1
+    },
+    {
+     "id": "preamp_a_custom_sp_color_high",
+     "name": "CUSTOM COLOR HIGH",
+     "address": "60 00 00 6D",
+     "bytes": 1,
+     "min": -10,
+     "max": 10,
+     "step": 1
+    }
+   ]
+  }
+ },
+ "PREAMP_B": {
+  "on_off_address": "60 00 01 00",
+  "type_address": "60 00 01 01",
+  "types": [
+   {
+    "val": 0,
+    "name": "NATURAL CLEAN"
+   },
+   {
+    "val": 1,
+    "name": "FULL RANGE"
+   },
+   {
+    "val": 2,
+    "name": "COMBO CRUNCH"
+   },
+   {
+    "val": 3,
+    "name": "STACK CRUNCH"
+   },
+   {
+    "val": 4,
+    "name": "HiGAIN STACK"
+   },
+   {
+    "val": 5,
+    "name": "POWER DRIVE"
+   },
+   {
+    "val": 6,
+    "name": "EXTREME LEAD"
+   },
+   {
+    "val": 7,
+    "name": "CORE METAL"
+   },
+   {
+    "val": 8,
+    "name": "JC-120"
+   },
+   {
+    "val": 9,
+    "name": "CLEAN TWIN"
+   },
+   {
+    "val": 10,
+    "name": "PRO CRUNCH"
+   },
+   {
+    "val": 11,
+    "name": "TWEED"
+   },
+   {
+    "val": 12,
+    "name": "DELUXE CRUNCH"
+   },
+   {
+    "val": 13,
+    "name": "VO DRIVE"
+   },
+   {
+    "val": 14,
+    "name": "VO LEAD"
+   },
+   {
+    "val": 15,
+    "name": "MATCH DRIVE"
+   },
+   {
+    "val": 16,
+    "name": "BG LEAD"
+   },
+   {
+    "val": 17,
+    "name": "BG DRIVE"
+   },
+   {
+    "val": 18,
+    "name": "MS1959 I"
+   },
+   {
+    "val": 19,
+    "name": "MS1959 I+II"
+   },
+   {
+    "val": 20,
+    "name": "R-FIER VINTAGE"
+   },
+   {
+    "val": 21,
+    "name": "R-FIER MODERN"
+   },
+   {
+    "val": 22,
+    "name": "T-AMP LEAD"
+   },
+   {
+    "val": 23,
+    "name": "SLDN"
+   },
+   {
+    "val": 24,
+    "name": "5150 DRIVE"
+   },
+   {
+    "val": 26,
+    "name": "BGNR UB METAL"
+   },
+   {
+    "val": 27,
+    "name": "ORNG ROCK REVERB"
+   },
+   {
+    "val": 25,
+    "name": "CUSTOM"
+   }
+  ],
+  "params": {
+   "DEFAULT": [
+    {
+     "id": "preamp_b_gain",
+     "name": "GAIN",
+     "address": "60 00 01 02",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    },
+    {
+     "id": "preamp_b_gain_sw",
+     "name": "GAIN SW",
+     "address": "60 00 01 0A",
+     "bytes": 1,
+     "min": 0,
+     "max": 2,
+     "step": 1,
+     "values": [
+      "LOW",
+      "MIDDLE",
+      "HIGH"
+     ]
+    },
+    {
+     "id": "preamp_b_t_comp",
+     "name": "T-COMP",
+     "address": "60 00 01 03",
+     "bytes": 1,
+     "min": -10,
+     "max": 10,
+     "step": 1
+    },
+    {
+     "id": "preamp_b_level",
+     "name": "LEVEL",
+     "address": "60 00 01 08",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "preamp_b_bright",
+     "name": "BRIGHT",
+     "address": "60 00 01 09",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "OFF",
+      "ON"
+     ]
+    },
+    {
+     "id": "preamp_b_bass",
+     "name": "BASS",
+     "address": "60 00 01 04",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "preamp_b_middle",
+     "name": "MIDDLE",
+     "address": "60 00 01 05",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "preamp_b_treble",
+     "name": "TREBLE",
+     "address": "60 00 01 06",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "preamp_b_presence",
+     "name": "PRESENCE",
+     "address": "60 00 01 07",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "preamp_b_solo_sw",
+     "name": "SOLO SW",
+     "address": "60 00 01 0B",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "OFF",
+      "ON"
+     ]
+    },
+    {
+     "id": "preamp_b_solo_level",
+     "name": "SOLO LEVEL",
+     "address": "60 00 01 0C",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "preamp_b_custom_char",
+     "name": "CUSTOM CHARACTER",
+     "address": "60 00 01 1A",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "preamp_b_custom_bottom",
+     "name": "CUSTOM BOTTOM",
+     "address": "60 00 01 14",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "preamp_b_custom_edge",
+     "name": "CUSTOM EDGE",
+     "address": "60 00 01 15",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "preamp_b_custom_preamp_low",
+     "name": "CUSTOM PREAMP LOW",
+     "address": "60 00 01 18",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "preamp_b_custom_preamp_high",
+     "name": "CUSTOM PREAMP HIGH",
+     "address": "60 00 01 19",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "preamp_b_sp_type",
+     "name": "SP TYPE",
+     "address": "60 00 01 0D",
+     "bytes": 1,
+     "min": 0,
+     "max": 9,
+     "step": 1,
+     "values": [
+      "OFF",
+      "ORIGIN",
+      "1x8\"",
+      "1x10\"",
+      "1x12\"",
+      "2x12\"",
+      "4x10\"",
+      "4x12\"",
+      "8x12\"",
+      "CUSTOM"
+     ]
+    },
+    {
+     "id": "preamp_b_mic_type",
+     "name": "MIC TYPE",
+     "address": "60 00 01 0E",
+     "bytes": 1,
+     "min": 0,
+     "max": 4,
+     "step": 1,
+     "values": [
+      "DYN57",
+      "DYN421",
+      "CND451",
+      "CND87",
+      "FLAT"
+     ]
+    },
+    {
+     "id": "preamp_b_mic_dis",
+     "name": "MIC DISTANCE",
+     "address": "60 00 01 0F",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "OFF MIC",
+      "ON MIC"
+     ]
+    },
+    {
+     "id": "preamp_b_mic_pos",
+     "name": "MIC POSITION",
+     "address": "60 00 01 10",
+     "bytes": 1,
+     "min": 0,
+     "max": 10,
+     "step": 1,
+     "values": [
+      "CENTER",
+      "1cm",
+      "2cm",
+      "3cm",
+      "4cm",
+      "5cm",
+      "6cm",
+      "7cm",
+      "8cm",
+      "9cm",
+      "10cm"
+     ]
+    },
+    {
+     "id": "preamp_b_mic_level",
+     "name": "MIC LEVEL",
+     "address": "60 00 01 11",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "preamp_b_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 01 12",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "preamp_b_custom_sp_size",
+     "name": "CUSTOM SPEAKER SIZE",
+     "address": "60 00 01 1B",
+     "bytes": 1,
+     "min": 0,
+     "max": 10,
+     "step": 1,
+     "values": [
+      "5\"",
+      "6\"",
+      "7\"",
+      "8\"",
+      "9\"",
+      "10\"",
+      "11\"",
+      "12\"",
+      "13\"",
+      "14\"",
+      "15\""
+     ]
+    },
+    {
+     "id": "preamp_b_custom_sp_num",
+     "name": "CUSTOM SPEAKER NUMBER",
+     "address": "60 00 01 1E",
+     "bytes": 1,
+     "min": 0,
+     "max": 3,
+     "step": 1,
+     "values": [
+      "x1",
+      "x2",
+      "x4",
+      "x8"
+     ]
+    },
+    {
+     "id": "preamp_b_custom_sp_cabinet",
+     "name": "CUSTOM CABINET",
+     "address": "60 00 01 1F",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "OPEN",
+      "CLOSE"
+     ]
+    },
+    {
+     "id": "preamp_b_custom_sp_color_low",
+     "name": "CUSTOM COLOR LOW",
+     "address": "60 00 01 1C",
+     "bytes": 1,
+     "min": -10,
+     "max": 10,
+     "step": 1
+    },
+    {
+     "id": "preamp_b_custom_sp_color_high",
+     "name": "CUSTOM COLOR HIGH",
+     "address": "60 00 01 1D",
+     "bytes": 1,
+     "min": -10,
+     "max": 10,
+     "step": 1
+    }
+   ]
+  }
+ },
+ "EQ": {
+  "on_off_address": "60 00 01 30",
+  "type_address": "60 00 11 04",
+  "types": [
+   {
+    "val": 0,
+    "name": "PARAMETRIC EQ"
+   },
+   {
+    "val": 1,
+    "name": "GE-10"
+   }
+  ],
+  "params": {
+   "DEFAULT": [
+    {
+     "id": "eq_low_gain",
+     "name": "LOW GAIN",
+     "address": "60 00 01 32",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "eq_low_mid_gain",
+     "name": "LOW-MID GAIN",
+     "address": "60 00 01 35",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "eq_high_mid_gain",
+     "name": "HIGH-MID GAIN",
+     "address": "60 00 01 38",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "eq_high_gain",
+     "name": "HIGH GAIN",
+     "address": "60 00 01 39",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "eq_level",
+     "name": "LEVEL",
+     "address": "60 00 01 3B",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "eq_low_mid_freq",
+     "name": "LOW-MID FREQ",
+     "address": "60 00 01 33",
+     "bytes": 1,
+     "min": 0,
+     "max": 27,
+     "step": 1,
+     "values": [
+      "20.0Hz",
+      "25.0Hz",
+      "31.5Hz",
+      "40.0Hz",
+      "50.0Hz",
+      "63.0Hz",
+      "80.0Hz",
+      "100Hz",
+      "125Hz",
+      "160Hz",
+      "200Hz",
+      "250Hz",
+      "315Hz",
+      "400Hz",
+      "500Hz",
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz"
+     ]
+    },
+    {
+     "id": "eq_low_mid_q",
+     "name": "LOW-MID Q",
+     "address": "60 00 01 34",
+     "bytes": 1,
+     "min": 0,
+     "max": 5,
+     "step": 1,
+     "values": [
+      "0.5",
+      "1",
+      "2",
+      "4",
+      "8",
+      "16"
+     ]
+    },
+    {
+     "id": "eq_high_mid_freq",
+     "name": "HIGH-MID FREQ",
+     "address": "60 00 01 36",
+     "bytes": 1,
+     "min": 0,
+     "max": 27,
+     "step": 1,
+     "values": [
+      "20.0Hz",
+      "25.0Hz",
+      "31.5Hz",
+      "40.0Hz",
+      "50.0Hz",
+      "63.0Hz",
+      "80.0Hz",
+      "100Hz",
+      "125Hz",
+      "160Hz",
+      "200Hz",
+      "250Hz",
+      "315Hz",
+      "400Hz",
+      "500Hz",
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz"
+     ]
+    },
+    {
+     "id": "eq_high_mid_q",
+     "name": "HIGH-MID Q",
+     "address": "60 00 01 37",
+     "bytes": 1,
+     "min": 0,
+     "max": 5,
+     "step": 1,
+     "values": [
+      "0.5",
+      "1",
+      "2",
+      "4",
+      "8",
+      "16"
+     ]
+    },
+    {
+     "id": "eq_low_cut",
+     "name": "LOW CUT",
+     "address": "60 00 01 31",
+     "bytes": 1,
+     "min": 0,
+     "max": 17,
+     "step": 1,
+     "values": [
+      "FLAT",
+      "20.0Hz",
+      "25.0Hz",
+      "31.5Hz",
+      "40.0Hz",
+      "50.0Hz",
+      "63.0Hz",
+      "80.0Hz",
+      "100Hz",
+      "125Hz",
+      "160Hz",
+      "200Hz",
+      "250Hz",
+      "315Hz",
+      "400Hz",
+      "500Hz",
+      "630Hz",
+      "800Hz"
+     ]
+    },
+    {
+     "id": "eq_high_cut",
+     "name": "HIGH CUT",
+     "address": "60 00 01 3A",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    },
+    {
+     "id": "eq_position",
+     "name": "POSITION",
+     "address": "60 00 12 18",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "AMP IN",
+      "AMP OUT"
+     ]
+    }
+   ],
+   "GE-10": [
+    {
+     "id": "eq_geq_31hz",
+     "name": "31Hz",
+     "address": "60 00 11 05",
+     "bytes": 1,
+     "min": -12,
+     "max": 12,
+     "step": 0.5
+    },
+    {
+     "id": "eq_geq_62hz",
+     "name": "62Hz",
+     "address": "60 00 11 06",
+     "bytes": 1,
+     "min": -12,
+     "max": 12,
+     "step": 0.5
+    },
+    {
+     "id": "eq_geq_125hz",
+     "name": "125Hz",
+     "address": "60 00 11 07",
+     "bytes": 1,
+     "min": -12,
+     "max": 12,
+     "step": 0.5
+    },
+    {
+     "id": "eq_geq_250hz",
+     "name": "250Hz",
+     "address": "60 00 11 08",
+     "bytes": 1,
+     "min": -12,
+     "max": 12,
+     "step": 0.5
+    },
+    {
+     "id": "eq_geq_500hz",
+     "name": "500Hz",
+     "address": "60 00 11 09",
+     "bytes": 1,
+     "min": -12,
+     "max": 12,
+     "step": 0.5
+    },
+    {
+     "id": "eq_geq_1khz",
+     "name": "1KHz",
+     "address": "60 00 11 0A",
+     "bytes": 1,
+     "min": -12,
+     "max": 12,
+     "step": 0.5
+    },
+    {
+     "id": "eq_geq_2khz",
+     "name": "2KHz",
+     "address": "60 00 11 0B",
+     "bytes": 1,
+     "min": -12,
+     "max": 12,
+     "step": 0.5
+    },
+    {
+     "id": "eq_geq_4khz",
+     "name": "4KHz",
+     "address": "60 00 11 0C",
+     "bytes": 1,
+     "min": -12,
+     "max": 12,
+     "step": 0.5
+    },
+    {
+     "id": "eq_geq_8khz",
+     "name": "8KHz",
+     "address": "60 00 11 0D",
+     "bytes": 1,
+     "min": -12,
+     "max": 12,
+     "step": 0.5
+    },
+    {
+     "id": "eq_geq_16khz",
+     "name": "16KHz",
+     "address": "60 00 11 0E",
+     "bytes": 1,
+     "min": -12,
+     "max": 12,
+     "step": 0.5
+    },
+    {
+     "id": "eq_geq_level",
+     "name": "LEVEL",
+     "address": "60 00 11 0F",
+     "bytes": 1,
+     "min": -12,
+     "max": 12,
+     "step": 0.5
+    },
+    {
+     "id": "eq_position",
+     "name": "POSITION",
+     "address": "60 00 12 18",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "AMP IN",
+      "AMP OUT"
+     ]
+    }
+   ]
+  }
+ },
+ "FX1": {
+  "on_off_address": "60 00 01 40",
+  "type_address": "60 00 01 41",
+  "types": [
+   {
+    "val": 29,
+    "name": "CHORUS"
+   },
+   {
+    "val": 20,
+    "name": "FLANGER"
+   },
+   {
+    "val": 19,
+    "name": "PHASER"
+   },
+   {
+    "val": 23,
+    "name": "UNI-V"
+   },
+   {
+    "val": 21,
+    "name": "TREMOLO"
+   },
+   {
+    "val": 26,
+    "name": "VIBRATO"
+   },
+   {
+    "val": 22,
+    "name": "ROTARY"
+   },
+   {
+    "val": 27,
+    "name": "RING MOD"
+   },
+   {
+    "val": 10,
+    "name": "SLOW GEAR"
+   },
+   {
+    "val": 25,
+    "name": "SLICER"
+   },
+   {
+    "val": 3,
+    "name": "COMP"
+   },
+   {
+    "val": 4,
+    "name": "LIMITER"
+   },
+   {
+    "val": 0,
+    "name": "T.WAH"
+   },
+   {
+    "val": 1,
+    "name": "AUTO WAH"
+   },
+   {
+    "val": 2,
+    "name": "PEDAL WAH"
+   },
+   {
+    "val": 6,
+    "name": "GRAPHIC EQ"
+   },
+   {
+    "val": 7,
+    "name": "PARAMETRIC EQ"
+   },
+   {
+    "val": 9,
+    "name": "GUITAR SIM"
+   },
+   {
+    "val": 31,
+    "name": "AC.GUITAR SIM"
+   },
+   {
+    "val": 18,
+    "name": "AC.PROCESSOR"
+   },
+   {
+    "val": 12,
+    "name": "WAVE SYNTH"
+   },
+   {
+    "val": 14,
+    "name": "OCTAVE"
+   },
+   {
+    "val": 39,
+    "name": "HEAVY OCTAVE"
+   },
+   {
+    "val": 15,
+    "name": "PITCH SHIFTER"
+   },
+   {
+    "val": 16,
+    "name": "HARMONIST"
+   },
+   {
+    "val": 28,
+    "name": "HUMANIZER"
+   },
+   {
+    "val": 35,
+    "name": "PHASER 90E"
+   },
+   {
+    "val": 36,
+    "name": "FLANGER 117E"
+   },
+   {
+    "val": 37,
+    "name": "WAH 95E"
+   },
+   {
+    "val": 38,
+    "name": "DC-30"
+   }
+  ],
+  "params": {
+   "T.WAH": [
+    {
+     "id": "fx1_t_wah_mode",
+     "name": "MODE",
+     "address": "60 00 01 4C",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "LPF",
+      "BPF"
+     ]
+    },
+    {
+     "id": "fx1_t_wah_polar",
+     "name": "POLAR",
+     "address": "60 00 01 4D",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "DOWN",
+      "UP"
+     ]
+    },
+    {
+     "id": "fx1_t_wah_sens",
+     "name": "SENS",
+     "address": "60 00 01 4E",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_t_wah_freq",
+     "name": "FREQ",
+     "address": "60 00 01 4F",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_t_wah_peak",
+     "name": "PEAK",
+     "address": "60 00 01 50",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_t_wah_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 01 52",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_t_wah_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 01 51",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "AUTO WAH": [
+    {
+     "id": "fx1_auto_wah_mode",
+     "name": "MODE",
+     "address": "60 00 01 54",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "LPF",
+      "BPF"
+     ]
+    },
+    {
+     "id": "fx1_auto_wah_rate",
+     "name": "RATE",
+     "address": "60 00 01 57",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_auto_wah_depth",
+     "name": "DEPTH",
+     "address": "60 00 01 58",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_auto_wah_freq",
+     "name": "FREQ",
+     "address": "60 00 01 55",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_auto_wah_peak",
+     "name": "PEAK",
+     "address": "60 00 01 56",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_auto_wah_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 01 5A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_auto_wah_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 01 59",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "PEDAL WAH": [
+    {
+     "id": "fx1_sub_wah_pedal_pos",
+     "name": "PEDAL POS",
+     "address": "60 00 01 5D",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_sub_wah_pedal_min",
+     "name": "PEDAL MIN",
+     "address": "60 00 01 5E",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_sub_wah_pedal_max",
+     "name": "PEDAL MAX",
+     "address": "60 00 01 5F",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_sub_wah_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 01 60",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_sub_wah_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 01 61",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "COMP": [
+    {
+     "id": "fx1_adv_comp_sustain",
+     "name": "SUSTAIN",
+     "address": "60 00 01 64",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_adv_comp_attack",
+     "name": "ATTACK",
+     "address": "60 00 01 65",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_adv_comp_tone",
+     "name": "TONE",
+     "address": "60 00 01 66",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx1_adv_comp_level",
+     "name": "LEVEL",
+     "address": "60 00 01 67",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "LIMITER": [
+    {
+     "id": "fx1_limiter_thresh",
+     "name": "THRESHOLD",
+     "address": "60 00 01 6B",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_limiter_ratio",
+     "name": "RATIO",
+     "address": "60 00 01 6C",
+     "bytes": 1,
+     "min": 0,
+     "max": 17,
+     "step": 1,
+     "values": [
+      "1:1",
+      "1.2:1",
+      "1.4:1",
+      "1.6:1",
+      "1.8:1",
+      "2:1",
+      "2.3:1",
+      "2.6:1",
+      "3:1",
+      "3.5:1",
+      "4:1",
+      "5:1",
+      "6:1",
+      "8:1",
+      "10:1",
+      "12:1",
+      "20:1",
+      "INF:1"
+     ]
+    },
+    {
+     "id": "fx1_limiter_attack",
+     "name": "ATTACK",
+     "address": "60 00 01 6A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_limiter_release",
+     "name": "RELEASE",
+     "address": "60 00 01 6D",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_limiter_level",
+     "name": "LEVEL",
+     "address": "60 00 01 6E",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "SUB OD/DS": [
+    {
+     "id": "fx1_sub_od_ds_drive",
+     "name": "DRIVE",
+     "address": "60 00 01 43",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    },
+    {
+     "id": "fx1_sub_od_ds_bottom",
+     "name": "BOTTOM",
+     "address": "60 00 01 44",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx1_sub_od_ds_tone",
+     "name": "TONE",
+     "address": "60 00 01 45",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx1_sub_od_ds_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 01 48",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_sub_od_ds_solo_sw",
+     "name": "SOLO SW",
+     "address": "60 00 01 46",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "OFF",
+      "ON"
+     ]
+    },
+    {
+     "id": "fx1_sub_od_ds_solo_level",
+     "name": "SOLO LEVEL",
+     "address": "60 00 01 47",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_sub_od_ds_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 01 49",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "GRAPHIC EQ": [
+    {
+     "id": "fx1_graphic_eq_31hz",
+     "name": "31Hz",
+     "address": "60 00 01 70",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx1_graphic_eq_62hz",
+     "name": "62Hz",
+     "address": "60 00 01 71",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx1_graphic_eq_125hz",
+     "name": "125Hz",
+     "address": "60 00 01 72",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx1_graphic_eq_250hz",
+     "name": "250Hz",
+     "address": "60 00 01 73",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx1_graphic_eq_500hz",
+     "name": "500Hz",
+     "address": "60 00 01 74",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx1_graphic_eq_1khz",
+     "name": "1kHz",
+     "address": "60 00 01 75",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx1_graphic_eq_2khz",
+     "name": "2kHz",
+     "address": "60 00 01 76",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx1_graphic_eq_4khz",
+     "name": "4kHz",
+     "address": "60 00 01 77",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx1_graphic_eq_8khz",
+     "name": "8kHz",
+     "address": "60 00 01 78",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx1_graphic_eq_16khz",
+     "name": "16kHz",
+     "address": "60 00 01 79",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx1_graphic_eq_level",
+     "name": "LEVEL",
+     "address": "60 00 01 7A",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    }
+   ],
+   "PARAMETRIC EQ": [
+    {
+     "id": "fx1_parametric_eq_low_gain",
+     "name": "LOW GAIN",
+     "address": "60 00 01 7D",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx1_parametric_eq_low_mid_gain",
+     "name": "LOW-MID GAIN",
+     "address": "60 00 02 00",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx1_parametric_eq_high_mid_gain",
+     "name": "HIGH-MID GAIN",
+     "address": "60 00 02 03",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx1_parametric_eq_high_gain",
+     "name": "HIGH GAIN",
+     "address": "60 00 02 04",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx1_parametric_eq_level",
+     "name": "LEVEL",
+     "address": "60 00 02 06",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx1_parametric_eq_low_mid_freq",
+     "name": "LOW-MID FREQ",
+     "address": "60 00 01 7E",
+     "bytes": 1,
+     "min": 0,
+     "max": 27,
+     "step": 1,
+     "values": [
+      "20.0Hz",
+      "25.0Hz",
+      "31.5Hz",
+      "40.0Hz",
+      "50.0Hz",
+      "63.0Hz",
+      "80.0Hz",
+      "100Hz",
+      "125Hz",
+      "160Hz",
+      "200Hz",
+      "250Hz",
+      "315Hz",
+      "400Hz",
+      "500Hz",
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz"
+     ]
+    },
+    {
+     "id": "fx1_parametric_eq_low_mid_q",
+     "name": "LOW-MID Q",
+     "address": "60 00 01 7F",
+     "bytes": 1,
+     "min": 0,
+     "max": 5,
+     "step": 1,
+     "values": [
+      "0.5",
+      "1",
+      "2",
+      "4",
+      "8",
+      "16"
+     ]
+    },
+    {
+     "id": "fx1_parametric_eq_high_mid_freq",
+     "name": "HIGH-MID FREQ",
+     "address": "60 00 02 01",
+     "bytes": 1,
+     "min": 0,
+     "max": 27,
+     "step": 1,
+     "values": [
+      "20.0Hz",
+      "25.0Hz",
+      "31.5Hz",
+      "40.0Hz",
+      "50.0Hz",
+      "63.0Hz",
+      "80.0Hz",
+      "100Hz",
+      "125Hz",
+      "160Hz",
+      "200Hz",
+      "250Hz",
+      "315Hz",
+      "400Hz",
+      "500Hz",
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz"
+     ]
+    },
+    {
+     "id": "fx1_parametric_eq_high_mid_q",
+     "name": "HIGH-MID Q",
+     "address": "60 00 02 02",
+     "bytes": 1,
+     "min": 0,
+     "max": 5,
+     "step": 1,
+     "values": [
+      "0.5",
+      "1",
+      "2",
+      "4",
+      "8",
+      "16"
+     ]
+    },
+    {
+     "id": "fx1_parametric_eq_low_cut",
+     "name": "LOW CUT",
+     "address": "60 00 01 7C",
+     "bytes": 1,
+     "min": 0,
+     "max": 17,
+     "step": 1,
+     "values": [
+      "FLAT",
+      "20.0Hz",
+      "25.0Hz",
+      "31.5Hz",
+      "40.0Hz",
+      "50.0Hz",
+      "63.0Hz",
+      "80.0Hz",
+      "100Hz",
+      "125Hz",
+      "160Hz",
+      "200Hz",
+      "250Hz",
+      "315Hz",
+      "400Hz",
+      "500Hz",
+      "630Hz",
+      "800Hz"
+     ]
+    },
+    {
+     "id": "fx1_parametric_eq_high_cut",
+     "name": "HIGH CUT",
+     "address": "60 00 02 05",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    }
+   ],
+   "TONE MODIFY": [
+    {
+     "id": "fx1_tone_modify_low",
+     "name": "LOW",
+     "address": "60 00 02 0A",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx1_tone_modify_high",
+     "name": "HIGH",
+     "address": "60 00 02 0B",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx1_tone_modify_reso",
+     "name": "RESONANCE",
+     "address": "60 00 02 09",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_tone_modify_level",
+     "name": "LEVEL",
+     "address": "60 00 02 0C",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "GUITAR SIM": [
+    {
+     "id": "fx1_guitar_sim_low",
+     "name": "LOW",
+     "address": "60 00 02 0F",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx1_guitar_sim_high",
+     "name": "HIGH",
+     "address": "60 00 02 10",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx1_guitar_sim_body",
+     "name": "BODY",
+     "address": "60 00 02 12",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_guitar_sim_level",
+     "name": "LEVEL",
+     "address": "60 00 02 11",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "AC.GUITAR SIM": [
+    {
+     "id": "fx1_acsim_body",
+     "name": "BODY",
+     "address": "60 00 10 11",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_acsim_low",
+     "name": "LOW",
+     "address": "60 00 10 12",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx1_acsim_high",
+     "name": "HIGH",
+     "address": "60 00 10 10",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx1_acsim_level",
+     "name": "LEVEL",
+     "address": "60 00 10 14",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "SLOW GEAR": [
+    {
+     "id": "fx1_slow_gear_sens",
+     "name": "SENS",
+     "address": "60 00 02 14",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_slow_gear_rise_time",
+     "name": "RISE TIME",
+     "address": "60 00 02 15",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_slow_gear_level",
+     "name": "LEVEL",
+     "address": "60 00 02 16",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "DEFRETTER": [
+    {
+     "id": "fx1_defretter_sens",
+     "name": "SENS",
+     "address": "60 00 02 19",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_defretter_depth",
+     "name": "DEPTH",
+     "address": "60 00 02 1B",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_defretter_tone",
+     "name": "TONE",
+     "address": "60 00 02 18",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx1_defretter_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 02 1D",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_defretter_attack",
+     "name": "ATTACK",
+     "address": "60 00 02 1A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_defretter_reso",
+     "name": "RESONANCE",
+     "address": "60 00 02 1C",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_defretter_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 02 1E",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "WAVE SYNTH": [
+    {
+     "id": "fx1_wave_synth_cutoff",
+     "name": "CUTOFF",
+     "address": "60 00 02 21",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_wave_synth_reso",
+     "name": "RESONANCE",
+     "address": "60 00 02 22",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_wave_synth_synth_level",
+     "name": "SYNTH LEVEL",
+     "address": "60 00 02 26",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_wave_synth_filter_sens",
+     "name": "FILTER SENS",
+     "address": "60 00 02 23",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_wave_synth_filter_decay",
+     "name": "FILTER DECAY",
+     "address": "60 00 02 24",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_wave_synth_filter_depth",
+     "name": "FILTER DEPTH",
+     "address": "60 00 02 25",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_wave_synth_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 02 27",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "SITAR SIM": [
+    {
+     "id": "fx1_sitar_sim_sens",
+     "name": "SENS",
+     "address": "60 00 02 2A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_sitar_sim_depth",
+     "name": "DEPTH",
+     "address": "60 00 02 2B",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_sitar_sim_tone",
+     "name": "TONE",
+     "address": "60 00 02 29",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx1_sitar_sim_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 02 2E",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_sitar_sim_reso",
+     "name": "RESO",
+     "address": "60 00 02 2C",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_sitar_sim_buzz",
+     "name": "BUZZ",
+     "address": "60 00 02 2D",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_sitar_sim_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 02 2F",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "OCTAVE": [
+    {
+     "id": "fx1_octave_range",
+     "name": "RANGE",
+     "address": "60 00 02 31",
+     "bytes": 1,
+     "min": 0,
+     "max": 3,
+     "step": 1,
+     "values": [
+      "RANGE1",
+      "RANGE2",
+      "RANGE3",
+      "RANGE4"
+     ]
+    },
+    {
+     "id": "fx1_octave_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 02 32",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_octave_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 02 33",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "PITCH SHIFTER": [
+    {
+     "id": "fx1_pitch_shifter_ps1pitch",
+     "name": "PS1:PITCH",
+     "address": "60 00 02 37",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_pitch_shifter_ps1level",
+     "name": "PS1:LEVEL",
+     "address": "60 00 02 3B",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_pitch_shifter_ps2pitch",
+     "name": "PS2:PITCH",
+     "address": "60 00 02 3D",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_pitch_shifter_ps2level",
+     "name": "PS2:LEVEL",
+     "address": "60 00 02 41",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_pitch_shifter_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 02 43",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_pitch_shifter_ps1mode",
+     "name": "PS1:MODE",
+     "address": "60 00 02 36",
+     "bytes": 1,
+     "min": 0,
+     "max": 3,
+     "step": 1,
+     "values": [
+      "FAST",
+      "MEDIUM",
+      "SLOW",
+      "MONO"
+     ]
+    },
+    {
+     "id": "fx1_pitch_shifter_ps1fine",
+     "name": "PS1:FINE",
+     "address": "60 00 02 38",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx1_pitch_shifter_ps1pre_dly",
+     "name": "PS1:PRE DELAY",
+     "address": "60 00 02 39",
+     "bytes": 2,
+     "min": 0,
+     "max": 300,
+     "step": 1
+    },
+    {
+     "id": "fx1_pitch_shifter_ps1f_back",
+     "name": "PS1:FEEDBACK",
+     "address": "60 00 02 42",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_pitch_shifter_ps2mode",
+     "name": "PS2:MODE",
+     "address": "60 00 02 3C",
+     "bytes": 1,
+     "min": 0,
+     "max": 3,
+     "step": 1,
+     "values": [
+      "FAST",
+      "MEDIUM",
+      "SLOW",
+      "MONO"
+     ]
+    },
+    {
+     "id": "fx1_pitch_shifter_ps2fine",
+     "name": "PS2:FINE",
+     "address": "60 00 02 3E",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx1_pitch_shifter_ps2pre_dly",
+     "name": "PS2:PRE DELAY",
+     "address": "60 00 02 3F",
+     "bytes": 2,
+     "min": 0,
+     "max": 300,
+     "step": 1
+    }
+   ],
+   "HARMONIST": [
+    {
+     "id": "fx1_harmonist_hr1harm",
+     "name": "HR1:HARMONY",
+     "address": "60 00 02 46",
+     "bytes": 1,
+     "min": 0,
+     "max": 29,
+     "step": 1,
+     "values": [
+      "-2oct",
+      "-14th",
+      "-13th",
+      "-12th",
+      "-11th",
+      "-10th",
+      "-9th",
+      "-1oct",
+      "-7th",
+      "-6th",
+      "-5th",
+      "-4th",
+      "-3rd",
+      "-2nd",
+      "UNISON",
+      "+2nd",
+      "+3rd",
+      "+4th",
+      "+5th",
+      "+6th",
+      "+7th",
+      "+1oct",
+      "+9th",
+      "+10th",
+      "+11th",
+      "+12th",
+      "+13th",
+      "+14th",
+      "+2oct",
+      "USER"
+     ]
+    },
+    {
+     "id": "fx1_harmonist_hr2harm",
+     "name": "HR2:HARMONY",
+     "address": "60 00 02 4A",
+     "bytes": 1,
+     "min": 0,
+     "max": 29,
+     "step": 1,
+     "values": [
+      "-2oct",
+      "-14th",
+      "-13th",
+      "-12th",
+      "-11th",
+      "-10th",
+      "-9th",
+      "-1oct",
+      "-7th",
+      "-6th",
+      "-5th",
+      "-4th",
+      "-3rd",
+      "-2nd",
+      "UNISON",
+      "+2nd",
+      "+3rd",
+      "+4th",
+      "+5th",
+      "+6th",
+      "+7th",
+      "+1oct",
+      "+9th",
+      "+10th",
+      "+11th",
+      "+12th",
+      "+13th",
+      "+14th",
+      "+2oct",
+      "USER"
+     ]
+    },
+    {
+     "id": "master_key",
+     "name": "MASTER KEY",
+     "address": "60 00 07 18",
+     "bytes": 1,
+     "min": 0,
+     "max": 11,
+     "step": 1,
+     "values": [
+      "C(Am)",
+      "Db(Bbm)",
+      "D(Bm)",
+      "Eb(Cm)",
+      "E(C#m)",
+      "F(Dm)",
+      "F#(D#m)",
+      "G(Em)",
+      "Ab(Fm)",
+      "A(F#m)",
+      "Bb(Gm)",
+      "B(G#m)"
+     ]
+    },
+    {
+     "id": "fx1_harmonist_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 02 4F",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr1pre_dly",
+     "name": "HR1:PRE DELAY",
+     "address": "60 00 02 47",
+     "bytes": 2,
+     "min": 0,
+     "max": 300,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr1f_back",
+     "name": "HR1:FEEDBACK",
+     "address": "60 00 02 4E",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr1level",
+     "name": "HR1:LEVEL",
+     "address": "60 00 02 49",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr2pre_dly",
+     "name": "HR2:PRE DELAY",
+     "address": "60 00 02 4B",
+     "bytes": 2,
+     "min": 0,
+     "max": 300,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr2level",
+     "name": "HR2:LEVEL",
+     "address": "60 00 02 4D",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr1c",
+     "name": "HR1:C",
+     "address": "60 00 02 50",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr1db",
+     "name": "HR1:Db",
+     "address": "60 00 02 51",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr1d",
+     "name": "HR1:D",
+     "address": "60 00 02 52",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr1eb",
+     "name": "HR1:Eb",
+     "address": "60 00 02 53",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr1e",
+     "name": "HR1:E",
+     "address": "60 00 02 54",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr1f",
+     "name": "HR1:F",
+     "address": "60 00 02 55",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr1f_s",
+     "name": "HR1:F#",
+     "address": "60 00 02 56",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr1g",
+     "name": "HR1:G",
+     "address": "60 00 02 57",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr1ab",
+     "name": "HR1:Ab",
+     "address": "60 00 02 58",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr1a",
+     "name": "HR1:A",
+     "address": "60 00 02 59",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr1bb",
+     "name": "HR1:Bb",
+     "address": "60 00 02 5A",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr1b",
+     "name": "HR1:B",
+     "address": "60 00 02 5B",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr2c",
+     "name": "HR2:C",
+     "address": "60 00 02 5C",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr2db",
+     "name": "HR2:Db",
+     "address": "60 00 02 5D",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr2d",
+     "name": "HR2:D",
+     "address": "60 00 02 5E",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr2eb",
+     "name": "HR2:Eb",
+     "address": "60 00 02 5F",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr2e",
+     "name": "HR2:E",
+     "address": "60 00 02 60",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr2f",
+     "name": "HR2:F",
+     "address": "60 00 02 61",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr2f_s",
+     "name": "HR2:F#",
+     "address": "60 00 02 62",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr2g",
+     "name": "HR2:G",
+     "address": "60 00 02 63",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr2ab",
+     "name": "HR2:Ab",
+     "address": "60 00 02 64",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr2a",
+     "name": "HR2:A",
+     "address": "60 00 02 65",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr2bb",
+     "name": "HR2:Bb",
+     "address": "60 00 02 66",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx1_harmonist_hr2b",
+     "name": "HR2:B",
+     "address": "60 00 02 67",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    }
+   ],
+   "SOUND HOLD": [
+    {
+     "id": "fx1_sound_hold_hold",
+     "name": "HOLD",
+     "address": "60 00 02 69",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "OFF",
+      "ON"
+     ]
+    },
+    {
+     "id": "fx1_sound_hold_rise_time",
+     "name": "RISE TIME",
+     "address": "60 00 02 6A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_sound_hold_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 02 6B",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    }
+   ],
+   "AC.PROCESSOR": [
+    {
+     "id": "fx1_ac_processor_bass",
+     "name": "BASS",
+     "address": "60 00 02 6E",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx1_ac_processor_middle",
+     "name": "MIDDLE",
+     "address": "60 00 02 6F",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx1_ac_processor_treble",
+     "name": "TREBLE",
+     "address": "60 00 02 71",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx1_ac_processor_presence",
+     "name": "PRESENCE",
+     "address": "60 00 02 72",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx1_ac_processor_level",
+     "name": "LEVEL",
+     "address": "60 00 02 73",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_ac_processor_middle_freq",
+     "name": "MIDDLE FREQ",
+     "address": "60 00 02 70",
+     "bytes": 1,
+     "min": 0,
+     "max": 27,
+     "step": 1,
+     "values": [
+      "20.0Hz",
+      "25.0Hz",
+      "31.5Hz",
+      "40.0Hz",
+      "50.0Hz",
+      "63.0Hz",
+      "80.0Hz",
+      "100Hz",
+      "125Hz",
+      "160Hz",
+      "200Hz",
+      "250Hz",
+      "315Hz",
+      "400Hz",
+      "500Hz",
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz"
+     ]
+    }
+   ],
+   "PHASER": [
+    {
+     "id": "fx1_phaser_rate",
+     "name": "RATE",
+     "address": "60 00 02 76",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_phaser_depth",
+     "name": "DEPTH",
+     "address": "60 00 02 77",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_phaser_reso",
+     "name": "RESO",
+     "address": "60 00 02 79",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_phaser_manual",
+     "name": "MANUAL",
+     "address": "60 00 02 78",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_phaser_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 02 7B",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_phaser_step_rate",
+     "name": "STEP RATE",
+     "address": "60 00 02 7A",
+     "bytes": 1,
+     "min": 0,
+     "max": 101,
+     "step": 1
+    },
+    {
+     "id": "fx1_phaser_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 02 7C",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "FLANGER": [
+    {
+     "id": "fx1_flanger_rate",
+     "name": "RATE",
+     "address": "60 00 02 7E",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_flanger_depth",
+     "name": "DEPTH",
+     "address": "60 00 02 7F",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_flanger_reso",
+     "name": "RESO",
+     "address": "60 00 03 01",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_flanger_manual",
+     "name": "MANUAL",
+     "address": "60 00 03 00",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_flanger_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 03 04",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_flanger_low_cut",
+     "name": "LOW CUT",
+     "address": "60 00 03 03",
+     "bytes": 1,
+     "min": 0,
+     "max": 10,
+     "step": 1,
+     "values": [
+      "FLAT",
+      "55Hz",
+      "110Hz",
+      "165Hz",
+      "200Hz",
+      "280Hz",
+      "340Hz",
+      "400Hz",
+      "500Hz",
+      "630Hz",
+      "800Hz"
+     ]
+    },
+    {
+     "id": "fx1_flanger_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 03 05",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "TREMOLO": [
+    {
+     "id": "fx1_tremolo_wave_shape",
+     "name": "WAVE SHAPE",
+     "address": "60 00 03 07",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_tremolo_rate",
+     "name": "RATE",
+     "address": "60 00 03 08",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_tremolo_depth",
+     "name": "DEPTH",
+     "address": "60 00 03 09",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_tremolo_level",
+     "name": "LEVEL",
+     "address": "60 00 03 0A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "ROTARY": [
+    {
+     "id": "fx1_rotary_rate_fast",
+     "name": "RATE",
+     "address": "60 00 03 0E",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_rotary_depth",
+     "name": "DEPTH",
+     "address": "60 00 03 11",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_rotary_level",
+     "name": "LEVEL",
+     "address": "60 00 03 12",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "UNI-V": [
+    {
+     "id": "fx1_uni_v_rate",
+     "name": "RATE",
+     "address": "60 00 03 14",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_uni_v_depth",
+     "name": "DEPTH",
+     "address": "60 00 03 15",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_uni_v_level",
+     "name": "LEVEL",
+     "address": "60 00 03 16",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "PAN": [
+    {
+     "id": "fx1_pan_wave_shape",
+     "name": "WAVE SHAPE",
+     "address": "60 00 03 1A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_pan_rate",
+     "name": "RATE",
+     "address": "60 00 03 1B",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_pan_pos",
+     "name": "POSITION",
+     "address": "60 00 03 19",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1,
+     "values": [
+      "L100",
+      "L98",
+      "L96",
+      "L94",
+      "L92",
+      "L90",
+      "L88",
+      "L86",
+      "L84",
+      "L82",
+      "L80",
+      "L78",
+      "L76",
+      "L74",
+      "L72",
+      "L70",
+      "L68",
+      "L66",
+      "L64",
+      "L62",
+      "L60",
+      "L58",
+      "L56",
+      "L54",
+      "L52",
+      "L50",
+      "L48",
+      "L46",
+      "L44",
+      "L42",
+      "L40",
+      "L38",
+      "L36",
+      "L34",
+      "L32",
+      "L30",
+      "L28",
+      "L26",
+      "L24",
+      "L22",
+      "L20",
+      "L18",
+      "L16",
+      "L14",
+      "L12",
+      "L10",
+      "L8",
+      "L6",
+      "L4",
+      "L2",
+      "CENTER",
+      "R2",
+      "R4",
+      "R6",
+      "R8",
+      "R10",
+      "R12",
+      "R14",
+      "R16",
+      "R18",
+      "R20",
+      "R22",
+      "R24",
+      "R26",
+      "R28",
+      "R30",
+      "R32",
+      "R34",
+      "R36",
+      "R38",
+      "R40",
+      "R42",
+      "R44",
+      "R46",
+      "R48",
+      "R50",
+      "R52",
+      "R54",
+      "R56",
+      "R58",
+      "R60",
+      "R62",
+      "R64",
+      "R66",
+      "R68",
+      "R70",
+      "R72",
+      "R74",
+      "R76",
+      "R78",
+      "R80",
+      "R82",
+      "R84",
+      "R86",
+      "R88",
+      "R90",
+      "R92",
+      "R94",
+      "R96",
+      "R98",
+      "R100"
+     ]
+    },
+    {
+     "id": "fx1_pan_depth",
+     "name": "DEPTH",
+     "address": "60 00 03 1C",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_pan_level",
+     "name": "LEVEL",
+     "address": "60 00 03 1D",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "SLICER": [
+    {
+     "id": "fx1_slicer_pattern",
+     "name": "PATTERN",
+     "address": "60 00 03 1F",
+     "bytes": 1,
+     "min": 0,
+     "max": 19,
+     "step": 1,
+     "values": [
+      "P1",
+      "P2",
+      "P3",
+      "P4",
+      "P5",
+      "P6",
+      "P7",
+      "P8",
+      "P9",
+      "P10",
+      "P11",
+      "P12",
+      "P13",
+      "P14",
+      "P15",
+      "P16",
+      "P17",
+      "P18",
+      "P19",
+      "P20"
+     ]
+    },
+    {
+     "id": "fx1_slicer_rate",
+     "name": "RATE",
+     "address": "60 00 03 20",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_slicer_trigger_sens",
+     "name": "TRIGGER SENS",
+     "address": "60 00 03 21",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_slicer_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 03 22",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_slicer_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 03 23",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "VIBRATO": [
+    {
+     "id": "fx1_vibrato_rate",
+     "name": "RATE",
+     "address": "60 00 03 25",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_vibrato_depth",
+     "name": "DEPTH",
+     "address": "60 00 03 26",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_vibrato_level",
+     "name": "LEVEL",
+     "address": "60 00 03 29",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "RING MOD": [
+    {
+     "id": "fx1_ring_mod_freq",
+     "name": "FREQUENCY",
+     "address": "60 00 03 2C",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_ring_mod_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 03 2D",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_ring_mod_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 03 2E",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "HUMANIZER": [
+    {
+     "id": "fx1_humanizer_vowel1",
+     "name": "VOWEL1",
+     "address": "60 00 03 31",
+     "bytes": 1,
+     "min": 0,
+     "max": 4,
+     "step": 1,
+     "values": [
+      "a",
+      "e",
+      "i",
+      "o",
+      "u"
+     ]
+    },
+    {
+     "id": "fx1_humanizer_vowel2",
+     "name": "VOWEL2",
+     "address": "60 00 03 32",
+     "bytes": 1,
+     "min": 0,
+     "max": 4,
+     "step": 1,
+     "values": [
+      "a",
+      "e",
+      "i",
+      "o",
+      "u"
+     ]
+    },
+    {
+     "id": "fx1_humanizer_rate",
+     "name": "RATE",
+     "address": "60 00 03 34",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_humanizer_depth",
+     "name": "DEPTH",
+     "address": "60 00 03 35",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_humanizer_level",
+     "name": "LEVEL",
+     "address": "60 00 03 37",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_humanizer_sens",
+     "name": "SENS",
+     "address": "60 00 03 33",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_humanizer_manual",
+     "name": "MANUAL",
+     "address": "60 00 03 36",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "CHORUS": [
+    {
+     "id": "fx1_2x2_chorus_low_rate",
+     "name": "LOW RATE",
+     "address": "60 00 03 3A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_2x2_chorus_low_depth",
+     "name": "LOW DEPTH",
+     "address": "60 00 03 3B",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_2x2_chorus_low_pre_delay",
+     "name": "LOW PRE DELAY",
+     "address": "60 00 03 3C",
+     "bytes": 1,
+     "min": 0,
+     "max": 80,
+     "step": 1
+    },
+    {
+     "id": "fx1_2x2_chorus_low_level",
+     "name": "LOW LEVEL",
+     "address": "60 00 03 3D",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_2x2_chorus_direct_level",
+     "name": "DIRECT MIX",
+     "address": "60 00 03 42",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_2x2_chorus_high_rate",
+     "name": "HIGH RATE",
+     "address": "60 00 03 3E",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_2x2_chorus_high_depth",
+     "name": "HIGH DEPTH",
+     "address": "60 00 03 3F",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_2x2_chorus_high_pre_delay",
+     "name": "HIGH PRE DELAY",
+     "address": "60 00 03 40",
+     "bytes": 1,
+     "min": 0,
+     "max": 80,
+     "step": 1
+    },
+    {
+     "id": "fx1_2x2_chorus_high_level",
+     "name": "HIGH LEVEL",
+     "address": "60 00 03 41",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_2x2_chorus_xover_freq",
+     "name": "XOVER FREQUENCY",
+     "address": "60 00 03 39",
+     "bytes": 1,
+     "min": 0,
+     "max": 16,
+     "step": 1,
+     "values": [
+      "100Hz",
+      "125Hz",
+      "160Hz",
+      "200Hz",
+      "250Hz",
+      "315Hz",
+      "400Hz",
+      "500Hz",
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz"
+     ]
+    }
+   ],
+   "SUB DELAY": [
+    {
+     "id": "fx1_sub_delay_time",
+     "name": "DELAY TIME",
+     "address": "60 00 03 44",
+     "bytes": 2,
+     "min": 1,
+     "max": 1000,
+     "step": 1
+    },
+    {
+     "id": "fx1_sub_delay_f_back",
+     "name": "FEEDBACK",
+     "address": "60 00 03 46",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_sub_delay_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 03 48",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    },
+    {
+     "id": "fx1_sub_delay_tap_time",
+     "name": "TAP TIME",
+     "address": "60 00 03 4A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_sub_delay_high_cut",
+     "name": "HIGH CUT",
+     "address": "60 00 03 47",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    },
+    {
+     "id": "fx1_sub_delay_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 03 49",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "PHASER 90E": [
+    {
+     "id": "fx1_phaser90e_script",
+     "name": "SCRIPT",
+     "address": "60 00 10 3D",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "OFF",
+      "ON"
+     ]
+    },
+    {
+     "id": "fx1_phaser90e_speed",
+     "name": "SPEED",
+     "address": "60 00 10 3E",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "FLANGER 117E": [
+    {
+     "id": "fx1_flanger117e_manual",
+     "name": "MANUAL",
+     "address": "60 00 10 3F",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_flanger117e_width",
+     "name": "WIDTH",
+     "address": "60 00 10 40",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_flanger117e_speed",
+     "name": "SPEED",
+     "address": "60 00 10 41",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_flanger117e_regen",
+     "name": "REGEN.",
+     "address": "60 00 10 42",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "WAH 95E": [
+    {
+     "id": "fx1_wah95e_pedal_pos",
+     "name": "PEDAL POS",
+     "address": "60 00 10 68",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_wah95e_pedal_min",
+     "name": "PEDAL MIN",
+     "address": "60 00 10 69",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_wah95e_pedal_max",
+     "name": "PEDAL MAX",
+     "address": "60 00 10 6A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_wah95e_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 10 6B",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_wah95e_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 10 6C",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "DC-30": [
+    {
+     "id": "fx1_dc30_chorus_intensity",
+     "name": "CHORUS INTENSITY",
+     "address": "60 00 10 6F",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_dc30_echo_repeat_rate",
+     "name": "ECHO REPEAT RATE",
+     "address": "60 00 10 70",
+     "bytes": 2,
+     "min": 40,
+     "max": 600,
+     "step": 1
+    },
+    {
+     "id": "fx1_dc30_echo_intensity",
+     "name": "ECHO INTENSITY",
+     "address": "60 00 10 72",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_dc30_echo_volume",
+     "name": "ECHO VOLUME",
+     "address": "60 00 10 73",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_dc30_input_volume",
+     "name": "INPUT VOLUME",
+     "address": "60 00 10 6E",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_dc30_tone",
+     "name": "TONE",
+     "address": "60 00 10 74",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_dc30_output",
+     "name": "OUTPUT",
+     "address": "60 00 10 75",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "D+E",
+      "D/E"
+     ]
+    }
+   ],
+   "HEAVY OCTAVE": [
+    {
+     "id": "fx1_heavy_oct_1oct_level",
+     "name": "1OCT LEVEL",
+     "address": "60 00 11 17",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_heavy_oct_2oct_level",
+     "name": "2OCT LEVEL",
+     "address": "60 00 11 18",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx1_heavy_oct_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 11 19",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ]
+  }
+ },
+ "FX2": {
+  "on_off_address": "60 00 03 4C",
+  "type_address": "60 00 03 4D",
+  "types": [
+   {
+    "val": 29,
+    "name": "CHORUS"
+   },
+   {
+    "val": 20,
+    "name": "FLANGER"
+   },
+   {
+    "val": 19,
+    "name": "PHASER"
+   },
+   {
+    "val": 23,
+    "name": "UNI-V"
+   },
+   {
+    "val": 21,
+    "name": "TREMOLO"
+   },
+   {
+    "val": 26,
+    "name": "VIBRATO"
+   },
+   {
+    "val": 22,
+    "name": "ROTARY"
+   },
+   {
+    "val": 27,
+    "name": "RING MOD"
+   },
+   {
+    "val": 10,
+    "name": "SLOW GEAR"
+   },
+   {
+    "val": 25,
+    "name": "SLICER"
+   },
+   {
+    "val": 3,
+    "name": "COMP"
+   },
+   {
+    "val": 4,
+    "name": "LIMITER"
+   },
+   {
+    "val": 0,
+    "name": "T.WAH"
+   },
+   {
+    "val": 1,
+    "name": "AUTO WAH"
+   },
+   {
+    "val": 2,
+    "name": "PEDAL WAH"
+   },
+   {
+    "val": 6,
+    "name": "GRAPHIC EQ"
+   },
+   {
+    "val": 7,
+    "name": "PARAMETRIC EQ"
+   },
+   {
+    "val": 9,
+    "name": "GUITAR SIM"
+   },
+   {
+    "val": 31,
+    "name": "AC.GUITAR SIM"
+   },
+   {
+    "val": 18,
+    "name": "AC.PROCESSOR"
+   },
+   {
+    "val": 12,
+    "name": "WAVE SYNTH"
+   },
+   {
+    "val": 14,
+    "name": "OCTAVE"
+   },
+   {
+    "val": 39,
+    "name": "HEAVY OCTAVE"
+   },
+   {
+    "val": 15,
+    "name": "PITCH SHIFTER"
+   },
+   {
+    "val": 16,
+    "name": "HARMONIST"
+   },
+   {
+    "val": 28,
+    "name": "HUMANIZER"
+   },
+   {
+    "val": 35,
+    "name": "PHASER 90E"
+   },
+   {
+    "val": 36,
+    "name": "FLANGER 117E"
+   },
+   {
+    "val": 37,
+    "name": "WAH 95E"
+   },
+   {
+    "val": 38,
+    "name": "DC-30"
+   }
+  ],
+  "params": {
+   "T.WAH": [
+    {
+     "id": "fx2_t_wah_mode",
+     "name": "MODE",
+     "address": "60 00 03 58",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "LPF",
+      "BPF"
+     ]
+    },
+    {
+     "id": "fx2_t_wah_polar",
+     "name": "POLAR",
+     "address": "60 00 03 59",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "DOWN",
+      "UP"
+     ]
+    },
+    {
+     "id": "fx2_t_wah_sens",
+     "name": "SENS",
+     "address": "60 00 03 5A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_t_wah_freq",
+     "name": "FREQ",
+     "address": "60 00 03 5B",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_t_wah_peak",
+     "name": "PEAK",
+     "address": "60 00 03 5C",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_t_wah_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 03 5E",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_t_wah_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 03 5D",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "AUTO WAH": [
+    {
+     "id": "fx2_auto_wah_mode",
+     "name": "MODE",
+     "address": "60 00 03 60",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "LPF",
+      "BPF"
+     ]
+    },
+    {
+     "id": "fx2_auto_wah_rate",
+     "name": "RATE",
+     "address": "60 00 03 63",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_auto_wah_depth",
+     "name": "DEPTH",
+     "address": "60 00 03 64",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_auto_wah_freq",
+     "name": "FREQ",
+     "address": "60 00 03 61",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_auto_wah_peak",
+     "name": "PEAK",
+     "address": "60 00 03 62",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_auto_wah_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 03 66",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_auto_wah_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 03 65",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "PEDAL WAH": [
+    {
+     "id": "fx2_sub_wah_pedal_pos",
+     "name": "PEDAL POS",
+     "address": "60 00 03 69",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_sub_wah_pedal_min",
+     "name": "PEDAL MIN",
+     "address": "60 00 03 6A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_sub_wah_pedal_max",
+     "name": "PEDAL MAX",
+     "address": "60 00 03 6B",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_sub_wah_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 03 6C",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_sub_wah_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 03 6D",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "COMP": [
+    {
+     "id": "fx2_adv_comp_sustain",
+     "name": "SUSTAIN",
+     "address": "60 00 03 70",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_adv_comp_attack",
+     "name": "ATTACK",
+     "address": "60 00 03 71",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_adv_comp_tone",
+     "name": "TONE",
+     "address": "60 00 03 72",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx2_adv_comp_level",
+     "name": "LEVEL",
+     "address": "60 00 03 73",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "LIMITER": [
+    {
+     "id": "fx2_limiter_thresh",
+     "name": "THRESHOLD",
+     "address": "60 00 03 77",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_limiter_ratio",
+     "name": "RATIO",
+     "address": "60 00 03 78",
+     "bytes": 1,
+     "min": 0,
+     "max": 17,
+     "step": 1,
+     "values": [
+      "1:1",
+      "1.2:1",
+      "1.4:1",
+      "1.6:1",
+      "1.8:1",
+      "2:1",
+      "2.3:1",
+      "2.6:1",
+      "3:1",
+      "3.5:1",
+      "4:1",
+      "5:1",
+      "6:1",
+      "8:1",
+      "10:1",
+      "12:1",
+      "20:1",
+      "INF:1"
+     ]
+    },
+    {
+     "id": "fx2_limiter_attack",
+     "name": "ATTACK",
+     "address": "60 00 03 76",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_limiter_release",
+     "name": "RELEASE",
+     "address": "60 00 03 79",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_limiter_level",
+     "name": "LEVEL",
+     "address": "60 00 03 7A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "SUB OD/DS": [
+    {
+     "id": "fx2_sub_od_ds_drive",
+     "name": "DRIVE",
+     "address": "60 00 03 4F",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    },
+    {
+     "id": "fx2_sub_od_ds_bottom",
+     "name": "BOTTOM",
+     "address": "60 00 03 50",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx2_sub_od_ds_tone",
+     "name": "TONE",
+     "address": "60 00 03 51",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx2_sub_od_ds_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 03 54",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_sub_od_ds_solo_sw",
+     "name": "SOLO SW",
+     "address": "60 00 03 52",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "OFF",
+      "ON"
+     ]
+    },
+    {
+     "id": "fx2_sub_od_ds_solo_level",
+     "name": "SOLO LEVEL",
+     "address": "60 00 03 53",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_sub_od_ds_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 03 55",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "GRAPHIC EQ": [
+    {
+     "id": "fx2_graphic_eq_31hz",
+     "name": "31Hz",
+     "address": "60 00 03 7C",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx2_graphic_eq_62hz",
+     "name": "62Hz",
+     "address": "60 00 03 7D",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx2_graphic_eq_125hz",
+     "name": "125Hz",
+     "address": "60 00 03 7E",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx2_graphic_eq_250hz",
+     "name": "250Hz",
+     "address": "60 00 03 7F",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx2_graphic_eq_500hz",
+     "name": "500Hz",
+     "address": "60 00 04 00",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx2_graphic_eq_1khz",
+     "name": "1kHz",
+     "address": "60 00 04 01",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx2_graphic_eq_2khz",
+     "name": "2kHz",
+     "address": "60 00 04 02",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx2_graphic_eq_4khz",
+     "name": "4kHz",
+     "address": "60 00 04 03",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx2_graphic_eq_8khz",
+     "name": "8kHz",
+     "address": "60 00 04 04",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx2_graphic_eq_16khz",
+     "name": "16kHz",
+     "address": "60 00 04 05",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx2_graphic_eq_level",
+     "name": "LEVEL",
+     "address": "60 00 04 06",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    }
+   ],
+   "PARAMETRIC EQ": [
+    {
+     "id": "fx2_parametric_eq_low_gain",
+     "name": "LOW GAIN",
+     "address": "60 00 04 09",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx2_parametric_eq_low_mid_gain",
+     "name": "LOW-MID GAIN",
+     "address": "60 00 04 0C",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx2_parametric_eq_high_mid_gain",
+     "name": "HIGH-MID GAIN",
+     "address": "60 00 04 0F",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx2_parametric_eq_high_gain",
+     "name": "HIGH GAIN",
+     "address": "60 00 04 10",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx2_parametric_eq_level",
+     "name": "LEVEL",
+     "address": "60 00 04 12",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "fx2_parametric_eq_low_mid_freq",
+     "name": "LOW-MID FREQ",
+     "address": "60 00 04 0A",
+     "bytes": 1,
+     "min": 0,
+     "max": 27,
+     "step": 1,
+     "values": [
+      "20.0Hz",
+      "25.0Hz",
+      "31.5Hz",
+      "40.0Hz",
+      "50.0Hz",
+      "63.0Hz",
+      "80.0Hz",
+      "100Hz",
+      "125Hz",
+      "160Hz",
+      "200Hz",
+      "250Hz",
+      "315Hz",
+      "400Hz",
+      "500Hz",
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz"
+     ]
+    },
+    {
+     "id": "fx2_parametric_eq_low_mid_q",
+     "name": "LOW-MID Q",
+     "address": "60 00 04 0B",
+     "bytes": 1,
+     "min": 0,
+     "max": 5,
+     "step": 1,
+     "values": [
+      "0.5",
+      "1",
+      "2",
+      "4",
+      "8",
+      "16"
+     ]
+    },
+    {
+     "id": "fx2_parametric_eq_high_mid_freq",
+     "name": "HIGH-MID FREQ",
+     "address": "60 00 04 0D",
+     "bytes": 1,
+     "min": 0,
+     "max": 27,
+     "step": 1,
+     "values": [
+      "20.0Hz",
+      "25.0Hz",
+      "31.5Hz",
+      "40.0Hz",
+      "50.0Hz",
+      "63.0Hz",
+      "80.0Hz",
+      "100Hz",
+      "125Hz",
+      "160Hz",
+      "200Hz",
+      "250Hz",
+      "315Hz",
+      "400Hz",
+      "500Hz",
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz"
+     ]
+    },
+    {
+     "id": "fx2_parametric_eq_high_mid_q",
+     "name": "HIGH-MID Q",
+     "address": "60 00 04 0E",
+     "bytes": 1,
+     "min": 0,
+     "max": 5,
+     "step": 1,
+     "values": [
+      "0.5",
+      "1",
+      "2",
+      "4",
+      "8",
+      "16"
+     ]
+    },
+    {
+     "id": "fx2_parametric_eq_low_cut",
+     "name": "LOW CUT",
+     "address": "60 00 04 08",
+     "bytes": 1,
+     "min": 0,
+     "max": 17,
+     "step": 1,
+     "values": [
+      "FLAT",
+      "20.0Hz",
+      "25.0Hz",
+      "31.5Hz",
+      "40.0Hz",
+      "50.0Hz",
+      "63.0Hz",
+      "80.0Hz",
+      "100Hz",
+      "125Hz",
+      "160Hz",
+      "200Hz",
+      "250Hz",
+      "315Hz",
+      "400Hz",
+      "500Hz",
+      "630Hz",
+      "800Hz"
+     ]
+    },
+    {
+     "id": "fx2_parametric_eq_high_cut",
+     "name": "HIGH CUT",
+     "address": "60 00 04 11",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    }
+   ],
+   "TONE MODIFY": [
+    {
+     "id": "fx2_tone_modify_low",
+     "name": "LOW",
+     "address": "60 00 04 16",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx2_tone_modify_high",
+     "name": "HIGH",
+     "address": "60 00 04 17",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx2_tone_modify_reso",
+     "name": "RESONANCE",
+     "address": "60 00 04 15",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_tone_modify_level",
+     "name": "LEVEL",
+     "address": "60 00 04 18",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "GUITAR SIM": [
+    {
+     "id": "fx2_guitar_sim_low",
+     "name": "LOW",
+     "address": "60 00 04 1B",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx2_guitar_sim_high",
+     "name": "HIGH",
+     "address": "60 00 04 1C",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx2_guitar_sim_body",
+     "name": "BODY",
+     "address": "60 00 04 1E",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_guitar_sim_level",
+     "name": "LEVEL",
+     "address": "60 00 04 1D",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "AC.GUITAR SIM": [
+    {
+     "id": "fx2_acsim_body",
+     "name": "BODY",
+     "address": "60 00 10 20",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_acsim_low",
+     "name": "LOW",
+     "address": "60 00 10 21",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx2_acsim_high",
+     "name": "HIGH",
+     "address": "60 00 10 1F",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx2_acsim_level",
+     "name": "LEVEL",
+     "address": "60 00 10 23",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "SLOW GEAR": [
+    {
+     "id": "fx2_slow_gear_sens",
+     "name": "SENS",
+     "address": "60 00 04 20",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_slow_gear_rise_time",
+     "name": "RISE TIME",
+     "address": "60 00 04 21",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_slow_gear_level",
+     "name": "LEVEL",
+     "address": "60 00 04 22",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "DEFRETTER": [
+    {
+     "id": "fx2_defretter_sens",
+     "name": "SENS",
+     "address": "60 00 04 25",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_defretter_depth",
+     "name": "DEPTH",
+     "address": "60 00 04 27",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_defretter_tone",
+     "name": "TONE",
+     "address": "60 00 04 24",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx2_defretter_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 04 29",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_defretter_attack",
+     "name": "ATTACK",
+     "address": "60 00 04 26",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_defretter_reso",
+     "name": "RESONANCE",
+     "address": "60 00 04 28",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_defretter_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 04 2A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "WAVE SYNTH": [
+    {
+     "id": "fx2_wave_synth_cutoff",
+     "name": "CUTOFF",
+     "address": "60 00 04 2D",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_wave_synth_reso",
+     "name": "RESONANCE",
+     "address": "60 00 04 2E",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_wave_synth_synth_level",
+     "name": "SYNTH LEVEL",
+     "address": "60 00 04 32",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_wave_synth_filter_sens",
+     "name": "FILTER SENS",
+     "address": "60 00 04 2F",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_wave_synth_filter_decay",
+     "name": "FILTER DECAY",
+     "address": "60 00 04 30",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_wave_synth_filter_depth",
+     "name": "FILTER DEPTH",
+     "address": "60 00 04 31",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_wave_synth_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 04 33",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "SITAR SIM": [
+    {
+     "id": "fx2_sitar_sim_sens",
+     "name": "SENS",
+     "address": "60 00 04 36",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_sitar_sim_depth",
+     "name": "DEPTH",
+     "address": "60 00 04 37",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_sitar_sim_tone",
+     "name": "TONE",
+     "address": "60 00 04 35",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx2_sitar_sim_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 04 3A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_sitar_sim_reso",
+     "name": "RESO",
+     "address": "60 00 04 38",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_sitar_sim_buzz",
+     "name": "BUZZ",
+     "address": "60 00 04 39",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_sitar_sim_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 04 3B",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "OCTAVE": [
+    {
+     "id": "fx2_octave_range",
+     "name": "RANGE",
+     "address": "60 00 04 3D",
+     "bytes": 1,
+     "min": 0,
+     "max": 3,
+     "step": 1,
+     "values": [
+      "RANGE1",
+      "RANGE2",
+      "RANGE3",
+      "RANGE4"
+     ]
+    },
+    {
+     "id": "fx2_octave_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 04 3E",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_octave_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 04 3F",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "PITCH SHIFTER": [
+    {
+     "id": "fx2_pitch_shifter_ps1pitch",
+     "name": "PS1:PITCH",
+     "address": "60 00 04 43",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_pitch_shifter_ps1level",
+     "name": "PS1:LEVEL",
+     "address": "60 00 04 47",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_pitch_shifter_ps2pitch",
+     "name": "PS2:PITCH",
+     "address": "60 00 04 49",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_pitch_shifter_ps2level",
+     "name": "PS2:LEVEL",
+     "address": "60 00 04 4D",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_pitch_shifter_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 04 4F",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_pitch_shifter_ps1mode",
+     "name": "PS1:MODE",
+     "address": "60 00 04 42",
+     "bytes": 1,
+     "min": 0,
+     "max": 3,
+     "step": 1,
+     "values": [
+      "FAST",
+      "MEDIUM",
+      "SLOW",
+      "MONO"
+     ]
+    },
+    {
+     "id": "fx2_pitch_shifter_ps1fine",
+     "name": "PS1:FINE",
+     "address": "60 00 04 44",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx2_pitch_shifter_ps1pre_dly",
+     "name": "PS1:PRE DELAY",
+     "address": "60 00 04 45",
+     "bytes": 2,
+     "min": 0,
+     "max": 300,
+     "step": 1
+    },
+    {
+     "id": "fx2_pitch_shifter_ps1f_back",
+     "name": "PS1:FEEDBACK",
+     "address": "60 00 04 4E",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_pitch_shifter_ps2mode",
+     "name": "PS2:MODE",
+     "address": "60 00 04 48",
+     "bytes": 1,
+     "min": 0,
+     "max": 3,
+     "step": 1,
+     "values": [
+      "FAST",
+      "MEDIUM",
+      "SLOW",
+      "MONO"
+     ]
+    },
+    {
+     "id": "fx2_pitch_shifter_ps2fine",
+     "name": "PS2:FINE",
+     "address": "60 00 04 4A",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx2_pitch_shifter_ps2pre_dly",
+     "name": "PS2:PRE DELAY",
+     "address": "60 00 04 4B",
+     "bytes": 2,
+     "min": 0,
+     "max": 300,
+     "step": 1
+    }
+   ],
+   "HARMONIST": [
+    {
+     "id": "fx2_harmonist_hr1harm",
+     "name": "HR1:HARMONY",
+     "address": "60 00 04 52",
+     "bytes": 1,
+     "min": 0,
+     "max": 29,
+     "step": 1,
+     "values": [
+      "-2oct",
+      "-14th",
+      "-13th",
+      "-12th",
+      "-11th",
+      "-10th",
+      "-9th",
+      "-1oct",
+      "-7th",
+      "-6th",
+      "-5th",
+      "-4th",
+      "-3rd",
+      "-2nd",
+      "UNISON",
+      "+2nd",
+      "+3rd",
+      "+4th",
+      "+5th",
+      "+6th",
+      "+7th",
+      "+1oct",
+      "+9th",
+      "+10th",
+      "+11th",
+      "+12th",
+      "+13th",
+      "+14th",
+      "+2oct",
+      "USER"
+     ]
+    },
+    {
+     "id": "fx2_harmonist_hr2harm",
+     "name": "HR2:HARMONY",
+     "address": "60 00 04 56",
+     "bytes": 1,
+     "min": 0,
+     "max": 29,
+     "step": 1,
+     "values": [
+      "-2oct",
+      "-14th",
+      "-13th",
+      "-12th",
+      "-11th",
+      "-10th",
+      "-9th",
+      "-1oct",
+      "-7th",
+      "-6th",
+      "-5th",
+      "-4th",
+      "-3rd",
+      "-2nd",
+      "UNISON",
+      "+2nd",
+      "+3rd",
+      "+4th",
+      "+5th",
+      "+6th",
+      "+7th",
+      "+1oct",
+      "+9th",
+      "+10th",
+      "+11th",
+      "+12th",
+      "+13th",
+      "+14th",
+      "+2oct",
+      "USER"
+     ]
+    },
+    {
+     "id": "master_key",
+     "name": "MASTER KEY",
+     "address": "60 00 07 18",
+     "bytes": 1,
+     "min": 0,
+     "max": 11,
+     "step": 1,
+     "values": [
+      "C(Am)",
+      "Db(Bbm)",
+      "D(Bm)",
+      "Eb(Cm)",
+      "E(C#m)",
+      "F(Dm)",
+      "F#(D#m)",
+      "G(Em)",
+      "Ab(Fm)",
+      "A(F#m)",
+      "Bb(Gm)",
+      "B(G#m)"
+     ]
+    },
+    {
+     "id": "fx2_harmonist_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 04 5B",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr1pre_dly",
+     "name": "HR1:PRE DELAY",
+     "address": "60 00 04 53",
+     "bytes": 2,
+     "min": 0,
+     "max": 300,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr1f_back",
+     "name": "HR1:FEEDBACK",
+     "address": "60 00 04 5A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr1level",
+     "name": "HR1:LEVEL",
+     "address": "60 00 04 55",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr2pre_dly",
+     "name": "HR2:PRE DELAY",
+     "address": "60 00 04 57",
+     "bytes": 2,
+     "min": 0,
+     "max": 300,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr2level",
+     "name": "HR2:LEVEL",
+     "address": "60 00 04 59",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr1c",
+     "name": "HR1:C",
+     "address": "60 00 04 5C",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr1db",
+     "name": "HR1:Db",
+     "address": "60 00 04 5D",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr1d",
+     "name": "HR1:D",
+     "address": "60 00 04 5E",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr1eb",
+     "name": "HR1:Eb",
+     "address": "60 00 04 5F",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr1e",
+     "name": "HR1:E",
+     "address": "60 00 04 60",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr1f",
+     "name": "HR1:F",
+     "address": "60 00 04 61",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr1f_s",
+     "name": "HR1:F#",
+     "address": "60 00 04 62",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr1g",
+     "name": "HR1:G",
+     "address": "60 00 04 63",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr1ab",
+     "name": "HR1:Ab",
+     "address": "60 00 04 64",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr1a",
+     "name": "HR1:A",
+     "address": "60 00 04 65",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr1bb",
+     "name": "HR1:Bb",
+     "address": "60 00 04 66",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr1b",
+     "name": "HR1:B",
+     "address": "60 00 04 67",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr2c",
+     "name": "HR2:C",
+     "address": "60 00 04 68",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr2db",
+     "name": "HR2:Db",
+     "address": "60 00 04 69",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr2d",
+     "name": "HR2:D",
+     "address": "60 00 04 6A",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr2eb",
+     "name": "HR2:Eb",
+     "address": "60 00 04 6B",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr2e",
+     "name": "HR2:E",
+     "address": "60 00 04 6C",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr2f",
+     "name": "HR2:F",
+     "address": "60 00 04 6D",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr2f_s",
+     "name": "HR2:F#",
+     "address": "60 00 04 6E",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr2g",
+     "name": "HR2:G",
+     "address": "60 00 04 6F",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr2ab",
+     "name": "HR2:Ab",
+     "address": "60 00 04 70",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr2a",
+     "name": "HR2:A",
+     "address": "60 00 04 71",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr2bb",
+     "name": "HR2:Bb",
+     "address": "60 00 04 72",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "fx2_harmonist_hr2b",
+     "name": "HR2:B",
+     "address": "60 00 04 73",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    }
+   ],
+   "OVERTONE": [
+    {
+     "id": "prm_fx2_overtone_upper_level",
+     "name": "UPPER LEVEL",
+     "address": "60 00 10 39",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "prm_fx2_overtone_lower_level",
+     "name": "LOWER LEVEL",
+     "address": "60 00 10 3A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "prm_fx2_overtone_direct_level",
+     "name": "DIRECT MIX",
+     "address": "60 00 10 3B",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "prm_fx2_overtone_detune",
+     "name": "DETUNE",
+     "address": "60 00 10 37",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "prm_fx2_overtone_tone",
+     "name": "TONE",
+     "address": "60 00 10 38",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    }
+   ],
+   "SOUND HOLD": [
+    {
+     "id": "fx2_sound_hold_hold",
+     "name": "HOLD",
+     "address": "60 00 04 75",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "OFF",
+      "ON"
+     ]
+    },
+    {
+     "id": "fx2_sound_hold_rise_time",
+     "name": "RISE TIME",
+     "address": "60 00 04 76",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_sound_hold_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 04 77",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    }
+   ],
+   "AC.PROCESSOR": [
+    {
+     "id": "fx2_ac_processor_bass",
+     "name": "BASS",
+     "address": "60 00 04 7A",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx2_ac_processor_middle",
+     "name": "MIDDLE",
+     "address": "60 00 04 7B",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx2_ac_processor_treble",
+     "name": "TREBLE",
+     "address": "60 00 04 7D",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx2_ac_processor_presence",
+     "name": "PRESENCE",
+     "address": "60 00 04 7E",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "fx2_ac_processor_level",
+     "name": "LEVEL",
+     "address": "60 00 04 7F",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_ac_processor_middle_freq",
+     "name": "MIDDLE FREQ",
+     "address": "60 00 04 7C",
+     "bytes": 1,
+     "min": 0,
+     "max": 27,
+     "step": 1,
+     "values": [
+      "20.0Hz",
+      "25.0Hz",
+      "31.5Hz",
+      "40.0Hz",
+      "50.0Hz",
+      "63.0Hz",
+      "80.0Hz",
+      "100Hz",
+      "125Hz",
+      "160Hz",
+      "200Hz",
+      "250Hz",
+      "315Hz",
+      "400Hz",
+      "500Hz",
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz"
+     ]
+    }
+   ],
+   "PHASER": [
+    {
+     "id": "fx2_phaser_rate",
+     "name": "RATE",
+     "address": "60 00 05 02",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_phaser_depth",
+     "name": "DEPTH",
+     "address": "60 00 05 03",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_phaser_reso",
+     "name": "RESO",
+     "address": "60 00 05 05",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_phaser_manual",
+     "name": "MANUAL",
+     "address": "60 00 05 04",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_phaser_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 05 07",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_phaser_step_rate",
+     "name": "STEP RATE",
+     "address": "60 00 05 06",
+     "bytes": 1,
+     "min": 0,
+     "max": 101,
+     "step": 1
+    },
+    {
+     "id": "fx2_phaser_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 05 08",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "FLANGER": [
+    {
+     "id": "fx2_flanger_rate",
+     "name": "RATE",
+     "address": "60 00 05 0A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_flanger_depth",
+     "name": "DEPTH",
+     "address": "60 00 05 0B",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_flanger_reso",
+     "name": "RESO",
+     "address": "60 00 05 0D",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_flanger_manual",
+     "name": "MANUAL",
+     "address": "60 00 05 0C",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_flanger_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 05 10",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_flanger_low_cut",
+     "name": "LOW CUT",
+     "address": "60 00 05 0F",
+     "bytes": 1,
+     "min": 0,
+     "max": 10,
+     "step": 1,
+     "values": [
+      "FLAT",
+      "55Hz",
+      "110Hz",
+      "165Hz",
+      "200Hz",
+      "280Hz",
+      "340Hz",
+      "400Hz",
+      "500Hz",
+      "630Hz",
+      "800Hz"
+     ]
+    },
+    {
+     "id": "fx2_flanger_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 05 11",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "TREMOLO": [
+    {
+     "id": "fx2_tremolo_wave_shape",
+     "name": "WAVE SHAPE",
+     "address": "60 00 05 13",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_tremolo_rate",
+     "name": "RATE",
+     "address": "60 00 05 14",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_tremolo_depth",
+     "name": "DEPTH",
+     "address": "60 00 05 15",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_tremolo_level",
+     "name": "LEVEL",
+     "address": "60 00 05 16",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "ROTARY": [
+    {
+     "id": "fx2_rotary_rate_fast",
+     "name": "RATE",
+     "address": "60 00 05 1A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_rotary_depth",
+     "name": "DEPTH",
+     "address": "60 00 05 1D",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_rotary_level",
+     "name": "LEVEL",
+     "address": "60 00 05 1E",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "UNI-V": [
+    {
+     "id": "fx2_uni_v_rate",
+     "name": "RATE",
+     "address": "60 00 05 20",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_uni_v_depth",
+     "name": "DEPTH",
+     "address": "60 00 05 21",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_uni_v_level",
+     "name": "LEVEL",
+     "address": "60 00 05 22",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "PAN": [
+    {
+     "id": "fx2_pan_wave_shape",
+     "name": "WAVE SHAPE",
+     "address": "60 00 05 26",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_pan_rate",
+     "name": "RATE",
+     "address": "60 00 05 27",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_pan_pos",
+     "name": "POSITION",
+     "address": "60 00 05 25",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1,
+     "values": [
+      "L100",
+      "L98",
+      "L96",
+      "L94",
+      "L92",
+      "L90",
+      "L88",
+      "L86",
+      "L84",
+      "L82",
+      "L80",
+      "L78",
+      "L76",
+      "L74",
+      "L72",
+      "L70",
+      "L68",
+      "L66",
+      "L64",
+      "L62",
+      "L60",
+      "L58",
+      "L56",
+      "L54",
+      "L52",
+      "L50",
+      "L48",
+      "L46",
+      "L44",
+      "L42",
+      "L40",
+      "L38",
+      "L36",
+      "L34",
+      "L32",
+      "L30",
+      "L28",
+      "L26",
+      "L24",
+      "L22",
+      "L20",
+      "L18",
+      "L16",
+      "L14",
+      "L12",
+      "L10",
+      "L8",
+      "L6",
+      "L4",
+      "L2",
+      "CENTER",
+      "R2",
+      "R4",
+      "R6",
+      "R8",
+      "R10",
+      "R12",
+      "R14",
+      "R16",
+      "R18",
+      "R20",
+      "R22",
+      "R24",
+      "R26",
+      "R28",
+      "R30",
+      "R32",
+      "R34",
+      "R36",
+      "R38",
+      "R40",
+      "R42",
+      "R44",
+      "R46",
+      "R48",
+      "R50",
+      "R52",
+      "R54",
+      "R56",
+      "R58",
+      "R60",
+      "R62",
+      "R64",
+      "R66",
+      "R68",
+      "R70",
+      "R72",
+      "R74",
+      "R76",
+      "R78",
+      "R80",
+      "R82",
+      "R84",
+      "R86",
+      "R88",
+      "R90",
+      "R92",
+      "R94",
+      "R96",
+      "R98",
+      "R100"
+     ]
+    },
+    {
+     "id": "fx2_pan_depth",
+     "name": "DEPTH",
+     "address": "60 00 05 28",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_pan_level",
+     "name": "LEVEL",
+     "address": "60 00 05 29",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "SLICER": [
+    {
+     "id": "fx2_slicer_pattern",
+     "name": "PATTERN",
+     "address": "60 00 05 2B",
+     "bytes": 1,
+     "min": 0,
+     "max": 19,
+     "step": 1,
+     "values": [
+      "P1",
+      "P2",
+      "P3",
+      "P4",
+      "P5",
+      "P6",
+      "P7",
+      "P8",
+      "P9",
+      "P10",
+      "P11",
+      "P12",
+      "P13",
+      "P14",
+      "P15",
+      "P16",
+      "P17",
+      "P18",
+      "P19",
+      "P20"
+     ]
+    },
+    {
+     "id": "fx2_slicer_rate",
+     "name": "RATE",
+     "address": "60 00 05 2C",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_slicer_trigger_sens",
+     "name": "TRIGGER SENS",
+     "address": "60 00 05 2D",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_slicer_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 05 2E",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_slicer_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 05 2F",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "VIBRATO": [
+    {
+     "id": "fx2_vibrato_rate",
+     "name": "RATE",
+     "address": "60 00 05 31",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_vibrato_depth",
+     "name": "DEPTH",
+     "address": "60 00 05 32",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_vibrato_level",
+     "name": "LEVEL",
+     "address": "60 00 05 35",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "RING MOD": [
+    {
+     "id": "fx2_ring_mod_freq",
+     "name": "FREQUENCY",
+     "address": "60 00 05 38",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_ring_mod_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 05 39",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_ring_mod_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 05 3A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "HUMANIZER": [
+    {
+     "id": "fx2_humanizer_vowel1",
+     "name": "VOWEL1",
+     "address": "60 00 05 3D",
+     "bytes": 1,
+     "min": 0,
+     "max": 4,
+     "step": 1,
+     "values": [
+      "a",
+      "e",
+      "i",
+      "o",
+      "u"
+     ]
+    },
+    {
+     "id": "fx2_humanizer_vowel2",
+     "name": "VOWEL2",
+     "address": "60 00 05 3E",
+     "bytes": 1,
+     "min": 0,
+     "max": 4,
+     "step": 1,
+     "values": [
+      "a",
+      "e",
+      "i",
+      "o",
+      "u"
+     ]
+    },
+    {
+     "id": "fx2_humanizer_rate",
+     "name": "RATE",
+     "address": "60 00 05 40",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_humanizer_depth",
+     "name": "DEPTH",
+     "address": "60 00 05 41",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_humanizer_level",
+     "name": "LEVEL",
+     "address": "60 00 05 43",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_humanizer_sens",
+     "name": "SENS",
+     "address": "60 00 05 3F",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_humanizer_manual",
+     "name": "MANUAL",
+     "address": "60 00 05 42",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "CHORUS": [
+    {
+     "id": "fx2_2x2_chorus_low_rate",
+     "name": "LOW RATE",
+     "address": "60 00 05 46",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_2x2_chorus_low_depth",
+     "name": "LOW DEPTH",
+     "address": "60 00 05 47",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_2x2_chorus_low_pre_delay",
+     "name": "LOW PRE DELAY",
+     "address": "60 00 05 48",
+     "bytes": 1,
+     "min": 0,
+     "max": 80,
+     "step": 1
+    },
+    {
+     "id": "fx2_2x2_chorus_low_level",
+     "name": "LOW LEVEL",
+     "address": "60 00 05 49",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_2x2_chorus_direct_level",
+     "name": "DIRECT MIX",
+     "address": "60 00 05 4E",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_2x2_chorus_high_rate",
+     "name": "HIGH RATE",
+     "address": "60 00 05 4A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_2x2_chorus_high_depth",
+     "name": "HIGH DEPTH",
+     "address": "60 00 05 4B",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_2x2_chorus_high_pre_delay",
+     "name": "HIGH PRE DELAY",
+     "address": "60 00 05 4C",
+     "bytes": 1,
+     "min": 0,
+     "max": 80,
+     "step": 1
+    },
+    {
+     "id": "fx2_2x2_chorus_high_level",
+     "name": "HIGH LEVEL",
+     "address": "60 00 05 4D",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_2x2_chorus_xover_freq",
+     "name": "XOVER FREQUENCY",
+     "address": "60 00 05 45",
+     "bytes": 1,
+     "min": 0,
+     "max": 16,
+     "step": 1,
+     "values": [
+      "100Hz",
+      "125Hz",
+      "160Hz",
+      "200Hz",
+      "250Hz",
+      "315Hz",
+      "400Hz",
+      "500Hz",
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz"
+     ]
+    }
+   ],
+   "SUB DELAY": [
+    {
+     "id": "fx2_sub_delay_time",
+     "name": "DELAY TIME",
+     "address": "60 00 05 50",
+     "bytes": 2,
+     "min": 1,
+     "max": 1000,
+     "step": 1
+    },
+    {
+     "id": "fx2_sub_delay_f_back",
+     "name": "FEEDBACK",
+     "address": "60 00 05 52",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_sub_delay_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 05 54",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    },
+    {
+     "id": "fx2_sub_delay_tap_time",
+     "name": "TAP TIME",
+     "address": "60 00 05 56",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_sub_delay_high_cut",
+     "name": "HIGH CUT",
+     "address": "60 00 05 53",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    },
+    {
+     "id": "fx2_sub_delay_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 05 55",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "TERA ECHO": [
+    {
+     "id": "prm_fx2_teraecho_time",
+     "name": "S.TIME",
+     "address": "60 00 10 30",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "prm_fx2_teraecho_feedback",
+     "name": "FEEDBACK",
+     "address": "60 00 10 31",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "prm_fx2_teraecho_tone",
+     "name": "TONE",
+     "address": "60 00 10 32",
+     "bytes": 1,
+     "min": -50,
+     "max": 50,
+     "step": 1
+    },
+    {
+     "id": "prm_fx2_teraecho_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 10 33",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "prm_fx2_teraecho_hold",
+     "name": "HOLD",
+     "address": "60 00 10 35",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "OFF",
+      "ON"
+     ]
+    },
+    {
+     "id": "prm_fx2_teraecho_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 10 34",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "PHASER 90E": [
+    {
+     "id": "fx2_phaser90e_script",
+     "name": "SCRIPT",
+     "address": "60 00 10 43",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "OFF",
+      "ON"
+     ]
+    },
+    {
+     "id": "fx2_phaser90e_speed",
+     "name": "SPEED",
+     "address": "60 00 10 44",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "FLANGER 117E": [
+    {
+     "id": "fx2_flanger117e_manual",
+     "name": "MANUAL",
+     "address": "60 00 10 45",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_flanger117e_width",
+     "name": "WIDTH",
+     "address": "60 00 10 46",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_flanger117e_speed",
+     "name": "SPEED",
+     "address": "60 00 10 47",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_flanger117e_regen",
+     "name": "REGEN.",
+     "address": "60 00 10 48",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "WAH 95E": [
+    {
+     "id": "fx2_wah95e_pedal_pos",
+     "name": "PEDAL POS",
+     "address": "60 00 10 76",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_wah95e_pedal_min",
+     "name": "PEDAL MIN",
+     "address": "60 00 10 77",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_wah95e_pedal_max",
+     "name": "PEDAL MAX",
+     "address": "60 00 10 78",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_wah95e_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 10 79",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_wah95e_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 10 7A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "DC-30": [
+    {
+     "id": "fx2_dc30_chorus_intensity",
+     "name": "CHORUS INTENSITY",
+     "address": "60 00 10 7D",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_dc30_echo_repeat_rate",
+     "name": "ECHO REPEAT RATE",
+     "address": "60 00 10 7E",
+     "bytes": 2,
+     "min": 40,
+     "max": 600,
+     "step": 1
+    },
+    {
+     "id": "fx2_dc30_echo_intensity",
+     "name": "ECHO INTENSITY",
+     "address": "60 00 11 00",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_dc30_echo_volume",
+     "name": "ECHO VOLUME",
+     "address": "60 00 11 01",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_dc30_input_volume",
+     "name": "INPUT VOLUME",
+     "address": "60 00 10 7C",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_dc30_tone",
+     "name": "TONE",
+     "address": "60 00 11 02",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_dc30_output",
+     "name": "OUTPUT",
+     "address": "60 00 11 03",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "D+E",
+      "D/E"
+     ]
+    }
+   ],
+   "HEAVY OCTAVE": [
+    {
+     "id": "fx2_heavy_oct_1oct_level",
+     "name": "1OCT LEVEL",
+     "address": "60 00 11 1A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_heavy_oct_2oct_level",
+     "name": "2OCT LEVEL",
+     "address": "60 00 11 1B",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "fx2_heavy_oct_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 11 1C",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ]
+  }
+ },
+ "DELAY": {
+  "on_off_address": "60 00 05 60",
+  "type_address": "60 00 05 61",
+  "types": [
+   {
+    "val": 0,
+    "name": "DIGITAL"
+   },
+   {
+    "val": 1,
+    "name": "PAN"
+   },
+   {
+    "val": 2,
+    "name": "STEREO"
+   },
+   {
+    "val": 7,
+    "name": "ANALOG"
+   },
+   {
+    "val": 8,
+    "name": "TAPE ECHO"
+   },
+   {
+    "val": 6,
+    "name": "REVERSE"
+   },
+   {
+    "val": 9,
+    "name": "MODULATE"
+   },
+   {
+    "val": 10,
+    "name": "SDE-3000"
+   }
+  ],
+  "params": {
+   "DEFAULT": [
+    {
+     "id": "delay_delay_time",
+     "name": "DELAY TIME",
+     "address": "60 00 05 62",
+     "bytes": 2,
+     "min": 1,
+     "max": 2000,
+     "step": 1
+    },
+    {
+     "id": "delay_f_back",
+     "name": "FEEDBACK",
+     "address": "60 00 05 64",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay_high_cut",
+     "name": "HIGH CUT",
+     "address": "60 00 05 65",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    },
+    {
+     "id": "delay_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 05 66",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    },
+    {
+     "id": "delay_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 05 67",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "PAN": [
+    {
+     "id": "delay_delay_time",
+     "name": "DELAY TIME",
+     "address": "60 00 05 62",
+     "bytes": 2,
+     "min": 1,
+     "max": 2000,
+     "step": 1
+    },
+    {
+     "id": "delay_f_back",
+     "name": "FEEDBACK",
+     "address": "60 00 05 64",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay_high_cut",
+     "name": "HIGH CUT",
+     "address": "60 00 05 65",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    },
+    {
+     "id": "delay_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 05 66",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    },
+    {
+     "id": "delay_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 05 67",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay_tap_time",
+     "name": "TAP TIME",
+     "address": "60 00 05 68",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "DUAL-S": [
+    {
+     "id": "delay_d1_time",
+     "name": "D1:TIME",
+     "address": "60 00 05 69",
+     "bytes": 2,
+     "min": 1,
+     "max": 1000,
+     "step": 1
+    },
+    {
+     "id": "delay_d1_f_back",
+     "name": "D1:FEEDBACK",
+     "address": "60 00 05 6B",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay_d1_hi_cut",
+     "name": "D1:HI CUT",
+     "address": "60 00 05 6C",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    },
+    {
+     "id": "delay_d1_level",
+     "name": "D1:LEVEL",
+     "address": "60 00 05 6D",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    },
+    {
+     "id": "delay_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 05 67",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay_d2_time",
+     "name": "D2:TIME",
+     "address": "60 00 05 6E",
+     "bytes": 2,
+     "min": 1,
+     "max": 1000,
+     "step": 1
+    },
+    {
+     "id": "delay_d2_f_back",
+     "name": "D2:FEEDBACK",
+     "address": "60 00 05 70",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay_d2_hi_cut",
+     "name": "D2:HI CUT",
+     "address": "60 00 05 71",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    },
+    {
+     "id": "delay_d2_level",
+     "name": "D2:LEVEL",
+     "address": "60 00 05 72",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    }
+   ],
+   "DUAL-P": [
+    {
+     "id": "delay_d1_time",
+     "name": "D1:TIME",
+     "address": "60 00 05 69",
+     "bytes": 2,
+     "min": 1,
+     "max": 1000,
+     "step": 1
+    },
+    {
+     "id": "delay_d1_f_back",
+     "name": "D1:FEEDBACK",
+     "address": "60 00 05 6B",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay_d1_hi_cut",
+     "name": "D1:HI CUT",
+     "address": "60 00 05 6C",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    },
+    {
+     "id": "delay_d1_level",
+     "name": "D1:LEVEL",
+     "address": "60 00 05 6D",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    },
+    {
+     "id": "delay_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 05 67",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay_d2_time",
+     "name": "D2:TIME",
+     "address": "60 00 05 6E",
+     "bytes": 2,
+     "min": 1,
+     "max": 1000,
+     "step": 1
+    },
+    {
+     "id": "delay_d2_f_back",
+     "name": "D2:FEEDBACK",
+     "address": "60 00 05 70",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay_d2_hi_cut",
+     "name": "D2:HI CUT",
+     "address": "60 00 05 71",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    },
+    {
+     "id": "delay_d2_level",
+     "name": "D2:LEVEL",
+     "address": "60 00 05 72",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    }
+   ],
+   "DUAL-L/R": [
+    {
+     "id": "delay_d1_time",
+     "name": "D1:TIME",
+     "address": "60 00 05 69",
+     "bytes": 2,
+     "min": 1,
+     "max": 1000,
+     "step": 1
+    },
+    {
+     "id": "delay_d1_f_back",
+     "name": "D1:FEEDBACK",
+     "address": "60 00 05 6B",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay_d1_hi_cut",
+     "name": "D1:HI CUT",
+     "address": "60 00 05 6C",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    },
+    {
+     "id": "delay_d1_level",
+     "name": "D1:LEVEL",
+     "address": "60 00 05 6D",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    },
+    {
+     "id": "delay_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 05 67",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay_d2_time",
+     "name": "D2:TIME",
+     "address": "60 00 05 6E",
+     "bytes": 2,
+     "min": 1,
+     "max": 1000,
+     "step": 1
+    },
+    {
+     "id": "delay_d2_f_back",
+     "name": "D2:FEEDBACK",
+     "address": "60 00 05 70",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay_d2_hi_cut",
+     "name": "D2:HI CUT",
+     "address": "60 00 05 71",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    },
+    {
+     "id": "delay_d2_level",
+     "name": "D2:LEVEL",
+     "address": "60 00 05 72",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    }
+   ],
+   "MODULATE": [
+    {
+     "id": "delay_delay_time",
+     "name": "DELAY TIME",
+     "address": "60 00 05 62",
+     "bytes": 2,
+     "min": 1,
+     "max": 2000,
+     "step": 1
+    },
+    {
+     "id": "delay_f_back",
+     "name": "FEEDBACK",
+     "address": "60 00 05 64",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay_high_cut",
+     "name": "HIGH CUT",
+     "address": "60 00 05 65",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    },
+    {
+     "id": "delay_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 05 66",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    },
+    {
+     "id": "delay_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 05 67",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay_mod_rate",
+     "name": "MOD RATE",
+     "address": "60 00 05 73",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay_mod_depth",
+     "name": "MOD DEPTH",
+     "address": "60 00 05 74",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "SDE-3000": [
+    {
+     "id": "delay_delay_time",
+     "name": "DELAY TIME",
+     "address": "60 00 05 62",
+     "bytes": 2,
+     "min": 1,
+     "max": 2000,
+     "step": 1
+    },
+    {
+     "id": "delay_f_back",
+     "name": "FEEDBACK",
+     "address": "60 00 05 64",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 05 66",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    },
+    {
+     "id": "delay_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 05 67",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay_vtg_mod_sw",
+     "name": "MOD SW",
+     "address": "60 00 10 4D",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "OFF",
+      "ON"
+     ]
+    },
+    {
+     "id": "delay_mod_rate",
+     "name": "MOD RATE",
+     "address": "60 00 05 73",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay_mod_depth",
+     "name": "MOD DEPTH",
+     "address": "60 00 05 74",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay_vtg_filter",
+     "name": "FILTER",
+     "address": "60 00 10 4A",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "OFF",
+      "ON"
+     ]
+    },
+    {
+     "id": "delay_vtg_lpf",
+     "name": "RANGE",
+     "address": "60 00 10 49",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "8kHz",
+      "17kHz"
+     ]
+    },
+    {
+     "id": "delay_vtg_effect_phase",
+     "name": "DELAY PHASE",
+     "address": "60 00 10 4C",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "NORMAL",
+      "INVERSE"
+     ]
+    },
+    {
+     "id": "delay_vtg_feedback_phase",
+     "name": "FEEDBACK PHASE",
+     "address": "60 00 10 4B",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "NORMAL",
+      "INVERSE"
+     ]
+    }
+   ]
+  }
+ },
+ "DELAY2": {
+  "on_off_address": "60 00 10 4E",
+  "type_address": "60 00 10 4F",
+  "types": [
+   {
+    "val": 0,
+    "name": "DIGITAL"
+   },
+   {
+    "val": 1,
+    "name": "PAN"
+   },
+   {
+    "val": 2,
+    "name": "STEREO"
+   },
+   {
+    "val": 7,
+    "name": "ANALOG"
+   },
+   {
+    "val": 8,
+    "name": "TAPE ECHO"
+   },
+   {
+    "val": 6,
+    "name": "REVERSE"
+   },
+   {
+    "val": 9,
+    "name": "MODULATE"
+   },
+   {
+    "val": 10,
+    "name": "SDE-3000"
+   }
+  ],
+  "params": {
+   "DEFAULT": [
+    {
+     "id": "delay2_delay_time",
+     "name": "DELAY TIME",
+     "address": "60 00 10 50",
+     "bytes": 2,
+     "min": 1,
+     "max": 2000,
+     "step": 1
+    },
+    {
+     "id": "delay2_f_back",
+     "name": "FEEDBACK",
+     "address": "60 00 10 52",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay2_high_cut",
+     "name": "HIGH CUT",
+     "address": "60 00 10 53",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    },
+    {
+     "id": "delay2_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 10 54",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    },
+    {
+     "id": "delay2_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 10 55",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "PAN": [
+    {
+     "id": "delay2_delay_time",
+     "name": "DELAY TIME",
+     "address": "60 00 10 50",
+     "bytes": 2,
+     "min": 1,
+     "max": 2000,
+     "step": 1
+    },
+    {
+     "id": "delay2_f_back",
+     "name": "FEEDBACK",
+     "address": "60 00 10 52",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay2_high_cut",
+     "name": "HIGH CUT",
+     "address": "60 00 10 53",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    },
+    {
+     "id": "delay2_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 10 54",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    },
+    {
+     "id": "delay2_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 10 55",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay2_tap_time",
+     "name": "TAP TIME",
+     "address": "60 00 10 56",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "DUAL-S": [
+    {
+     "id": "delay2_d1_time",
+     "name": "D1:TIME",
+     "address": "60 00 10 57",
+     "bytes": 2,
+     "min": 1,
+     "max": 1000,
+     "step": 1
+    },
+    {
+     "id": "delay2_d1_f_back",
+     "name": "D1:FEEDBACK",
+     "address": "60 00 10 59",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay2_d1_hi_cut",
+     "name": "D1:HI CUT",
+     "address": "60 00 10 5A",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    },
+    {
+     "id": "delay2_d1_level",
+     "name": "D1:LEVEL",
+     "address": "60 00 10 5B",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    },
+    {
+     "id": "delay2_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 10 55",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay2_d2_time",
+     "name": "D2:TIME",
+     "address": "60 00 10 5C",
+     "bytes": 2,
+     "min": 1,
+     "max": 1000,
+     "step": 1
+    },
+    {
+     "id": "delay2_d2_f_back",
+     "name": "D2:FEEDBACK",
+     "address": "60 00 10 5E",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay2_d2_hi_cut",
+     "name": "D2:HI CUT",
+     "address": "60 00 10 5F",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    },
+    {
+     "id": "delay2_d2_level",
+     "name": "D2:LEVEL",
+     "address": "60 00 10 60",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    }
+   ],
+   "DUAL-P": [
+    {
+     "id": "delay2_d1_time",
+     "name": "D1:TIME",
+     "address": "60 00 10 57",
+     "bytes": 2,
+     "min": 1,
+     "max": 1000,
+     "step": 1
+    },
+    {
+     "id": "delay2_d1_f_back",
+     "name": "D1:FEEDBACK",
+     "address": "60 00 10 59",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay2_d1_hi_cut",
+     "name": "D1:HI CUT",
+     "address": "60 00 10 5A",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    },
+    {
+     "id": "delay2_d1_level",
+     "name": "D1:LEVEL",
+     "address": "60 00 10 5B",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    },
+    {
+     "id": "delay2_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 10 55",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay2_d2_time",
+     "name": "D2:TIME",
+     "address": "60 00 10 5C",
+     "bytes": 2,
+     "min": 1,
+     "max": 1000,
+     "step": 1
+    },
+    {
+     "id": "delay2_d2_f_back",
+     "name": "D2:FEEDBACK",
+     "address": "60 00 10 5E",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay2_d2_hi_cut",
+     "name": "D2:HI CUT",
+     "address": "60 00 10 5F",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    },
+    {
+     "id": "delay2_d2_level",
+     "name": "D2:LEVEL",
+     "address": "60 00 10 60",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    }
+   ],
+   "DUAL-L/R": [
+    {
+     "id": "delay2_d1_time",
+     "name": "D1:TIME",
+     "address": "60 00 10 57",
+     "bytes": 2,
+     "min": 1,
+     "max": 1000,
+     "step": 1
+    },
+    {
+     "id": "delay2_d1_f_back",
+     "name": "D1:FEEDBACK",
+     "address": "60 00 10 59",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay2_d1_hi_cut",
+     "name": "D1:HI CUT",
+     "address": "60 00 10 5A",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    },
+    {
+     "id": "delay2_d1_level",
+     "name": "D1:LEVEL",
+     "address": "60 00 10 5B",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    },
+    {
+     "id": "delay2_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 10 55",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay2_d2_time",
+     "name": "D2:TIME",
+     "address": "60 00 10 5C",
+     "bytes": 2,
+     "min": 1,
+     "max": 1000,
+     "step": 1
+    },
+    {
+     "id": "delay2_d2_f_back",
+     "name": "D2:FEEDBACK",
+     "address": "60 00 10 5E",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay2_d2_hi_cut",
+     "name": "D2:HI CUT",
+     "address": "60 00 10 5F",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    },
+    {
+     "id": "delay2_d2_level",
+     "name": "D2:LEVEL",
+     "address": "60 00 10 60",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    }
+   ],
+   "MODULATE": [
+    {
+     "id": "delay2_delay_time",
+     "name": "DELAY TIME",
+     "address": "60 00 10 50",
+     "bytes": 2,
+     "min": 1,
+     "max": 2000,
+     "step": 1
+    },
+    {
+     "id": "delay2_f_back",
+     "name": "FEEDBACK",
+     "address": "60 00 10 52",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay2_high_cut",
+     "name": "HIGH CUT",
+     "address": "60 00 10 53",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    },
+    {
+     "id": "delay2_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 10 54",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    },
+    {
+     "id": "delay2_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 10 55",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay2_mod_rate",
+     "name": "MOD RATE",
+     "address": "60 00 10 61",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay2_mod_depth",
+     "name": "MOD DEPTH",
+     "address": "60 00 10 62",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "SDE-3000": [
+    {
+     "id": "delay2_delay_time",
+     "name": "DELAY TIME",
+     "address": "60 00 10 50",
+     "bytes": 2,
+     "min": 1,
+     "max": 2000,
+     "step": 1
+    },
+    {
+     "id": "delay2_f_back",
+     "name": "FEEDBACK",
+     "address": "60 00 10 52",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay2_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 10 54",
+     "bytes": 1,
+     "min": 0,
+     "max": 120,
+     "step": 1
+    },
+    {
+     "id": "delay2_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 10 55",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay2_vtg_mod_sw",
+     "name": "MOD SW",
+     "address": "60 00 10 67",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "OFF",
+      "ON"
+     ]
+    },
+    {
+     "id": "delay2_mod_rate",
+     "name": "MOD RATE",
+     "address": "60 00 10 61",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay2_mod_depth",
+     "name": "MOD DEPTH",
+     "address": "60 00 10 62",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay2_vtg_filter",
+     "name": "FILTER",
+     "address": "60 00 10 64",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "OFF",
+      "ON"
+     ]
+    },
+    {
+     "id": "delay2_vtg_lpf",
+     "name": "RANGE",
+     "address": "60 00 10 63",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "8kHz",
+      "17kHz"
+     ]
+    },
+    {
+     "id": "delay2_vtg_effect_phase",
+     "name": "DELAY PHASE",
+     "address": "60 00 10 66",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "NORMAL",
+      "INVERSE"
+     ]
+    },
+    {
+     "id": "delay2_vtg_feedback_phase",
+     "name": "FEEDBACK PHASE",
+     "address": "60 00 10 65",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "NORMAL",
+      "INVERSE"
+     ]
+    }
+   ]
+  }
+ },
+ "CHORUS": {
+  "on_off_address": "60 00 06 00",
+  "type_address": "60 00 06 01",
+  "types": [
+   {
+    "val": 0,
+    "name": "MONO"
+   },
+   {
+    "val": 1,
+    "name": "STEREO1"
+   },
+   {
+    "val": 2,
+    "name": "STEREO2"
+   }
+  ],
+  "params": {
+   "DEFAULT": [
+    {
+     "id": "chorus_rate",
+     "name": "RATE",
+     "address": "60 00 06 02",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "chorus_depth",
+     "name": "DEPTH",
+     "address": "60 00 06 03",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "chorus_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 06 07",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "chorus_direct_level",
+     "name": "DIRECT MIX",
+     "address": "60 00 06 08",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "chorus_pre_delay",
+     "name": "PRE DELAY",
+     "address": "60 00 06 04",
+     "bytes": 1,
+     "min": 0,
+     "max": 80,
+     "step": 1
+    },
+    {
+     "id": "chorus_low_cut",
+     "name": "LOW CUT",
+     "address": "60 00 06 05",
+     "bytes": 1,
+     "min": 0,
+     "max": 17,
+     "step": 1,
+     "values": [
+      "FLAT",
+      "20.0Hz",
+      "25.0Hz",
+      "31.5Hz",
+      "40.0Hz",
+      "50.0Hz",
+      "63.0Hz",
+      "80.0Hz",
+      "100Hz",
+      "125Hz",
+      "160Hz",
+      "200Hz",
+      "250Hz",
+      "315Hz",
+      "400Hz",
+      "500Hz",
+      "630Hz",
+      "800Hz"
+     ]
+    },
+    {
+     "id": "chorus_high_cut",
+     "name": "HIGH CUT",
+     "address": "60 00 06 06",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    }
+   ]
+  }
+ },
+ "REVERB": {
+  "on_off_address": "60 00 06 10",
+  "type_address": "60 00 06 11",
+  "types": [
+   {
+    "val": 4,
+    "name": "PLATE"
+   },
+   {
+    "val": 1,
+    "name": "ROOM"
+   },
+   {
+    "val": 3,
+    "name": "HALL"
+   },
+   {
+    "val": 5,
+    "name": "SPRING"
+   },
+   {
+    "val": 6,
+    "name": "MODULATE"
+   }
+  ],
+  "params": {
+   "DEFAULT": [
+    {
+     "id": "reverb_time",
+     "name": "REVERB TIME",
+     "address": "60 00 06 12",
+     "bytes": 1,
+     "min": 0,
+     "max": 99,
+     "step": 1
+    },
+    {
+     "id": "reverb_pre_delay",
+     "name": "PRE DELAY",
+     "address": "60 00 06 13",
+     "bytes": 2,
+     "min": 0,
+     "max": 500,
+     "step": 1
+    },
+    {
+     "id": "reverb_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 06 18",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "reverb_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 06 19",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "reverb_low_cut",
+     "name": "LOW CUT",
+     "address": "60 00 06 15",
+     "bytes": 1,
+     "min": 0,
+     "max": 17,
+     "step": 1,
+     "values": [
+      "FLAT",
+      "20.0Hz",
+      "25.0Hz",
+      "31.5Hz",
+      "40.0Hz",
+      "50.0Hz",
+      "63.0Hz",
+      "80.0Hz",
+      "100Hz",
+      "125Hz",
+      "160Hz",
+      "200Hz",
+      "250Hz",
+      "315Hz",
+      "400Hz",
+      "500Hz",
+      "630Hz",
+      "800Hz"
+     ]
+    },
+    {
+     "id": "reverb_high_cut",
+     "name": "HIGH CUT",
+     "address": "60 00 06 16",
+     "bytes": 1,
+     "min": 0,
+     "max": 14,
+     "step": 1,
+     "values": [
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz",
+      "12.5kHz",
+      "FLAT"
+     ]
+    },
+    {
+     "id": "reverb_density",
+     "name": "DENSITY",
+     "address": "60 00 06 17",
+     "bytes": 1,
+     "min": 0,
+     "max": 10,
+     "step": 1
+    },
+    {
+     "id": "reverb_spring_sens",
+     "name": "SPRING SENS",
+     "address": "60 00 06 1A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ]
+  }
+ },
+ "PEDAL_FX": {
+  "on_off_address": "60 00 06 20",
+  "type_address": "60 00 11 11",
+  "types": [
+   {
+    "val": 0,
+    "name": "PEDAL WAH"
+   },
+   {
+    "val": 1,
+    "name": "PEDAL BEND"
+   },
+   {
+    "val": 2,
+    "name": "WAH 95E"
+   }
+  ],
+  "params": {
+   "DEFAULT": [
+    {
+     "id": "pedal_fx_wah_position",
+     "name": "PEDAL POS",
+     "address": "60 00 06 27",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "pedal_fx_wah_pedal_min",
+     "name": "PEDAL MIN",
+     "address": "60 00 06 28",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "pedal_fx_wah_pedal_max",
+     "name": "PEDAL MAX",
+     "address": "60 00 06 29",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "pedal_fx_wah_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 06 2A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "pedal_fx_wah_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 06 2B",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "pedal_fx_position",
+     "name": "POSITION",
+     "address": "60 00 11 10",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "INPUT",
+      "POST AMP"
+     ]
+    }
+   ],
+   "PEDAL BEND": [
+    {
+     "id": "pedal_fx_pedal_bend_position",
+     "name": "PEDAL POS",
+     "address": "60 00 06 23",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "pedal_fx_pedal_bend_pitch",
+     "name": "PITCH",
+     "address": "60 00 06 22",
+     "bytes": 1,
+     "min": -24,
+     "max": 24,
+     "step": 1
+    },
+    {
+     "id": "pedal_fx_pedal_bend_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 06 24",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "pedal_fx_pedal_bend_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 06 25",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "pedal_fx_position",
+     "name": "POSITION",
+     "address": "60 00 11 10",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "INPUT",
+      "POST AMP"
+     ]
+    }
+   ],
+   "WAH 95E": [
+    {
+     "id": "pedal_fx_evh95_position",
+     "name": "PEDAL POS",
+     "address": "60 00 11 12",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "pedal_fx_evh95_pedal_min",
+     "name": "PEDAL MIN",
+     "address": "60 00 11 13",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "pedal_fx_evh95_pedal_max",
+     "name": "PEDAL MAX",
+     "address": "60 00 11 14",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "pedal_fx_evh95_effect_level",
+     "name": "EFFECT LEVEL",
+     "address": "60 00 11 15",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "pedal_fx_evh95_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 11 16",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "pedal_fx_position",
+     "name": "POSITION",
+     "address": "60 00 11 10",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "INPUT",
+      "POST AMP"
+     ]
+    }
+   ]
+  }
+ },
+ "FOOT_VOLUME": {
+  "on_off_address": null,
+  "type_address": null,
+  "types": null,
+  "params": {
+   "DEFAULT": [
+    {
+     "id": "foot_volume_volume_min",
+     "name": "VOLUME MIN",
+     "address": "60 00 06 31",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "foot_volume_volume_max",
+     "name": "VOLUME MAX",
+     "address": "60 00 06 32",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "foot_volume_volume_curve",
+     "name": "VOLUME CURVE",
+     "address": "60 00 06 30",
+     "bytes": 1,
+     "min": 0,
+     "max": 3,
+     "step": 1,
+     "values": [
+      "SLOW 1",
+      "SLOW 2",
+      "NORMAL",
+      "FAST"
+     ]
+    },
+    {
+     "id": "foot_volume_level",
+     "name": "LEVEL",
+     "address": "60 00 06 33",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ]
+  }
+ },
+ "DIVIDER": {
+  "on_off_address": null,
+  "type_address": "60 00 06 40",
+  "types": null,
+  "params": {
+   "DEFAULT": [
+    {
+     "id": "divider_mode",
+     "name": "MODE",
+     "address": "60 00 06 40",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "SINGLE",
+      "DUAL"
+     ]
+    },
+    {
+     "id": "divider_ch_select",
+     "name": "CH SELECT",
+     "address": "60 00 06 41",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "Ch A",
+      "Ch B"
+     ]
+    },
+    {
+     "id": "divider_ch_a_dynamic",
+     "name": "Ch A DYNAMIC",
+     "address": "60 00 06 42",
+     "bytes": 1,
+     "min": 0,
+     "max": 2,
+     "step": 1,
+     "values": [
+      "OFF",
+      "POLAR +",
+      "POLAR -"
+     ]
+    },
+    {
+     "id": "divider_ch_a_dynamic_sens",
+     "name": "Ch A DYNAMIC SENS",
+     "address": "60 00 06 43",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "divider_ch_a_filter",
+     "name": "Ch A FILTER",
+     "address": "60 00 06 44",
+     "bytes": 1,
+     "min": 0,
+     "max": 2,
+     "step": 1,
+     "values": [
+      "OFF",
+      "LPF",
+      "HPF"
+     ]
+    },
+    {
+     "id": "divider_ch_a_cutoff_freq",
+     "name": "Ch A CUTOFF FREQUENCY",
+     "address": "60 00 06 45",
+     "bytes": 1,
+     "min": 0,
+     "max": 16,
+     "step": 1,
+     "values": [
+      "100Hz",
+      "125Hz",
+      "160Hz",
+      "200Hz",
+      "250Hz",
+      "315Hz",
+      "400Hz",
+      "500Hz",
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz"
+     ]
+    },
+    {
+     "id": "divider_ch_b_dynamic",
+     "name": "Ch B DYNAMIC",
+     "address": "60 00 06 46",
+     "bytes": 1,
+     "min": 0,
+     "max": 2,
+     "step": 1,
+     "values": [
+      "OFF",
+      "POLAR +",
+      "POLAR -"
+     ]
+    },
+    {
+     "id": "divider_ch_b_dynamic_sens",
+     "name": "Ch B DYNAMIC SENS",
+     "address": "60 00 06 47",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "divider_ch_b_filter",
+     "name": "Ch B FILTER",
+     "address": "60 00 06 48",
+     "bytes": 1,
+     "min": 0,
+     "max": 2,
+     "step": 1,
+     "values": [
+      "OFF",
+      "LPF",
+      "HPF"
+     ]
+    },
+    {
+     "id": "divider_ch_b_cutoff_freq",
+     "name": "Ch B CUTOFF FREQUENCY",
+     "address": "60 00 06 49",
+     "bytes": 1,
+     "min": 0,
+     "max": 16,
+     "step": 1,
+     "values": [
+      "100Hz",
+      "125Hz",
+      "160Hz",
+      "200Hz",
+      "250Hz",
+      "315Hz",
+      "400Hz",
+      "500Hz",
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz"
+     ]
+    }
+   ]
+  }
+ },
+ "MIXER": {
+  "on_off_address": null,
+  "type_address": "60 00 06 50",
+  "types": null,
+  "params": {
+   "DEFAULT": [
+    {
+     "id": "mixer_mode",
+     "name": "MODE",
+     "address": "60 00 06 50",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "STEREO",
+      "PAN L/R"
+     ]
+    },
+    {
+     "id": "mixer_ch_a_b_balance",
+     "name": "CH A/B BALANCE",
+     "address": "60 00 06 51",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "mixer_spread",
+     "name": "SPREAD",
+     "address": "60 00 06 52",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ]
+  }
+ },
+ "SEND_RETURN": {
+  "on_off_address": "60 00 06 55",
+  "type_address": "60 00 06 56",
+  "types": null,
+  "params": {
+   "DEFAULT": [
+    {
+     "id": "send_return_position",
+     "name": "POSITION",
+     "address": "60 00 12 17",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "POST AMP",
+      "POST REV"
+     ]
+    },
+    {
+     "id": "send_return_mode",
+     "name": "MODE",
+     "address": "60 00 06 56",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "SERIES",
+      "PARALLEL"
+     ]
+    },
+    {
+     "id": "send_return_send_level",
+     "name": "SEND LEVEL",
+     "address": "60 00 06 57",
+     "bytes": 1,
+     "min": 0,
+     "max": 200,
+     "step": 2
+    },
+    {
+     "id": "send_return_return_level",
+     "name": "RETURN LEVEL",
+     "address": "60 00 06 58",
+     "bytes": 1,
+     "min": 0,
+     "max": 200,
+     "step": 2
+    }
+   ]
+  }
+ },
+ "NS1": {
+  "on_off_address": "60 00 06 63",
+  "type_address": null,
+  "types": null,
+  "params": {
+   "DEFAULT": [
+    {
+     "id": "ns1_threshold",
+     "name": "THRESH",
+     "address": "60 00 06 64",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "ns1_release",
+     "name": "RELEASE",
+     "address": "60 00 06 65",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ]
+  }
+ },
+ "NS2": {
+  "on_off_address": "60 00 06 68",
+  "type_address": null,
+  "types": null,
+  "params": {
+   "DEFAULT": [
+    {
+     "id": "ns2_threshold",
+     "name": "THRESH",
+     "address": "60 00 06 69",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "ns2_release",
+     "name": "RELEASE",
+     "address": "60 00 06 6A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "ns2_detect",
+     "name": "DETECT",
+     "address": "60 00 06 6B",
+     "bytes": 1,
+     "min": 0,
+     "max": 2,
+     "step": 1,
+     "values": [
+      "INPUT",
+      "NS INPUT",
+      "FV OUT"
+     ]
+    }
+   ]
+  }
+ },
+ "ACCEL_FX": {
+  "on_off_address": null,
+  "type_address": "60 00 06 70",
+  "types": [
+   {
+    "val": 0,
+    "name": "S-BEND"
+   },
+   {
+    "val": 1,
+    "name": "LASER BEAM"
+   },
+   {
+    "val": 2,
+    "name": "RING MOD"
+   },
+   {
+    "val": 3,
+    "name": "TWIST"
+   },
+   {
+    "val": 4,
+    "name": "WARP"
+   },
+   {
+    "val": 5,
+    "name": "FEEDBACKER"
+   }
+  ],
+  "params": {
+   "S-BEND": [
+    {
+     "id": "accel_fx_s_bend_pitch",
+     "name": "PITCH",
+     "address": "60 00 06 71",
+     "bytes": 1,
+     "min": 0,
+     "max": 6,
+     "step": 1,
+     "values": [
+      "-3oct",
+      "-2oct",
+      "-1oct",
+      "+1oct",
+      "+2oct",
+      "+3oct",
+      "+4oct"
+     ]
+    },
+    {
+     "id": "accel_fx_s_bend_rise_time",
+     "name": "RISE TIME",
+     "address": "60 00 06 72",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "accel_fx_s_bend_fall_time",
+     "name": "FALL TIME",
+     "address": "60 00 06 73",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "LASER BEAM": [
+    {
+     "id": "accel_fx_laser_beam_rate",
+     "name": "RATE",
+     "address": "60 00 06 74",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "accel_fx_laser_beam_depth",
+     "name": "DEPTH",
+     "address": "60 00 06 75",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "accel_fx_laser_beam_rise_time",
+     "name": "RISE TIME",
+     "address": "60 00 06 76",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "accel_fx_laser_beam_fall_time",
+     "name": "FALL TIME",
+     "address": "60 00 06 77",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "RING MOD": [
+    {
+     "id": "accel_fx_ring_mod_freq",
+     "name": "FREQ",
+     "address": "60 00 06 78",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "accel_fx_ring_mod_rise_time",
+     "name": "RISE TIME",
+     "address": "60 00 06 79",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "accel_fx_ring_mod_fall_time",
+     "name": "FALL TIME",
+     "address": "60 00 06 7A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "accel_fx_ring_mod_ring_level",
+     "name": "RING LEVEL",
+     "address": "60 00 06 7B",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "accel_fx_ring_mod_octave_level",
+     "name": "OCTAVE LEVEL",
+     "address": "60 00 06 7C",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "accel_fx_ring_mod_direct_mix",
+     "name": "DIRECT MIX",
+     "address": "60 00 06 7D",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "TWIST": [
+    {
+     "id": "accel_fx_twist_rise_time",
+     "name": "RISE TIME",
+     "address": "60 00 06 7F",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "accel_fx_twist_fall_time",
+     "name": "FALL TIME",
+     "address": "60 00 07 00",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "accel_fx_twist_level",
+     "name": "LEVEL",
+     "address": "60 00 06 7E",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "WARP": [
+    {
+     "id": "accel_fx_warp_rise_time",
+     "name": "RISE TIME",
+     "address": "60 00 07 02",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "accel_fx_warp_fall_time",
+     "name": "FALL TIME",
+     "address": "60 00 07 03",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "accel_fx_warp_level",
+     "name": "LEVEL",
+     "address": "60 00 07 01",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ],
+   "FEEDBACKER": [
+    {
+     "id": "accel_fx_feedbacker_depth",
+     "name": "DEPTH",
+     "address": "60 00 07 05",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "accel_fx_feedbacker_rise_time",
+     "name": "RISE TIME",
+     "address": "60 00 07 06",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "accel_fx_feedbacker_f_back_level",
+     "name": "FEEDBACK LEVEL",
+     "address": "60 00 07 08",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "accel_fx_feedbacker_vib_rate",
+     "name": "VIBRATO RATE",
+     "address": "60 00 07 0A",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "accel_fx_feedbacker_vib_depth",
+     "name": "VIBRATO DEPTH",
+     "address": "60 00 07 0B",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "accel_fx_feedbacker_octave_rise_time",
+     "name": "OCTAVE RISE TIME",
+     "address": "60 00 07 07",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "accel_fx_feedbacker_octave_f_back_level",
+     "name": "OCTAVE F BACK LEVEL",
+     "address": "60 00 07 09",
+     "bytes": 1,
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ]
+  }
+ },
+ "MASTER_SETTING": {
+  "on_off_address": null,
+  "type_address": null,
+  "types": null,
+  "params": {
+   "DEFAULT": [
+    {
+     "id": "patch_level",
+     "name": "PATCH LEVEL",
+     "address": "60 00 07 10",
+     "bytes": 1,
+     "min": 0,
+     "max": 200,
+     "step": 2
+    },
+    {
+     "id": "master_bpm",
+     "name": "MASTER BPM",
+     "address": "60 00 07 16",
+     "bytes": 2,
+     "min": 40,
+     "max": 250,
+     "step": 1
+    },
+    {
+     "id": "master_key",
+     "name": "MASTER KEY",
+     "address": "60 00 07 18",
+     "bytes": 1,
+     "min": 0,
+     "max": 11,
+     "step": 1,
+     "values": [
+      "C(Am)",
+      "Db(Bbm)",
+      "D(Bm)",
+      "Eb(Cm)",
+      "E(C#m)",
+      "F(Dm)",
+      "F#(D#m)",
+      "G(Em)",
+      "Ab(Fm)",
+      "A(F#m)",
+      "Bb(Gm)",
+      "B(G#m)"
+     ]
+    },
+    {
+     "id": "master_eq_high_gain",
+     "name": "MASTER HIGH GAIN",
+     "address": "60 00 07 15",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "master_eq_mid_gain",
+     "name": "MASTER MID GAIN",
+     "address": "60 00 07 14",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "master_eq_low_gain",
+     "name": "MASTER LOW GAIN",
+     "address": "60 00 07 11",
+     "bytes": 1,
+     "min": -20,
+     "max": 20,
+     "step": 1
+    },
+    {
+     "id": "master_eq_mid_freq",
+     "name": "MASTER MID FREQ",
+     "address": "60 00 07 12",
+     "bytes": 1,
+     "min": 0,
+     "max": 27,
+     "step": 1,
+     "values": [
+      "20.0Hz",
+      "25.0Hz",
+      "31.5Hz",
+      "40.0Hz",
+      "50.0Hz",
+      "63.0Hz",
+      "80.0Hz",
+      "100Hz",
+      "125Hz",
+      "160Hz",
+      "200Hz",
+      "250Hz",
+      "315Hz",
+      "400Hz",
+      "500Hz",
+      "630Hz",
+      "800Hz",
+      "1.00kHz",
+      "1.25kHz",
+      "1.60kHz",
+      "2.00kHz",
+      "2.50kHz",
+      "3.15kHz",
+      "4.00kHz",
+      "5.00kHz",
+      "6.30kHz",
+      "8.00kHz",
+      "10.0kHz"
+     ]
+    },
+    {
+     "id": "master_eq_mid_q",
+     "name": "MASTER MID Q",
+     "address": "60 00 07 13",
+     "bytes": 1,
+     "min": 0,
+     "max": 5,
+     "step": 1,
+     "values": [
+      "0.5",
+      "1",
+      "2",
+      "4",
+      "8",
+      "16"
+     ]
+    },
+    {
+     "id": "amp_control",
+     "name": "AMP CONTROL",
+     "address": "60 00 06 60",
+     "bytes": 1,
+     "min": 0,
+     "max": 1,
+     "step": 1,
+     "values": [
+      "OFF",
+      "ON"
+     ]
+    }
+   ]
+  }
+ }
+}

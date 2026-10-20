@@ -12,6 +12,7 @@ fully custom replacement app.
 3. [Connect sequence](notes/03-connect-sequence.md): startup handshake, timing, retries, exit, **Katana-50 slot remap**
 4. [Memory map and patches](notes/04-memory-map-and-patches.md): address areas, 28 amp models, commands, `.tsl` format
 5. [Replacement app](notes/05-replacement-app.md): what to build, what can be unlocked, hardware test plan, open questions
+6. [Effects map](notes/06-effects-map.md): every effect block, type and parameter with its address and range ([JSON](notes/effects-map.json))
 
 ## Layout
 
@@ -19,6 +20,7 @@ fully custom replacement app.
 |---|---|---|
 | `notes/` | Findings | yes |
 | `tools/extract.sh` | Rebuilds `extracted/` and `decompiled/` from `vendor/archives/` | yes |
+| `tools/build_effects_map.py` | Regenerates `notes/effects-map.json` from `decompiled/` | yes |
 | `vendor/` | Original Roland downloads (Tone Studio v4.0.0 installer + manuals, USB driver v1.0.1) | no (Roland copyright) |
 | `extracted/tone_studio_air_app/` | The unpacked Adobe AIR app (SWF, address map, presets, native extension) | no |
 | `decompiled/` | JPEXS ActionScript output: `tone_studio_as3/` (app), `rwc_ane_as3/` (native extension) | no |
