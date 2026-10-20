@@ -29,27 +29,9 @@ Everything Tone Studio does above the protocol (Tone Central downloads, telemetr
 
 **Not possible this way:** new DSP or effects, firmware changes, or USB audio routing beyond the exposed settings.
 
-## Hardware test plan (do these first)
+## Tests and open questions
 
-All of these are safe: they only touch the edit buffer, and nothing is stored until a patch-write.
-
-1. **Back up first**: read all `10 nn` user patches and the system area, and save them to disk.
-2. List ports (`amidi -l` / `aconnect -l`) and confirm `KATANA` shows up on Linux without a driver.
-3. Identity: send `F0 7E 7F 06 01 F7` and record the reply. Expect model nibble `0`.
-4. RQ1 `7F 00 00 00`. Expect `05` (what does our firmware report?).
-5. Editor mode on, turn a knob on the amp, and log what DT1s arrive.
-6. Sweep `60 00 00 51` through 0–27 on the edit buffer and listen.
-7. Try PREAMP B on and the divider/mixer modes.
-8. Editor mode off.
-
-## Open questions
-
-- [ ] Byte layout of a full patch: extract it from `TemporaryParams.getExData` (needed for `.tsl` import/export).
-- [ ] Which `00 00 …` system addresses hold the panel knob positions (`sys_knob_pos_*`)?
-- [ ] What is current-patch value `400` exactly?
-- [ ] Does the 50 MK1 honour PREAMP B / divider / mixer, or are they ignored?
-- [ ] Does Linux `snd-usb-audio` expose all 3 MIDI ports for `0582:01D8`, or does the amp need vendor mode?
-- [ ] Does a newer Tone Studio (Katana MK2 era) change the comm level or the protocol? (Model nibbles 5–7 are rejected by v4.0.0.)
+Tracked in [TODO.md](TODO.md).
 
 ## Suggested stack (not decided)
 

@@ -14,6 +14,8 @@ fully custom replacement app.
 5. [Replacement app](notes/05-replacement-app.md): what to build, what can be unlocked, hardware test plan, open questions
 6. [Effects map](notes/06-effects-map.md): every effect block, type and parameter with its address and range ([JSON](notes/effects-map.json))
 
+**Next steps:** [notes/TODO.md](notes/TODO.md): hardware tests, what we need, what's left to extract.
+
 ## Layout
 
 | Folder | Contents |
