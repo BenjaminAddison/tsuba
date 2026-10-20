@@ -58,6 +58,10 @@ On hold (2026-10-20): no footswitch or expression pedal available. MIDI PC/CC ov
 
 ## 7. Replacement app
 
+Goals and feature ideas (desktop, fast startup, shareable tone files, MCP tone crafting, frequency response graph) are in [05](05-replacement-app.md).
+
+- [ ] Test whether USB re-amping works (USB in/out mode `7F 00 06 01`), for measuring real frequency response.
+
 - [ ] Choose the stack: web app + Web MIDI vs Python prototype ([05](05-replacement-app.md)).
 - [ ] Build a minimal CLI first: connect handshake → backup/restore → set one parameter. That proves the protocol before any UI work.
 - [ ] Don't copy Tone Studio's bug: its full-patch push skips the 12 EVH95 pedal / Heavy Octave params ([06](06-effects-map.md)).

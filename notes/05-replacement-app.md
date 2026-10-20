@@ -34,7 +34,29 @@ Everything Tone Studio does above the protocol (Tone Central downloads, telemetr
 
 Tracked in [TODO.md](TODO.md).
 
-## Suggested stack (not decided)
+## What the owner wants (2026-10-20)
+
+- **A desktop app you open**, not a web page: a much better GUI than Tone Studio, **fast startup**, and **more control**
+  (everything the hardware tests unlocked: 26 amp models, free FX chain, hidden effect types, the full parametric EQ,
+  every parameter).
+- **Shareable tones that people can modify**: a readable, editable tone file with named parameters and display values,
+  not raw bytes. `tools/tone.py` + `tones/*.json` is the first prototype.
+- **An MCP server for tone crafting**: an assistant reads the amp's current tone, edits it from a plain description
+  ("warm and dreamy", "old telephone") and pushes it live, as done by hand in the 2026-10-20 session
+  (`tones/warm-dreamy.json`). Tools to expose: read tone, apply tone/params, list models and effect types with their
+  allowed values, save to a slot, back up and restore.
+- **A frequency response graph** of the current tone, updated live as parameters change.
+  - Computable: the EQ block (low/high cut, shelves, 2 parametric bands with Q), the high/low cuts of delay, reverb and
+    chorus, and the FX1/FX2 GRAPHIC/PARAMETRIC EQ types. These have known frequencies, gains and Qs and can be drawn
+    as standard filter curves.
+  - Not known: the amp models' tone stacks (BASS/MIDDLE/TREBLE/PRESENCE) and the drives. Option A: approximate them.
+    Option B (untested): **measure the real response** through USB audio (send a sweep into the amp, e.g. with the USB
+    in/out mode `7F 00 06 01` set for re-amping, and record the processed USB output).
+
+Not decided yet: the framework (fast-starting desktop options include Tauri, or a native toolkit; Electron starts
+slower) and the tone file format.
+
+## Suggested stack (earlier notes, before the owner's preferences)
 
 - **Web app + Web MIDI** (Chrome/Edge): no install, works on Linux, Windows and macOS. SysEx needs a user permission prompt.
 - Or **Python + python-rtmidi** for a quick CLI/prototype that tests the plan above.

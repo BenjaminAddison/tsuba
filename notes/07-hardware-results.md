@@ -192,6 +192,8 @@ because each intermediate state has a duplicate block. Always write the whole ch
 
 **PREAMP A: GAIN.SW `60 00 00 5A` is locked at 1 (MIDDLE)**: writing 0 (LOW) is dropped.
 
+**PREAMP A: SP TYPE `60 00 00 5D` (cab sim) is locked at 0 (OFF)**, presumably because the 50 plays through its own speaker.
+
 **CHORUS block ON `60 00 06 00` is locked at 0.** For chorus use FX1/FX2 type CHORUS (29), a 2x2 chorus with a crossover
 (`60 00 03 39`–`42` for FX1), which works.
 
