@@ -1,0 +1,35 @@
+{
+ "name": "Warm Dry Articulate",
+ "description": "Low-gain Deluxe Crunch, no time effects. Mids carry the warmth, EQ trims the boom below 80 Hz and the mud around 250 Hz, a small 1.6 kHz lift keeps the pick attack, and the top is rolled off above 8 kHz.",
+ "params": {
+  "PREAMP A: ON/OFF": "ON",
+  "PREAMP A: TYPE": "DELUXE CRUNCH",
+  "PREAMP A: GAIN": 35,
+  "PREAMP A: T-COMP": 0,
+  "PREAMP A: BASS": 40,
+  "PREAMP A: MIDDLE": 62,
+  "PREAMP A: TREBLE": 45,
+  "PREAMP A: PRESENCE": 25,
+  "PREAMP A: BRIGHT": "OFF",
+
+  "EQ: ON/OFF": "ON",
+  "EQ: LOW CUT": "80.0Hz",
+  "EQ: LOW GAIN": -2,
+  "EQ: LOW-MID FREQ": "250Hz",
+  "EQ: LOW-MID Q": "1",
+  "EQ: LOW-MID GAIN": -3,
+  "EQ: HIGH-MID FREQ": "1.60kHz",
+  "EQ: HIGH-MID Q": "1",
+  "EQ: HIGH-MID GAIN": 2,
+  "EQ: HIGH GAIN": -2,
+  "EQ: HIGH CUT": "8.00kHz",
+  "EQ: LEVEL": 0,
+
+  "OD/DS: ON/OFF": "OFF",
+  "FX1: ON/OFF": "OFF",
+  "FX2: ON/OFF": "OFF",
+  "DELAY: ON/OFF": "OFF",
+  "REVERB: ON/OFF": "OFF",
+  "CHORUS: ON/OFF": "OFF"
+ }
+}

@@ -190,6 +190,11 @@ custom chain**, not just the stored list.
 **Single-position writes are rejected** (a swap done as two single-byte writes leaves the chain unchanged), presumably
 because each intermediate state has a duplicate block. Always write the whole chain.
 
+**PREAMP A: GAIN.SW `60 00 00 5A` is locked at 1 (MIDDLE)**: writing 0 (LOW) is dropped.
+
+**CHORUS block ON `60 00 06 00` is locked at 0.** For chorus use FX1/FX2 type CHORUS (29), a 2x2 chorus with a crossover
+(`60 00 03 39`–`42` for FX1), which works.
+
 **COMP is locked:** COMP ON `60 00 00 20` stays 0 even with CMP moved onto the live path. Its other settings are stored.
 
 ### Reading while the amp is echoing
