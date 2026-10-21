@@ -1,0 +1,11 @@
+[package]
+name = "tsuba"
+version = "0.1.0"
+edition = "2021"
+description = "Tsuba: editor for the BOSS KATANA-50 MK1"
+
+[dependencies]
+katana = { path = "../katana" }
+# glow (OpenGL) starts faster than the default wgpu backend
+eframe = { version = "0.37", default-features = false, features = ["glow", "accesskit", "default_fonts", "wayland", "x11"] }
+serde_json = { version = "1", features = ["preserve_order"] }

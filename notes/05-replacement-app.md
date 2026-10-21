@@ -53,8 +53,19 @@ Tracked in [TODO.md](TODO.md).
     Option B (untested): **measure the real response** through USB audio (send a sweep into the amp, e.g. with the USB
     in/out mode `7F 00 06 01` set for re-amping, and record the processed USB output).
 
-Not decided yet: the framework (fast-starting desktop options include Tauri, or a native toolkit; Electron starts
-slower) and the tone file format.
+**Decided (2026-10-21):** Rust, with **egui** (glow/OpenGL backend for fast startup) and one codebase built natively
+for Linux and Windows (no Wine). The look follows `design/` (DESIGN.md + mockups), made for egui: flat, 1px lines,
+cut corners, fixed font instances. The MCP server is deferred. Tone files: `tones/*.json` (named parameters, display
+values); `Catalog::export` writes the amp, each live block's switch, active blocks' type and parameters, the chain and
+patch level. The app is in `app/`, the backend in `katana/`.
+
+How the app maps the design onto the amp:
+- The chain shows the live Ch A path (blocks between DIV and MXDV, 12 on stock patches). CHORUS is a locked block
+  (shown bypassed with a lock, still movable); DELAY 2 has no chain slot, so it's a second unit inside DELAY.
+- The frequency graph models the EQ block only (parametric or GE-10). Shelf corners (100 Hz / 6.3 kHz) are guesses
+  until measured; the delay/reverb filters only shape the wet signal and aren't drawn.
+- Write to amp = `7F 00 01 04`; revert = write back the bytes that differ from the stored slot.
+- Monitor's probe only reads (RQ1).
 
 ## Suggested stack (earlier notes, before the owner's preferences)
 

@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tsuba — Effects</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0B0B0A}
+a{color:#ECE8DE}a:hover{color:#FFFFFF}
+button{cursor:pointer}
+:focus-visible{outline:2px solid #EDB03E;outline-offset:2px}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 900px; box-sizing: border-box; display: flex; flex-direction: column; background: #0B0B0A; color: #ECE8DE; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.02em">
+
+<header style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap; min-height: 44px; padding: 0 16px; border-bottom: 1px solid #2A2926">
+  <div style="display: flex; align-items: flex-start; gap: 2px">
+    <span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 22px; line-height: 1; letter-spacing: -0.045em">Tsuba</span>
+    <span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 9px; line-height: 1">™</span>
+  </div>
+  <div aria-hidden="true" style="display: flex; flex-direction: column; gap: 2px; width: 20px">
+    <div style="height: 2px; background: #F2685A"></div>
+    <div style="height: 2px; background: #6F8FB8"></div>
+    <div style="height: 2px; background: #EDB03E"></div>
+    <div style="height: 2px; background: #D8C8A4"></div>
+  </div>
+  <span style="font-size: 11px; color: #A29E94">KATANA EDITOR / 0.1</span>
+  <div style="flex: 1 1 24px"></div>
+  <div style="display: flex; align-items: stretch; border: 1px solid #4A4842; height: 26px">
+    <span style="display: flex; align-items: center; padding: 0 8px; background: #ECE8DE; color: #0B0B0A; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 10px; letter-spacing: 0.06em">LINK</span>
+    <span style="display: flex; align-items: center; gap: 8px; padding: 0 10px; font-size: 11px">USB-MIDI · KATANA-50 MK1 <span aria-hidden="true" style="width: 7px; height: 7px; background: #8FB98B"></span></span>
+  </div>
+</header>
+
+<nav aria-label="Sections" style="display: flex; flex-wrap: wrap; align-items: stretch; gap: 4px; padding: 6px 16px 0; border-bottom: 1px solid #2A2926">
+  <a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 24px 0 14px; color: #A29E94; text-decoration: none; border: 1px solid #2A2926; border-bottom: 0"><span style="font-size: 10px">01</span><span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 12px; letter-spacing: 0.04em">EDITOR</span></a>
+  <a href="Effects.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 24px 0 14px; background: #ECE8DE; color: #0B0B0A; text-decoration: none; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)"><span style="font-size: 10px">02</span><span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 12px; letter-spacing: 0.04em">EFFECTS</span></a>
+  <a href="Monitor.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 24px 0 14px; color: #A29E94; text-decoration: none; border: 1px solid #2A2926; border-bottom: 0"><span style="font-size: 10px">03</span><span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 12px; letter-spacing: 0.04em">MONITOR</span></a>
+  <div style="margin-left: auto; display: flex; align-items: center; gap: 18px; padding: 0 4px; font-size: 11px; color: #8A867D">
+    <span>CHANNEL / A:CH2</span>
+    <span>Q4/2026</span>
+  </div>
+</nav>
+
+<main style="flex: 1 1 auto; display: flex; flex-direction: column; gap: 16px; padding: 16px">
+
+  <section aria-labelledby="h-chain" style="background: #4A4842; padding: 1px; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)">
+    <div style="background: #121211; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)">
+      <div style="display: flex; align-items: stretch; min-height: 30px; border-bottom: 1px solid #2A2926">
+        <h2 id="h-chain" style="margin: 0; display: flex; align-items: center; padding: 0 20px 0 10px; background: #ECE8DE; color: #0B0B0A; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 12px; letter-spacing: 0.04em; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%)">SIGNAL CHAIN</h2>
+        <div aria-hidden="true" style="width: 64px; margin-left: 4px; background: repeating-linear-gradient(-45deg, #ECE8DE 0 2px, transparent 2px 6px); clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)"></div>
+        <span style="align-self: center; padding: 0 12px; font-size: 10px; color: #8A867D">{{chainHint}}</span>
+        <span style="margin-left: auto; align-self: center; padding: 0 28px 0 8px; font-size: 10px; color: #8A867D">12 BLOCKS · IN → OUT</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px; padding: 16px 16px 14px">
+        <span aria-hidden="true" style="font-size: 10px; color: #8A867D">IN</span>
+        <div style="flex: 1 1 auto; min-width: 0; overflow-x: auto">
+          <div onDragOver="{{dragOver}}" onDrop="{{drop}}" style="position: relative; min-width: 1080px; height: 104px">
+            <div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 52px; height: 1px; background: #4A4842"></div>
+            <sc-for list="{{blocks}}" as="b" hint-placeholder-count="12">
+              <button type="button" draggable="true" onDragStart="{{b.dragStart}}" onDragEnd="{{b.dragEnd}}" onClick="{{b.pick}}" aria-pressed="{{b.selected}}" style="position: absolute; top: 0; left: calc({{b.slot}} * (100% + 6px) / 12); width: calc((100% - 66px) / 12); height: 104px; padding: 1px; border: 0; background: {{b.edge}}; color: {{b.fg}}; font: inherit; letter-spacing: 0.02em; text-align: left; opacity: {{b.op}}; transition: left 180ms ease, opacity 120ms linear; cursor: grab; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)">
+                <span style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; box-sizing: border-box; padding: 8px 9px 9px; background: {{b.fill}}; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)">
+                  <span style="display: flex; justify-content: space-between; align-items: center; padding-right: 6px; font-size: 10px; color: {{b.sub}}">
+                    <span>{{b.num}}</span>
+                    <svg width="8" height="12" viewBox="0 0 8 12" aria-hidden="true"><path d="M1 1h2v2H1zM5 1h2v2H5zM1 5h2v2H1zM5 5h2v2H5zM1 9h2v2H1zM5 9h2v2H5z" fill="{{b.sub}}"></path></svg>
+                  </span>
+                  <span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 112.5%; font-size: 12px; letter-spacing: 0.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{b.id}}</span>
+                  <span style="font-size: 10px; color: {{b.sub}}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{b.type}}</span>
+                  <span aria-hidden="true" style="display: block; height: 4px; background: {{b.bar}}"></span>
+                </span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+        <span aria-hidden="true" style="font-size: 10px; color: #8A867D">OUT</span>
+      </div>
+      <div aria-hidden="true" style="display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 0 16px 14px; font-size: 10px; color: #8A867D">
+        <span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 4px; background: #F2685A"></span>DRIVE</span>
+        <span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 4px; background: #6F8FB8"></span>MODULATION</span>
+        <span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 4px; background: #EDB03E"></span>TIME</span>
+        <span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 4px; background: #D8C8A4"></span>DYNAMICS · EQ · ROUTING</span>
+        <span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 4px; background: repeating-linear-gradient(90deg, #8A867D 0 2px, transparent 2px 4px)"></span>BYPASSED</span>
+      </div>
+    </div>
+  </section>
+
+  <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 16px">
+
+    <section aria-labelledby="h-par" style="flex: 1 1 560px; min-width: 0; background: #4A4842; padding: 1px; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)">
+      <div style="background: #121211; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)">
+        <div style="display: flex; align-items: stretch; min-height: 30px; border-bottom: 1px solid #2A2926">
+          <h2 id="h-par" style="margin: 0; display: flex; align-items: center; padding: 0 20px 0 10px; background: #ECE8DE; color: #0B0B0A; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 12px; letter-spacing: 0.04em; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%)">{{selId}}</h2>
+          <span aria-hidden="true" style="width: 30px; margin-left: 4px; background: {{selColor}}; clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)"></span>
+          <span style="align-self: center; padding: 0 12px; font-size: 10px; color: #8A867D">PARAMETERS / {{paramCount}}</span>
+          <span style="margin-left: auto; align-self: center; padding: 0 28px 0 8px; font-size: 10px; color: #8A867D">POSITION {{selPos}} / 12</span>
+        </div>
+
+        <sc-if value="{{isAmp}}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 14px; padding: 24px 16px">
+            <span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 18px">AMP SETTINGS LIVE ON THE EDITOR TAB</span>
+            <span style="font-size: 11px; color: #A29E94">Drag the AMP block to move it in the chain. Select it to edit model, gain and EQ.</span>
+            <a href="Main.dc.html" style="align-self: flex-start; display: flex; align-items: center; min-height: 44px; padding: 0 26px 0 16px; background: #ECE8DE; color: #0B0B0A; text-decoration: none; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 11px; letter-spacing: 0.04em; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)">OPEN EDITOR →</a>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{notAmp}}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-direction: column; gap: 12px; padding: 16px">
+            <div style="display: flex; flex-wrap: wrap; gap: 6px">
+              <button type="button" onClick="{{toggleOn}}" aria-pressed="{{onPressed}}" style="flex: 0 1 auto; min-height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 12px; background: transparent; border: 1px solid #4A4842; color: #ECE8DE; font: inherit">
+                <span style="width: 64px; font-size: 10px; color: #A29E94; text-align: left">{{onLabel}}</span>
+                <span style="display: flex; justify-content: {{onJustify}}; width: 34px; height: 16px; box-sizing: border-box; padding: 2px; border: 1px solid #ECE8DE"><span style="width: 12px; height: 10px; background: {{onKnob}}"></span></span>
+              </button>
+              <button type="button" onClick="{{toggleTypes}}" aria-expanded="{{typeOpenStr}}" style="flex: 1 1 220px; min-height: 44px; display: flex; align-items: stretch; gap: 12px; padding: 0 0 0 12px; background: #0B0B0A; border: 1px solid {{ddBorder}}; color: #ECE8DE; font: inherit; letter-spacing: 0.02em; text-align: left">
+                <span style="align-self: center; font-size: 10px; color: #8A867D">TYPE</span>
+                <span style="align-self: center; flex: 1 1 auto; min-width: 0; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{selType}}</span>
+                <span style="align-self: center; font-size: 10px; color: #A29E94">{{typeMeta}}</span>
+                <span aria-hidden="true" style="width: 44px; flex: 0 0 auto; display: flex; align-items: center; justify-content: center; border-left: 1px solid #4A4842; background: {{ddCapBg}}"><svg width="14" height="10" viewBox="0 0 14 10"><path d="{{chev}}" fill="none" stroke="{{ddCapFg}}" stroke-width="2"></path></svg></span>
+              </button>
+              <button type="button" onClick="{{moveL}}" aria-label="Move block earlier in chain" style="width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; padding: 0; background: transparent; border: 1px solid #4A4842; color: #ECE8DE"><svg width="10" height="12" viewBox="0 0 10 12" aria-hidden="true"><path d="M9 1L1 6l8 5z" fill="#ECE8DE"></path></svg></button>
+              <button type="button" onClick="{{moveR}}" aria-label="Move block later in chain" style="width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; padding: 0; background: transparent; border: 1px solid #4A4842; color: #ECE8DE"><svg width="10" height="12" viewBox="0 0 10 12" aria-hidden="true"><path d="M1 1l8 5-8 5z" fill="#ECE8DE"></path></svg></button>
+            </div>
+
+            <sc-if value="{{typeOpen}}" hint-placeholder-val="{{ false }}">
+              <div role="listbox" aria-label="Effect type" style="display: flex; flex-wrap: wrap; gap: 4px; padding: 10px; border: 1px solid #ECE8DE; background: #0B0B0A">
+                <sc-for list="{{types}}" as="t" hint-placeholder-count="6">
+                  <button type="button" role="option" aria-selected="{{t.pressed}}" onClick="{{t.pick}}" style="flex: 1 1 140px; min-height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 10px; background: {{t.bg}}; color: {{t.fg}}; border: 1px solid {{t.border}}; font: inherit; letter-spacing: 0.02em; text-align: left">
+                    <span style="font-size: 10px; color: {{t.sub}}">{{t.idx}}</span>
+                    <span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-stretch: 112.5%; font-size: 12px; white-space: nowrap">{{t.name}}</span>
+                  </button>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <div style="display: flex; flex-wrap: wrap; column-gap: 24px">
+              <sc-for list="{{params}}" as="p" hint-placeholder-count="10">
+                <div style="flex: 1 1 180px; min-width: 0; display: flex; flex-direction: column; gap: 4px; padding: 10px 0 8px; border-bottom: 1px solid #2A2926">
+                  <div style="display: flex; justify-content: space-between; gap: 8px; font-size: 10px"><span style="color: #A29E94">{{p.name}}</span><span>{{p.text}}</span></div>
+                  <sc-if value="{{p.isSlider}}" hint-placeholder-val="{{ true }}">
+                    <div role="img" aria-label="{{p.aria}}" style="position: relative; height: 44px">
+                      <div style="position: absolute; left: 0; right: 0; top: 21px; height: 1px; background: #4A4842"></div>
+                      <div style="position: absolute; left: 0; width: {{p.w}}; top: 20px; height: 3px; background: #ECE8DE"></div>
+                      <div style="position: absolute; left: 0; right: 0; top: 26px; height: 6px; background: repeating-linear-gradient(90deg, #4A4842 0 1px, transparent 1px 10%)"></div>
+                      <div style="position: absolute; left: calc({{p.w}} - 4px); top: 14px; width: 8px; height: 15px; background: {{accent}}"></div>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{p.isEnum}}" hint-placeholder-val="{{ false }}">
+                    <div role="group" aria-label="{{p.name}}" style="display: flex; gap: 3px">
+                      <sc-for list="{{p.opts}}" as="o" hint-placeholder-count="2">
+                        <button type="button" onClick="{{o.pick}}" aria-pressed="{{o.pressed}}" style="flex: 1 1 0; min-width: 0; min-height: 44px; padding: 0 4px; background: {{o.bg}}; color: {{o.fg}}; border: 1px solid {{o.border}}; font-family: 'Archivo', sans-serif; font-weight: 700; font-stretch: 112.5%; font-size: 11px">{{o.t}}</button>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </section>
+
+    <section aria-labelledby="h-fr" style="flex: 1 1 560px; min-width: 0; background: #4A4842; padding: 1px; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)">
+      <div style="background: #121211; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)">
+        <div style="display: flex; align-items: stretch; min-height: 30px; border-bottom: 1px solid #2A2926">
+          <h2 id="h-fr" style="margin: 0; display: flex; align-items: center; padding: 0 20px 0 10px; background: #ECE8DE; color: #0B0B0A; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 12px; letter-spacing: 0.04em; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%)">FREQUENCY RESPONSE</h2>
+          <span style="align-self: center; display: flex; align-items: center; gap: 6px; padding: 0 12px; font-size: 10px; color: #A29E94"><span aria-hidden="true" style="width: 6px; height: 6px; background: #8FB98B"></span>LIVE</span>
+          <span style="margin-left: auto; align-self: center; padding: 0 28px 0 8px; font-size: 10px; color: #8A867D">EQ + FILTERS</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px; padding: 16px">
+          <div role="group" aria-label="Bands" style="display: flex; flex-wrap: wrap; gap: 4px">
+            <sc-for list="{{bands}}" as="d" hint-placeholder-count="6">
+              <button type="button" onClick="{{d.pick}}" aria-pressed="{{d.pressed}}" style="flex: 1 1 80px; min-height: 44px; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 0 6px; background: {{d.bg}}; color: {{d.fg}}; border: 1px solid {{d.border}}; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 112.5%; font-size: 11px; white-space: nowrap"><span style="font-family: 'IBM Plex Mono', monospace; font-weight: 400; font-size: 10px">{{d.n}}</span>{{d.label}}</button>
+            </sc-for>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 4px">
+            <div style="position: relative; height: 260px; border: 1px solid #4A4842; background: #0B0B0A">
+              <svg viewBox="0 0 600 260" preserveAspectRatio="none" aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%">
+                <path d="{{grid}}" fill="none" stroke="#242320" stroke-width="1" vector-effect="non-scaling-stroke"></path>
+                <path d="M0 130H600" fill="none" stroke="#4A4842" stroke-width="1" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"></path>
+                <path d="{{c0}}" fill="none" stroke="{{k0}}" stroke-width="1.2" vector-effect="non-scaling-stroke"></path>
+                <path d="{{c1}}" fill="none" stroke="{{k1}}" stroke-width="1.2" vector-effect="non-scaling-stroke"></path>
+                <path d="{{c2}}" fill="none" stroke="{{k2}}" stroke-width="1.2" vector-effect="non-scaling-stroke"></path>
+                <path d="{{c3}}" fill="none" stroke="{{k3}}" stroke-width="1.2" vector-effect="non-scaling-stroke"></path>
+                <path d="{{c4}}" fill="none" stroke="{{k4}}" stroke-width="1.2" vector-effect="non-scaling-stroke"></path>
+                <path d="{{c5}}" fill="none" stroke="{{k5}}" stroke-width="1.2" vector-effect="non-scaling-stroke"></path>
+                <path d="{{sum}}" fill="none" stroke="{{accent}}" stroke-width="2.2" vector-effect="non-scaling-stroke"></path>
+              </svg>
+              <span style="position: absolute; left: 6px; top: 26.9%; transform: translateY(-50%); font-size: 10px; color: #8A867D">+12</span>
+              <span style="position: absolute; left: 6px; top: 50%; transform: translateY(-50%); font-size: 10px; color: #8A867D">0 DB</span>
+              <span style="position: absolute; left: 6px; top: 73.1%; transform: translateY(-50%); font-size: 10px; color: #8A867D">−12</span>
+              <sc-for list="{{handles}}" as="h" hint-placeholder-count="6">
+                <button type="button" onClick="{{h.pick}}" aria-label="{{h.aria}}" aria-pressed="{{h.pressed}}" style="position: absolute; left: calc({{h.x}} - 22px); top: calc({{h.y}} - 22px); width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; padding: 0; background: transparent; border: 0">
+                  <span style="width: 10px; height: 10px; background: {{h.fill}}; border: 1px solid {{h.ring}}"></span>
+                </button>
+              </sc-for>
+            </div>
+            <div aria-hidden="true" style="position: relative; height: 16px; font-size: 10px; color: #8A867D">
+              <sc-for list="{{fLabels}}" as="f" hint-placeholder-count="10"><span style="position: absolute; left: {{f.x}}; transform: translateX({{f.tx}})">{{f.t}}</span></sc-for>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 14px 28px; padding-top: 12px; border-top: 1px solid #2A2926">
+            <div style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 10px; color: #8A867D">BAND</span><span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 20px; line-height: 1">{{bandName}}</span></div>
+            <div style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 10px; color: #8A867D">FREQ</span><span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-stretch: 112.5%; font-size: 20px; line-height: 1">{{bandF}}</span></div>
+            <div style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 10px; color: #8A867D">GAIN</span><span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-stretch: 112.5%; font-size: 20px; line-height: 1">{{bandG}}</span></div>
+            <div style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 10px; color: #8A867D">{{bandQLabel}}</span><span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-stretch: 112.5%; font-size: 20px; line-height: 1">{{bandQ}}</span></div>
+            <span style="margin-left: auto; font-size: 10px; color: #8A867D">DRAG HANDLE · SCROLL FOR Q</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; min-height: 30px; padding: 0 16px; border-top: 1px solid #2A2926; font-size: 10px; color: #8A867D">
+  <span style="display: flex; align-items: center; gap: 6px; color: #ECE8DE"><span aria-hidden="true" style="width: 6px; height: 6px; background: #8FB98B"></span>ONLINE</span>
+  <span>BUFFER / SYNCED</span>
+  <span>DEVICE ID / 00H</span>
+  <span style="margin-left: auto">BLOCK NAMES + PARAMETERS ARE SAMPLE CONTENT</span>
+  <span>TSUBA 0.1</span>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#F2685A","options":["#F2685A","#EDB03E","#6F8FB8","#8FB98B"]},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      order: ['PEDAL FX', 'BOOSTER', 'MOD', 'AMP', 'NS', 'FX', 'EQ', 'SEND/RTN', 'FOOT VOL', 'DELAY', 'DELAY 2', 'REVERB'],
+      sel: 'DELAY', drag: null, over: null, typeOpen: false, band: 'HI-MID',
+      on: { 'PEDAL FX': false, BOOSTER: true, MOD: false, AMP: true, NS: true, FX: false, EQ: true, 'SEND/RTN': false, 'FOOT VOL': true, DELAY: true, 'DELAY 2': false, REVERB: true },
+      type: { 'PEDAL FX': 'WAH', BOOSTER: 'BLUES OD', MOD: 'CHORUS', AMP: 'CLEAN', NS: 'GATE', FX: 'TREMOLO', EQ: 'PARAMETRIC', 'SEND/RTN': 'SERIES', 'FOOT VOL': 'VOLUME', DELAY: 'TAPE ECHO', 'DELAY 2': 'DIGITAL', REVERB: 'PLATE' },
+      en: {}
+    };
+  }
+  renderVals() {
+    const accent = this.props.accent ?? '#F2685A';
+    const s = this.state;
+    const INK = '#ECE8DE';
+    const BG = '#0B0B0A';
+    const pad2 = (n) => String(n).padStart(2, '0');
+    const r1 = (n) => Math.round(n * 10) / 10;
+    const IDS = ['PEDAL FX', 'BOOSTER', 'MOD', 'AMP', 'NS', 'FX', 'EQ', 'SEND/RTN', 'FOOT VOL', 'DELAY', 'DELAY 2', 'REVERB'];
+    const CAT = { 'PEDAL FX': '#6F8FB8', BOOSTER: '#F2685A', MOD: '#6F8FB8', AMP: INK, NS: '#D8C8A4', FX: '#6F8FB8', EQ: '#D8C8A4', 'SEND/RTN': '#D8C8A4', 'FOOT VOL': '#D8C8A4', DELAY: '#EDB03E', 'DELAY 2': '#EDB03E', REVERB: '#EDB03E' };
+    const S = (name, pos, text) => ({ k: 's', name, pos, text });
+    const E = (name, opts, def) => ({ k: 'e', name, opts, def });
+    const DEF = {
+      'PEDAL FX': { types: ['WAH', 'PEDAL BEND'], params: [S('POSITION', 40, '40'), S('MIN', 0, '0'), S('MAX', 100, '100'), S('EFFECT LEVEL', 70, '70'), S('DIRECT MIX', 0, '0')] },
+      BOOSTER: { types: ['BLUES OD', 'T-SCREAM', 'CLEAN BOOST', 'OCT FUZZ', 'METAL DS'], params: [S('DRIVE', 64, '64'), S('BOTTOM', 50, '0'), S('TONE', 58, '+8'), E('SOLO', ['OFF', 'ON'], 0), S('SOLO LEVEL', 50, '50'), S('EFFECT LEVEL', 72, '72'), S('DIRECT MIX', 0, '0')] },
+      MOD: { types: ['CHORUS', 'FLANGER', 'PHASER', 'UNI-V', 'VIBRATO', 'ROTARY'], params: [S('RATE', 32, '32'), S('DEPTH', 55, '55'), S('PRE DELAY', 20, '4.0 MS'), S('LOW CUT', 0, 'FLAT'), S('HIGH CUT', 100, 'FLAT'), S('EFFECT LEVEL', 60, '60'), E('OUTPUT', ['MONO', 'STEREO'], 0)] },
+      AMP: { types: [], params: [] },
+      NS: { types: ['GATE', 'SUPPRESSOR'], params: [S('THRESHOLD', 30, '30'), S('RELEASE', 40, '40'), S('ATTENUATION', 60, '60'), S('HOLD', 20, '20'), E('DETECT', ['INPUT', 'CHAIN'], 0)] },
+      FX: { types: ['T.WAH', 'OCTAVE', 'TREMOLO', 'SLICER', 'RING MOD', 'COMP'], params: [S('RATE', 70, '70'), S('DEPTH', 80, '80'), S('WAVE SHAPE', 50, '50'), S('LEVEL', 50, '50'), E('SYNC', ['OFF', 'ON'], 0)] },
+      EQ: { types: ['PARAMETRIC', 'GRAPHIC'], params: [S('LOW CUT', 20, '80 HZ'), S('LOW GAIN', 56, '+3 DB'), S('LO-MID FREQ', 40, '400 HZ'), S('LO-MID Q', 45, '1.2'), S('LO-MID GAIN', 42, '−4 DB'), S('HI-MID FREQ', 70, '2.5 KHZ'), S('HI-MID Q', 30, '0.8'), S('HI-MID GAIN', 60, '+5 DB'), S('HIGH GAIN', 46, '−2 DB'), S('HIGH CUT', 85, '10 KHZ'), S('LEVEL', 50, '0 DB')] },
+      'SEND/RTN': { types: ['SERIES', 'PARALLEL'], params: [S('SEND LEVEL', 50, '50'), S('RETURN LEVEL', 50, '50'), S('BALANCE', 50, '50:50'), E('POSITION', ['PRE', 'POST'], 1), E('PHASE', ['NORM', 'INV'], 0)] },
+      'FOOT VOL': { types: ['VOLUME'], params: [S('LEVEL', 100, '100'), S('MIN', 0, '0'), S('MAX', 100, '100'), E('CURVE', ['SLOW', 'NORM', 'FAST'], 1), E('SOURCE', ['EXP', 'CTL'], 0)] },
+      DELAY: { types: ['DIGITAL', 'ANALOG', 'TAPE ECHO', 'MODULATE', 'REVERSE', 'PAN'], params: [S('TIME', 21, '420 MS'), S('FEEDBACK', 38, '38'), S('HIGH CUT', 70, '8.0 KHZ'), S('EFFECT LEVEL', 55, '55'), S('DIRECT MIX', 100, '100'), E('SYNC', ['OFF', 'ON'], 1), E('NOTE', ['1/8', '1/4', '1/2', '1/4D'], 1), S('MOD RATE', 20, '20'), S('MOD DEPTH', 12, '12'), S('TAPE AGE', 30, '30')] },
+      'DELAY 2': { types: ['DIGITAL', 'ANALOG', 'TAPE ECHO', 'MODULATE', 'REVERSE', 'PAN'], params: [S('TIME', 15, '300 MS'), S('FEEDBACK', 20, '20'), S('HIGH CUT', 60, '6.3 KHZ'), S('EFFECT LEVEL', 40, '40'), S('DIRECT MIX', 100, '100')] },
+      REVERB: { types: ['ROOM', 'HALL', 'PLATE', 'SPRING', 'MODULATE'], params: [S('TIME', 28, '2.8 S'), S('PRE DELAY', 20, '40 MS'), S('LOW CUT', 0, 'FLAT'), S('HIGH CUT', 63, '6.3 KHZ'), S('DENSITY', 70, '7'), S('EFFECT LEVEL', 40, '40'), S('SPRING SENS', 50, '50')] }
+    };
+
+    let preview = s.order.slice();
+    if (s.drag && s.over !== null) {
+      preview = s.order.filter((x) => x !== s.drag);
+      preview.splice(s.over, 0, s.drag);
+    }
+    const commit = () => {
+      const st = this.state;
+      if (!st.drag || st.over === null) { this.setState({ drag: null, over: null }); return; }
+      const next = st.order.filter((x) => x !== st.drag);
+      next.splice(st.over, 0, st.drag);
+      this.setState({ order: next, drag: null, over: null, sel: st.drag });
+    };
+    const blocks = IDS.map((id) => {
+      const slot = preview.indexOf(id);
+      const on = !!s.on[id];
+      const picked = id === s.sel;
+      const dragging = id === s.drag;
+      return {
+        id, slot, num: pad2(slot + 1), type: id === 'AMP' ? 'CLEAN' : s.type[id],
+        selected: picked ? 'true' : 'false',
+        op: dragging ? '0.45' : '1',
+        edge: dragging ? accent : (picked ? INK : (on ? '#4A4842' : '#2A2926')),
+        fill: picked && !dragging ? INK : (on ? '#121211' : BG),
+        fg: picked && !dragging ? BG : (on ? INK : '#8A867D'),
+        sub: picked && !dragging ? '#3A3833' : (on ? '#A29E94' : '#8A867D'),
+        bar: on ? CAT[id] : 'repeating-linear-gradient(90deg, #4A4842 0 2px, transparent 2px 5px)',
+        pick: () => this.setState({ sel: id, typeOpen: false }),
+        dragStart: (ev) => {
+          try { ev.dataTransfer.effectAllowed = 'move'; ev.dataTransfer.setData('text/plain', id); } catch (e) {}
+          const from = this.state.order.indexOf(id);
+          setTimeout(() => this.setState({ drag: id, over: from }), 0);
+        },
+        dragEnd: () => { if (this.state.drag) this.setState({ drag: null, over: null }); }
+      };
+    });
+    const dragOver = (ev) => {
+      ev.preventDefault();
+      if (!this.state.drag) return;
+      const r = ev.currentTarget.getBoundingClientRect();
+      let i = Math.floor((ev.clientX - r.left) / (r.width / 12));
+      i = Math.max(0, Math.min(11, i));
+      if (i !== this.state.over) this.setState({ over: i });
+    };
+    const drop = (ev) => { ev.preventDefault(); commit(); };
+
+    const sel = s.sel;
+    const def = DEF[sel];
+    const isAmp = sel === 'AMP';
+    const isOn = !!s.on[sel];
+    const selPos = pad2(s.order.indexOf(sel) + 1);
+    const move = (d) => () => {
+      const o = this.state.order.slice();
+      const i = o.indexOf(sel);
+      const j = i + d;
+      if (j < 0 || j > 11) return;
+      o[i] = o[j];
+      o[j] = sel;
+      this.setState({ order: o });
+    };
+
+    const curType = s.type[sel];
+    const types = def.types.map((name, i) => {
+      const on = name === curType;
+      return {
+        name, idx: pad2(i + 1), pressed: on ? 'true' : 'false',
+        bg: on ? INK : 'transparent', fg: on ? BG : INK, sub: on ? '#3A3833' : '#8A867D', border: on ? INK : '#2A2926',
+        pick: () => { const t = Object.assign({}, this.state.type); t[sel] = name; this.setState({ type: t, typeOpen: false }); }
+      };
+    });
+    const ti = def.types.indexOf(curType);
+
+    const params = def.params.map((p) => {
+      if (p.k === 's') {
+        return { name: p.name, text: p.text, isSlider: true, isEnum: false, w: p.pos + '%', aria: p.name + ' ' + p.text, opts: [] };
+      }
+      const key = sel + '/' + p.name;
+      const cur = s.en[key] ?? p.def;
+      return {
+        name: p.name, text: p.opts[cur], isSlider: false, isEnum: true, w: '0%', aria: p.name,
+        opts: p.opts.map((t, i) => {
+          const on = i === cur;
+          return {
+            t, pressed: on ? 'true' : 'false', bg: on ? INK : 'transparent', fg: on ? BG : '#A29E94', border: on ? INK : '#4A4842',
+            pick: () => { const en = Object.assign({}, this.state.en); en[key] = i; this.setState({ en }); }
+          };
+        })
+      };
+    });
+
+    const X = (f) => Math.log10(f / 20) / 3 * 600;
+    const Y = (db) => 130 - db * 5;
+    const BANDS = [
+      { id: 'LOW CUT', short: 'LC', f: 80, g: null, q: '12 DB/OCT', fn: (f) => -10 * Math.log10(1 + Math.pow(80 / f, 4)), hy: -3 },
+      { id: 'LOW', short: 'LO', f: 120, g: 3, q: 'SHELF', fn: (f) => 3 / (1 + Math.pow(f / 120, 2)) },
+      { id: 'LO-MID', short: 'LM', f: 400, g: -4, q: '1.2', fn: (f) => -4 * Math.exp(-Math.pow(Math.log2(f / 400), 2) / (2 * Math.pow(0.6 / 1.2, 2))) },
+      { id: 'HI-MID', short: 'HM', f: 2500, g: 5, q: '0.8', fn: (f) => 5 * Math.exp(-Math.pow(Math.log2(f / 2500), 2) / (2 * Math.pow(0.6 / 0.8, 2))) },
+      { id: 'HIGH', short: 'HI', f: 6000, g: -2, q: 'SHELF', fn: (f) => -2 * Math.pow(f / 6000, 2) / (1 + Math.pow(f / 6000, 2)) },
+      { id: 'HIGH CUT', short: 'HC', f: 10000, g: null, q: '12 DB/OCT', fn: (f) => -10 * Math.log10(1 + Math.pow(f / 10000, 4)), hy: -3 }
+    ];
+    const N = 240;
+    const freqs = [];
+    for (let i = 0; i <= N; i++) freqs.push(20 * Math.pow(1000, i / N));
+    const pathOf = (fn) => freqs.map((f, i) => (i ? 'L' : 'M') + r1(X(f)) + ' ' + r1(Math.max(-6, Math.min(266, Y(fn(f)))))).join('');
+    const comps = BANDS.map((b) => pathOf(b.fn));
+    const sum = pathOf((f) => BANDS.reduce((a, b) => a + b.fn(f), 0));
+    let grid = '';
+    [50, 100, 200, 500, 1000, 2000, 5000, 10000].forEach((f) => { grid += 'M' + r1(X(f)) + ' 0V260'; });
+    [-18, -12, -6, 6, 12, 18].forEach((d) => { grid += 'M0 ' + Y(d) + 'H600'; });
+    const fmtF = (f) => f >= 1000 ? (f / 1000) + ' KHZ' : f + ' HZ';
+    const bandSel = BANDS.find((b) => b.id === s.band) || BANDS[3];
+    const kc = (b) => (b.id === s.band ? INK : '#4A4842');
+    const bands = BANDS.map((b, i) => {
+      const on = b.id === s.band;
+      return { label: b.id, n: pad2(i + 1), pressed: on ? 'true' : 'false', bg: on ? INK : 'transparent', fg: on ? BG : '#A29E94', border: on ? INK : '#4A4842', pick: () => this.setState({ band: b.id }) };
+    });
+    const handles = BANDS.map((b) => {
+      const on = b.id === s.band;
+      const yDb = b.g === null ? b.hy : b.g;
+      return {
+        x: r1(X(b.f) / 6) + '%', y: r1(Y(yDb) / 2.6) + '%',
+        aria: b.id + ' ' + fmtF(b.f), pressed: on ? 'true' : 'false',
+        fill: on ? accent : BG, ring: on ? accent : INK,
+        pick: () => this.setState({ band: b.id })
+      };
+    });
+    const FL = [[20, '20'], [50, '50'], [100, '100'], [200, '200'], [500, '500'], [1000, '1K'], [2000, '2K'], [5000, '5K'], [10000, '10K'], [20000, '20K']];
+    const fLabels = FL.map(([f, t], i) => ({ t, x: r1(X(f) / 6) + '%', tx: i === 0 ? '0' : (i === FL.length - 1 ? '-100%' : '-50%') }));
+
+    return {
+      accent, blocks, dragOver, drop,
+      chainHint: s.drag ? 'DROP TO PLACE ' + s.drag + ' AT ' + pad2(s.over + 1) : 'DRAG TO REORDER · CLICK TO EDIT',
+      selId: sel, selColor: CAT[sel], selPos, isAmp, notAmp: !isAmp,
+      paramCount: pad2(def.params.length),
+      selType: curType, typeMeta: ti >= 0 ? pad2(ti + 1) + ' / ' + pad2(def.types.length) : '',
+      types, params,
+      typeOpen: s.typeOpen, typeOpenStr: s.typeOpen ? 'true' : 'false',
+      ddBorder: s.typeOpen ? INK : '#4A4842', ddCapBg: s.typeOpen ? INK : 'transparent', ddCapFg: s.typeOpen ? BG : INK,
+      chev: s.typeOpen ? 'M1 8l6-6 6 6' : 'M1 2l6 6 6-6',
+      toggleTypes: () => this.setState({ typeOpen: !this.state.typeOpen }),
+      onPressed: isOn ? 'true' : 'false', onLabel: isOn ? 'ENABLED' : 'BYPASSED',
+      onJustify: isOn ? 'flex-end' : 'flex-start', onKnob: isOn ? INK : '#4A4842',
+      toggleOn: () => { const on = Object.assign({}, this.state.on); on[sel] = !on[sel]; this.setState({ on }); },
+      moveL: move(-1), moveR: move(1),
+      grid, sum, bands, handles, fLabels,
+      c0: comps[0], c1: comps[1], c2: comps[2], c3: comps[3], c4: comps[4], c5: comps[5],
+      k0: kc(BANDS[0]), k1: kc(BANDS[1]), k2: kc(BANDS[2]), k3: kc(BANDS[3]), k4: kc(BANDS[4]), k5: kc(BANDS[5]),
+      bandName: bandSel.id, bandF: fmtF(bandSel.f),
+      bandG: bandSel.g === null ? '—' : (bandSel.g > 0 ? '+' : '−') + Math.abs(bandSel.g) + ' DB',
+      bandQLabel: bandSel.g === null ? 'SLOPE' : 'Q', bandQ: bandSel.q
+    };
+  }
+}
+</script>
+</body>
+</html>

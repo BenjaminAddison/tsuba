@@ -62,7 +62,13 @@ Goals and feature ideas (desktop, fast startup, shareable tone files, MCP tone c
 
 - [ ] Test whether USB re-amping works (USB in/out mode `7F 00 06 01`), for measuring real frequency response.
 
-- [ ] Choose the stack: web app + Web MIDI vs Python prototype ([05](05-replacement-app.md)).
-- [ ] Build a minimal CLI first: connect handshake → backup/restore → set one parameter. That proves the protocol before any UI work.
+- [x] Choose the stack: Rust + egui ([05](05-replacement-app.md)).
+- [x] Build a minimal CLI first (`katana/src/main.rs`), then the app (`app/`).
+- [ ] **First run on the amp (Windows):** `cargo run -p katana -- info`, `listen`, `apply tones/warm-dreamy.json`, `meter`;
+  then the app: connect, knob moves both ways, channel switch, write/revert, chain drag (by ear), EQ handles.
+- [ ] Check that "UNSAVED EDITS" stays off right after loading a channel (edit buffer vs stored slot byte compare).
+- [ ] Linux: MIDI port names under ALSA (`find_port` takes the first non-CTRL KATANA port) and the USB audio device name.
+- [ ] Measure the EQ's shelf corner frequencies (`katana/src/response.rs`), ideally by USB re-amping.
+- [ ] Name hidden booster type 7 (labelled LEAD DS, a guess) by ear.
 - [ ] Don't copy Tone Studio's bug: its full-patch push skips the 12 EVH95 pedal / Heavy Octave params ([06](06-effects-map.md)).
 - [ ] `tools/restore.py`: restore visible slots through the edit buffer + `7F 00 01 04` so EXP FUNC keeps its value.

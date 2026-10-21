@@ -22,6 +22,10 @@ fully custom replacement app.
 | Folder | Contents |
 |---|---|
 | `notes/` | Findings |
+| `app/` | **Tsuba**, the replacement app (Rust, egui): Editor, Effects (drag-to-reorder chain, frequency response) and Monitor screens |
+| `katana/` | Its backend: SysEx/MIDI (`amp.rs`), parameter catalog and tone files (`catalog.rs`), EQ curves (`response.rs`), USB audio meter (`audio.rs`), a test CLI (`main.rs`) |
+| `design/` | The UI design the app follows: [DESIGN.md](design/DESIGN.md) and the four mockup boards |
+| `tones/` | Shareable tone files (JSON with named parameters) |
 | `tools/extract.sh` | Rebuilds `extracted/` and `decompiled/` from `vendor/archives/` |
 | `tools/build_effects_map.py` | Regenerates `notes/effects-map.json` from `decompiled/` |
 | `tools/katana.py` | SysEx client for the amp (python-rtmidi): identity, RQ1/DT1, editor mode, logging |
@@ -30,6 +34,20 @@ fully custom replacement app.
 | `vendor/` | Original Roland downloads (Tone Studio v4.0.0 installer + manuals, USB driver v1.0.1) |
 | `extracted/tone_studio_air_app/` | The unpacked Adobe AIR app (SWF, address map, presets, native extension) |
 | `decompiled/` | JPEXS ActionScript output: `tone_studio_as3/` (app), `rwc_ane_as3/` (native extension) |
+
+## Running the app
+
+Rust 1.95+ (`rustup` on Windows; Fedora's `cargo` works on Linux). From the repo root:
+
+```
+cargo run --release -p tsuba            # the app; connects to the KATANA by itself, reconnects if unplugged
+cargo run --release -p tsuba -- --demo  # no amp: a sample patch, for UI work
+cargo run --release -p katana -- info   # the backend's test CLI (also: get, set, apply, chain, listen, meter)
+cargo test -p katana
+```
+
+Windows: close Tone Studio first (MIDI ports are exclusive). Linux needs `alsa-lib-devel` to build. The release exe
+is self-contained (fonts and parameter data are built in); it looks for `tones/` in the current folder, else next to itself.
 
 Hardware tools run from a venv: `python -m venv .venv` then `.venv\Scripts\pip install python-rtmidi` (Windows). `backups/` (your own patches) is git-ignored.
 

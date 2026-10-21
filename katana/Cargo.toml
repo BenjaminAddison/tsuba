@@ -1,0 +1,11 @@
+[package]
+name = "katana"
+version = "0.1.0"
+edition = "2021"
+description = "Backend for a BOSS KATANA-50 MK1 editor: SysEx over USB MIDI, parameter catalog, tone files"
+
+[dependencies]
+cpal = "0.18"
+midir = "0.11"
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
