@@ -750,8 +750,8 @@ pub fn patch_unit(app: &mut App, ui: &mut Ui, o: egui::Pos2, w: f32, big: bool) 
         }
     } else if big {
         // annunciators
-        let bank = if ch == "PANEL" { "" } else { &ch[..1] };
-        let chn = if ch == "PANEL" { "" } else { &ch[2..] };
+        // "A:CH1" splits into bank and channel; "PANEL" and "—" (unknown) have neither
+        let (bank, chn) = ch.split_once(':').unwrap_or(("", ""));
         let mut ax = g.left() + 14.0;
         for (t, on) in [("PANEL", ch == "PANEL"), ("A", bank == "A"), ("B", bank == "B"), ("CH1", chn == "CH1"), ("CH2", chn == "CH2"), ("EDIT", changes > 0), ("MIDI", app.online()), ("MEM", changes == 0 && app.loaded)] {
             let r = if on { vfd(p, pos2(ax, g.top() + 14.0), Align2::LEFT_CENTER, t, F::MonoB, 8.5) } else { text(p, pos2(ax, g.top() + 14.0), Align2::LEFT_CENTER, t, F::MonoB, 8.5, dim()) };
