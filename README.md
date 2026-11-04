@@ -22,12 +22,13 @@ fully custom replacement app.
 | Folder | Contents |
 |---|---|
 | `notes/` | Findings |
-| `app/` | **Tsuba**, the replacement app (Rust, egui): Editor, Effects (drag-to-reorder chain, frequency response) and Monitor screens |
+| `app/` | **Tsuba**, the replacement app (Rust, egui), in the "Outboard" rack look: Editor (patch memory, chain, preamp, EQ response, master EQ, USB level meter), Effects (drag-to-reorder chain, block settings), Control (assigns, CTL/EXP pedals, footswitches), Library (tones, preview, backups) and Monitor screens, plus a Ctrl+K command palette |
 | `katana/` | Its backend: SysEx/MIDI (`amp.rs`), parameter catalog and tone files (`catalog.rs`), EQ curves (`response.rs`), USB audio meter (`audio.rs`), a test CLI (`main.rs`) |
-| `design/` | The UI design the app follows: [DESIGN.md](design/DESIGN.md) and the four mockup boards |
+| `design/` | The UI design the app follows: [DESIGN.md](design/DESIGN.md) and the mockup boards |
 | `tones/` | Shareable tone files (JSON with named parameters) |
 | `tools/extract.sh` | Rebuilds `extracted/` and `decompiled/` from `vendor/archives/` |
 | `tools/build_effects_map.py` | Regenerates `notes/effects-map.json` from `decompiled/` |
+| `tools/build_ctl_map.py` | Regenerates `notes/ctl-map.json` (assign targets and sources, CTL/EXP functions) from `decompiled/` |
 | `tools/katana.py` | SysEx client for the amp (python-rtmidi): identity, RQ1/DT1, editor mode, logging |
 | `tools/*.py` (others) | Hardware tests and utilities: `backup.py`, `restore.py`, `listen.py`, sweeps and scans (see [07](notes/07-hardware-results.md)) |
 | `logs/` | Output of the hardware test runs |
@@ -41,7 +42,7 @@ Rust 1.95+ (`rustup` on Windows; Fedora's `cargo` works on Linux). From the repo
 
 ```
 cargo run --release -p tsuba            # the app; connects to the KATANA by itself, reconnects if unplugged
-cargo run --release -p tsuba -- --demo  # no amp: a sample patch, for UI work
+cargo run --release -p tsuba -- --demo  # no amp: a sample patch, for UI work (also --tab NAME, --palette QUERY)
 cargo run --release -p katana -- info   # the backend's test CLI (also: get, set, apply, chain, listen, meter)
 cargo test -p katana
 ```
@@ -49,7 +50,7 @@ cargo test -p katana
 Windows: close Tone Studio first (MIDI ports are exclusive). Linux needs `alsa-lib-devel` to build. The release exe
 is self-contained (fonts and parameter data are built in); it looks for `tones/` in the current folder, else next to itself.
 
-Hardware tools run from a venv: `python -m venv .venv` then `.venv\Scripts\pip install python-rtmidi` (Windows). `backups/` (your own patches) is git-ignored.
+Hardware tools run from a venv: `python -m venv .venv` then `.venv\Scripts\pip install python-rtmidi` (Windows). `backups/` (your own patches, and the app's Library › BACK UP ALL CHANNELS files) is git-ignored.
 
 The repo is private and includes the Roland downloads, the unpacked app and the decompiled code, so agents and other
 machines get everything on clone. To rebuild them from scratch: put `bts_katana_w400.zip` (Tone Studio for KATANA v4.0.0, Windows) in `vendor/archives/`, install the

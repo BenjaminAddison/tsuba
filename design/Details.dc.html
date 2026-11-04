@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Katana editor — Components and states</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Doto:wght@400..900&amp;family=JetBrains+Mono:wght@400..700&amp;display=swap">
+<style>
+body{margin:0;background:#070708}
+.ob{--led:#FFB547;--silk:#E8E4DC;--silk2:#A29D95;--silk3:#8F8A83;font-family:Archivo,'Helvetica Neue',Arial,sans-serif;color:var(--silk);-webkit-font-smoothing:antialiased}
+.led-mustard{--led:#FFB547}.led-coral{--led:#FF6B4A}.led-sage{--led:#8CFFB4}.led-steel{--led:#7FDBFF}.led-sand{--led:#FFE3B3}
+.unit{position:relative;display:flex;border-radius:3px;background:linear-gradient(180deg,#FFFFFF10 0,#FFFFFF00 14px),repeating-linear-gradient(0deg,#FFFFFF05 0 1px,#00000000 1px 2px,#00000012 2px 3px),linear-gradient(180deg,#222325,#1B1C1E);box-shadow:inset 0 1px 0 #FFFFFF1F,inset 0 -1px 0 #000000B0,0 2px 0 #000,0 10px 18px #00000090}
+.ear{flex:none;width:34px;display:flex;flex-direction:column;justify-content:space-around;align-items:center;background:repeating-linear-gradient(90deg,#FFFFFF05 0 1px,transparent 1px 3px),linear-gradient(90deg,#0000002A,#FFFFFF07 55%,#00000024)}
+.earL{border-right:1px solid #000000B8;box-shadow:1px 0 0 #FFFFFF0E}
+.earR{border-left:1px solid #000000B8;box-shadow:inset 1px 0 0 #FFFFFF0E}
+.slot{position:relative;width:18px;height:10px;border-radius:5px;background:#050506;box-shadow:inset 0 1px 2px #000,0 1px 0 #FFFFFF14}
+.screw{position:absolute;top:0;width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 36% 30%,#F2EFEA,#9A968F 50%,#3E3C39 100%);box-shadow:0 1px 1px #000000CC}
+.screw::before,.screw::after{content:'';position:absolute;left:4.3px;top:1.6px;width:1.4px;height:6.8px;border-radius:1px;background:#33302C}
+.screw::after{transform:rotate(90deg)}
+.silk{font-size:10px;font-weight:700;font-stretch:125%;letter-spacing:.2em;text-transform:uppercase;color:var(--silk);text-shadow:0 1px 0 #000000B0;line-height:1.2;white-space:nowrap}
+.silk2{font-size:9px;font-weight:600;font-stretch:118%;letter-spacing:.18em;text-transform:uppercase;color:var(--silk2);text-shadow:0 1px 0 #000000B0;line-height:1.2;white-space:nowrap}
+.note{font-size:11px;line-height:1.55;color:var(--silk2);white-space:normal}
+.mono{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+.rule{flex:1;height:1px;background:linear-gradient(90deg,#E8E4DC33,#E8E4DC14)}
+.num{padding:1px 5px;border:1px solid #E8E4DC40;border-radius:2px}
+.key{position:relative;display:grid;place-items:center;border-radius:4px;background:linear-gradient(180deg,#414245,#2C2D30);box-shadow:inset 0 1px 0 #FFFFFF22,inset 0 -1px 0 #00000070,0 2px 0 #050505,0 3px 6px #000000A8;font-size:9.5px;font-weight:700;font-stretch:115%;letter-spacing:.14em;text-transform:uppercase;color:#ECE8E0;white-space:nowrap}
+.key.hov{filter:brightness(1.12)}
+.key.dn{transform:translateY(1.5px);box-shadow:inset 0 1px 2px #00000090,0 .5px 0 #050505}
+.key.red{background:linear-gradient(180deg,#D8532F,#A63A20);color:#FFF4EA;box-shadow:inset 0 1px 0 #FFFFFF45,inset 0 -1px 0 #00000070,0 2px 0 #050505,0 3px 6px #000000A8}
+.key.amb{background:linear-gradient(180deg,color-mix(in oklab,var(--led) 92%,#FFF),color-mix(in oklab,var(--led) 78%,#5A3000));color:#1E1104;box-shadow:inset 0 1px 0 #FFFFFF66,inset 0 -1px 0 #00000050,0 2px 0 #050505,0 3px 6px #000000A8}
+.key.off{opacity:.4}
+.cap{display:inline-grid;place-items:center;min-width:18px;height:17px;padding:0 5px;box-sizing:border-box;border-radius:3px;background:linear-gradient(180deg,#3A3B3E,#28292C);box-shadow:inset 0 1px 0 #FFFFFF1C,0 1.5px 0 #050505;font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:9.5px;color:#E2DED6}
+.lw{display:inline-block;flex:none;width:12px;height:4px;border-radius:1px;background:color-mix(in oklab,var(--led) 13%,#0C0805);box-shadow:inset 0 1px 1px #000,0 1px 0 #FFFFFF10}
+.lw.on{background:linear-gradient(180deg,#FFF6E2 0,var(--led) 42%,color-mix(in oklab,var(--led) 55%,#000) 100%);box-shadow:0 0 7px 1px color-mix(in oklab,var(--led) 65%,transparent),0 0 1px var(--led)}
+.lw.redon{background:radial-gradient(circle at 40% 35%,#FFE6DC,#FF4A2A 55%,#8E1A08);box-shadow:0 0 8px 2px #FF4A2A90}
+.bezel{padding:5px;border-radius:5px;background:linear-gradient(180deg,#040404,#101011);box-shadow:inset 0 1px 0 #000,0 1px 0 #FFFFFF16}
+.glass{position:relative;overflow:hidden;border-radius:2px;background:radial-gradient(ellipse at 50% -30%,color-mix(in oklab,var(--led) 16%,transparent),transparent 62%),color-mix(in oklab,var(--led) 5%,#050302);box-shadow:inset 0 0 26px #000000E0}
+.glass::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle,color-mix(in oklab,var(--led) 9%,transparent) .7px,transparent 1.1px) 0 0/3px 3px}
+.glass::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(162deg,#FFFFFF12 0,#FFFFFF05 34%,transparent 35%)}
+.vfd{color:color-mix(in oklab,var(--led) 82%,#FFFFFF);text-shadow:0 0 7px color-mix(in oklab,var(--led) 85%,transparent),0 0 1px var(--led)}
+.knurl{position:absolute;inset:0;border-radius:50%;background:repeating-conic-gradient(#00000038 0 3deg,#FFFFFF16 3deg 6deg);-webkit-mask:radial-gradient(circle,transparent 0 83%,#000 85%);mask:radial-gradient(circle,transparent 0 83%,#000 85%)}
+.mk{position:absolute;z-index:2;display:grid;place-items:center;width:16px;height:16px;border-radius:50%;transform:translate(-50%,-50%);background:#0B0B0C;border:1px solid #E8E4DCB0;box-shadow:0 1px 3px #000,0 0 0 2px #00000060;font-size:8.5px;font-weight:800;font-stretch:110%;color:var(--silk);line-height:1}
+.mk.st{position:static;transform:none;flex:none}
+.seg{flex:none;width:7px;height:100%;border-radius:1px}
+.lvl{width:27px;animation:lv 2.4s steps(1,end) infinite}
+.pk{left:72px;animation:pk 2.4s steps(1,end) infinite}
+@keyframes lv{0%{width:27px}8.33%{width:72px}16.67%{width:45px}25%{width:153px}33.33%{width:63px}41.67%{width:36px}50%{width:90px}58.33%{width:54px}66.67%{width:18px}75%{width:99px}83.33%{width:45px}91.67%{width:27px}100%{width:27px}}
+@keyframes pk{0%{left:72px}8.33%{left:63px}16.67%{left:54px}25%{left:144px}33.33%{left:144px}41.67%{left:135px}50%{left:126px}58.33%{left:117px}66.67%{left:108px}75%{left:99px}83.33%{left:90px}91.67%{left:81px}100%{left:72px}}
+.cur{animation:bl 1.06s steps(1) infinite}
+.rec{animation:bl .7s steps(1) infinite}
+@keyframes bl{50%{opacity:.3}}
+.mi{animation:mf 1.9s infinite}
+@keyframes mf{0%,100%{opacity:.18}6%{opacity:1}14%{opacity:.18}52%{opacity:.18}57%{opacity:1}63%{opacity:.18}}
+@media (prefers-reduced-motion:reduce){.lvl,.pk,.cur,.rec,.mi{animation:none}}
+</style>
+</helmet>
+<div class="ob led-{{accent}}" style="min-height: 100vh; box-sizing: border-box; padding: 30px 32px 34px; display: flex; flex-direction: column; gap: 22px; background: linear-gradient(90deg, #040404, #0D0D0F 18%, #0D0D0F 82%, #040404)">
+<div style="display: flex; align-items: baseline; gap: 18px; padding: 0 4px">
+<span style="font-size: 26px; font-weight: 800; font-stretch: 112%; color: var(--silk)">Components &amp; states</span>
+<span class="silk2" style="letter-spacing: .12em">Outboard · sizes in px at 1× · {{accent}} lamp</span>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px">
+
+<section class="unit" aria-label="Unit anatomy" style="grid-column: span 2; flex-direction: column; gap: 16px; padding: 14px 20px 20px">
+<div style="display: flex; align-items: center; gap: 12px"><span class="silk">Unit anatomy</span><span class="rule"></span><span class="silk2 num">01</span></div>
+<div style="position: relative; padding: 24px 16px 24px">
+<svg aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 1"><path d="{{unitLines}}" fill="none" stroke="#E8E4DC8C" stroke-width="1" stroke-dasharray="2 2"></path><path d="{{unitDots}}" fill="#E8E4DC" stroke="#00000080" stroke-width=".5"></path></svg>
+<div class="unit" style="height: 112px">
+<span class="ear earL" aria-hidden="true"><sc-for list="{{scr.a}}" as="s" hint-placeholder-count="2"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+<div style="flex: 1; min-width: 0; padding: 12px 20px 14px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; align-items: center; gap: 12px"><span class="silk">Preamp A</span><span class="rule"></span><span class="silk2 num">03</span></div>
+<div style="display: flex; align-items: center; gap: 24px">
+<span style="display: flex; flex-direction: column; align-items: center; gap: 6px"><span class="lw on" aria-hidden="true"></span><span class="key dn" style="width: 62px; height: 26px">Solo</span></span>
+<span class="bezel" style="padding: 3px"><span class="glass mono vfd" style="display: flex; align-items: center; height: 22px; padding: 0 10px; font-size: 11px; white-space: nowrap"><span style="position: relative">CRUNCH · 11/26</span></span></span>
+<span aria-hidden="true" style="align-self: stretch; width: 1px; background: #00000080; box-shadow: 1px 0 0 #FFFFFF0E"></span>
+<span style="display: flex; align-items: center; gap: 10px">
+<span style="position: relative; display: block; width: {{trim.box}}px; height: {{trim.box}}px"><svg viewBox="0 0 100 100" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible"><path d="{{trim.ticks}}" stroke="#E8E4DCB0" stroke-width="2" stroke-linecap="round" fill="none"></path></svg><span aria-hidden="true" style="position: absolute; inset: {{trim.inset}}%; border-radius: 50%; background: radial-gradient(circle at 50% 30%, #F6F4F0, #B6B2AB 58%, #6C6862); box-shadow: 0 4px 7px #000000B8, 0 1px 2px #000"><span class="knurl"></span><span style="position: absolute; inset: 13%; border-radius: 50%; background: conic-gradient(from 25deg, #FFFFFF5A, #00000026 25%, #FFFFFF5A 50%, #00000026 75%, #FFFFFF5A), repeating-radial-gradient(circle, #DCD9D3 0 .7px, #C6C2BB .7px 1.5px)"></span><span style="position: absolute; inset: 0; transform: rotate({{trim.rot}}deg)"><span style="position: absolute; left: calc(50% - 1px); top: 7%; width: 2px; height: 38%; border-radius: 1px; background: #141414"></span></span></span></span>
+<span style="display: flex; flex-direction: column; gap: 3px"><span class="silk2" style="color: var(--silk)">Trim</span><span class="mono" style="font-size: 10.5px; color: var(--silk2)">70</span></span>
+</span>
+</div>
+</div>
+<span class="ear earR" aria-hidden="true"><sc-for list="{{scr.b}}" as="s" hint-placeholder-count="2"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+</div>
+<sc-for list="{{unitMk}}" as="m" hint-placeholder-count="9"><span class="mk" aria-hidden="true" style="left: {{m.x}}px; top: {{m.y}}px">{{m.n}}</span></sc-for>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px 24px">
+<sc-for list="{{unitLegend}}" as="l" hint-placeholder-count="9"><span style="display: flex; gap: 9px; align-items: flex-start"><span class="mk st">{{l.n}}</span><span style="display: flex; flex-direction: column; gap: 3px"><span class="silk2" style="color: var(--silk)">{{l.t}}</span><span class="mono" style="font-size: 10px; color: var(--silk3)">{{l.d}}</span></span></span></sc-for>
+</div>
+</section>
+
+<section class="unit" aria-label="Lamp colours" style="flex-direction: column; gap: 12px; padding: 14px 20px 20px">
+<div style="display: flex; align-items: center; gap: 12px"><span class="silk">Lamp colour</span><span class="rule"></span><span class="silk2 num">02</span></div>
+<div style="display: flex; flex-direction: column">
+<sc-for list="{{lamps}}" as="l" hint-placeholder-count="5">
+<div class="led-{{l.n}}" style="display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; align-items: center; gap: 12px; height: 46px; border-bottom: 1px solid #00000066; box-shadow: 0 1px 0 #FFFFFF08">
+<span aria-hidden="true" style="width: 11px; height: 11px; border-radius: 50%; background: radial-gradient(circle at 36% 30%, #FFFBF0 0 11%, var(--led) 40%, color-mix(in oklab, var(--led) 40%, #000) 100%); box-shadow: 0 0 0 2px #050505, 0 0 0 3.5px #5A5853, 0 0 12px 2px color-mix(in oklab, var(--led) 45%, transparent)"></span>
+<span style="display: flex; flex-direction: column; gap: 3px"><span class="silk" style="font-size: 9.5px">{{l.n}} <span class="mono" style="font-size: 9.5px; letter-spacing: 0; font-weight: 400; color: var(--silk3); text-transform: none">{{l.hex}}</span></span><span class="silk2" style="font-size: 8px; color: var(--silk3)">{{l.desc}}</span></span>
+<span class="bezel" style="padding: 3px"><span class="glass vfd" style="display: block; padding: 1px 7px 2px; font-family: Doto, monospace; font-weight: 800; font-size: 19px; line-height: 1.1"><span style="position: relative">A:CH1</span></span></span>
+</div>
+</sc-for>
+</div>
+<span class="note">One lamp colour lights every LED, display and memory tick. Silkscreen, keys and the cream meter never change. Each lamp holds at least 7:1 on the glass.</span>
+</section>
+
+<section class="unit" aria-label="Knob anatomy" style="flex-direction: column; gap: 14px; padding: 14px 20px 20px">
+<div style="display: flex; align-items: center; gap: 12px"><span class="silk">Knob</span><span class="rule"></span><span class="silk2 num">03</span></div>
+<div style="display: flex; gap: 22px; align-items: center">
+<div style="position: relative; flex: none; width: 210px; height: 214px">
+<div style="position: absolute; left: 30px; top: 30px; width: {{big.box}}px; height: {{big.box}}px">
+<svg viewBox="0 0 100 100" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible"><path d="{{big.ticks}}" stroke="#E8E4DCB8" stroke-width="1.15" stroke-linecap="round" fill="none"></path><path d="{{big.minor}}" stroke="#E8E4DC66" stroke-width="0.9" fill="none"></path><path d="{{big.mem}}" stroke-width="2.4" stroke-linecap="round" fill="none" style="stroke: var(--led); filter: drop-shadow(0 0 2px var(--led))"></path></svg>
+<sc-for list="{{big.nums}}" as="n" hint-placeholder-count="6"><span aria-hidden="true" style="position: absolute; left: {{n.x}}%; top: {{n.y}}%; transform: translate(-50%, -50%); font-size: 9px; font-weight: 700; font-stretch: 110%; color: #E8E4DCB0">{{n.t}}</span></sc-for>
+<span aria-hidden="true" style="position: absolute; inset: 20%; border-radius: 50%; background: radial-gradient(circle at 50% 30%, #F6F4F0, #B6B2AB 58%, #6C6862); box-shadow: 0 8px 14px #000000B8, 0 1px 2px #000">
+<span class="knurl"></span>
+<span style="position: absolute; inset: 12%; border-radius: 50%; background: conic-gradient(from 25deg, #FFFFFF5A, #00000026 25%, #FFFFFF5A 50%, #00000026 75%, #FFFFFF5A), repeating-radial-gradient(circle, #DCD9D3 0 .7px, #C6C2BB .7px 1.5px); box-shadow: inset 0 1px 1px #FFFFFF90, inset 0 -1px 2px #00000060"></span>
+<span style="position: absolute; inset: 0; transform: rotate({{big.rot}}deg)"><span style="position: absolute; left: calc(50% - 1.5px); top: 7%; width: 3px; height: 36%; border-radius: 1.5px; background: #141414"></span><span style="position: absolute; left: calc(50% - 2.5px); top: 1.5%; width: 5px; height: 5px; border-radius: 50%; background: #FBFAF6; box-shadow: 0 0 0 .5px #00000055"></span></span>
+</span>
+</div>
+<svg aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 1"><path d="{{knobLines}}" fill="none" stroke="#000000A0" stroke-width="2.6" stroke-linecap="round"></path><path d="{{knobLines}}" fill="none" stroke="#E8E4DCD0" stroke-width="1" stroke-dasharray="2 2"></path><path d="{{knobDots}}" fill="#E8E4DC" stroke="#000000B0" stroke-width=".8"></path></svg>
+<sc-for list="{{knobMk}}" as="m" hint-placeholder-count="6"><span class="mk" aria-hidden="true" style="left: {{m.x}}px; top: {{m.y}}px">{{m.n}}</span></sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 9px">
+<sc-for list="{{knobLegend}}" as="l" hint-placeholder-count="6"><span style="display: flex; gap: 9px; align-items: flex-start"><span class="mk st">{{l.n}}</span><span style="display: flex; flex-direction: column; gap: 2px"><span class="silk2" style="color: var(--silk)">{{l.t}}</span><span class="mono" style="font-size: 9.5px; color: var(--silk3); white-space: normal">{{l.d}}</span></span></span></sc-for>
+</div>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: flex-end; padding-top: 14px; border-top: 1px solid #00000070; box-shadow: inset 0 1px 0 #FFFFFF0A">
+<sc-for list="{{sizes}}" as="k" hint-placeholder-count="4">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 5px">
+<div style="position: relative; width: {{k.box}}px; height: {{k.box}}px">
+<svg viewBox="0 0 100 100" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible"><path d="{{k.ticks}}" stroke="#E8E4DCB8" stroke-width="{{k.sw}}" stroke-linecap="round" fill="none"></path><path d="{{k.mem}}" stroke-width="{{k.msw}}" stroke-linecap="round" fill="none" style="stroke: var(--led); filter: drop-shadow(0 0 2px var(--led))"></path></svg>
+<span aria-hidden="true" style="position: absolute; inset: {{k.inset}}%; border-radius: 50%; background: radial-gradient(circle at 50% 30%, #F6F4F0, #B6B2AB 58%, #6C6862); box-shadow: {{k.shadow}}"><span class="knurl"></span><span style="position: absolute; inset: 12%; border-radius: 50%; background: conic-gradient(from 25deg, #FFFFFF5A, #00000026 25%, #FFFFFF5A 50%, #00000026 75%, #FFFFFF5A), repeating-radial-gradient(circle, #DCD9D3 0 .7px, #C6C2BB .7px 1.5px)"></span><span style="position: absolute; inset: 0; transform: rotate({{k.rot}}deg)"><span style="position: absolute; left: calc(50% - 1px); top: 7%; width: 2px; height: 37%; border-radius: 1px; background: #141414"></span></span></span>
+</div>
+<span style="display: flex; align-items: center; gap: 5px"><span class="lw {{k.led}}" aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%"></span><span class="silk2" style="color: var(--silk)">{{k.label}}</span></span>
+<span class="mono" style="font-size: 9.5px; color: var(--silk3)">{{k.cap}}</span>
+</div>
+</sc-for>
+</div>
+<span class="note">Drag up or down · Shift for fine steps · double-click recalls the stored value · arrow keys ±1, Shift ±10.</span>
+</section>
+
+<section class="unit" aria-label="Keys and LEDs" style="flex-direction: column; gap: 16px; padding: 14px 20px 20px">
+<div style="display: flex; align-items: center; gap: 12px"><span class="silk">Keys · LEDs</span><span class="rule"></span><span class="silk2 num">04</span></div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+<sc-for list="{{keyStates}}" as="k" hint-placeholder-count="4">
+<span style="display: flex; flex-direction: column; align-items: center; gap: 6px"><span class="lw {{k.led}}" aria-hidden="true"></span><span class="key {{k.cls}}" style="width: 100%; height: 28px">Solo</span><span class="silk2" style="font-size: 8px; color: var(--silk3)">{{k.cap}}</span></span>
+</sc-for>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding-top: 14px; border-top: 1px solid #00000070; box-shadow: inset 0 1px 0 #FFFFFF0A">
+<span style="display: flex; flex-direction: column; align-items: center; gap: 6px"><span class="lw redon cur" aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%"></span><span class="key red" style="width: 100%; height: 30px">Write</span><span class="silk2" style="font-size: 8px; color: var(--silk3)">Unsaved · blinks</span></span>
+<span style="display: flex; flex-direction: column; align-items: center; gap: 6px"><span style="height: 6px"></span><span class="key amb" style="width: 100%; height: 30px">Apply</span><span class="silk2" style="font-size: 8px; color: var(--silk3)">Primary · one per view</span></span>
+<span style="display: flex; flex-direction: column; align-items: center; gap: 6px"><span style="height: 6px"></span><span style="display: flex; align-items: center; justify-content: center; gap: 4px; height: 30px"><span class="cap">ctrl</span><span class="cap">K</span><span class="cap">esc</span><span class="cap">⏎</span></span><span class="silk2" style="font-size: 8px; color: var(--silk3)">Keycaps · hints</span></span>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: flex-end; padding-top: 14px; border-top: 1px solid #00000070; box-shadow: inset 0 1px 0 #FFFFFF0A">
+<span style="display: flex; flex-direction: column; align-items: center; gap: 8px"><span style="display: flex; gap: 5px; align-items: center; height: 14px"><span class="lw"></span><span class="lw on"></span></span><span class="silk2" style="font-size: 8px; color: var(--silk3)">Bar · off on</span></span>
+<span style="display: flex; flex-direction: column; align-items: center; gap: 8px"><span style="display: flex; gap: 5px; align-items: center; height: 14px"><span class="lw" style="width: 6px; height: 6px; border-radius: 50%"></span><span class="lw on" style="width: 6px; height: 6px; border-radius: 50%"></span></span><span class="silk2" style="font-size: 8px; color: var(--silk3)">Dot · edited</span></span>
+<span style="display: flex; flex-direction: column; align-items: center; gap: 8px"><span style="display: flex; align-items: center; height: 14px"><span class="lw on mi" style="width: 6px; height: 6px; border-radius: 50%"></span></span><span class="silk2" style="font-size: 8px; color: var(--silk3)">MIDI flicker</span></span>
+<span style="display: flex; flex-direction: column; align-items: center; gap: 8px"><span style="display: flex; align-items: center; height: 14px"><span class="lw redon rec" style="width: 6px; height: 6px; border-radius: 50%"></span></span><span class="silk2" style="font-size: 8px; color: var(--silk3)">Rec</span></span>
+<span style="display: flex; flex-direction: column; align-items: center; gap: 8px"><span style="display: flex; align-items: center; height: 14px"><span aria-hidden="true" style="width: 11px; height: 11px; border-radius: 50%; background: radial-gradient(circle at 36% 30%, #FFFBF0 0 11%, var(--led) 40%, color-mix(in oklab, var(--led) 40%, #000) 100%); box-shadow: 0 0 0 2px #050505, 0 0 0 3.5px #5A5853, 0 0 12px 2px color-mix(in oklab, var(--led) 45%, transparent)"></span></span><span class="silk2" style="font-size: 8px; color: var(--silk3)">Pilot jewel</span></span>
+</div>
+<div style="display: flex; align-items: flex-end; justify-content: space-between; padding-top: 14px; border-top: 1px solid #00000070; box-shadow: inset 0 1px 0 #FFFFFF0A">
+<sc-for list="{{rockers}}" as="k" hint-placeholder-count="2">
+<span style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+<span style="display: flex; width: 46px; height: 20px; padding: 2px; box-sizing: border-box; border-radius: 4px; background: #0A0A0B; box-shadow: inset 0 1px 2px #000, 0 1px 0 #FFFFFF16"><span style="flex: 1; display: grid; place-items: center; border-radius: 3px 0 0 3px; background: {{k.l}}; box-shadow: {{k.ls}}; font-size: 9px; font-weight: 800; color: {{k.lc}}; text-shadow: {{k.lg}}">I</span><span style="flex: 1; display: grid; place-items: center; border-radius: 0 3px 3px 0; background: {{k.r}}; box-shadow: {{k.rs}}; font-size: 9px; font-weight: 800; color: {{k.rc}}">O</span></span>
+<span class="silk2" style="font-size: 8px; color: var(--silk3)">{{k.cap}}</span>
+</span>
+</sc-for>
+<span style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+<span style="display: flex; align-items: center; gap: 6px"><span class="key" style="width: 24px; height: 24px; font-size: 8px">◀</span><span class="bezel" style="padding: 3px"><span class="glass mono vfd" style="display: flex; align-items: center; gap: 9px; height: 18px; padding: 0 9px; font-size: 11px; white-space: nowrap"><span style="position: relative; opacity: .7">23</span><span style="position: relative">BROWN</span></span></span><span class="key" style="width: 24px; height: 24px; font-size: 8px">▶</span></span>
+<span class="silk2" style="font-size: 8px; color: var(--silk3)">Stepper · click opens list</span>
+</span>
+</div>
+<span class="note">Keys travel 1.5 px when latched. The LED above a key is its state; the key face never changes colour. Red is reserved for Write and Delete.</span>
+</section>
+
+<section class="unit" aria-label="Display" style="flex-direction: column; gap: 14px; padding: 14px 20px 20px">
+<div style="display: flex; align-items: center; gap: 12px"><span class="silk">Display</span><span class="rule"></span><span class="silk2 num">05</span></div>
+<span class="bezel" style="align-self: flex-start; max-width: 100%"><span class="glass" style="display: block; padding: 6px 10px 7px">
+<span style="position: relative; display: flex; gap: 8px; margin-bottom: 4px"><sc-for list="{{ann}}" as="a" hint-placeholder-count="5"><span class="mono" style="font-size: 7.5px; letter-spacing: .08em; color: {{a.c}}; text-shadow: {{a.g}}">{{a.t}}</span></sc-for></span>
+<span style="position: relative; display: grid; grid-template-columns: repeat(16, 18px); gap: 2px"><sc-for list="{{cells}}" as="c" hint-placeholder-count="16"><span class="vfd" style="display: grid; place-items: center; height: 28px; font-family: Doto, monospace; font-weight: 800; font-size: 24px; line-height: 1">{{c}}</span></sc-for></span>
+<span class="mono vfd cur" style="position: relative; display: block; margin-top: 3px; font-size: 10.5px; letter-spacing: .06em">A:CH1 EDITED · 3 CHANGES ▸ WRITE</span>
+</span></span>
+<div class="bezel"><div class="glass" style="padding: 4px">
+<sc-for list="{{rowStates}}" as="r" hint-placeholder-count="5"><div class="mono" style="position: relative; display: grid; grid-template-columns: 10px minmax(0, 1fr) auto; gap: 10px; align-items: center; height: 26px; padding: 0 10px; font-size: 11px; background: {{r.bg}}; color: {{r.c}}; text-shadow: {{r.g}}"><span style="font-size: 10px">{{r.caret}}</span><span style="opacity: {{r.o}}">{{r.pre}}<span style="background: {{r.hbg}}; color: {{r.hc}}; text-shadow: none">{{r.hit}}</span></span><span style="font-size: 8.5px; letter-spacing: .1em; opacity: .7">{{r.state}}</span></div></sc-for>
+</div></div>
+<div style="display: flex; align-items: flex-end; gap: 16px">
+<span class="bezel" style="padding: 4px"><span class="glass" style="display: flex; gap: 6px; padding: 8px 10px 6px">
+<sc-for list="{{bytes}}" as="g" hint-placeholder-count="3"><span class="vfd" style="position: relative; display: flex; flex-direction: column; gap: 4px; opacity: {{g.o}}"><span style="display: flex; gap: 2px"><sc-for list="{{g.b}}" as="b" hint-placeholder-count="2"><span class="mono" style="display: grid; place-items: center; width: 20px; height: 24px; font-size: 11px; background: {{g.bg}}; color: {{g.c}}; text-shadow: {{g.ts}}">{{b}}</span></sc-for></span><span aria-hidden="true" style="height: 3px; border: 1px solid currentColor; border-top: 0; opacity: .7"></span><span class="mono" style="font-size: 7.5px; text-align: center">{{g.l}}</span></span></sc-for>
+</span></span>
+<span class="note" style="flex: 1">Selection inverts. Dimming is the only other emphasis, so the glass stays one colour.</span>
+</div>
+</section>
+
+<section class="unit" aria-label="Fader and meters" style="flex-direction: column; gap: 14px; padding: 14px 20px 20px">
+<div style="display: flex; align-items: center; gap: 12px"><span class="silk">Fader · meters</span><span class="rule"></span><span class="silk2 num">06</span></div>
+<div style="display: flex; gap: 18px; align-items: flex-start">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 5px; width: 50px">
+<span class="mono vfd" style="font-size: 9.5px; white-space: nowrap">{{fad.txt}}</span>
+<span style="position: relative; display: block; width: 44px; height: 128px">
+<svg width="44" height="128" viewBox="0 0 44 128" aria-hidden="true" style="position: absolute; inset: 0"><path d="{{fad.ticks}}" stroke="#E8E4DC80" stroke-width="1" fill="none"></path><path d="M 2 64 L 12 64 M 32 64 L 42 64" stroke="#E8E4DCD0" stroke-width="1.2" fill="none"></path></svg>
+<span aria-hidden="true" style="position: absolute; left: 19px; top: 8px; bottom: 8px; width: 6px; border-radius: 3px; background: #030303; box-shadow: inset 0 1px 2px #000, 0 1px 0 #FFFFFF14"></span>
+<span aria-hidden="true" style="position: absolute; left: 6px; top: {{fad.top}}px; width: 32px; height: 18px; border-radius: 3px; background: repeating-linear-gradient(180deg, transparent 0 3px, #00000055 3px 4px), linear-gradient(180deg, #4A4B4F, #1D1E20); box-shadow: inset 0 1px 0 #FFFFFF2A, 0 4px 6px #000000C0, 0 1px 1px #000"><span style="position: absolute; left: 3px; right: 3px; top: 8px; height: 2px; background: #F2EFE8; box-shadow: 0 0 2px #FFFFFF60"></span></span>
+</span>
+<span class="silk2" style="font-size: 8px; letter-spacing: .14em">Mid</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0">
+<div class="bezel" style="padding: 6px">
+<div style="position: relative; width: 226px; height: 128px; overflow: hidden; border-radius: 3px; background: radial-gradient(ellipse at 50% 120%, #FFE6B0, #F3DFAF 42%, #DCC28B 100%); box-shadow: inset 0 0 22px #6B4A1060, inset 0 10px 16px #00000045">
+<svg viewBox="0 0 226 128" aria-hidden="true" style="position: absolute; inset: 0">
+<path d="{{vu.arc}}" stroke="#2A2118" stroke-width="1.3" fill="none"></path>
+<path d="{{vu.red}}" stroke="#B4301C" stroke-width="4.5" fill="none"></path>
+<path d="{{vu.ticks}}" stroke="#2A2118" stroke-width="1.2" fill="none"></path>
+<path d="{{vu.minor}}" stroke="#2A2118" stroke-width=".8" fill="none"></path>
+<path d="{{vu.shadow}}" stroke="#00000030" stroke-width="2.4" stroke-linecap="round"></path>
+<path d="{{vu.needle}}" stroke="#151515" stroke-width="1.5" stroke-linecap="round"></path>
+</svg>
+<sc-for list="{{vu.nums}}" as="n" hint-placeholder-count="6"><span style="position: absolute; left: {{n.x}}px; top: {{n.y}}px; transform: translate(-50%, -50%); font-size: 9px; font-weight: 700; font-stretch: 110%; color: #2A2118">{{n.t}}</span></sc-for>
+<span style="position: absolute; left: 0; right: 0; top: 70px; text-align: center; font-size: 10px; font-weight: 800; font-stretch: 125%; letter-spacing: .32em; color: #2A2118">MASTER</span>
+<span style="position: absolute; left: 0; right: 0; top: 86px; text-align: center; font-size: 7px; font-weight: 600; font-stretch: 115%; letter-spacing: .24em; color: #5C4A30">READ ONLY</span>
+<span style="position: absolute; left: 103px; top: 112px; width: 20px; height: 20px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #4A4744, #121110)"></span>
+<span aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(158deg, #FFFFFF38 0, #FFFFFF10 28%, transparent 29%)"></span>
+</div>
+</div>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 18px; padding-top: 14px; border-top: 1px solid #00000070; box-shadow: inset 0 1px 0 #FFFFFF0A">
+<div style="display: flex; flex-direction: column; gap: 7px">
+<sc-for list="{{meters}}" as="m" hint-placeholder-count="2">
+<div style="display: flex; align-items: center; gap: 9px"><span class="silk2" style="width: 16px">{{m.label}}</span>
+<span style="position: relative; display: block; width: 178px; height: 6px">
+<span style="position: absolute; inset: 0; display: flex; gap: 2px"><sc-for list="{{segs}}" as="g" hint-placeholder-count="20"><span class="seg" style="background: {{g.dim}}; box-shadow: inset 0 1px 1px #000"></span></sc-for></span>
+<span class="lvl" style="position: absolute; left: 0; top: 0; bottom: 0; overflow: hidden; animation-duration: {{m.dur}}; animation-delay: {{m.del}}"><span style="display: flex; gap: 2px; width: 178px; height: 100%"><sc-for list="{{segs}}" as="g" hint-placeholder-count="20"><span class="seg" style="background: {{g.bg}}; box-shadow: {{g.sh}}"></span></sc-for></span></span>
+<span class="pk seg" style="position: absolute; top: 0; background: linear-gradient(180deg, #FFFFFF, #FFE9C4); box-shadow: 0 0 7px 1px color-mix(in oklab, var(--led) 70%, transparent); animation-duration: {{m.dur}}; animation-delay: {{m.del}}"></span>
+</span>
+</div>
+</sc-for>
+</div>
+<span class="mono" style="font-size: 9.5px; line-height: 1.6; color: var(--silk3)">20 segments, last 5 hot<br>white peak holds two steps</span>
+</div>
+<div style="display: flex; align-items: center; gap: 12px">
+<span class="silk2">Power</span>
+<sc-for list="{{power}}" as="p" hint-placeholder-count="3"><span style="display: flex; align-items: center; gap: 5px"><span class="lw {{p.on}}" aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%"></span><span class="mono" style="font-size: 9.5px; color: {{p.c}}">{{p.t}}</span></span></sc-for>
+<span class="silk2" style="margin-left: auto; color: var(--silk3); letter-spacing: .1em">Readback · no control</span>
+</div>
+<span class="note">Faders and knobs edit. Meters only report: master volume and power are read back from the amp, so they never get a control.</span>
+</section>
+
+<section class="unit" aria-label="Safety cover and footswitch" style="flex-direction: column; gap: 14px; padding: 14px 20px 20px">
+<div style="display: flex; align-items: center; gap: 12px"><span class="silk">Cover · footswitch</span><span class="rule"></span><span class="silk2 num">07</span></div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding-top: 30px">
+<sc-for list="{{covers}}" as="c" hint-placeholder-count="3">
+<span style="display: flex; flex-direction: column; align-items: center; gap: 12px">
+<span style="position: relative; display: block; width: 92px; height: 30px; perspective: 240px">
+<span class="key red" style="position: absolute; inset: 0; font-size: 9px">{{c.txt}}</span>
+<span aria-hidden="true" style="position: absolute; inset: -4px; transform-origin: 50% 0; border-radius: 5px; background: linear-gradient(166deg, #FFFFFF38 0, #FFFFFF10 30%, transparent 31%), linear-gradient(180deg, #E0482ACC, #8E2410D9); border: 1px solid #FF8A6A99; box-shadow: inset 0 1px 0 #FFFFFF55, inset 0 -2px 0 #00000040, 0 4px 8px #000000A0; transform: {{c.t}}"><span style="position: absolute; left: 50%; bottom: -5px; width: 26px; height: 6px; margin-left: -13px; border-radius: 0 0 4px 4px; background: linear-gradient(180deg, #A82C14, #6E1A0A); box-shadow: 0 2px 3px #00000090"></span></span>
+</span>
+<span class="silk2" style="font-size: 8px; color: {{c.cc}}">{{c.cap}}</span>
+</span>
+</sc-for>
+</div>
+<span class="note">Delete sits under a flip cover. The first click lifts it, the second deletes. Keyboard focus skips the key while the cover is down.</span>
+<div style="display: flex; align-items: center; gap: 22px; padding-top: 14px; border-top: 1px solid #00000070; box-shadow: inset 0 1px 0 #FFFFFF0A">
+<sc-for list="{{fsw}}" as="f" hint-placeholder-count="2">
+<span style="display: flex; flex-direction: column; align-items: center; gap: 6px">
+<span class="lw {{f.on}}" aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%"></span>
+<span aria-hidden="true" style="position: relative; width: 40px; height: 40px; display: grid; place-items: center"><span style="position: absolute; inset: 0; clip-path: polygon(25% 3%, 75% 3%, 100% 50%, 75% 97%, 25% 97%, 0 50%); background: linear-gradient(160deg, #D9D6D0, #77736D 55%, #4A4844)"></span><span style="position: relative; width: 26px; height: 26px; border-radius: 50%; background: radial-gradient(circle at 38% 30%, #FFFFFF, #CFCBC4 35%, #8E8A84 70%, #4E4B47); box-shadow: 0 3px 4px #000000B0, inset 0 -1px 2px #00000050"></span></span>
+<span class="silk" style="font-size: 9px; letter-spacing: .14em; color: {{f.c}}">{{f.t}}</span>
+</span>
+</sc-for>
+<span class="note" style="flex: 1">Footswitches on the Control view: hex nut, chrome cap, LED for the latched state.</span>
+</div>
+</section>
+
+<section class="unit" aria-label="Type and tokens" style="flex-direction: column; gap: 12px; padding: 14px 20px 20px">
+<div style="display: flex; align-items: center; gap: 12px"><span class="silk">Type · tokens</span><span class="rule"></span><span class="silk2 num">08</span></div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px"><span class="silk" style="font-size: 12px">Preamp A</span><span class="mono" style="font-size: 9.5px; color: var(--silk3)">Archivo 700 · 125% · .2em</span></span>
+<span style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px"><span class="silk2">Parameters · commands</span><span class="mono" style="font-size: 9.5px; color: var(--silk3)">Archivo 600 · 118% · .18em</span></span>
+<span style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px"><span class="mono" style="font-size: 11px; color: var(--silk)">60 00 00 52 → 3E</span><span class="mono" style="font-size: 9.5px; color: var(--silk3)">JetBrains Mono 11 · values</span></span>
+<span style="display: flex; align-items: center; justify-content: space-between; gap: 12px"><span class="bezel" style="padding: 3px"><span class="glass vfd" style="display: block; padding: 1px 8px 2px; font-family: Doto, monospace; font-weight: 800; font-size: 22px; line-height: 1.1"><span style="position: relative">A:CH1</span></span></span><span class="mono" style="font-size: 9.5px; color: var(--silk3)">Doto 800 · patch display only</span></span>
+</div>
+<div style="display: flex; flex-direction: column; padding-top: 10px; border-top: 1px solid #00000070; box-shadow: inset 0 1px 0 #FFFFFF0A">
+<sc-for list="{{tokens}}" as="t" hint-placeholder-count="9"><span style="display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 10px; align-items: center; height: 22px"><span aria-hidden="true" style="width: 16px; height: 12px; border-radius: 2px; background: {{t.sw}}; box-shadow: 0 0 0 1px #00000090, inset 0 1px 0 #FFFFFF14"></span><span class="silk2" style="font-size: 8.5px; color: var(--silk)">{{t.k}}</span><span class="mono" style="font-size: 9.5px; color: var(--silk3)">{{t.v}}</span></span></sc-for>
+</div>
+</section>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"enum","options":["mustard","coral","sage","steel","sand"],"default":"mustard","section":"Theme"},"$preview":{"width":1440,"height":1300}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const accent = this.props.accent ?? 'mustard';
+    const LIT = 'color-mix(in oklab, var(--led) 82%, #FFFFFF)', LG = '0 0 6px color-mix(in oklab, var(--led) 70%, transparent)';
+    const INV = 'color-mix(in oklab, var(--led) 88%, #FFF)', DARK = '#170D02';
+    const f1 = (n) => n.toFixed(1);
+    const P = (cx, cy, a, r) => { const t = a * Math.PI / 180; return [cx + r * Math.sin(t), cy - r * Math.cos(t)]; };
+    const tickPath = (cx, cy, r0, r1, a0, a1, n) => { let d = ''; for (let i = 0; i <= n; i++) { const a = a0 + (a1 - a0) * i / n, p = P(cx, cy, a, r0), q = P(cx, cy, a, r1); d += 'M ' + f1(p[0]) + ' ' + f1(p[1]) + ' L ' + f1(q[0]) + ' ' + f1(q[1]) + ' '; } return d; };
+    const arcPath = (cx, cy, a0, a1, r) => { const p = P(cx, cy, a0, r), q = P(cx, cy, a1, r); return 'M ' + f1(p[0]) + ' ' + f1(p[1]) + ' A ' + r + ' ' + r + ' 0 ' + (a1 - a0 > 180 ? 1 : 0) + ' 1 ' + f1(q[0]) + ' ' + f1(q[1]); };
+    const ang = (v) => -135 + v * 2.7;
+    const memOf = (s, r0, r1) => { const p = P(50, 50, ang(s), r0 - 3), q = P(50, 50, ang(s), r1 + 1); return 'M ' + f1(p[0]) + ' ' + f1(p[1]) + ' L ' + f1(q[0]) + ' ' + f1(q[1]); };
+    const ROT = [17, 63, 141, 88, 32, 115, 9, 152];
+    let ri = 0;
+    const screws = (n) => Array.from({ length: n }, () => { const r = ROT[ri % ROT.length]; ri++; return { r, x: 2 + (r % 5) }; });
+    const scr = { a: screws(2), b: screws(2) };
+    const big = { box: 150, rot: ang(62), ticks: tickPath(50, 50, 37, 42, -135, 135, 10), minor: tickPath(50, 50, 39, 41.5, -121.5, 121.5, 9), mem: memOf(55, 37, 42),
+      nums: [0, 2, 4, 6, 8, 10].map((n) => { const p = P(50, 50, -135 + n * 27, 50); return { t: String(n), x: f1(p[0]), y: f1(p[1]) }; }) };
+    const KC = 105;
+    const KL = [['1', 115, 115, 44], ['2', 62, 62, 39], ['3', 180, 180, 21], ['4', 40, 32.4, 27], ['5', -100, -108, 63], ['6', 5, 13.5, 65]];
+    const knobMk = KL.map(([n, am]) => { const p = P(KC, KC, am, 94); return { n, x: f1(p[0]), y: f1(p[1]) }; });
+    let knobLines = '', knobDots = '';
+    KL.forEach(([, am, at, rt]) => { const s = P(KC, KC, am, 85), e = P(KC, KC, at, rt); knobLines += 'M ' + f1(s[0]) + ' ' + f1(s[1]) + ' L ' + f1(e[0]) + ' ' + f1(e[1]) + ' '; knobDots += 'M ' + f1(e[0] - 2) + ' ' + f1(e[1]) + ' a 2 2 0 1 0 4 0 a 2 2 0 1 0 -4 0 '; });
+    const knobLegend = [['1', 'Skirt', 'machined · 8 px shadow'], ['2', 'Knurl', '120 grooves at 3°'], ['3', 'Cap', 'spun finish, conic sheen'], ['4', 'Pointer', 'black line + white dot'], ['5', 'Scale', '11 ticks · 0 2 4 6 8 10'], ['6', 'Memory tick', 'lamp colour · edited only']].map(([n, t, d]) => ({ n, t, d }));
+    const sizeKnob = (box, kind, v, s, label, cap) => {
+      const S = kind === 'S', r0 = S ? 41 : 38, r1 = S ? 48 : 44;
+      return { box, label, cap, rot: ang(v), inset: S ? 15 : 19, ticks: tickPath(50, 50, r0, r1, -135, 135, 10), mem: v !== s ? memOf(s, r0, r1) : '', led: v !== s ? 'on' : '', sw: S ? 2 : 1.3, msw: S ? 3.6 : 2.6, shadow: S ? '0 4px 7px #000000B8, 0 1px 2px #000' : '0 6px 10px #000000B8, 0 1px 2px #000' };
+    };
+    const sizes = [sizeKnob(92, 'M', 62, 62, 'Level', '92 · gain, volume'), sizeKnob(74, 'M', 58, 52, 'Tone', '74 · edited'), sizeKnob(66, 'M', 40, 40, 'Effect', '66 · block params'), sizeKnob(44, 'S', 70, 70, 'Trim', '44 · secondary')];
+    const trim = { box: 44, inset: 15, rot: ang(70), ticks: tickPath(50, 50, 41, 48, -135, 135, 10) };
+    const TOP = 9, BOT = 151;
+    const LEAD = [
+      ['1', [33, BOT], [[33, 124]]], ['2', [838, TOP], [[838, 46]]], ['3', [80, TOP], [[80, 35]]], ['4', [470, TOP], [[470, 41]]], ['5', [786, TOP], [[786, 34]]],
+      ['6', [600, BOT], [[600, 112]]], ['7', [299, BOT], [[299, 113]]], ['8', [146, BOT], [[146, 73], [111, 73]]], ['9', [216, BOT], [[216, 105]]]
+    ];
+    const unitMk = LEAD.map(([n, m]) => ({ n, x: m[0], y: m[1] }));
+    let unitLines = '', unitDots = '';
+    LEAD.forEach(([, m, pts]) => {
+      const first = pts[0], down = m[1] < first[1];
+      unitLines += 'M ' + m[0] + ' ' + (m[1] + (down ? 8 : -8)) + ' ' + pts.map((p) => 'L ' + p[0] + ' ' + p[1]).join(' ') + ' ';
+      const e = pts[pts.length - 1];
+      unitDots += 'M ' + (e[0] - 1.8) + ' ' + e[1] + ' a 1.8 1.8 0 1 0 3.6 0 a 1.8 1.8 0 1 0 -3.6 0 ';
+    });
+    const unitLegend = [['1', 'Ear', '34 px · brushed · dark seam'], ['2', 'Rack slot', '18 × 10 · screw at a random angle'], ['3', 'Silk title', 'top-left, never a header bar'], ['4', 'Rule', '1 px, fades to the right'], ['5', 'Unit number', 'outlined tag, counts down the rack'], ['6', 'Face', '#222325 → #1B1C1E, 3 px brushing'], ['7', 'Groove', '1 px shadow + 1 px highlight'], ['8', 'Key LED', '5 px above the key · lit = latched'], ['9', 'Display', '5 px bezel · dot glass · glare at 162°']].map(([n, t, d]) => ({ n, t, d }));
+    const lamps = [['mustard', '#FFB547', 'amber · default'], ['coral', '#FF6B4A', 'red-orange LED'], ['sage', '#8CFFB4', 'green VFD'], ['steel', '#7FDBFF', 'cyan VFD'], ['sand', '#FFE3B3', 'warm white']].map(([n, hex, desc]) => ({ n, hex, desc }));
+    const keyStates = [['', '', 'Rest'], ['hov', '', 'Hover'], ['dn', 'on', 'Latched'], ['off', '', 'Unavailable']].map(([cls, led, cap]) => ({ cls, led, cap }));
+    const cells = []; const NM = 'EDGE OF BREAKUP'; for (let i = 0; i < 16; i++) { const ch = NM[i] || ''; cells.push(ch === ' ' ? '' : ch); }
+    const ann = [['PANEL', 0], ['A', 1], ['B', 0], ['CH1', 1], ['CH2', 0], ['EDIT', 1], ['MIDI', 1], ['MEM', 0]].map(([t, on]) => ({ t, c: on ? LIT : 'color-mix(in oklab, var(--led) 22%, #0B0704)', g: on ? LG : 'none' }));
+    const rowStates = [
+      { caret: '', pre: 'BROWN LEAD', hit: '', state: 'REST', bg: '', c: LIT, g: LG, o: '1' },
+      { caret: '', pre: 'AMBIENT SWELL', hit: '', state: 'HOVER', bg: 'color-mix(in oklab, var(--led) 10%, transparent)', c: LIT, g: LG, o: '1' },
+      { caret: '▸', pre: 'EDGE OF BREAKUP', hit: '', state: 'SELECTED', bg: INV, c: DARK, g: 'none', o: '1' },
+      { caret: '', pre: 'EQ: LOW ', hit: 'GAIN', state: 'SEARCH HIT', bg: '', c: LIT, g: LG, o: '1' },
+      { caret: '', pre: 'ping 3.1 ms', hit: '', state: 'NOTE · DIM', bg: '', c: LIT, g: LG, o: '.62' }
+    ].map((r) => Object.assign(r, { hbg: INV, hc: DARK }));
+    const bytes = [{ l: 'DT1', b: ['12'], o: '.5', bg: 'transparent', c: LIT, ts: LG }, { l: 'ADDRESS', b: ['60', '00', '00', '52'], o: '1', bg: INV, c: DARK, ts: 'none' }, { l: 'DATA', b: ['3E'], o: '1', bg: 'transparent', c: LIT, ts: LG }];
+    let fticks = ''; for (let i = 0; i <= 10; i++) { const y = 17 + i * 9.4, w = i % 5 === 0 ? 6 : 3.5; fticks += 'M ' + (12 - w) + ' ' + f1(y) + ' L 12 ' + f1(y) + ' M 32 ' + f1(y) + ' L ' + (32 + w) + ' ' + f1(y) + ' '; }
+    const fad = { txt: '+3dB', ticks: fticks, top: f1(8 + (1 - 23 / 40) * 94) };
+    const vcx = 113, vcy = 176, VR = 128;
+    let vuMinor = ''; for (let i = 0; i <= 20; i++) { const a = -42 + i * 4.2, p = P(vcx, vcy, a, VR), q = P(vcx, vcy, a, VR + 4); vuMinor += 'M ' + f1(p[0]) + ' ' + f1(p[1]) + ' L ' + f1(q[0]) + ' ' + f1(q[1]) + ' '; }
+    const na = -42 + 0.62 * 84, n0 = P(vcx, vcy, na, 52), n1 = P(vcx, vcy, na, VR + 6);
+    const vu = { arc: arcPath(vcx, vcy, -42, 42, VR), red: arcPath(vcx, vcy, 29.4, 42, VR + 3), ticks: tickPath(vcx, vcy, VR, VR + 9, -42, 42, 5), minor: vuMinor,
+      needle: 'M ' + f1(n0[0]) + ' ' + f1(n0[1]) + ' L ' + f1(n1[0]) + ' ' + f1(n1[1]), shadow: 'M ' + f1(n0[0] + 2.5) + ' ' + f1(n0[1] + 2) + ' L ' + f1(n1[0] + 2.5) + ' ' + f1(n1[1] + 2),
+      nums: [0, 2, 4, 6, 8, 10].map((n) => { const p = P(vcx, vcy, -42 + n * 8.4, VR + 19); return { t: String(n), x: f1(p[0]), y: f1(p[1]) }; }) };
+    const ON = 'linear-gradient(180deg, #FFF6E2 0, var(--led) 42%, color-mix(in oklab, var(--led) 55%, #000) 100%)', HOT = 'linear-gradient(180deg, #FFE6DC 0, #FF5A3C 42%, #8E2410 100%)';
+    const segs = Array.from({ length: 20 }, (_, i) => { const hot = i >= 15; return { dim: hot ? 'color-mix(in oklab, #FF5A3C 15%, #0C0805)' : 'color-mix(in oklab, var(--led) 13%, #0C0805)', bg: hot ? HOT : ON, sh: hot ? '0 0 6px 1px #FF5A3C80' : '0 0 6px 1px color-mix(in oklab, var(--led) 55%, transparent)' }; });
+    const covers = [{ t: 'rotateX(0deg)', txt: 'Delete', cap: 'Closed', cc: 'var(--silk3)' }, { t: 'rotateX(118deg)', txt: 'Delete', cap: 'Lifted · armed', cc: '#FF9F86' }, { t: 'rotateX(118deg)', txt: 'Deleted', cap: 'Done', cc: 'var(--silk3)' }];
+    const fsw = [{ on: 'on', t: 'Boost', c: 'var(--silk)' }, { on: '', t: 'Delay', c: 'var(--silk3)' }];
+    const tokens = [
+      ['#222325', 'Face', '#222325 → #1B1C1E'], ['#0D0D0F', 'Rack rail', '#040404 · #0D0D0F'], ['#E8E4DC', 'Silk', '#E8E4DC · 13:1'], ['#A29D95', 'Silk 2', '#A29D95 · 6.1:1'], ['#8F8A83', 'Silk 3', '#8F8A83 · 4.8:1'],
+      ['#3A3B3E', 'Key', '#414245 → #2C2D30'], ['#C04628', 'Key · red', '#D8532F → #A63A20'], ['color-mix(in oklab, var(--led) 5%, #050302)', 'Glass', 'lamp 5% on #050302'], ['#F3DFAF', 'Meter face', '#F3DFAF cream']
+    ].map(([sw, k, v]) => ({ sw, k, v }));
+    const rkOn = { l: 'linear-gradient(180deg, #1B1C1E, #2A2B2E)', ls: 'inset 0 1px 2px #000', lc: LIT, lg: LG, r: 'linear-gradient(180deg, #3E3F42, #2A2B2E)', rs: 'inset 0 1px 0 #FFFFFF22', rc: '#8F8A83', cap: 'Rocker · on' };
+    const rkOff = { l: 'linear-gradient(180deg, #3E3F42, #2A2B2E)', ls: 'inset 0 1px 0 #FFFFFF22', lc: '#8F8A83', lg: 'none', r: 'linear-gradient(180deg, #1B1C1E, #2A2B2E)', rs: 'inset 0 1px 2px #000', rc: '#E8E4DC', cap: 'Rocker · off' };
+    const meters = [{ label: 'TX', dur: '2.4s', del: '0s' }, { label: 'RX', dur: '3.1s', del: '-1.3s' }];
+    const power = [['50W', 1], ['25W', 0], ['0.5W', 0]].map(([t, on]) => ({ t, on: on ? 'on' : '', c: on ? 'var(--silk)' : 'var(--silk3)' }));
+    return { accent, scr, big, knobMk, knobLines, knobDots, knobLegend, meters, power, sizes, trim, unitMk, unitLegend, unitLines, unitDots, rockers: [rkOn, rkOff], lamps, keyStates, cells, ann, rowStates, bytes, fad, vu, segs, covers, fsw, tokens };
+  }
+}
+</script>
+</body>
+</html>

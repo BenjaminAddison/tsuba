@@ -2,419 +2,461 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Tsuba — Effects</title>
-<script src="./vendor/react.js"></script>
-<script src="./vendor/react-dom.js"></script>
+<title>Katana editor — Effects</title>
 <script src="./support.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Doto:wght@400..900&amp;family=JetBrains+Mono:wght@400..700&amp;display=swap">
 <style>
-body{margin:0;background:#0B0B0A}
-a{color:#ECE8DE}a:hover{color:#FFFFFF}
-button{cursor:pointer}
-:focus-visible{outline:2px solid #EDB03E;outline-offset:2px}
+body{margin:0;background:#070708}
+.ob{--led:#FFB547;--silk:#E8E4DC;--silk2:#A29D95;--silk3:#8F8A83;font-family:Archivo,'Helvetica Neue',Arial,sans-serif;color:var(--silk);-webkit-font-smoothing:antialiased}
+.led-mustard{--led:#FFB547}.led-coral{--led:#FF6B4A}.led-sage{--led:#8CFFB4}.led-steel{--led:#7FDBFF}.led-sand{--led:#FFE3B3}
+:where(.ob) :where(button,input){font:inherit;color:inherit;background:none;border:0;padding:0;margin:0}
+:where(.ob) button{cursor:pointer}
+.ob :focus-visible{outline:2px solid var(--led);outline-offset:2px}
+.unit{position:relative;display:flex;border-radius:3px;background:linear-gradient(180deg,#FFFFFF10 0,#FFFFFF00 14px),repeating-linear-gradient(0deg,#FFFFFF05 0 1px,#00000000 1px 2px,#00000012 2px 3px),linear-gradient(180deg,#222325,#1B1C1E);box-shadow:inset 0 1px 0 #FFFFFF1F,inset 0 -1px 0 #000000B0,0 2px 0 #000,0 10px 18px #00000090}
+.ear{flex:none;width:34px;display:flex;flex-direction:column;justify-content:space-around;align-items:center;background:repeating-linear-gradient(90deg,#FFFFFF05 0 1px,transparent 1px 3px),linear-gradient(90deg,#0000002A,#FFFFFF07 55%,#00000024)}
+.earL{border-right:1px solid #000000B8;box-shadow:1px 0 0 #FFFFFF0E}
+.earR{border-left:1px solid #000000B8;box-shadow:inset 1px 0 0 #FFFFFF0E}
+.slot{position:relative;width:18px;height:10px;border-radius:5px;background:#050506;box-shadow:inset 0 1px 2px #000,0 1px 0 #FFFFFF14}
+.screw{position:absolute;top:0;width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 36% 30%,#F2EFEA,#9A968F 50%,#3E3C39 100%);box-shadow:0 1px 1px #000000CC}
+.screw::before,.screw::after{content:'';position:absolute;left:4.3px;top:1.6px;width:1.4px;height:6.8px;border-radius:1px;background:#33302C}
+.screw::after{transform:rotate(90deg)}
+.silk{font-size:10px;font-weight:700;font-stretch:125%;letter-spacing:.2em;text-transform:uppercase;color:var(--silk);text-shadow:0 1px 0 #000000B0;line-height:1.2;white-space:nowrap}
+.silk2{font-size:9px;font-weight:600;font-stretch:118%;letter-spacing:.18em;text-transform:uppercase;color:var(--silk2);text-shadow:0 1px 0 #000000B0;line-height:1.2;white-space:nowrap}
+.mono{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+.rule{flex:1;height:1px;background:linear-gradient(90deg,#E8E4DC33,#E8E4DC14)}
+.num{padding:1px 5px;border:1px solid #E8E4DC40;border-radius:2px}
+.key{position:relative;display:grid;place-items:center;border-radius:4px;background:linear-gradient(180deg,#414245,#2C2D30);box-shadow:inset 0 1px 0 #FFFFFF22,inset 0 -1px 0 #00000070,0 2px 0 #050505,0 3px 6px #000000A8;font-size:9.5px;font-weight:700;font-stretch:115%;letter-spacing:.14em;text-transform:uppercase;color:#ECE8E0;text-decoration:none;white-space:nowrap;transition:transform .06s,box-shadow .06s,filter .12s}
+.key:hover{filter:brightness(1.12)}
+.key:active,.key.dn{transform:translateY(1.5px);box-shadow:inset 0 1px 2px #00000090,0 .5px 0 #050505}
+.key.red{background:linear-gradient(180deg,#D8532F,#A63A20);color:#FFF4EA;box-shadow:inset 0 1px 0 #FFFFFF45,inset 0 -1px 0 #00000070,0 2px 0 #050505,0 3px 6px #000000A8}
+.lw{display:inline-block;flex:none;width:12px;height:4px;border-radius:1px;background:color-mix(in oklab,var(--led) 13%,#0C0805);box-shadow:inset 0 1px 1px #000,0 1px 0 #FFFFFF10}
+.lw.on{background:linear-gradient(180deg,#FFF6E2 0,var(--led) 42%,color-mix(in oklab,var(--led) 55%,#000) 100%);box-shadow:0 0 7px 1px color-mix(in oklab,var(--led) 65%,transparent),0 0 1px var(--led)}
+.bezel{padding:5px;border-radius:5px;background:linear-gradient(180deg,#040404,#101011);box-shadow:inset 0 1px 0 #000,0 1px 0 #FFFFFF16}
+.glass{position:relative;overflow:hidden;border-radius:2px;background:radial-gradient(ellipse at 50% -30%,color-mix(in oklab,var(--led) 16%,transparent),transparent 62%),color-mix(in oklab,var(--led) 5%,#050302);box-shadow:inset 0 0 26px #000000E0}
+.glass::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle,color-mix(in oklab,var(--led) 9%,transparent) .7px,transparent 1.1px) 0 0/3px 3px}
+.glass::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(162deg,#FFFFFF12 0,#FFFFFF05 34%,transparent 35%)}
+.vfd{color:color-mix(in oklab,var(--led) 82%,#FFFFFF);text-shadow:0 0 7px color-mix(in oklab,var(--led) 85%,transparent),0 0 1px var(--led)}
+.dim{color:color-mix(in oklab,var(--led) 22%,#0B0704);text-shadow:none}
+.knurl{position:absolute;inset:0;border-radius:50%;background:repeating-conic-gradient(#00000038 0 3deg,#FFFFFF16 3deg 6deg);-webkit-mask:radial-gradient(circle,transparent 0 83%,#000 85%);mask:radial-gradient(circle,transparent 0 83%,#000 85%)}
+.knob{touch-action:none;cursor:ns-resize}
+.cur{animation:bl 1.06s steps(1) infinite}
+@keyframes bl{50%{opacity:.3}}
+.mi{animation:mf 1.9s infinite}.mo{animation:mf 2.6s .5s infinite}
+@keyframes mf{0%,100%{opacity:.18}6%{opacity:1}14%{opacity:.18}52%{opacity:.18}57%{opacity:1}63%{opacity:.18}}
+@media (prefers-reduced-motion:reduce){.cur,.mi,.mo{animation:none}}
 </style>
 </helmet>
-<div style="width: 100%; min-height: 900px; box-sizing: border-box; display: flex; flex-direction: column; background: #0B0B0A; color: #ECE8DE; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.02em">
+<div class="ob led-{{accent}}" style="min-height: 100vh; box-sizing: border-box; padding: 12px 12px 14px; display: flex; flex-direction: column; gap: 5px; background: linear-gradient(90deg, #040404, #0D0D0F 18%, #0D0D0F 82%, #040404)">
 
-<header style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap; min-height: 44px; padding: 0 16px; border-bottom: 1px solid #2A2926">
-  <div style="display: flex; align-items: flex-start; gap: 2px">
-    <span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 22px; line-height: 1; letter-spacing: -0.045em">Tsuba</span>
-    <span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 9px; line-height: 1">™</span>
-  </div>
-  <div aria-hidden="true" style="display: flex; flex-direction: column; gap: 2px; width: 20px">
-    <div style="height: 2px; background: #F2685A"></div>
-    <div style="height: 2px; background: #6F8FB8"></div>
-    <div style="height: 2px; background: #EDB03E"></div>
-    <div style="height: 2px; background: #D8C8A4"></div>
-  </div>
-  <span style="font-size: 11px; color: #A29E94">KATANA EDITOR / 0.1</span>
-  <div style="flex: 1 1 24px"></div>
-  <div style="display: flex; align-items: stretch; border: 1px solid #4A4842; height: 26px">
-    <span style="display: flex; align-items: center; padding: 0 8px; background: #ECE8DE; color: #0B0B0A; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 10px; letter-spacing: 0.06em">LINK</span>
-    <span style="display: flex; align-items: center; gap: 8px; padding: 0 10px; font-size: 11px">USB-MIDI · KATANA-50 MK1 <span aria-hidden="true" style="width: 7px; height: 7px; background: #8FB98B"></span></span>
-  </div>
-</header>
-
-<nav aria-label="Sections" style="display: flex; flex-wrap: wrap; align-items: stretch; gap: 4px; padding: 6px 16px 0; border-bottom: 1px solid #2A2926">
-  <a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 24px 0 14px; color: #A29E94; text-decoration: none; border: 1px solid #2A2926; border-bottom: 0"><span style="font-size: 10px">01</span><span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 12px; letter-spacing: 0.04em">EDITOR</span></a>
-  <a href="Effects.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 24px 0 14px; background: #ECE8DE; color: #0B0B0A; text-decoration: none; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)"><span style="font-size: 10px">02</span><span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 12px; letter-spacing: 0.04em">EFFECTS</span></a>
-  <a href="Monitor.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 24px 0 14px; color: #A29E94; text-decoration: none; border: 1px solid #2A2926; border-bottom: 0"><span style="font-size: 10px">03</span><span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 12px; letter-spacing: 0.04em">MONITOR</span></a>
-  <div style="margin-left: auto; display: flex; align-items: center; gap: 18px; padding: 0 4px; font-size: 11px; color: #8A867D">
-    <span>CHANNEL / A:CH2</span>
-    <span>Q4/2026</span>
-  </div>
+<section class="unit" aria-label="Session and views">
+<span class="ear earL" aria-hidden="true"><sc-for list="{{scr.a}}" as="s" hint-placeholder-count="1"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+<div style="flex: 1; min-width: 0; display: flex; align-items: center; gap: 26px; padding: 0 18px; min-height: 54px; flex-wrap: wrap">
+<button aria-label="Session: Katana-50 MK1 online" style="display: flex; align-items: center; gap: 12px">
+<span aria-hidden="true" style="width: 13px; height: 13px; border-radius: 50%; background: radial-gradient(circle at 36% 30%, #FFFBF0 0 11%, var(--led) 40%, color-mix(in oklab, var(--led) 40%, #000) 100%); box-shadow: 0 0 0 2px #050505, 0 0 0 3.5px #5A5853, 0 0 0 4.5px #1A1A1B, 0 0 16px 3px color-mix(in oklab, var(--led) 45%, transparent)"></span>
+<span style="display: flex; flex-direction: column; gap: 3px; align-items: flex-start"><span class="silk" style="font-size: 11px">Katana-50 MK1</span><span class="mono" style="font-size: 9.5px; color: var(--silk3)">USB-MIDI · 3.1 ms</span></span>
+</button>
+<span aria-hidden="true" style="align-self: stretch; width: 1px; margin: 10px 0; background: #00000080; box-shadow: 1px 0 0 #FFFFFF0E"></span>
+<nav aria-label="Views" style="display: flex; align-items: flex-end; gap: 8px; flex-wrap: wrap">
+<sc-for list="{{modes}}" as="m" hint-placeholder-count="5"><span style="display: flex; flex-direction: column; align-items: center; gap: 5px"><span class="lw {{m.on}}" aria-hidden="true" style="width: 10px; height: 3px"></span><a class="key {{m.dn}}" href="{{m.href}}" aria-current="{{m.cur}}" style="height: 22px; padding: 0 11px; font-size: 8.5px">{{m.label}}</a></span></sc-for>
 </nav>
+<a href="Palette.dc.html" class="bezel" aria-label="Search parameters or run a command" style="margin-left: auto; text-decoration: none"><span class="glass" style="display: flex; align-items: center; gap: 8px; width: 270px; max-width: 60vw; height: 24px; padding: 0 10px; box-sizing: border-box"><span class="mono vfd" style="font-size: 10.5px; letter-spacing: .08em">SEARCH ▸</span><span class="cur" aria-hidden="true" style="width: 7px; height: 12px; background: color-mix(in oklab, var(--led) 85%, #FFF); box-shadow: 0 0 6px var(--led)"></span><span class="mono" style="font-size: 10px; color: color-mix(in oklab, var(--led) 38%, #0B0704)">param or command</span></span></a>
+<span class="silk2" style="margin-left: -14px">Ctrl K</span>
+<button class="key" aria-label="Help" style="width: 26px; height: 22px; font-size: 10px">?</button>
+</div>
+<span class="ear earR" aria-hidden="true"><sc-for list="{{scr.b}}" as="s" hint-placeholder-count="1"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+</section>
 
-<main style="flex: 1 1 auto; display: flex; flex-direction: column; gap: 16px; padding: 16px">
+<section class="unit" aria-label="Patch">
+<span class="ear earL" aria-hidden="true"><sc-for list="{{scr.c}}" as="s" hint-placeholder-count="1"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+<div style="flex: 1; min-width: 0; display: flex; align-items: center; gap: 24px; padding: 8px 18px; min-height: 58px; flex-wrap: wrap">
+<span class="silk">Patch</span>
+<div style="display: flex; gap: 7px; align-items: flex-end">
+<sc-for list="{{slots}}" as="s" hint-placeholder-count="5"><span style="display: flex; flex-direction: column; align-items: center; gap: 5px"><span class="lw {{s.on}}" aria-hidden="true" style="width: 10px; height: 3px"></span><button class="key {{s.dn}}" aria-pressed="{{s.active}}" style="height: 24px; padding: 0 9px; font-size: 8.5px">{{s.label}}</button></span></sc-for>
+</div>
+<span class="bezel" style="padding: 4px"><span class="glass" style="display: flex; align-items: center; gap: 12px; padding: 3px 10px"><span class="mono vfd" style="font-size: 8.5px; letter-spacing: .12em">A:CH1</span><span style="display: grid; grid-template-columns: repeat(16, 16px); gap: 2px"><sc-for list="{{cells}}" as="c" hint-placeholder-count="16"><span class="vfd" style="display: grid; place-items: center; height: 26px; font-family: Doto, monospace; font-weight: 800; font-size: 23px; line-height: 1">{{c}}</span></sc-for></span><span class="mono vfd" style="font-size: 8.5px; letter-spacing: .12em">EDIT</span></span></span>
+<div style="margin-left: auto; display: flex; gap: 10px; align-items: center">
+<span class="silk2">Diff</span>
+<span class="bezel" style="padding: 3px"><span class="glass vfd" style="display: grid; place-items: center; width: 30px; height: 22px; font-family: Doto, monospace; font-weight: 800; font-size: 18px">{{changes}}</span></span>
+<button class="key" style="height: 26px; padding: 0 10px; font-size: 8.5px">Revert</button>
+<span class="lw on" aria-hidden="true" style="width: 4px; height: 10px; background: linear-gradient(180deg, #FFE0D6, #FF4A2A 45%, #7A1606); box-shadow: 0 0 8px 1px #FF4A2AB0"></span>
+<button class="key red" style="height: 26px; padding: 0 12px; font-size: 8.5px">Write A:CH1</button>
+</div>
+</div>
+<span class="ear earR" aria-hidden="true"><sc-for list="{{scr.d}}" as="s" hint-placeholder-count="1"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+</section>
 
-  <section aria-labelledby="h-chain" style="background: #4A4842; padding: 1px; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)">
-    <div style="background: #121211; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)">
-      <div style="display: flex; align-items: stretch; min-height: 30px; border-bottom: 1px solid #2A2926">
-        <h2 id="h-chain" style="margin: 0; display: flex; align-items: center; padding: 0 20px 0 10px; background: #ECE8DE; color: #0B0B0A; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 12px; letter-spacing: 0.04em; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%)">SIGNAL CHAIN</h2>
-        <div aria-hidden="true" style="width: 64px; margin-left: 4px; background: repeating-linear-gradient(-45deg, #ECE8DE 0 2px, transparent 2px 6px); clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)"></div>
-        <span style="align-self: center; padding: 0 12px; font-size: 10px; color: #8A867D">{{chainHint}}</span>
-        <span style="margin-left: auto; align-self: center; padding: 0 28px 0 8px; font-size: 10px; color: #8A867D">12 BLOCKS · IN → OUT</span>
-      </div>
-      <div style="display: flex; align-items: center; gap: 10px; padding: 16px 16px 14px">
-        <span aria-hidden="true" style="font-size: 10px; color: #8A867D">IN</span>
-        <div style="flex: 1 1 auto; min-width: 0; overflow-x: auto">
-          <div onDragOver="{{dragOver}}" onDrop="{{drop}}" style="position: relative; min-width: 1080px; height: 104px">
-            <div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 52px; height: 1px; background: #4A4842"></div>
-            <sc-for list="{{blocks}}" as="b" hint-placeholder-count="12">
-              <button type="button" draggable="true" onDragStart="{{b.dragStart}}" onDragEnd="{{b.dragEnd}}" onClick="{{b.pick}}" aria-pressed="{{b.selected}}" style="position: absolute; top: 0; left: calc({{b.slot}} * (100% + 6px) / 12); width: calc((100% - 66px) / 12); height: 104px; padding: 1px; border: 0; background: {{b.edge}}; color: {{b.fg}}; font: inherit; letter-spacing: 0.02em; text-align: left; opacity: {{b.op}}; transition: left 180ms ease, opacity 120ms linear; cursor: grab; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)">
-                <span style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; box-sizing: border-box; padding: 8px 9px 9px; background: {{b.fill}}; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)">
-                  <span style="display: flex; justify-content: space-between; align-items: center; padding-right: 6px; font-size: 10px; color: {{b.sub}}">
-                    <span>{{b.num}}</span>
-                    <svg width="8" height="12" viewBox="0 0 8 12" aria-hidden="true"><path d="M1 1h2v2H1zM5 1h2v2H5zM1 5h2v2H1zM5 5h2v2H5zM1 9h2v2H1zM5 9h2v2H5z" fill="{{b.sub}}"></path></svg>
-                  </span>
-                  <span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 112.5%; font-size: 12px; letter-spacing: 0.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{b.id}}</span>
-                  <span style="font-size: 10px; color: {{b.sub}}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{b.type}}</span>
-                  <span aria-hidden="true" style="display: block; height: 4px; background: {{b.bar}}"></span>
-                </span>
-              </button>
-            </sc-for>
-          </div>
-        </div>
-        <span aria-hidden="true" style="font-size: 10px; color: #8A867D">OUT</span>
-      </div>
-      <div aria-hidden="true" style="display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 0 16px 14px; font-size: 10px; color: #8A867D">
-        <span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 4px; background: #F2685A"></span>DRIVE</span>
-        <span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 4px; background: #6F8FB8"></span>MODULATION</span>
-        <span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 4px; background: #EDB03E"></span>TIME</span>
-        <span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 4px; background: #D8C8A4"></span>DYNAMICS · EQ · ROUTING</span>
-        <span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 4px; background: repeating-linear-gradient(90deg, #8A867D 0 2px, transparent 2px 4px)"></span>BYPASSED</span>
-      </div>
-    </div>
-  </section>
+<section class="unit" aria-label="Signal path">
+<span class="ear earL" aria-hidden="true"><sc-for list="{{scr.e}}" as="s" hint-placeholder-count="2"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+<div style="flex: 1; min-width: 0; padding: 12px 20px 8px; display: flex; flex-direction: column; gap: 2px">
+<div style="display: flex; align-items: center; gap: 12px"><span class="silk">Signal path</span><span class="silk2" style="letter-spacing: .12em">Select a block to edit · LED engages</span><span class="rule"></span><span class="silk2 num">02</span></div>
+<div style="overflow-x: auto">
+<div style="display: flex; align-items: center; min-width: max-content; padding: 24px 4px 26px">
+<span class="silk2" style="color: var(--silk); padding-right: 10px">In</span>
+<sc-for list="{{chain}}" as="b" hint-placeholder-count="18">
+<span aria-hidden="true" style="position: relative; flex: 1 1 12px; min-width: 14px; height: 1px; background: #E8E4DC5E"><span style="position: absolute; right: -1px; top: -3px; border-left: 5px solid #E8E4DCA0; border-top: 3.5px solid transparent; border-bottom: 3.5px solid transparent"></span></span>
+<sc-if value="{{b.isBlock}}" hint-placeholder-val="{{true}}">
+<div style="position: relative; flex: none">
+<button onClick="{{b.toggle}}" aria-pressed="{{b.on}}" aria-label="{{b.tl}}" style="position: absolute; left: calc(50% - 10px); top: -22px; width: 20px; height: 18px; display: grid; place-items: center"><span class="lw {{b.ledCls}}" style="width: 6px; height: 6px; border-radius: 50%"></span></button>
+<button onClick="{{b.pick}}" aria-pressed="{{b.sel}}" aria-label="{{b.aria}}" style="display: grid; place-items: center; min-width: {{b.w}}px; height: 32px; padding: 0 9px; box-sizing: border-box; border: 1px solid {{b.stroke}}; border-radius: 2px; background: {{b.fill}}; font-size: 10px; font-weight: 700; font-stretch: 112%; letter-spacing: .12em; color: {{b.tc}}; box-shadow: {{b.sh}}">{{b.short}}</button>
+<span class="mono" style="position: absolute; left: 50%; top: 38px; transform: translateX(-50%); font-size: 8.5px; letter-spacing: .04em; color: {{b.typeC}}; white-space: nowrap">{{b.type}}</span>
+</div>
+</sc-if>
+<sc-if value="{{b.isRO}}" hint-placeholder-val="{{false}}">
+<div style="position: relative; flex: none" title="{{b.aria}}"><span style="display: grid; place-items: center; height: 32px; padding: 0 8px; box-sizing: border-box; border: 1px dashed #E8E4DC45; border-radius: 2px; font-size: 9px; font-weight: 600; font-stretch: 112%; letter-spacing: .12em; color: var(--silk3)">{{b.short}}</span><span class="mono" style="position: absolute; left: 50%; top: 38px; transform: translateX(-50%); font-size: 8.5px; color: var(--silk3)">fixed</span></div>
+</sc-if>
+</sc-for>
+<span aria-hidden="true" style="position: relative; flex: 1 1 12px; min-width: 14px; height: 1px; background: #E8E4DC5E"><span style="position: absolute; right: -1px; top: -3px; border-left: 5px solid #E8E4DCA0; border-top: 3.5px solid transparent; border-bottom: 3.5px solid transparent"></span></span>
+<span class="silk2" style="color: var(--silk); padding-left: 10px">Out</span>
+</div>
+</div>
+</div>
+<span class="ear earR" aria-hidden="true"><sc-for list="{{scr.f}}" as="s" hint-placeholder-count="2"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+</section>
 
-  <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 16px">
+<section class="unit" aria-label="Block editor" style="flex: 1">
+<span class="ear earL" aria-hidden="true"><sc-for list="{{scr.g}}" as="s" hint-placeholder-count="2"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+<div style="flex: 1; min-width: 0; padding: 12px 20px 18px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 12px"><span class="silk">Block · {{blk.name}}</span><span class="rule"></span><span class="silk">Parameter</span><span class="rule" style="flex: 0 0 40px"></span><span class="silk2 num">03</span></div>
+<div style="display: flex; gap: 26px; align-items: stretch; flex-wrap: wrap">
 
-    <section aria-labelledby="h-par" style="flex: 1 1 560px; min-width: 0; background: #4A4842; padding: 1px; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)">
-      <div style="background: #121211; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)">
-        <div style="display: flex; align-items: stretch; min-height: 30px; border-bottom: 1px solid #2A2926">
-          <h2 id="h-par" style="margin: 0; display: flex; align-items: center; padding: 0 20px 0 10px; background: #ECE8DE; color: #0B0B0A; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 12px; letter-spacing: 0.04em; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%)">{{selId}}</h2>
-          <span aria-hidden="true" style="width: 30px; margin-left: 4px; background: {{selColor}}; clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)"></span>
-          <span style="align-self: center; padding: 0 12px; font-size: 10px; color: #8A867D">PARAMETERS / {{paramCount}}</span>
-          <span style="margin-left: auto; align-self: center; padding: 0 28px 0 8px; font-size: 10px; color: #8A867D">POSITION {{selPos}} / 12</span>
-        </div>
+<div style="flex: 999 1 760px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap">
+<span style="font-size: 20px; font-weight: 800; font-stretch: 125%; letter-spacing: .08em; text-transform: uppercase; color: var(--silk); text-shadow: 0 1px 0 #000">{{blk.title}}</span>
+<sc-if value="{{blk.hasType}}" hint-placeholder-val="{{true}}"><span class="bezel" style="padding: 3px"><span class="glass mono vfd" style="display: flex; gap: 10px; align-items: center; height: 22px; padding: 0 10px; font-size: 11.5px; letter-spacing: .06em; white-space: nowrap">{{blk.type}}<span style="opacity: .65">{{blk.pos}}</span></span></span></sc-if>
+<span class="silk2" style="color: var(--silk3); letter-spacing: .1em">{{blk.meta}}</span>
+<div style="margin-left: auto; display: flex; gap: 8px; align-items: flex-end">
+<span style="display: flex; flex-direction: column; align-items: center; gap: 5px"><span class="lw {{blk.onLed}}" aria-hidden="true" style="width: 10px; height: 3px"></span><button class="key {{blk.onDn}}" onClick="{{blk.toggle}}" aria-pressed="{{blk.on}}" style="width: 66px; height: 24px; font-size: 8.5px">{{blk.onTxt}}</button></span>
+<button class="key" aria-label="Move block earlier in the chain" style="width: 26px; height: 24px; font-size: 8px">◀</button>
+<span class="silk2" style="align-self: center">Move</span>
+<button class="key" aria-label="Move block later in the chain" style="width: 26px; height: 24px; font-size: 8px">▶</button>
+<button class="key" onClick="{{blk.reset}}" style="height: 24px; padding: 0 10px; font-size: 8.5px">Reset</button>
+</div>
+</div>
 
-        <sc-if value="{{isAmp}}" hint-placeholder-val="{{ false }}">
-          <div style="display: flex; flex-direction: column; gap: 14px; padding: 24px 16px">
-            <span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 18px">AMP SETTINGS LIVE ON THE EDITOR TAB</span>
-            <span style="font-size: 11px; color: #A29E94">Drag the AMP block to move it in the chain. Select it to edit model, gain and EQ.</span>
-            <a href="Main.dc.html" style="align-self: flex-start; display: flex; align-items: center; min-height: 44px; padding: 0 26px 0 16px; background: #ECE8DE; color: #0B0B0A; text-decoration: none; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 11px; letter-spacing: 0.04em; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)">OPEN EDITOR →</a>
-          </div>
-        </sc-if>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<sc-if value="{{blk.hasGroups}}" hint-placeholder-val="{{false}}">
+<div role="group" aria-label="Type family" style="display: flex; gap: 16px; flex-wrap: wrap; padding-left: 2px">
+<sc-for list="{{blk.groups}}" as="g" hint-placeholder-count="4"><button onClick="{{g.pick}}" aria-pressed="{{g.on}}" class="silk2" style="padding: 2px 0; color: {{g.c}}; box-shadow: {{g.u}}">{{g.label}} <span style="color: var(--silk3)">{{g.n}}</span></button></sc-for>
+</div>
+</sc-if>
+<div role="group" aria-label="Type" style="display: flex; gap: 6px; flex-wrap: wrap; align-items: flex-end">
+<sc-for list="{{blk.typeKeys}}" as="t" hint-placeholder-count="8"><span style="display: flex; flex-direction: column; align-items: center; gap: 5px"><span class="lw {{t.on}}" aria-hidden="true" style="width: 10px; height: 3px"></span><button class="key {{t.dn}}" onClick="{{t.pick}}" aria-pressed="{{t.active}}" style="height: 22px; padding: 0 9px; font-size: 8px">{{t.label}}</button></span></sc-for>
+</div>
+</div>
 
-        <sc-if value="{{notAmp}}" hint-placeholder-val="{{ true }}">
-          <div style="display: flex; flex-direction: column; gap: 12px; padding: 16px">
-            <div style="display: flex; flex-wrap: wrap; gap: 6px">
-              <button type="button" onClick="{{toggleOn}}" aria-pressed="{{onPressed}}" style="flex: 0 1 auto; min-height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 12px; background: transparent; border: 1px solid #4A4842; color: #ECE8DE; font: inherit">
-                <span style="width: 64px; font-size: 10px; color: #A29E94; text-align: left">{{onLabel}}</span>
-                <span style="display: flex; justify-content: {{onJustify}}; width: 34px; height: 16px; box-sizing: border-box; padding: 2px; border: 1px solid #ECE8DE"><span style="width: 12px; height: 10px; background: {{onKnob}}"></span></span>
-              </button>
-              <button type="button" onClick="{{toggleTypes}}" aria-expanded="{{typeOpenStr}}" style="flex: 1 1 220px; min-height: 44px; display: flex; align-items: stretch; gap: 12px; padding: 0 0 0 12px; background: #0B0B0A; border: 1px solid {{ddBorder}}; color: #ECE8DE; font: inherit; letter-spacing: 0.02em; text-align: left">
-                <span style="align-self: center; font-size: 10px; color: #8A867D">TYPE</span>
-                <span style="align-self: center; flex: 1 1 auto; min-width: 0; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{selType}}</span>
-                <span style="align-self: center; font-size: 10px; color: #A29E94">{{typeMeta}}</span>
-                <span aria-hidden="true" style="width: 44px; flex: 0 0 auto; display: flex; align-items: center; justify-content: center; border-left: 1px solid #4A4842; background: {{ddCapBg}}"><svg width="14" height="10" viewBox="0 0 14 10"><path d="{{chev}}" fill="none" stroke="{{ddCapFg}}" stroke-width="2"></path></svg></span>
-              </button>
-              <button type="button" onClick="{{moveL}}" aria-label="Move block earlier in chain" style="width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; padding: 0; background: transparent; border: 1px solid #4A4842; color: #ECE8DE"><svg width="10" height="12" viewBox="0 0 10 12" aria-hidden="true"><path d="M9 1L1 6l8 5z" fill="#ECE8DE"></path></svg></button>
-              <button type="button" onClick="{{moveR}}" aria-label="Move block later in chain" style="width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; padding: 0; background: transparent; border: 1px solid #4A4842; color: #ECE8DE"><svg width="10" height="12" viewBox="0 0 10 12" aria-hidden="true"><path d="M1 1l8 5-8 5z" fill="#ECE8DE"></path></svg></button>
-            </div>
+<div style="display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; padding-top: 14px; border-top: 1px solid #00000070; box-shadow: inset 0 1px 0 #FFFFFF0A">
+<sc-if value="{{viz.has}}" hint-placeholder-val="{{true}}">
+<div class="bezel" style="flex: 0 1 360px; min-width: 260px">
+<div class="glass" style="height: 172px">
+<svg viewBox="0 0 360 160" preserveAspectRatio="none" role="img" aria-label="{{viz.label}}" style="position: absolute; inset: 22px 12px 18px 12px; width: calc(100% - 24px); height: calc(100% - 40px); overflow: visible">
+<path d="{{gridD}}" fill="none" stroke-width="1" stroke-dasharray="1 3" vector-effect="non-scaling-stroke" style="stroke: color-mix(in oklab, var(--led) 24%, transparent)"></path>
+<path d="{{viz.axes}}" fill="none" stroke-width="1" vector-effect="non-scaling-stroke" style="stroke: color-mix(in oklab, var(--led) 40%, transparent)"></path>
+<path d="{{viz.fill}}" style="fill: color-mix(in oklab, var(--led) 12%, transparent); stroke: none"></path>
+<path d="{{viz.d2}}" fill="none" stroke-width="1.2" stroke-dasharray="3 3" vector-effect="non-scaling-stroke" style="stroke: color-mix(in oklab, var(--led) 50%, transparent)"></path>
+<path d="{{viz.d}}" fill="none" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke" style="stroke: color-mix(in oklab, var(--led) 85%, #FFFFFF); filter: drop-shadow(0 0 3px var(--led))"></path>
+</svg>
+<sc-for list="{{viz.bars}}" as="b" hint-placeholder-count="0"><span aria-hidden="true" style="position: absolute; left: calc(12px + (100% - 24px) * {{b.l}}); top: calc(22px + (100% - 40px) * {{b.t}}); width: {{b.w}}; height: calc((100% - 40px) * {{b.h}}); background: color-mix(in oklab, var(--led) 85%, #FFFFFF); opacity: {{b.o}}; box-shadow: 0 0 6px var(--led)"></span></sc-for>
+<span class="mono vfd" style="position: absolute; left: 10px; top: 6px; font-size: 9px; letter-spacing: .1em">{{viz.label}}</span>
+<span class="mono vfd" style="position: absolute; right: 10px; top: 6px; font-size: 9px">{{viz.label2}}</span>
+<span class="mono vfd" style="position: absolute; left: 10px; bottom: 3px; font-size: 8.5px; opacity: .7">{{viz.foot}}</span>
+<span class="mono vfd" style="position: absolute; right: 10px; bottom: 3px; font-size: 8.5px; opacity: .7">{{viz.foot2}}</span>
+</div>
+</div>
+</sc-if>
+<div style="flex: 1 1 300px; min-width: 0; display: flex; flex-wrap: wrap; gap: 16px 6px">
+<sc-for list="{{params}}" as="k" hint-placeholder-count="5">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 4px; width: 82px">
+<sc-if value="{{k.isKnob}}" hint-placeholder-val="{{true}}">
+<div style="position: relative; width: 66px; height: 66px">
+<svg viewBox="0 0 100 100" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible"><path d="{{k.ticks}}" stroke="#E8E4DCB8" stroke-width="1.4" stroke-linecap="round" fill="none"></path><path d="{{k.mem}}" stroke-width="2.8" stroke-linecap="round" fill="none" style="stroke: var(--led); filter: drop-shadow(0 0 2px var(--led))"></path></svg>
+<button class="knob" aria-label="{{k.aria}}" onPointerDown="{{k.down}}" onPointerMove="{{k.move}}" onPointerUp="{{k.up}}" onDoubleClick="{{k.reset}}" onKeyDown="{{k.key}}" style="position: absolute; inset: 18%; border-radius: 50%; background: radial-gradient(circle at 50% 30%, #F6F4F0, #B6B2AB 58%, #6C6862); box-shadow: 0 6px 10px #000000B8, 0 1px 2px #000">
+<span class="knurl" aria-hidden="true"></span>
+<span aria-hidden="true" style="position: absolute; inset: 12%; border-radius: 50%; background: conic-gradient(from 25deg, #FFFFFF5A, #00000026 25%, #FFFFFF5A 50%, #00000026 75%, #FFFFFF5A), repeating-radial-gradient(circle, #DCD9D3 0 .7px, #C6C2BB .7px 1.5px); box-shadow: inset 0 1px 1px #FFFFFF90, inset 0 -1px 2px #00000060"></span>
+<span aria-hidden="true" style="position: absolute; inset: 0; transform: rotate({{k.rot}}deg)"><span style="position: absolute; left: calc(50% - 1.25px); top: 7%; width: 2.5px; height: 36%; border-radius: 1.5px; background: #141414"></span><span style="position: absolute; left: calc(50% - 2px); top: 1.5%; width: 4px; height: 4px; border-radius: 50%; background: #FBFAF6"></span></span>
+</button>
+</div>
+</sc-if>
+<sc-if value="{{k.isSwitch}}" hint-placeholder-val="{{false}}">
+<span style="display: flex; flex-direction: column; align-items: center; gap: 6px; height: 66px; justify-content: center"><span class="lw {{k.ledOn}}" aria-hidden="true"></span><button class="key {{k.dn}}" onClick="{{k.flip}}" aria-pressed="{{k.on}}" aria-label="{{k.aria}}" style="width: 58px; height: 26px; font-size: 8.5px">{{k.txt}}</button></span>
+</sc-if>
+<span style="display: flex; align-items: center; gap: 5px"><span class="lw {{k.ledCls}}" aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%"></span><span class="silk2" style="color: var(--silk); letter-spacing: .14em">{{k.label}}</span></span>
+<span class="mono" style="min-height: 15px; padding: 0 4px; border-radius: 2px; font-size: 10.5px; background: {{k.selBg}}; color: {{k.vc}}; text-shadow: {{k.vg}}; white-space: nowrap">{{k.txt2}}</span>
+</div>
+</sc-for>
+</div>
+</div>
+<sc-if value="{{blk.hasNote}}" hint-placeholder-val="{{false}}"><span class="silk2" style="color: var(--silk3); letter-spacing: .1em; white-space: normal; line-height: 1.5">{{blk.note}}</span></sc-if>
+</div>
 
-            <sc-if value="{{typeOpen}}" hint-placeholder-val="{{ false }}">
-              <div role="listbox" aria-label="Effect type" style="display: flex; flex-wrap: wrap; gap: 4px; padding: 10px; border: 1px solid #ECE8DE; background: #0B0B0A">
-                <sc-for list="{{types}}" as="t" hint-placeholder-count="6">
-                  <button type="button" role="option" aria-selected="{{t.pressed}}" onClick="{{t.pick}}" style="flex: 1 1 140px; min-height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 10px; background: {{t.bg}}; color: {{t.fg}}; border: 1px solid {{t.border}}; font: inherit; letter-spacing: 0.02em; text-align: left">
-                    <span style="font-size: 10px; color: {{t.sub}}">{{t.idx}}</span>
-                    <span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-stretch: 112.5%; font-size: 12px; white-space: nowrap">{{t.name}}</span>
-                  </button>
-                </sc-for>
-              </div>
-            </sc-if>
+<span aria-hidden="true" style="align-self: stretch; width: 1px; background: #00000080; box-shadow: 1px 0 0 #FFFFFF0E"></span>
 
-            <div style="display: flex; flex-wrap: wrap; column-gap: 24px">
-              <sc-for list="{{params}}" as="p" hint-placeholder-count="10">
-                <div style="flex: 1 1 180px; min-width: 0; display: flex; flex-direction: column; gap: 4px; padding: 10px 0 8px; border-bottom: 1px solid #2A2926">
-                  <div style="display: flex; justify-content: space-between; gap: 8px; font-size: 10px"><span style="color: #A29E94">{{p.name}}</span><span>{{p.text}}</span></div>
-                  <sc-if value="{{p.isSlider}}" hint-placeholder-val="{{ true }}">
-                    <div role="img" aria-label="{{p.aria}}" style="position: relative; height: 44px">
-                      <div style="position: absolute; left: 0; right: 0; top: 21px; height: 1px; background: #4A4842"></div>
-                      <div style="position: absolute; left: 0; width: {{p.w}}; top: 20px; height: 3px; background: #ECE8DE"></div>
-                      <div style="position: absolute; left: 0; right: 0; top: 26px; height: 6px; background: repeating-linear-gradient(90deg, #4A4842 0 1px, transparent 1px 10%)"></div>
-                      <div style="position: absolute; left: calc({{p.w}} - 4px); top: 14px; width: 8px; height: 15px; background: {{accent}}"></div>
-                    </div>
-                  </sc-if>
-                  <sc-if value="{{p.isEnum}}" hint-placeholder-val="{{ false }}">
-                    <div role="group" aria-label="{{p.name}}" style="display: flex; gap: 3px">
-                      <sc-for list="{{p.opts}}" as="o" hint-placeholder-count="2">
-                        <button type="button" onClick="{{o.pick}}" aria-pressed="{{o.pressed}}" style="flex: 1 1 0; min-width: 0; min-height: 44px; padding: 0 4px; background: {{o.bg}}; color: {{o.fg}}; border: 1px solid {{o.border}}; font-family: 'Archivo', sans-serif; font-weight: 700; font-stretch: 112.5%; font-size: 11px">{{o.t}}</button>
-                      </sc-for>
-                    </div>
-                  </sc-if>
-                </div>
-              </sc-for>
-            </div>
-          </div>
-        </sc-if>
-      </div>
-    </section>
+<div style="flex: 1 1 310px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div class="bezel">
+<div class="glass" style="display: flex; flex-direction: column; gap: 6px; padding: 9px 12px 10px">
+<span class="mono vfd" style="position: relative; font-size: 11px; letter-spacing: .06em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{probe.path}}</span>
+<span style="position: relative; display: flex; align-items: baseline; gap: 16px">
+<span class="vfd" style="font-family: Doto, monospace; font-weight: 800; font-size: 26px; line-height: 1">{{probe.now}}</span>
+<span class="mono vfd" style="font-size: 10px; opacity: .8">MEM {{probe.stored}}</span>
+<span class="mono vfd" style="margin-left: auto; font-size: 10px; opacity: .8">{{probe.range}}</span>
+</span>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 8px">
+<span class="bezel" style="flex: 1; min-width: 0; padding: 3px"><span class="glass mono vfd" style="display: flex; align-items: center; gap: 8px; height: 22px; padding: 0 9px; font-size: 10.5px; white-space: nowrap; overflow: hidden"><span style="opacity: .7">&gt;</span><span style="overflow: hidden; text-overflow: ellipsis">{{probe.cli}}</span></span></span>
+<button class="key {{copyDn}}" onClick="{{copy}}" style="height: 26px; padding: 0 10px; font-size: 8.5px">{{copyTxt}}</button>
+</div>
+<span class="silk2" style="color: var(--silk3); letter-spacing: .1em; white-space: normal; line-height: 1.5">Touch a knob to load it here · the same line works in the command bar</span>
+<div style="display: flex; align-items: center; gap: 10px; margin-top: 4px"><span class="silk2">Assigned controls</span><span class="rule"></span></div>
+<sc-for list="{{asg}}" as="a" hint-placeholder-count="1">
+<div style="display: flex; align-items: center; gap: 10px">
+<span class="lw on" aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%"></span>
+<span class="mono" style="font-size: 10.5px; color: var(--silk)">{{a.id}}</span>
+<span class="mono" style="flex: 1; min-width: 0; font-size: 10.5px; color: var(--silk2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{a.src}} → {{a.tgt}}</span>
+<span class="mono" style="font-size: 10px; color: var(--silk3)">{{a.range}}</span>
+</div>
+</sc-for>
+<sc-if value="{{asgEmpty}}" hint-placeholder-val="{{false}}"><span class="silk2" style="color: var(--silk3); letter-spacing: .1em">No controls drive this block</span></sc-if>
+<a href="Control.dc.html" class="key" style="align-self: flex-start; height: 24px; padding: 0 10px; font-size: 8.5px">+ Assign control</a>
+</div>
+</div>
+</div>
+<span class="ear earR" aria-hidden="true"><sc-for list="{{scr.h}}" as="s" hint-placeholder-count="2"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+</section>
 
-    <section aria-labelledby="h-fr" style="flex: 1 1 560px; min-width: 0; background: #4A4842; padding: 1px; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)">
-      <div style="background: #121211; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)">
-        <div style="display: flex; align-items: stretch; min-height: 30px; border-bottom: 1px solid #2A2926">
-          <h2 id="h-fr" style="margin: 0; display: flex; align-items: center; padding: 0 20px 0 10px; background: #ECE8DE; color: #0B0B0A; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 12px; letter-spacing: 0.04em; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%)">FREQUENCY RESPONSE</h2>
-          <span style="align-self: center; display: flex; align-items: center; gap: 6px; padding: 0 12px; font-size: 10px; color: #A29E94"><span aria-hidden="true" style="width: 6px; height: 6px; background: #8FB98B"></span>LIVE</span>
-          <span style="margin-left: auto; align-self: center; padding: 0 28px 0 8px; font-size: 10px; color: #8A867D">EQ + FILTERS</span>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 12px; padding: 16px">
-          <div role="group" aria-label="Bands" style="display: flex; flex-wrap: wrap; gap: 4px">
-            <sc-for list="{{bands}}" as="d" hint-placeholder-count="6">
-              <button type="button" onClick="{{d.pick}}" aria-pressed="{{d.pressed}}" style="flex: 1 1 80px; min-height: 44px; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 0 6px; background: {{d.bg}}; color: {{d.fg}}; border: 1px solid {{d.border}}; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 112.5%; font-size: 11px; white-space: nowrap"><span style="font-family: 'IBM Plex Mono', monospace; font-weight: 400; font-size: 10px">{{d.n}}</span>{{d.label}}</button>
-            </sc-for>
-          </div>
-
-          <div style="display: flex; flex-direction: column; gap: 4px">
-            <div style="position: relative; height: 260px; border: 1px solid #4A4842; background: #0B0B0A">
-              <svg viewBox="0 0 600 260" preserveAspectRatio="none" aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%">
-                <path d="{{grid}}" fill="none" stroke="#242320" stroke-width="1" vector-effect="non-scaling-stroke"></path>
-                <path d="M0 130H600" fill="none" stroke="#4A4842" stroke-width="1" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"></path>
-                <path d="{{c0}}" fill="none" stroke="{{k0}}" stroke-width="1.2" vector-effect="non-scaling-stroke"></path>
-                <path d="{{c1}}" fill="none" stroke="{{k1}}" stroke-width="1.2" vector-effect="non-scaling-stroke"></path>
-                <path d="{{c2}}" fill="none" stroke="{{k2}}" stroke-width="1.2" vector-effect="non-scaling-stroke"></path>
-                <path d="{{c3}}" fill="none" stroke="{{k3}}" stroke-width="1.2" vector-effect="non-scaling-stroke"></path>
-                <path d="{{c4}}" fill="none" stroke="{{k4}}" stroke-width="1.2" vector-effect="non-scaling-stroke"></path>
-                <path d="{{c5}}" fill="none" stroke="{{k5}}" stroke-width="1.2" vector-effect="non-scaling-stroke"></path>
-                <path d="{{sum}}" fill="none" stroke="{{accent}}" stroke-width="2.2" vector-effect="non-scaling-stroke"></path>
-              </svg>
-              <span style="position: absolute; left: 6px; top: 26.9%; transform: translateY(-50%); font-size: 10px; color: #8A867D">+12</span>
-              <span style="position: absolute; left: 6px; top: 50%; transform: translateY(-50%); font-size: 10px; color: #8A867D">0 DB</span>
-              <span style="position: absolute; left: 6px; top: 73.1%; transform: translateY(-50%); font-size: 10px; color: #8A867D">−12</span>
-              <sc-for list="{{handles}}" as="h" hint-placeholder-count="6">
-                <button type="button" onClick="{{h.pick}}" aria-label="{{h.aria}}" aria-pressed="{{h.pressed}}" style="position: absolute; left: calc({{h.x}} - 22px); top: calc({{h.y}} - 22px); width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; padding: 0; background: transparent; border: 0">
-                  <span style="width: 10px; height: 10px; background: {{h.fill}}; border: 1px solid {{h.ring}}"></span>
-                </button>
-              </sc-for>
-            </div>
-            <div aria-hidden="true" style="position: relative; height: 16px; font-size: 10px; color: #8A867D">
-              <sc-for list="{{fLabels}}" as="f" hint-placeholder-count="10"><span style="position: absolute; left: {{f.x}}; transform: translateX({{f.tx}})">{{f.t}}</span></sc-for>
-            </div>
-          </div>
-
-          <div style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 14px 28px; padding-top: 12px; border-top: 1px solid #2A2926">
-            <div style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 10px; color: #8A867D">BAND</span><span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 20px; line-height: 1">{{bandName}}</span></div>
-            <div style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 10px; color: #8A867D">FREQ</span><span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-stretch: 112.5%; font-size: 20px; line-height: 1">{{bandF}}</span></div>
-            <div style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 10px; color: #8A867D">GAIN</span><span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-stretch: 112.5%; font-size: 20px; line-height: 1">{{bandG}}</span></div>
-            <div style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 10px; color: #8A867D">{{bandQLabel}}</span><span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-stretch: 112.5%; font-size: 20px; line-height: 1">{{bandQ}}</span></div>
-            <span style="margin-left: auto; font-size: 10px; color: #8A867D">DRAG HANDLE · SCROLL FOR Q</span>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
-</main>
-
-<footer style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; min-height: 30px; padding: 0 16px; border-top: 1px solid #2A2926; font-size: 10px; color: #8A867D">
-  <span style="display: flex; align-items: center; gap: 6px; color: #ECE8DE"><span aria-hidden="true" style="width: 6px; height: 6px; background: #8FB98B"></span>ONLINE</span>
-  <span>BUFFER / SYNCED</span>
-  <span>DEVICE ID / 00H</span>
-  <span style="margin-left: auto">BLOCK NAMES + PARAMETERS ARE SAMPLE CONTENT</span>
-  <span>TSUBA 0.1</span>
-</footer>
+<section class="unit" aria-label="Status">
+<span class="ear earL" aria-hidden="true"><sc-for list="{{scr.k}}" as="s" hint-placeholder-count="1"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+<div style="flex: 1; min-width: 0; display: flex; align-items: center; gap: 22px; padding: 0 18px; min-height: 40px; flex-wrap: wrap">
+<span style="display: flex; align-items: center; gap: 12px"><span class="silk2">MIDI</span><span style="display: flex; align-items: center; gap: 5px"><span class="lw on mi" aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%"></span><span class="silk2" style="color: var(--silk3)">In</span></span><span style="display: flex; align-items: center; gap: 5px"><span class="lw on mo" aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%"></span><span class="silk2" style="color: var(--silk3)">Out</span></span><span style="display: flex; align-items: center; gap: 5px"><span class="lw on" aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%"></span><span class="silk2" style="color: var(--silk3)">Editor mode</span></span></span>
+<span class="bezel" style="padding: 2px"><span class="glass mono vfd" style="display: flex; height: 18px; align-items: center; padding: 0 8px; font-size: 9.5px; white-space: nowrap">TX 1284 · RX 3902 · ERR 0</span></span>
+<span class="silk2" style="margin-left: auto; letter-spacing: .1em">Comp, chorus, pre B, divider and mixer are fixed by the firmware</span>
+</div>
+<span class="ear earR" aria-hidden="true"><sc-for list="{{scr.l}}" as="s" hint-placeholder-count="1"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+</section>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#F2685A","options":["#F2685A","#EDB03E","#6F8FB8","#8FB98B"]},"$preview":{"width":1440,"height":900}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"enum","options":["mustard","coral","sage","steel","sand"],"default":"mustard","section":"Theme"},"$preview":{"width":1440,"height":900}}'>
 class Component extends DCLogic {
-  constructor(props) {
-    super(props);
-    this.state = {
-      order: ['PEDAL FX', 'BOOSTER', 'MOD', 'AMP', 'NS', 'FX', 'EQ', 'SEND/RTN', 'FOOT VOL', 'DELAY', 'DELAY 2', 'REVERB'],
-      sel: 'DELAY', drag: null, over: null, typeOpen: false, band: 'HI-MID',
-      on: { 'PEDAL FX': false, BOOSTER: true, MOD: false, AMP: true, NS: true, FX: false, EQ: true, 'SEND/RTN': false, 'FOOT VOL': true, DELAY: true, 'DELAY 2': false, REVERB: true },
-      type: { 'PEDAL FX': 'WAH', BOOSTER: 'BLUES OD', MOD: 'CHORUS', AMP: 'CLEAN', NS: 'GATE', FX: 'TREMOLO', EQ: 'PARAMETRIC', 'SEND/RTN': 'SERIES', 'FOOT VOL': 'VOLUME', DELAY: 'TAPE ECHO', 'DELAY 2': 'DIGITAL', REVERB: 'PLATE' },
-      en: {}
-    };
-  }
   renderVals() {
-    const accent = this.props.accent ?? '#F2685A';
-    const s = this.state;
-    const INK = '#ECE8DE';
-    const BG = '#0B0B0A';
-    const pad2 = (n) => String(n).padStart(2, '0');
-    const r1 = (n) => Math.round(n * 10) / 10;
-    const IDS = ['PEDAL FX', 'BOOSTER', 'MOD', 'AMP', 'NS', 'FX', 'EQ', 'SEND/RTN', 'FOOT VOL', 'DELAY', 'DELAY 2', 'REVERB'];
-    const CAT = { 'PEDAL FX': '#6F8FB8', BOOSTER: '#F2685A', MOD: '#6F8FB8', AMP: INK, NS: '#D8C8A4', FX: '#6F8FB8', EQ: '#D8C8A4', 'SEND/RTN': '#D8C8A4', 'FOOT VOL': '#D8C8A4', DELAY: '#EDB03E', 'DELAY 2': '#EDB03E', REVERB: '#EDB03E' };
-    const S = (name, pos, text) => ({ k: 's', name, pos, text });
-    const E = (name, opts, def) => ({ k: 'e', name, opts, def });
-    const DEF = {
-      'PEDAL FX': { types: ['WAH', 'PEDAL BEND'], params: [S('POSITION', 40, '40'), S('MIN', 0, '0'), S('MAX', 100, '100'), S('EFFECT LEVEL', 70, '70'), S('DIRECT MIX', 0, '0')] },
-      BOOSTER: { types: ['BLUES OD', 'T-SCREAM', 'CLEAN BOOST', 'OCT FUZZ', 'METAL DS'], params: [S('DRIVE', 64, '64'), S('BOTTOM', 50, '0'), S('TONE', 58, '+8'), E('SOLO', ['OFF', 'ON'], 0), S('SOLO LEVEL', 50, '50'), S('EFFECT LEVEL', 72, '72'), S('DIRECT MIX', 0, '0')] },
-      MOD: { types: ['CHORUS', 'FLANGER', 'PHASER', 'UNI-V', 'VIBRATO', 'ROTARY'], params: [S('RATE', 32, '32'), S('DEPTH', 55, '55'), S('PRE DELAY', 20, '4.0 MS'), S('LOW CUT', 0, 'FLAT'), S('HIGH CUT', 100, 'FLAT'), S('EFFECT LEVEL', 60, '60'), E('OUTPUT', ['MONO', 'STEREO'], 0)] },
-      AMP: { types: [], params: [] },
-      NS: { types: ['GATE', 'SUPPRESSOR'], params: [S('THRESHOLD', 30, '30'), S('RELEASE', 40, '40'), S('ATTENUATION', 60, '60'), S('HOLD', 20, '20'), E('DETECT', ['INPUT', 'CHAIN'], 0)] },
-      FX: { types: ['T.WAH', 'OCTAVE', 'TREMOLO', 'SLICER', 'RING MOD', 'COMP'], params: [S('RATE', 70, '70'), S('DEPTH', 80, '80'), S('WAVE SHAPE', 50, '50'), S('LEVEL', 50, '50'), E('SYNC', ['OFF', 'ON'], 0)] },
-      EQ: { types: ['PARAMETRIC', 'GRAPHIC'], params: [S('LOW CUT', 20, '80 HZ'), S('LOW GAIN', 56, '+3 DB'), S('LO-MID FREQ', 40, '400 HZ'), S('LO-MID Q', 45, '1.2'), S('LO-MID GAIN', 42, '−4 DB'), S('HI-MID FREQ', 70, '2.5 KHZ'), S('HI-MID Q', 30, '0.8'), S('HI-MID GAIN', 60, '+5 DB'), S('HIGH GAIN', 46, '−2 DB'), S('HIGH CUT', 85, '10 KHZ'), S('LEVEL', 50, '0 DB')] },
-      'SEND/RTN': { types: ['SERIES', 'PARALLEL'], params: [S('SEND LEVEL', 50, '50'), S('RETURN LEVEL', 50, '50'), S('BALANCE', 50, '50:50'), E('POSITION', ['PRE', 'POST'], 1), E('PHASE', ['NORM', 'INV'], 0)] },
-      'FOOT VOL': { types: ['VOLUME'], params: [S('LEVEL', 100, '100'), S('MIN', 0, '0'), S('MAX', 100, '100'), E('CURVE', ['SLOW', 'NORM', 'FAST'], 1), E('SOURCE', ['EXP', 'CTL'], 0)] },
-      DELAY: { types: ['DIGITAL', 'ANALOG', 'TAPE ECHO', 'MODULATE', 'REVERSE', 'PAN'], params: [S('TIME', 21, '420 MS'), S('FEEDBACK', 38, '38'), S('HIGH CUT', 70, '8.0 KHZ'), S('EFFECT LEVEL', 55, '55'), S('DIRECT MIX', 100, '100'), E('SYNC', ['OFF', 'ON'], 1), E('NOTE', ['1/8', '1/4', '1/2', '1/4D'], 1), S('MOD RATE', 20, '20'), S('MOD DEPTH', 12, '12'), S('TAPE AGE', 30, '30')] },
-      'DELAY 2': { types: ['DIGITAL', 'ANALOG', 'TAPE ECHO', 'MODULATE', 'REVERSE', 'PAN'], params: [S('TIME', 15, '300 MS'), S('FEEDBACK', 20, '20'), S('HIGH CUT', 60, '6.3 KHZ'), S('EFFECT LEVEL', 40, '40'), S('DIRECT MIX', 100, '100')] },
-      REVERB: { types: ['ROOM', 'HALL', 'PLATE', 'SPRING', 'MODULATE'], params: [S('TIME', 28, '2.8 S'), S('PRE DELAY', 20, '40 MS'), S('LOW CUT', 0, 'FLAT'), S('HIGH CUT', 63, '6.3 KHZ'), S('DENSITY', 70, '7'), S('EFFECT LEVEL', 40, '40'), S('SPRING SENS', 50, '50')] }
-    };
+    const st = this.state || {};
+    const accent = this.props.accent ?? 'mustard';
+    const LIT = 'color-mix(in oklab, var(--led) 82%, #FFFFFF)', LG = '0 0 6px color-mix(in oklab, var(--led) 70%, transparent)';
+    const f1 = (n) => n.toFixed(1), f2 = (n) => n.toFixed(2), f3 = (n) => n.toFixed(4);
+    const P = (cx, cy, a, r) => { const t = a * Math.PI / 180; return [cx + r * Math.sin(t), cy - r * Math.cos(t)]; };
+    const tickPath = (cx, cy, r0, r1, a0, a1, n) => { let d = ''; for (let i = 0; i <= n; i++) { const a = a0 + (a1 - a0) * i / n, p = P(cx, cy, a, r0), q = P(cx, cy, a, r1); d += 'M ' + f1(p[0]) + ' ' + f1(p[1]) + ' L ' + f1(q[0]) + ' ' + f1(q[1]) + ' '; } return d; };
+    const ROT = [44, 121, 8, 97, 150, 63, 29, 136, 82, 15, 108, 57, 171, 39, 126, 71, 3, 92];
+    let ri = 0;
+    const screws = (n) => Array.from({ length: n }, () => { const r = ROT[ri % ROT.length]; ri++; return { r, x: 2 + (r % 5) }; });
+    const scr = { a: screws(1), b: screws(1), c: screws(1), d: screws(1), e: screws(2), f: screws(2), g: screws(3), h: screws(3), k: screws(1), l: screws(1) };
 
-    let preview = s.order.slice();
-    if (s.drag && s.over !== null) {
-      preview = s.order.filter((x) => x !== s.drag);
-      preview.splice(s.over, 0, s.drag);
+    const HC = ['630 Hz', '800 Hz', '1 kHz', '1.25 kHz', '1.6 kHz', '2 kHz', '2.5 kHz', '3.15 kHz', '4 kHz', '5 kHz', '6.3 kHz', '8 kHz', '10 kHz', '12.5 kHz', 'FLAT'];
+    const LC = ['FLAT', '20 Hz', '25 Hz', '31.5 Hz', '40 Hz', '50 Hz', '63 Hz', '80 Hz', '100 Hz', '125 Hz', '160 Hz', '200 Hz', '250 Hz', '315 Hz', '400 Hz', '500 Hz', '630 Hz', '800 Hz'];
+    const FQ = ['20 Hz', '25 Hz', '31.5 Hz', '40 Hz', '50 Hz', '63 Hz', '80 Hz', '100 Hz', '125 Hz', '160 Hz', '200 Hz', '250 Hz', '315 Hz', '400 Hz', '500 Hz', '630 Hz', '800 Hz', '1 kHz', '1.25 kHz', '1.6 kHz', '2 kHz', '2.5 kHz', '3.15 kHz', '4 kHz', '5 kHz', '6.3 kHz', '8 kHz', '10 kHz'];
+    const QS = ['0.5', '1', '2', '4', '8', '16'];
+    const OFFON = ['OFF', 'ON'];
+    const hz = (s) => { if (s === 'FLAT') return null; const n = parseFloat(s); return s.indexOf('k') >= 0 ? n * 1000 : n; };
+    const MODELS = ['NATURAL CLEAN', 'ACOUSTIC', 'COMBO CRUNCH', 'STACK CRUNCH', 'HiGAIN STACK', 'POWER DRIVE', 'EXTREME LEAD', 'CORE METAL', 'CLEAN', 'CLEAN TWIN', 'PRO CRUNCH', 'CRUNCH', 'DELUXE CRUNCH', 'VO DRIVE', 'VO LEAD', 'MATCH DRIVE', 'BG LEAD', 'BG DRIVE', 'MS1959 I', 'MS1959 I+II', 'R-FIER VINTAGE', 'R-FIER MODERN', 'T-AMP LEAD', 'BROWN', 'LEAD', 'CUSTOM'];
+    const G = {
+      fx: [['Mod', ['CHORUS', 'FLANGER', 'PHASER', 'UNI-V', 'TREMOLO', 'VIBRATO', 'ROTARY', 'RING MOD', 'SLICER']], ['Dyn', ['SLOW GEAR', 'COMP', 'LIMITER']], ['Filter', ['T.WAH', 'AUTO WAH', 'PEDAL WAH', 'HUMANIZER', 'WAVE SYNTH']], ['EQ', ['GRAPHIC EQ', 'PARAMETRIC EQ']], ['Sim', ['GUITAR SIM', 'AC.GUITAR SIM', 'AC.PROCESSOR']], ['Pitch', ['OCTAVE', 'HEAVY OCTAVE', 'PITCH SHIFTER', 'HARMONIST']], ['Vintage', ['PHASER 90E', 'FLANGER 117E', 'WAH 95E', 'DC-30']]],
+      od: [['Boost', ['CLEAN BOOST', 'TREBLE BOOST', 'MID BOOST']], ['Overdrive', ['CRUNCH OD', 'BLUES DRIVE', 'OVERDRIVE', 'NATURAL OD', 'WARM OD', 'TURBO OD', 'T-SCREAM']], ['Distortion', ['DISTORTION', 'FAT DS', 'DST+', 'GUV DS', 'RAT', 'METAL ZONE', 'METAL DS', 'LEAD DS']], ['Fuzz', ["'60S FUZZ", 'MUFF FUZZ', 'OCT FUZZ']]],
+      amp: [['Panel', ['ACOUSTIC', 'CLEAN', 'CRUNCH', 'LEAD', 'BROWN']], ['Extended', MODELS.filter((m) => ['ACOUSTIC', 'CLEAN', 'CRUNCH', 'LEAD', 'BROWN', 'CUSTOM'].indexOf(m) < 0)], ['Custom', ['CUSTOM']]]
+    };
+    const FXP = {
+      'PHASER 90E': [['script', 'Script', 0, 0, 1, OFFON], ['speed', 'Speed', 38, 0, 100], ['effect-level', 'E.level', 50, 0, 100], ['direct-mix', 'D.mix', 100, 0, 100]],
+      'CHORUS': [['rate', 'Rate', 35, 0, 100], ['depth', 'Depth', 50, 0, 100], ['pre-delay', 'Pre-delay', 8, 0, 40, 'ms'], ['low-cut', 'Low cut', 0, 0, 17, LC], ['high-cut', 'High cut', 11, 0, 14, HC], ['effect-level', 'E.level', 60, 0, 100]],
+      'TREMOLO': [['rate', 'Rate', 60, 0, 100], ['depth', 'Depth', 70, 0, 100], ['wave-shape', 'Wave', 50, 0, 100], ['level', 'Level', 50, 0, 100]],
+      'COMP': [['sustain', 'Sustain', 45, 0, 100], ['attack', 'Attack', 50, 0, 100], ['tone', 'Tone', 0, -50, 50, 'bi'], ['level', 'Level', 55, 0, 100]]
+    };
+    const NSP = [['threshold', 'Threshold', 35, 0, 100], ['release', 'Release', 40, 0, 100], ['detect', 'Detect', 0, 0, 1, ['INPUT', 'FV OUT']]];
+    const BL = {
+      pedal: { short: 'PDL', name: 'Pedal FX', path: 'PEDAL FX', types: ['PEDAL WAH', 'PEDAL BEND', 'WAH 95E'], type: 'WAH 95E', on: false, viz: 'peak', params: [['position', 'Position', 50, 0, 100], ['pedal-min', 'Pdl min', 0, 0, 100], ['pedal-max', 'Pdl max', 100, 0, 100], ['effect-level', 'E.level', 80, 0, 100], ['direct-mix', 'D.mix', 0, 0, 100]] },
+      od: { short: 'OD', name: 'Booster', path: 'BOOSTER', groups: G.od, type: 'BLUES DRIVE', on: true, viz: 'transfer', note: 'Types 21 and 22 mute the amp, so they are hidden.', params: [['drive', 'Drive', 42, 0, 120], ['bottom', 'Bottom', 0, -50, 50, 'bi'], ['tone', 'Tone', 8, -50, 50, 'bi'], ['solo-level', 'Solo lvl', 50, 0, 100], ['effect-level', 'E.level', 70, 0, 100], ['direct-mix', 'D.mix', 0, 0, 100]] },
+      fx1: { short: 'FX1', name: 'FX 1', path: 'FX1', groups: G.fx, type: 'PHASER 90E', on: true, viz: 'lfo' },
+      amp: { short: 'AMP', name: 'Preamp A', path: 'PREAMP A', groups: G.amp, type: 'BROWN', on: true, viz: 'tone',
+        params: [['gain', 'Gain', 62, 0, 100, null, 55], ['t-comp', 'T-comp', 10, 0, 100], ['bass', 'Bass', 45, 0, 100], ['middle', 'Middle', 60, 0, 100], ['treble', 'Treble', 58, 0, 100, null, 52], ['presence', 'Presence', 57, 0, 100, null, 50], ['volume', 'Volume', 70, 0, 100], ['solo-level', 'Solo lvl', 65, 0, 100]],
+        custom: [['type', 'C.type', 1, 0, 2, ['CLEAN', 'CRUNCH', 'LEAD']], ['bottom', 'Bottom', 0, -50, 50, 'bi'], ['edge', 'Edge', 0, -50, 50, 'bi'], ['preamp-low', 'Pre low', 0, -50, 50, 'bi'], ['preamp-high', 'Pre high', 0, -50, 50, 'bi'], ['char', 'Char', 0, -50, 50, 'bi'], ['sp-size', 'Sp size', 12, 5, 24, 'in'], ['sp-color-low', 'Col lo', 50, 0, 100], ['sp-color-high', 'Col hi', 50, 0, 100], ['sp-num', 'Sp num', 2, 0, 3, ['1', '2', '4', '8']], ['sp-cabinet', 'Cabinet', 1, 0, 1, ['OPEN', 'CLOSE']]] },
+      ns: { short: 'NS1', name: 'Noise suppressor 1', path: 'NS1', type: '—', on: true, viz: 'gate', params: NSP },
+      eq: { short: 'EQ', name: 'Equalizer', path: 'EQ', types: ['PARAMETRIC', 'GE-10'], type: 'PARAMETRIC', on: true, viz: 'eq' },
+      fx2: { short: 'FX2', name: 'FX 2', path: 'FX2', groups: G.fx, type: 'CHORUS', on: true, viz: 'lfo' },
+      delay: { short: 'DLY1', name: 'Delay 1', path: 'DELAY', types: ['DIGITAL', 'PAN', 'STEREO', 'ANALOG', 'TAPE ECHO', 'REVERSE', 'MODULATE', 'SDE-3000'], type: 'TAPE ECHO', on: true, viz: 'taps', params: [['time', 'Time', 420, 1, 2000, 'ms', 380], ['feedback', 'Feedback', 38, 0, 100, null, 30], ['high-cut', 'High cut', 11, 0, 14, HC], ['effect-level', 'E.level', 45, 0, 120], ['direct-mix', 'D.mix', 100, 0, 100]] },
+      delay2: { short: 'DLY2', name: 'Delay 2', path: 'DELAY 2', types: ['DIGITAL', 'PAN', 'STEREO', 'ANALOG', 'TAPE ECHO', 'REVERSE', 'MODULATE', 'SDE-3000'], type: 'SDE-3000', on: false, viz: 'taps', params: [['time', 'Time', 620, 1, 2000, 'ms'], ['feedback', 'Feedback', 25, 0, 100], ['high-cut', 'High cut', 10, 0, 14, HC], ['effect-level', 'E.level', 35, 0, 120], ['direct-mix', 'D.mix', 100, 0, 100], ['vtg-lpf', 'Vtg LPF', 1, 0, 1, OFFON], ['vtg-filter', 'Vtg filt', 1, 0, 1, OFFON], ['vtg-feedback-phase', 'FB phase', 0, 0, 1, ['NORM', 'INV']], ['vtg-effect-phase', 'FX phase', 0, 0, 1, ['NORM', 'INV']], ['vtg-mod-sw', 'Vtg mod', 0, 0, 1, OFFON]] },
+      reverb: { short: 'REV', name: 'Reverb', path: 'REVERB', types: ['PLATE', 'ROOM', 'HALL', 'SPRING', 'MODULATE', 'AMBIENCE', 'HALL1'], type: 'SPRING', on: true, viz: 'decay', params: [['time', 'Time', 24, 1, 100, 's10'], ['pre-delay', 'Pre-delay', 12, 0, 500, 'ms'], ['low-cut', 'Low cut', 0, 0, 17, LC], ['high-cut', 'High cut', 11, 0, 14, HC], ['density', 'Density', 6, 0, 10], ['effect-level', 'E.level', 35, 0, 100], ['direct-mix', 'D.mix', 100, 0, 100], ['spring-sens', 'Spr sens', 60, 0, 100]] },
+      fv: { short: 'FV', name: 'Foot volume', path: 'FV', type: '—', on: true, viz: 'pcurve', params: [['curve', 'Curve', 0, 0, 3, ['NORMAL', 'SLOW 1', 'SLOW 2', 'FAST']], ['min', 'Min', 0, 0, 100], ['max', 'Max', 100, 0, 100], ['level', 'Level', 100, 0, 100]] },
+      sr: { short: 'S/R', name: 'Send / return', path: 'S/R', types: ['SERIES', 'PARALLEL'], type: 'SERIES', on: false, viz: null, params: [['send-level', 'Send', 100, 0, 100], ['return-level', 'Return', 100, 0, 100], ['adjust', 'Adjust', 50, 0, 100]] },
+      ns2: { short: 'NS2', name: 'Noise suppressor 2', path: 'NS2', type: '—', on: false, viz: 'gate', params: NSP }
+    };
+    const ORDER = ['pedal', 'comp', 'od', 'fx1', 'div', 'amp', 'preb', 'mix', 'ns', 'eq', 'fx2', 'delay', 'chorus', 'delay2', 'reverb', 'fv', 'sr', 'ns2'];
+    const RO = { comp: 'COMP', div: 'DIV', preb: 'PRE B', mix: 'MIX', chorus: 'CHORUS' };
+    const selId = st.sel ?? 'delay';
+    const types = st.types ?? {}, onMap = st.on ?? {}, vals = st.vals ?? {};
+    const typeOf = (id) => types[id] ?? BL[id].type;
+    const isOn = (id) => (onMap[id] ?? BL[id].on);
+    const def = BL[selId], type = typeOf(selId);
+    const EQ_PEQ = [['low-cut', 'Low cut', 6, 0, 17, LC], ['low-gain', 'Low', 2, -20, 20, 'db'], ['low-mid-freq', 'L-mid f', 13, 0, 27, FQ], ['low-mid-q', 'L-mid Q', 2, 0, 5, QS], ['low-mid-gain', 'L-mid', -4, -20, 20, 'db'], ['high-mid-freq', 'H-mid f', 21, 0, 27, FQ], ['high-mid-q', 'H-mid Q', 1, 0, 5, QS], ['high-mid-gain', 'H-mid', 3, -20, 20, 'db'], ['high-gain', 'High', -1, -20, 20, 'db'], ['high-cut', 'High cut', 12, 0, 14, HC], ['level', 'Level', 0, -20, 20, 'db']];
+    const GE = ['31', '62', '125', '250', '500', '1K', '2K', '4K', '8K', '16K'];
+    const EQ_GE = GE.map((b, i) => ['band-' + b, b, [2, 3, 1, -2, -3, 0, 2, 3, 1, -2][i], -20, 20, 'db']).concat([['geq-level', 'Level', 0, -20, 20, 'db']]);
+    let pdefs, note = def.note || '';
+    if (selId === 'eq') pdefs = type === 'GE-10' ? EQ_GE : EQ_PEQ;
+    else if (selId === 'fx1' || selId === 'fx2') { pdefs = FXP[type] || [['effect-level', 'E.level', 50, 0, 100], ['direct-mix', 'D.mix', 100, 0, 100]]; if (!FXP[type]) note = type + ' has 4–33 parameters. The rest load from the amp when you pick it.'; }
+    else if (selId === 'delay' && type === 'MODULATE') pdefs = def.params.concat([['mod-rate', 'Mod rate', 30, 0, 100], ['mod-depth', 'Mod depth', 20, 0, 100]]);
+    else if (selId === 'delay' && type === 'PAN') pdefs = def.params.concat([['pan-tap-time', 'Tap time', 50, 0, 100, '%']]);
+    else if (selId === 'amp' && type === 'CUSTOM') pdefs = def.params.concat(def.custom);
+    else pdefs = def.params;
+    if (selId === 'amp' && type !== 'CUSTOM') note = 'Custom voicing (bottom, edge, speaker size, cabinet) unlocks when the model is CUSTOM.';
+    const bvals = vals[selId] || {};
+    const fmt = (t, v) => {
+      const f = t[5];
+      if (Array.isArray(f)) return f[v];
+      if (f === 'ms') return v + ' ms';
+      if (f === 'db') return (v > 0 ? '+' : (v < 0 ? '−' : '')) + Math.abs(v) + ' dB';
+      if (f === 'bi') return (v > 0 ? '+' : (v < 0 ? '−' : '')) + Math.abs(v);
+      if (f === 's10') return (v / 10).toFixed(1) + ' s';
+      if (f === 'in') return v + '"';
+      if (f === '%') return v + '%';
+      return String(v);
+    };
+    const selParam = st.param && pdefs.some((t) => t[0] === st.param) ? st.param : (selId === 'delay' ? 'feedback' : pdefs[0][0]);
+    const setP = (key, v, t) => { const lo = t[3], hi = Array.isArray(t[5]) ? t[5].length - 1 : t[4]; const nb = Object.assign({}, bvals); nb[key] = Math.max(lo, Math.min(hi, Math.round(v))); const nv = Object.assign({}, vals); nv[selId] = nb; this.setState({ vals: nv, param: key }); };
+    const V = {};
+    let edits = 0;
+    const params = pdefs.map((t) => {
+      const [key, label, v0, min] = t; const steps = Array.isArray(t[5]) ? t[5] : null;
+      const max = steps ? steps.length - 1 : t[4];
+      const v = bvals[key] ?? v0, s = t[6] ?? v0, ed = v !== s, sel = key === selParam;
+      V[key] = v; if (ed) edits++;
+      const a = -135 + (v - min) / (max - min) * 270, as = -135 + (s - min) / (max - min) * 270;
+      const isSwitch = !!steps && steps.length === 2;
+      const mp = P(50, 50, as, 35), mq = P(50, 50, as, 46);
+      return {
+        label, isKnob: !isSwitch, isSwitch, on: v === 1, ledOn: isSwitch && v === 1 ? 'on' : '', dn: isSwitch && v === 1 ? 'dn' : '',
+        txt: fmt(t, v), txt2: isSwitch ? (sel ? '◂ probe' : '') : fmt(t, v),
+        ledCls: ed ? 'on' : '', rot: a, ticks: tickPath(50, 50, 38, 44, -135, 135, 10),
+        mem: ed ? 'M ' + f1(mp[0]) + ' ' + f1(mp[1]) + ' L ' + f1(mq[0]) + ' ' + f1(mq[1]) : '',
+        selBg: sel ? 'color-mix(in oklab, var(--led) 88%, #FFF)' : 'transparent',
+        vc: sel ? '#170D02' : (ed ? LIT : 'var(--silk2)'), vg: sel ? 'none' : (ed ? LG : 'none'),
+        aria: def.path + ': ' + label + ' ' + fmt(t, v),
+        down: (e) => { try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {} this._drag = { key, y: e.clientY, v }; if (!sel) this.setState({ param: key }); },
+        move: (e) => { const d = this._drag; if (!d || d.key !== key) return; setP(key, d.v + (d.y - e.clientY) * (max - min) / (e.shiftKey ? 900 : 160), t); },
+        up: () => { this._drag = null; },
+        reset: () => setP(key, s, t), flip: () => setP(key, v === 1 ? 0 : 1, t),
+        key: (e) => { if (e.key === 'ArrowUp' || e.key === 'ArrowRight') { e.preventDefault(); setP(key, v + 1, t); } else if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') { e.preventDefault(); setP(key, v - 1, t); } },
+        _t: t, _v: v, _s: s
+      };
+    });
+    const sp = params.find((p) => p._t[0] === selParam) || params[0];
+    const st0 = sp._t, full = st0[0].replace(/-/g, ' ').toUpperCase();
+    const rawCli = Array.isArray(st0[5]) ? st0[5][sp._v].replace(/\s/g, '') : (st0[5] === 's10' ? (sp._v / 10).toFixed(1) : String(sp._v));
+    const rng = Array.isArray(st0[5]) ? st0[5][0] + '…' + st0[5][st0[5].length - 1] : fmt(st0, st0[3]) + '…' + fmt(st0, st0[4]);
+    const probe = { path: def.path + ': ' + full, now: fmt(st0, sp._v).replace(/\s/g, ''), stored: fmt(st0, sp._s), range: rng, cli: 'set "' + def.path + ': ' + full + '" ' + rawCli };
+
+    const W = 360, H = 160;
+    let gridD = '';
+    for (let i = 1; i < 10; i++) gridD += 'M ' + (i * 36) + ' 0 L ' + (i * 36) + ' ' + H + ' ';
+    for (let j = 1; j < 8; j++) gridD += 'M 0 ' + (j * 20) + ' L ' + W + ' ' + (j * 20) + ' ';
+    const l2 = Math.log2;
+    const lsh = (f, fc, g) => g / (1 + Math.exp(2.4 * l2(f / fc)));
+    const hsh = (f, fc, g) => g / (1 + Math.exp(-2.4 * l2(f / fc)));
+    const pk = (f, fc, g, q) => { const o = l2(f / fc), s = 0.85 / q; return g * Math.exp(-(o * o) / (2 * s * s)); };
+    const hp = (f, fc) => (fc ? -10 * Math.log10(1 + Math.pow(fc / f, 4)) : 0);
+    const lp = (f, fc) => (fc ? -10 * Math.log10(1 + Math.pow(f / fc, 4)) : 0);
+    const FX = (f) => Math.log(f / 20) / Math.log(1000) * W;
+    const curveD = (fn, scale) => { let d = ''; for (let i = 0; i <= 150; i++) { const f = 20 * Math.pow(1000, i / 150); d += (i ? ' L ' : 'M ') + f1(FX(f)) + ' ' + f1(80 - Math.max(-15, Math.min(15, fn(f))) * scale); } return d; };
+    const viz = { has: !!def.viz, d: '', d2: '', fill: '', axes: '', bars: [], label: '', label2: '', foot: '', foot2: '' };
+    const bar = (x, top, h, w, o) => ({ l: f3(x / W), t: f3(top / H), h: f3(h / H), w: w, o: o });
+    const kind = def.viz === 'eq' && type === 'GE-10' ? 'geq' : def.viz;
+    if (kind === 'taps') {
+      const time = V.time, fb = V.feedback / 100, el = V['effect-level'] / 120, T = Math.max(1200, time * 5.5);
+      const x = (t) => 6 + t / T * 344;
+      viz.axes = 'M 0 150 L 360 150';
+      viz.bars.push(bar(x(0), 70, 80, '2px', '0.35'));
+      let n = 1, a = el, env = 'M ' + f1(x(time)) + ' ' + f1(150 - a * 130);
+      while (n * time <= T && a > 0.01) { const t = n * time, h = a * 130; viz.bars.push(bar(x(t), 150 - h, h, '3px', String(Math.max(0.3, 1 - n * 0.09).toFixed(2)))); env += ' L ' + f1(x(t)) + ' ' + f1(150 - h); n++; a = el * Math.pow(fb, n - 1); }
+      viz.d2 = env; viz.label = 'IMPULSE ' + time + 'ms'; viz.label2 = (n - 1) + ' REPEATS'; viz.foot = '0 ms'; viz.foot2 = Math.round(T) + ' ms';
+    } else if (kind === 'decay') {
+      const RT = V.time / 10, pre = V['pre-delay'] / 1000, dens = V.density, T = RT * 1.25 + pre;
+      const x = (t) => 6 + t / T * 344;
+      let d = '', env = '';
+      for (let i = 0; i <= 150; i++) { const t = i / 150 * T; if (t < pre) continue; const a = Math.exp(-6.9 * (t - pre) / RT), r = 0.45 + 0.55 * Math.abs(Math.sin(i * 12.9898 + 4.1) * (1 - dens / 14)) + dens / 30; const h = a * Math.min(1, r) * 130; d += 'M ' + f1(x(t)) + ' 150 L ' + f1(x(t)) + ' ' + f1(150 - h) + ' '; env += (env ? ' L ' : 'M ') + f1(x(t)) + ' ' + f1(150 - a * 130); }
+      viz.d = d; viz.d2 = env; viz.axes = 'M 0 150 L 360 150'; viz.label = 'DECAY RT60 ' + RT.toFixed(1) + 's'; viz.label2 = 'PRE ' + V['pre-delay'] + 'ms'; viz.foot = '0 s'; viz.foot2 = T.toFixed(1) + ' s';
+    } else if (kind === 'eq') {
+      const fn = (f) => hp(f, hz(LC[V['low-cut']])) + lsh(f, 110, V['low-gain']) + pk(f, hz(FQ[V['low-mid-freq']]), V['low-mid-gain'], parseFloat(QS[V['low-mid-q']])) + pk(f, hz(FQ[V['high-mid-freq']]), V['high-mid-gain'], parseFloat(QS[V['high-mid-q']])) + hsh(f, 6000, V['high-gain']) + lp(f, hz(HC[V['high-cut']])) + V.level;
+      viz.d = curveD(fn, 4.6); viz.fill = viz.d + ' L 360 80 L 0 80 Z'; viz.axes = 'M 0 80 L 360 80'; viz.label = 'RESPONSE PEQ'; viz.label2 = '±15 dB'; viz.foot = '20 Hz'; viz.foot2 = '20 kHz';
+    } else if (kind === 'geq') {
+      viz.axes = 'M 0 80 L 360 80';
+      GE.forEach((b, i) => { const v = V['band-' + b], h = Math.abs(v) * 3.6, top = v >= 0 ? 80 - h : 80; viz.bars.push(bar(18 + i * 34, top, Math.max(1.5, h), '14px', '0.9')); });
+      viz.label = 'GE-10'; viz.label2 = '±20 dB'; viz.foot = '31 Hz'; viz.foot2 = '16 kHz';
+    } else if (kind === 'transfer') {
+      const k = 0.6 + V.drive / 14, x = (u) => 40 + (u + 1) * 140, y = (u) => 80 - u * 70;
+      let d = ''; for (let i = 0; i <= 100; i++) { const u = -1 + i / 50; d += (i ? ' L ' : 'M ') + f1(x(u)) + ' ' + f1(y(Math.tanh(k * u) / Math.tanh(k))); }
+      viz.d = d; viz.d2 = 'M ' + x(-1) + ' ' + y(-1) + ' L ' + x(1) + ' ' + y(1); viz.axes = 'M 40 80 L 320 80 M 180 6 L 180 154'; viz.label = 'TRANSFER ' + type; viz.label2 = 'DRIVE ' + V.drive; viz.foot = 'IN -1'; viz.foot2 = 'IN +1';
+    } else if (kind === 'lfo') {
+      const rate = V.rate ?? V.speed ?? 50, depth = (V.depth ?? 70) / 100, cyc = 1 + rate / 22;
+      let d = ''; for (let i = 0; i <= 180; i++) { const u = i / 180; d += (i ? ' L ' : 'M ') + f1(4 + u * 352) + ' ' + f1(80 - Math.sin(u * cyc * Math.PI * 2) * 66 * depth); }
+      viz.d = d; viz.axes = 'M 0 80 L 360 80'; viz.label = 'LFO ' + type; viz.label2 = (0.1 + rate / 10).toFixed(1) + ' Hz'; viz.foot = '0'; viz.foot2 = '1 s';
+    } else if (kind === 'peak') {
+      const fc = 350 * Math.pow(2, V.position / 100 * 3);
+      viz.d = curveD((f) => pk(f, fc, 12, 2.6) - 2, 4.6); viz.d2 = curveD((f) => pk(f, 350, 12, 2.6) - 2, 4.6); viz.axes = 'M 0 80 L 360 80'; viz.label = 'SWEEP ' + type; viz.label2 = Math.round(fc) + ' Hz'; viz.foot = '20 Hz'; viz.foot2 = '20 kHz';
+    } else if (kind === 'tone') {
+      const fn = (f) => lsh(f, 120, (V.bass - 50) / 50 * 9) + pk(f, 650, (V.middle - 50) / 50 * 7, 0.7) + hsh(f, 2800, (V.treble - 50) / 50 * 8) + pk(f, 5200, (V.presence - 50) / 50 * 6, 1.1);
+      viz.d = curveD(fn, 4.6); viz.fill = viz.d + ' L 360 80 L 0 80 Z'; viz.axes = 'M 0 80 L 360 80'; viz.label = 'TONE STACK ' + type; viz.label2 = 'GAIN ' + V.gain; viz.foot = '20 Hz'; viz.foot2 = '20 kHz';
+    } else if (kind === 'gate') {
+      const tY = 4 + V.threshold * 0.6;
+      let d = ''; for (let i = 0; i <= 220; i++) { const u = i / 220, env = u < 0.08 ? u / 0.08 : Math.exp(-(u - 0.08) * 4.2); d += (i ? ' L ' : 'M ') + f1(4 + u * 352) + ' ' + f1(80 - Math.sin(i * 0.9) * env * 70); }
+      viz.d = d; viz.axes = 'M 0 80 L 360 80'; viz.d2 = 'M 0 ' + f1(80 - tY) + ' L 360 ' + f1(80 - tY) + ' M 0 ' + f1(80 + tY) + ' L 360 ' + f1(80 + tY); viz.label = 'GATE THR ' + V.threshold; viz.label2 = 'REL ' + V.release; viz.foot = 'SIGNAL'; viz.foot2 = 'SHUTS INSIDE DASHES';
+    } else if (kind === 'pcurve') {
+      const gm = [1, 1.8, 2.8, 0.5][V.curve], lo = V.min / 100, hi = V.max / 100;
+      let d = ''; for (let i = 0; i <= 100; i++) { const u = i / 100, yv = lo + (hi - lo) * Math.pow(u, gm); d += (i ? ' L ' : 'M ') + f1(30 + u * 300) + ' ' + f1(152 - yv * 144); }
+      viz.d = d; viz.d2 = 'M 30 152 L 330 8'; viz.axes = 'M 30 152 L 330 152 M 30 8 L 30 152'; viz.label = 'PEDAL CURVE ' + ['NORMAL', 'SLOW 1', 'SLOW 2', 'FAST'][V.curve]; viz.label2 = 'LEVEL ' + V.level; viz.foot = 'HEEL'; viz.foot2 = 'TOE';
     }
-    const commit = () => {
-      const st = this.state;
-      if (!st.drag || st.over === null) { this.setState({ drag: null, over: null }); return; }
-      const next = st.order.filter((x) => x !== st.drag);
-      next.splice(st.over, 0, st.drag);
-      this.setState({ order: next, drag: null, over: null, sel: st.drag });
+
+    const grpList = def.groups || null;
+    const curGroup = grpList ? ((st.grp && st.grp[selId]) ?? (grpList.find((g) => g[1].indexOf(type) >= 0) || grpList[0])[0]) : null;
+    const typeList = grpList ? (grpList.find((g) => g[0] === curGroup) || grpList[0])[1] : (def.types || []);
+    const allTypes = grpList ? grpList.reduce((a, g) => a.concat(g[1]), []) : (def.types || []);
+    const setType = (tname) => { const nt = Object.assign({}, types); nt[selId] = tname; this.setState({ types: nt, param: null }); };
+    const o = isOn(selId);
+    const blk = {
+      name: def.name, title: def.name, type, hasType: type !== '—', pos: allTypes.length ? (allTypes.indexOf(type) + 1) + '/' + allTypes.length : '',
+      meta: params.length + ' params' + (edits ? ' · ' + edits + ' edited' : ''),
+      on: o, onTxt: o ? 'On' : 'Bypass', onLed: o ? 'on' : '', onDn: o ? 'dn' : '',
+      toggle: () => { const n = Object.assign({}, onMap); n[selId] = !o; this.setState({ on: n }); },
+      reset: () => { const nv = Object.assign({}, vals); nv[selId] = {}; this.setState({ vals: nv }); },
+      hasGroups: !!grpList,
+      groups: grpList ? grpList.map((g) => ({ label: g[0], n: String(g[1].length), on: g[0] === curGroup, c: g[0] === curGroup ? 'var(--silk)' : 'var(--silk3)', u: g[0] === curGroup ? 'inset 0 -1px 0 var(--led), 0 4px 6px -4px var(--led)' : 'none', pick: () => { const ng = Object.assign({}, st.grp || {}); ng[selId] = g[0]; this.setState({ grp: ng }); } })) : [],
+      typeKeys: typeList.map((tname) => { const a = tname === type; return { label: tname, active: a, on: a ? 'on' : '', dn: a ? 'dn' : '', pick: () => setType(tname) }; }),
+      hasNote: !!note, note
     };
-    const blocks = IDS.map((id) => {
-      const slot = preview.indexOf(id);
-      const on = !!s.on[id];
-      const picked = id === s.sel;
-      const dragging = id === s.drag;
-      return {
-        id, slot, num: pad2(slot + 1), type: id === 'AMP' ? 'CLEAN' : s.type[id],
-        selected: picked ? 'true' : 'false',
-        op: dragging ? '0.45' : '1',
-        edge: dragging ? accent : (picked ? INK : (on ? '#4A4842' : '#2A2926')),
-        fill: picked && !dragging ? INK : (on ? '#121211' : BG),
-        fg: picked && !dragging ? BG : (on ? INK : '#8A867D'),
-        sub: picked && !dragging ? '#3A3833' : (on ? '#A29E94' : '#8A867D'),
-        bar: on ? CAT[id] : 'repeating-linear-gradient(90deg, #4A4842 0 2px, transparent 2px 5px)',
-        pick: () => this.setState({ sel: id, typeOpen: false }),
-        dragStart: (ev) => {
-          try { ev.dataTransfer.effectAllowed = 'move'; ev.dataTransfer.setData('text/plain', id); } catch (e) {}
-          const from = this.state.order.indexOf(id);
-          setTimeout(() => this.setState({ drag: id, over: from }), 0);
-        },
-        dragEnd: () => { if (this.state.drag) this.setState({ drag: null, over: null }); }
-      };
-    });
-    const dragOver = (ev) => {
-      ev.preventDefault();
-      if (!this.state.drag) return;
-      const r = ev.currentTarget.getBoundingClientRect();
-      let i = Math.floor((ev.clientX - r.left) / (r.width / 12));
-      i = Math.max(0, Math.min(11, i));
-      if (i !== this.state.over) this.setState({ over: i });
-    };
-    const drop = (ev) => { ev.preventDefault(); commit(); };
-
-    const sel = s.sel;
-    const def = DEF[sel];
-    const isAmp = sel === 'AMP';
-    const isOn = !!s.on[sel];
-    const selPos = pad2(s.order.indexOf(sel) + 1);
-    const move = (d) => () => {
-      const o = this.state.order.slice();
-      const i = o.indexOf(sel);
-      const j = i + d;
-      if (j < 0 || j > 11) return;
-      o[i] = o[j];
-      o[j] = sel;
-      this.setState({ order: o });
-    };
-
-    const curType = s.type[sel];
-    const types = def.types.map((name, i) => {
-      const on = name === curType;
-      return {
-        name, idx: pad2(i + 1), pressed: on ? 'true' : 'false',
-        bg: on ? INK : 'transparent', fg: on ? BG : INK, sub: on ? '#3A3833' : '#8A867D', border: on ? INK : '#2A2926',
-        pick: () => { const t = Object.assign({}, this.state.type); t[sel] = name; this.setState({ type: t, typeOpen: false }); }
-      };
-    });
-    const ti = def.types.indexOf(curType);
-
-    const params = def.params.map((p) => {
-      if (p.k === 's') {
-        return { name: p.name, text: p.text, isSlider: true, isEnum: false, w: p.pos + '%', aria: p.name + ' ' + p.text, opts: [] };
-      }
-      const key = sel + '/' + p.name;
-      const cur = s.en[key] ?? p.def;
-      return {
-        name: p.name, text: p.opts[cur], isSlider: false, isEnum: true, w: '0%', aria: p.name,
-        opts: p.opts.map((t, i) => {
-          const on = i === cur;
-          return {
-            t, pressed: on ? 'true' : 'false', bg: on ? INK : 'transparent', fg: on ? BG : '#A29E94', border: on ? INK : '#4A4842',
-            pick: () => { const en = Object.assign({}, this.state.en); en[key] = i; this.setState({ en }); }
-          };
-        })
-      };
-    });
-
-    const X = (f) => Math.log10(f / 20) / 3 * 600;
-    const Y = (db) => 130 - db * 5;
-    const BANDS = [
-      { id: 'LOW CUT', short: 'LC', f: 80, g: null, q: '12 DB/OCT', fn: (f) => -10 * Math.log10(1 + Math.pow(80 / f, 4)), hy: -3 },
-      { id: 'LOW', short: 'LO', f: 120, g: 3, q: 'SHELF', fn: (f) => 3 / (1 + Math.pow(f / 120, 2)) },
-      { id: 'LO-MID', short: 'LM', f: 400, g: -4, q: '1.2', fn: (f) => -4 * Math.exp(-Math.pow(Math.log2(f / 400), 2) / (2 * Math.pow(0.6 / 1.2, 2))) },
-      { id: 'HI-MID', short: 'HM', f: 2500, g: 5, q: '0.8', fn: (f) => 5 * Math.exp(-Math.pow(Math.log2(f / 2500), 2) / (2 * Math.pow(0.6 / 0.8, 2))) },
-      { id: 'HIGH', short: 'HI', f: 6000, g: -2, q: 'SHELF', fn: (f) => -2 * Math.pow(f / 6000, 2) / (1 + Math.pow(f / 6000, 2)) },
-      { id: 'HIGH CUT', short: 'HC', f: 10000, g: null, q: '12 DB/OCT', fn: (f) => -10 * Math.log10(1 + Math.pow(f / 10000, 4)), hy: -3 }
+    const ASG = [
+      { id: 'A1', src: 'EXP PEDAL', tgt: 'DELAY: FEEDBACK', block: 'delay', range: '20–65' },
+      { id: 'A2', src: 'CTL 1', tgt: 'DELAY 2: ON/OFF', block: 'delay2', range: 'toggle' },
+      { id: 'A3', src: 'WAVE PEDAL', tgt: 'PREAMP A: VOLUME', block: 'amp', range: '70–100' },
+      { id: 'A4', src: 'INT PEDAL', tgt: 'PEDAL FX: POSITION', block: 'pedal', range: '0–100' },
+      { id: 'A5', src: 'EXP SW', tgt: 'FX2: ON/OFF', block: 'fx2', range: 'toggle' }
     ];
-    const N = 240;
-    const freqs = [];
-    for (let i = 0; i <= N; i++) freqs.push(20 * Math.pow(1000, i / N));
-    const pathOf = (fn) => freqs.map((f, i) => (i ? 'L' : 'M') + r1(X(f)) + ' ' + r1(Math.max(-6, Math.min(266, Y(fn(f)))))).join('');
-    const comps = BANDS.map((b) => pathOf(b.fn));
-    const sum = pathOf((f) => BANDS.reduce((a, b) => a + b.fn(f), 0));
-    let grid = '';
-    [50, 100, 200, 500, 1000, 2000, 5000, 10000].forEach((f) => { grid += 'M' + r1(X(f)) + ' 0V260'; });
-    [-18, -12, -6, 6, 12, 18].forEach((d) => { grid += 'M0 ' + Y(d) + 'H600'; });
-    const fmtF = (f) => f >= 1000 ? (f / 1000) + ' KHZ' : f + ' HZ';
-    const bandSel = BANDS.find((b) => b.id === s.band) || BANDS[3];
-    const kc = (b) => (b.id === s.band ? INK : '#4A4842');
-    const bands = BANDS.map((b, i) => {
-      const on = b.id === s.band;
-      return { label: b.id, n: pad2(i + 1), pressed: on ? 'true' : 'false', bg: on ? INK : 'transparent', fg: on ? BG : '#A29E94', border: on ? INK : '#4A4842', pick: () => this.setState({ band: b.id }) };
-    });
-    const handles = BANDS.map((b) => {
-      const on = b.id === s.band;
-      const yDb = b.g === null ? b.hy : b.g;
+    const asg = ASG.filter((a) => a.block === selId);
+    const chain = ORDER.map((id) => {
+      if (RO[id]) return { isBlock: false, isRO: true, short: RO[id], aria: RO[id] + ', fixed by the firmware, read-only' };
+      const b = BL[id], on = isOn(id), sel = id === selId;
       return {
-        x: r1(X(b.f) / 6) + '%', y: r1(Y(yDb) / 2.6) + '%',
-        aria: b.id + ' ' + fmtF(b.f), pressed: on ? 'true' : 'false',
-        fill: on ? accent : BG, ring: on ? accent : INK,
-        pick: () => this.setState({ band: b.id })
+        isBlock: true, isRO: false, short: b.short, type: ({ ns: 'THR 35', ns2: 'THR 20', fv: 'LVL 100' })[id] || typeOf(id), on, sel, w: id === 'amp' ? 72 : 50, ledCls: on ? 'on' : '',
+        aria: b.name + ', ' + typeOf(id) + (on ? ', on' : ', bypassed') + (sel ? ', selected' : ''), tl: (on ? 'Bypass ' : 'Engage ') + b.name,
+        stroke: sel ? '#E8E4DC' : (on ? '#E8E4DCB8' : '#E8E4DC45'), fill: sel ? 'linear-gradient(180deg, #F2EFE8, #D9D5CC)' : 'transparent',
+        tc: sel ? '#151515' : (on ? '#E8E4DC' : 'var(--silk3)'), sh: sel ? '0 0 14px color-mix(in oklab, var(--led) 25%, transparent)' : 'none', typeC: sel ? LIT : 'var(--silk3)',
+        pick: () => this.setState({ sel: id, param: null }), toggle: () => { const n = Object.assign({}, onMap); n[id] = !on; this.setState({ on: n }); }
       };
     });
-    const FL = [[20, '20'], [50, '50'], [100, '100'], [200, '200'], [500, '500'], [1000, '1K'], [2000, '2K'], [5000, '5K'], [10000, '10K'], [20000, '20K']];
-    const fLabels = FL.map(([f, t], i) => ({ t, x: r1(X(f) / 6) + '%', tx: i === 0 ? '0' : (i === FL.length - 1 ? '-100%' : '-50%') }));
-
+    const modes = [['Editor', 'Main.dc.html'], ['Effects', 'Effects.dc.html'], ['Control', 'Control.dc.html'], ['Library', 'Library.dc.html'], ['Monitor', 'Monitor.dc.html']].map(([label, href], i) => ({ label, href, on: i === 1 ? 'on' : '', dn: i === 1 ? 'dn' : '', cur: i === 1 ? 'page' : 'false' }));
+    const slots = ['PANEL', 'A:CH1', 'A:CH2', 'B:CH1', 'B:CH2'].map((x) => { const a = x === 'A:CH1'; return { label: x, active: a, on: a ? 'on' : '', dn: a ? 'dn' : '' }; });
+    const name = 'EDGE OF BREAKUP', cells = [];
+    for (let i = 0; i < 16; i++) { const ch = name[i] || ''; cells.push(ch === ' ' ? '' : ch); }
     return {
-      accent, blocks, dragOver, drop,
-      chainHint: s.drag ? 'DROP TO PLACE ' + s.drag + ' AT ' + pad2(s.over + 1) : 'DRAG TO REORDER · CLICK TO EDIT',
-      selId: sel, selColor: CAT[sel], selPos, isAmp, notAmp: !isAmp,
-      paramCount: pad2(def.params.length),
-      selType: curType, typeMeta: ti >= 0 ? pad2(ti + 1) + ' / ' + pad2(def.types.length) : '',
-      types, params,
-      typeOpen: s.typeOpen, typeOpenStr: s.typeOpen ? 'true' : 'false',
-      ddBorder: s.typeOpen ? INK : '#4A4842', ddCapBg: s.typeOpen ? INK : 'transparent', ddCapFg: s.typeOpen ? BG : INK,
-      chev: s.typeOpen ? 'M1 8l6-6 6 6' : 'M1 2l6 6 6-6',
-      toggleTypes: () => this.setState({ typeOpen: !this.state.typeOpen }),
-      onPressed: isOn ? 'true' : 'false', onLabel: isOn ? 'ENABLED' : 'BYPASSED',
-      onJustify: isOn ? 'flex-end' : 'flex-start', onKnob: isOn ? INK : '#4A4842',
-      toggleOn: () => { const on = Object.assign({}, this.state.on); on[sel] = !on[sel]; this.setState({ on }); },
-      moveL: move(-1), moveR: move(1),
-      grid, sum, bands, handles, fLabels,
-      c0: comps[0], c1: comps[1], c2: comps[2], c3: comps[3], c4: comps[4], c5: comps[5],
-      k0: kc(BANDS[0]), k1: kc(BANDS[1]), k2: kc(BANDS[2]), k3: kc(BANDS[3]), k4: kc(BANDS[4]), k5: kc(BANDS[5]),
-      bandName: bandSel.id, bandF: fmtF(bandSel.f),
-      bandG: bandSel.g === null ? '—' : (bandSel.g > 0 ? '+' : '−') + Math.abs(bandSel.g) + ' DB',
-      bandQLabel: bandSel.g === null ? 'SLOPE' : 'Q', bandQ: bandSel.q
+      accent, scr, modes, slots, cells, changes: String(3 + Math.max(0, edits - (selId === 'delay' ? 2 : (selId === 'amp' ? 3 : 0)))).padStart(2, '0'),
+      chain, blk, params, probe, viz, gridD, asg, asgEmpty: asg.length === 0,
+      copyTxt: st.copied ? 'Copied' : 'Copy', copyDn: st.copied ? 'dn' : '',
+      copy: () => { try { navigator.clipboard.writeText(probe.cli); } catch (err) {} this.setState({ copied: true }); }
     };
   }
 }

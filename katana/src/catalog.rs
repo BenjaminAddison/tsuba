@@ -12,6 +12,7 @@ use crate::sysex::{self, Addr};
 
 const ADDRESS_MAP: &str = include_str!("../../extracted/tone_studio_air_app/_assets/data/addressmap_gt.json");
 const EFFECTS_MAP: &str = include_str!("../../notes/effects-map.json");
+const CTL_MAP: &str = include_str!("../../notes/ctl-map.json");
 
 /// FX chain block IDs at `60 00 07 20`–`33` (notes/07). DIV…MXDV is the live Ch A path; MXDV…MIX is the dead Ch B.
 pub const CHAIN_BLOCKS: [&str; 20] = [
@@ -111,8 +112,35 @@ pub struct Tone {
     pub params: Map<String, Value>,
 }
 
+/// An assign target from Tone Studio's list (notes/ctl-map.json): the raw TARGET value, its name ("DELAY: TIME")
+/// and the display range its TARGET MIN/MAX use.
+#[derive(Debug, Clone, Deserialize)]
+pub struct Target {
+    pub val: u32,
+    pub name: String,
+    pub min: i32,
+    pub max: i32,
+    pub step: f64,
+}
+
+#[derive(Deserialize)]
+struct Opt {
+    val: u32,
+    name: String,
+}
+
+#[derive(Deserialize)]
+struct CtlMap {
+    switch_funcs: Vec<Opt>,
+    pedal_funcs: Vec<Opt>,
+    assign_sources: Vec<Opt>,
+    assign_targets: Vec<Target>,
+}
+
 pub struct Catalog {
     pub params: Vec<Param>,
+    /// Assign targets, in Tone Studio's order.
+    pub targets: Vec<Target>,
     /// Effect blocks by their effects-map key: "FX1", "DELAY2", "PREAMP_A", ...
     pub blocks: HashMap<String, FxBlock>,
     by_name: HashMap<String, usize>,
@@ -181,7 +209,8 @@ impl Catalog {
             let on = b.on_off_address.as_deref().map(parse_addr);
             (k.clone(), FxBlock { on, type_addr: b.type_address.as_deref().map(parse_addr), pages: pages.collect() })
         });
-        let mut cat = Catalog { params: vec![], blocks: fx.collect(), by_name: HashMap::new(), by_addr: HashMap::new() };
+        let ctl: CtlMap = serde_json::from_str(CTL_MAP).expect("ctl map");
+        let mut cat = Catalog { params: vec![], targets: vec![], blocks: fx.collect(), by_name: HashMap::new(), by_addr: HashMap::new() };
         for e in map.temporary {
             let (Some(name), Some(a)) = (e.name, e.address) else { continue };
             let addr = parse_addr(&a);
@@ -207,8 +236,29 @@ impl Catalog {
                 [0x60, 0, 0x06, 0x11] => p.options.extend([(0, "AMBIENCE".into()), (2, "HALL1".into())]),
                 _ => {}
             }
+            // CTL/EXP functions and assign sources (notes/ctl-map.json). EXP FUNC only stores OFF and FOOT VOLUME on
+            // the 50 MK1 (notes/07), but factory patches hold PB/FV, so that label stays for display.
+            let opts = |l: &[Opt]| l.iter().map(|o| (o.val, o.name.clone())).collect::<Vec<_>>();
+            let n = p.name.as_str();
+            if n.starts_with("CTL/EXP: ") && n.ends_with(": FUNC") {
+                p.options = match n {
+                    "CTL/EXP: EXP: FUNC" => vec![(0, "OFF".into()), (1, "FOOT VOLUME".into()), (4, "PB/FV".into())],
+                    "CTL/EXP: SUB EXP: FUNC" => opts(&ctl.pedal_funcs),
+                    _ => opts(&ctl.switch_funcs),
+                };
+            } else if n.starts_with("ASSIGN") && n.ends_with(": SOURCE") {
+                p.options = opts(&ctl.assign_sources);
+            } else if (n.starts_with("ASSIGN") && n.ends_with(": SOURCE MODE")) || n.ends_with(": SRC MODE") {
+                p.options = vec![(0, "MOMENT".into()), (1, "TOGGLE".into())];
+            }
         }
+        cat.targets = ctl.assign_targets;
         cat
+    }
+
+    /// The assign target with this raw TARGET value.
+    pub fn target(&self, raw: u32) -> Option<&Target> {
+        self.targets.iter().find(|t| t.val == raw)
     }
 
     pub fn get(&self, name: &str) -> Option<&Param> {
@@ -335,6 +385,18 @@ mod tests {
         let p = c.get("PRM_EQ_GEQ_BAND1").unwrap();
         assert_eq!((p.raw_range(), p.display(21)), ((0, 48), json!(-1.5)));
         assert_eq!(c.get("PATCH LEVEL").unwrap().raw_range(), (0, 100));
+    }
+
+    #[test]
+    fn ctl_lists() {
+        let c = Catalog::load();
+        let f = c.get("CTL/EXP: ACCEL/CTL: FUNC").unwrap();
+        assert!(f.options.iter().any(|o| o == &(22, "TUNER".to_string())));
+        assert!(!f.options.iter().any(|o| o.0 == 21 || o.0 == 23)); // AMP CTL, MANUAL MODE: rejected by the 50 MK1
+        assert_eq!(c.encode("CTL/EXP: EXP: FUNC", &json!("FOOT VOLUME")).unwrap().1, vec![1]);
+        assert_eq!(c.get("ASSIGN3: SOURCE").unwrap().options[0].1, "EXP PEDAL");
+        assert_eq!(c.target(0).unwrap().name, "COMP: ON/OFF");
+        assert!(c.targets.len() > 600);
     }
 
     #[test]

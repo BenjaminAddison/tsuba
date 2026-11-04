@@ -55,6 +55,8 @@ pub enum Update {
     Bytes(Addr, Vec<u8>),
     Probe(Result<Vec<u8>, String>),
     Log(LogEntry),
+    /// Round trip of the last liveness ping, in ms.
+    Rtt(f32),
 }
 
 pub fn spawn(ctx: egui::Context) -> (Sender<Cmd>, Receiver<Update>) {
@@ -105,7 +107,9 @@ fn run(rx: Receiver<Cmd>, tx: Sender<Update>, ctx: egui::Context) {
 }
 
 fn session(mut k: Katana, rx: &Receiver<Cmd>, out: &Out) -> Result<(), Box<dyn std::error::Error>> {
+    let t = Instant::now();
     out.send(Update::Current(k.current_patch()? as u8));
+    out.send(Update::Rtt(t.elapsed().as_secs_f32() * 1000.0));
     out.send(Update::EditBuffer(k.read_patch(EDIT_BUFFER)?));
     let mut to_load: Vec<u8> = SLOTS.to_vec();
     let mut last_rx = Instant::now();
@@ -169,7 +173,9 @@ fn session(mut k: Katana, rx: &Receiver<Cmd>, out: &Out) -> Result<(), Box<dyn s
             out.send(Update::Slot(slot, rebase(&k.read_patch(area)?, area, EDIT_BUFFER)));
             to_load.remove(0);
         } else if last_rx.elapsed() > Duration::from_secs(2) {
+            let t = Instant::now();
             k.ping()?; // notice an unplugged amp
+            out.send(Update::Rtt(t.elapsed().as_secs_f32() * 1000.0));
             last_rx = Instant::now();
         }
     }

@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Direction C — Bench</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Doto:wght@400..900&amp;family=JetBrains+Mono:wght@400..700&amp;display=swap">
+<style>
+body{margin:0;background:#070B0D}
+.bn{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;color:#CFE3DA;-webkit-font-smoothing:antialiased}
+.bn button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer}
+.bn :focus-visible{outline:2px solid #8CF5C2;outline-offset:2px}
+.sk{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:#8AA3AD}
+.sans{font-family:Archivo,'Helvetica Neue',Arial,sans-serif}
+</style>
+</helmet>
+<div class="bn" style="min-height: 100vh; box-sizing: border-box; display: flex; flex-direction: column; background: radial-gradient(ellipse at 50% -20%, #12202A, #070B0D 65%)">
+
+<header style="display: flex; align-items: center; gap: 26px; padding: 0 20px; min-height: 50px; border-bottom: 1px solid #1A252B; flex-wrap: wrap">
+<span style="display: flex; align-items: center; gap: 10px; font-size: 11px">
+<span aria-hidden="true" style="width: 8px; height: 8px; background: #8CF5C2; box-shadow: 0 0 8px 1px #8CF5C2AA"></span>
+<span class="sans" style="font-size: 13px; font-weight: 700; letter-spacing: .02em; color: #E6F4EE">Katana-50 MK1</span>
+<span style="color: #6F8790">usb-midi · 3.1 ms</span>
+</span>
+<nav aria-label="Views" style="display: flex; gap: 4px">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="5"><a href="#" style="display: flex; align-items: center; gap: 7px; padding: 6px 10px; text-decoration: none; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: {{t.c}}; box-shadow: {{t.u}}"><span style="font-size: 9px; padding: 1px 4px; border: 1px solid {{t.kb}}; border-radius: 3px; color: {{t.kc}}">{{t.n}}</span>{{t.label}}</a></sc-for>
+</nav>
+<span style="margin-left: auto; display: flex; align-items: center; gap: 8px; height: 30px; padding: 0 10px; min-width: 260px; border: 1px solid #22313A; border-radius: 4px; background: #05080A; font-size: 11.5px; color: #8CF5C2"><span style="color: #6F8790">&gt;</span><span style="width: 7px; height: 14px; background: #8CF5C2; box-shadow: 0 0 6px #8CF5C2"></span><span style="margin-left: auto; font-size: 9.5px; color: #6F8790">ctrl k</span></span>
+</header>
+
+<div style="padding: 22px 20px 20px; display: flex; flex-direction: column; gap: 22px">
+
+<section style="position: relative; border: 1px solid #1E2B32; border-radius: 6px; background: #0B1114; padding: 20px 20px 18px; display: flex; align-items: center; gap: 28px; flex-wrap: wrap">
+<span class="sk" style="position: absolute; top: -7px; left: 14px; padding: 0 8px; background: #08100F; color: #A8C0C9">Patch · mem</span>
+<div style="display: flex; gap: 14px; align-items: flex-end">
+<sc-for list="{{slotGroups}}" as="g" hint-placeholder-count="3">
+<div style="display: flex; flex-direction: column; gap: 7px">
+<span class="sk">{{g.label}}</span>
+<div style="display: flex; gap: 6px">
+<sc-for list="{{g.slots}}" as="s" hint-placeholder-count="2">
+<button aria-pressed="{{s.on}}" style="position: relative; width: {{s.w}}px; height: 32px; border-radius: 4px; border: 1px solid {{s.b}}; background: {{s.bg}}; font-size: 11px; letter-spacing: .06em; color: {{s.c}}; box-shadow: {{s.g}}">{{s.label}}<span aria-hidden="true" style="position: absolute; top: 4px; right: 4px; width: 4px; height: 4px; background: {{s.led}}; box-shadow: {{s.lg}}"></span></button>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+<div style="padding: 5px; border-radius: 6px; background: #030505; border: 1px solid #1E2B32">
+<div style="display: flex; flex-direction: column; gap: 7px; padding: 8px 14px 11px; border-radius: 3px; background: linear-gradient(170deg, #FFFFFF08, transparent 40%), #020605; box-shadow: inset 0 0 22px #000">
+<div style="display: flex; gap: 12px; font-size: 9px; letter-spacing: .12em">
+<sc-for list="{{ann}}" as="a" hint-placeholder-count="7"><span style="color: {{a.c}}; text-shadow: {{a.g}}">{{a.t}}</span></sc-for>
+<span style="margin-left: auto; padding-left: 16px; color: #8CF5C299">15/16</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(16, 24px); gap: 3px">
+<sc-for list="{{cells}}" as="c" hint-placeholder-count="16"><span style="display: grid; place-items: center; height: 40px; background: {{c.bg}}; font-family: Doto, monospace; font-weight: 800; font-size: 33px; line-height: 1; color: #9BFFD0; text-shadow: 0 0 8px #5CF0A8, 0 0 2px #9BFFD0">{{c.ch}}</span></sc-for>
+</div>
+</div>
+</div>
+<div style="margin-left: auto; display: flex; gap: 8px; align-items: center">
+<button style="height: 32px; padding: 0 12px; border-radius: 4px; border: 1px solid #2A3A43; font-size: 11px; letter-spacing: .08em; color: #A8C0C9">DIFF <span style="color: #8CF5C2">3</span></button>
+<button style="height: 32px; padding: 0 12px; border-radius: 4px; border: 1px solid #2A3A43; font-size: 11px; letter-spacing: .08em; color: #A8C0C9">REVERT</button>
+<button style="display: flex; align-items: center; gap: 10px; height: 32px; padding: 0 14px; border-radius: 4px; border: 1px solid #8CF5C2; background: #8CF5C21F; font-size: 11px; font-weight: 700; letter-spacing: .1em; color: #8CF5C2; box-shadow: 0 0 14px #8CF5C226, inset 0 0 10px #8CF5C214">WRITE → A:CH1</button>
+</div>
+</section>
+
+<section style="position: relative; border: 1px solid #1E2B32; border-radius: 6px; background: radial-gradient(#8CF5C212 1px, transparent 1.3px) 7px 7px / 14px 14px, #0B1114; padding: 18px 20px 14px">
+<span class="sk" style="position: absolute; top: -7px; left: 14px; padding: 0 8px; background: #08100F; color: #A8C0C9">Signal path · sch-01</span>
+<span class="sk" style="position: absolute; top: 12px; right: 18px; letter-spacing: .1em">9/13 populated · 5 dnp</span>
+<div style="overflow-x: auto">
+<div style="display: flex; align-items: center; min-width: max-content; padding: 26px 2px 24px">
+<span style="display: flex; flex-direction: column; align-items: center; gap: 4px; flex: none">
+<svg width="26" height="20" viewBox="0 0 26 20" fill="none" stroke="#8AA3AD" stroke-width="1.2" aria-hidden="true"><circle cx="8" cy="10" r="5"></circle><path d="M13 10h13"></path><path d="M8 5v-3"></path></svg>
+<span style="font-size: 8.5px; color: #8AA3AD">J1 IN</span>
+</span>
+<sc-for list="{{chain}}" as="b" hint-placeholder-count="18">
+<span aria-hidden="true" style="flex: 1 1 10px; min-width: 12px; height: 1px; background: #3F7663"></span>
+<sc-if value="{{b.isBlock}}" hint-placeholder-val="{{true}}">
+<div style="position: relative; flex: none">
+<span style="position: absolute; left: 0; top: -15px; font-size: 8.5px; color: #8AA3AD; white-space: nowrap">{{b.ref}}<span style="display: inline-block; width: 5px; height: 5px; margin-left: 5px; vertical-align: 1px; background: {{b.led}}; box-shadow: {{b.lg}}"></span></span>
+<button style="position: relative; min-width: 56px; height: 36px; padding: 0 10px; box-sizing: border-box; border: 1px solid {{b.stroke}}; border-radius: 2px; background: {{b.fill}}; font-size: 11px; font-weight: 600; letter-spacing: .06em; color: {{b.tc}}; box-shadow: {{b.glow}}">{{b.short}}<span aria-hidden="true" style="position: absolute; left: -4px; top: 17px; width: 4px; height: 1px; background: {{b.stroke}}"></span><span aria-hidden="true" style="position: absolute; right: -4px; top: 17px; width: 4px; height: 1px; background: {{b.stroke}}"></span></button>
+<span style="position: absolute; left: 50%; top: 41px; transform: translateX(-50%); font-size: 8px; color: #6F8790; white-space: nowrap">{{b.type}}</span>
+</div>
+</sc-if>
+<sc-if value="{{b.isAmp}}" hint-placeholder-val="{{false}}">
+<div style="position: relative; flex: none; width: 66px; height: 52px">
+<span style="position: absolute; left: 0; top: -12px; font-size: 8.5px; color: #8AA3AD; white-space: nowrap">U6<span style="display: inline-block; width: 5px; height: 5px; margin-left: 5px; vertical-align: 1px; background: #8CF5C2; box-shadow: 0 0 6px #8CF5C2"></span></span>
+<svg width="66" height="52" viewBox="0 0 66 52" aria-hidden="true" style="position: absolute; inset: 0; overflow: visible"><path d="M 4 4 L 62 26 L 4 48 Z" fill="#8CF5C214" stroke="#8CF5C2" stroke-width="1.4" stroke-linejoin="round" style="filter: drop-shadow(0 0 4px #8CF5C288)"></path><path d="M 9 17 h 6 M 12 14 v 6 M 9 36 h 6" stroke="#8CF5C2" stroke-width="1.2"></path></svg>
+<span style="position: absolute; left: 18px; top: 19px; font-size: 10px; font-weight: 700; color: #DDF7EA">AMP</span>
+<span style="position: absolute; left: 50%; top: 56px; transform: translateX(-50%); font-size: 8px; color: #6F8790; white-space: nowrap">BROWN</span>
+</div>
+</sc-if>
+<sc-if value="{{b.isRO}}" hint-placeholder-val="{{false}}">
+<div style="position: relative; flex: none">
+<span style="position: absolute; left: 0; top: -15px; font-size: 8.5px; color: #55707A; white-space: nowrap">{{b.ref}}</span>
+<span style="display: grid; place-items: center; min-width: 40px; height: 36px; padding: 0 8px; box-sizing: border-box; border: 1px dashed #3A4C55; border-radius: 2px; font-size: 9.5px; letter-spacing: .1em; color: #6F8790">DNP</span>
+<span style="position: absolute; left: 50%; top: 41px; transform: translateX(-50%); font-size: 8px; color: #55707A; white-space: nowrap">{{b.short}}</span>
+</div>
+</sc-if>
+</sc-for>
+<span aria-hidden="true" style="flex: 1 1 10px; min-width: 12px; height: 1px; background: #3F7663"></span>
+<span style="display: flex; flex-direction: column; align-items: center; gap: 4px; flex: none">
+<svg width="26" height="20" viewBox="0 0 26 20" fill="none" stroke="#8AA3AD" stroke-width="1.2" aria-hidden="true"><circle cx="18" cy="10" r="5"></circle><path d="M0 10h13"></path><path d="M18 5v-3"></path></svg>
+<span style="font-size: 8.5px; color: #8AA3AD">J2 OUT</span>
+</span>
+</div>
+</div>
+</section>
+
+<section style="position: relative; border: 1px solid #1E2B32; border-radius: 6px; background: #0B1114; padding: 22px 22px 18px; display: flex; align-items: center; gap: 30px; flex-wrap: wrap">
+<span class="sk" style="position: absolute; top: -7px; left: 14px; padding: 0 8px; background: #08100F; color: #A8C0C9">Preamp A · U6</span>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 6px">
+<div style="position: relative; width: 200px; height: 118px">
+<sc-for list="{{typeLabels}}" as="l" hint-placeholder-count="5"><span style="position: absolute; left: {{l.x}}px; top: {{l.y}}px; transform: translate(-50%, -50%); font-size: 8.5px; letter-spacing: .08em; color: {{l.c}}; text-shadow: {{l.g}}; white-space: nowrap">{{l.t}}</span></sc-for>
+<svg viewBox="0 0 200 118" aria-hidden="true" style="position: absolute; inset: 0"><path d="{{typeTicks}}" stroke="#8AA3AD" stroke-width="1.2" fill="none"></path></svg>
+<span aria-hidden="true" style="position: absolute; left: 72px; top: 52px; width: 56px; height: 56px; border-radius: 50%; background: radial-gradient(circle at 50% 30%, #3A454B, #151C20 60%, #0A0F12); box-shadow: 0 0 0 4px #121A1E, 0 0 0 5px #24323A, 0 6px 12px #000"></span>
+<span aria-hidden="true" style="position: absolute; left: 72px; top: 52px; width: 56px; height: 56px; transform: rotate(90deg)"><span style="position: absolute; left: 26.5px; top: 4px; width: 3px; height: 16px; background: #8CF5C2; box-shadow: 0 0 6px #8CF5C2"></span></span>
+</div>
+<span class="sk">Model · 23 brown</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; align-items: flex-end; gap: 16px">
+<sc-for list="{{knobs}}" as="k" hint-placeholder-count="6">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 4px">
+<div style="position: relative; width: {{k.box}}px; height: {{k.box}}px">
+<svg viewBox="0 0 100 100" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible">
+<path d="{{k.ticks}}" stroke="#8AA3AD99" stroke-width="1.1" fill="none"></path>
+<path d="{{k.track}}" stroke="#1C2A30" stroke-width="2.4" fill="none" stroke-linecap="round"></path>
+<path d="{{k.arc}}" stroke="#8CF5C2" stroke-width="2.4" fill="none" stroke-linecap="round" style="filter: drop-shadow(0 0 3px #8CF5C2AA)"></path>
+</svg>
+<sc-for list="{{k.nums}}" as="n" hint-placeholder-count="6"><span style="position: absolute; left: {{n.x}}%; top: {{n.y}}%; transform: translate(-50%, -50%); font-size: 7.5px; color: #8AA3AD">{{n.t}}</span></sc-for>
+<span aria-hidden="true" style="position: absolute; inset: 24%; border-radius: 50%; background: radial-gradient(circle at 50% 30%, #3A454B, #151C20 60%, #0A0F12); box-shadow: 0 0 0 3px #121A1E, 0 0 0 4px #24323A, 0 6px 12px #000000CC"></span>
+<span aria-hidden="true" style="position: absolute; inset: 0; transform: rotate({{k.rot}}deg)"><span style="position: absolute; left: calc(50% - 1px); top: 27%; width: 2px; height: 14%; background: #E6F4EE"></span></span>
+</div>
+<span class="sk" style="color: #CFE3DA">{{k.label}}</span>
+<span style="display: flex; gap: 6px; align-items: baseline"><span style="font-size: 12px; color: {{k.vc}}; text-shadow: {{k.vg}}">{{k.val}}</span><span style="font-size: 9px; color: #8CF5C2">{{k.delta}}</span></span>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; align-items: center; gap: 12px; padding-top: 12px; border-top: 1px dashed #1E2B32">
+<sc-for list="{{keys}}" as="s" hint-placeholder-count="2"><button aria-pressed="{{s.on}}" style="display: flex; align-items: center; gap: 8px; height: 28px; padding: 0 11px; border-radius: 4px; border: 1px solid {{s.b}}; font-size: 10.5px; letter-spacing: .1em; color: {{s.c}}"><span aria-hidden="true" style="width: 5px; height: 5px; background: {{s.led}}; box-shadow: {{s.lg}}"></span>{{s.label}}</button></sc-for>
+<span class="sk" style="margin-left: auto; letter-spacing: .08em">t-comp 10 · solo lvl 65</span>
+</div>
+</div>
+
+<div style="margin-left: auto; display: flex; flex-direction: column; gap: 6px">
+<div style="position: relative; width: 300px; height: 168px; border-radius: 10px; overflow: hidden; background: radial-gradient(ellipse at 50% 50%, #0C1F18, #040A08 80%); box-shadow: 0 0 0 5px #121A1E, 0 0 0 6px #24323A, inset 0 0 30px #000">
+<svg viewBox="0 0 300 168" aria-hidden="true" style="position: absolute; inset: 0">
+<path d="{{gratD}}" stroke="#8CF5C21C" stroke-width="1" fill="none"></path>
+<path d="M 0 84 L 300 84 M 150 0 L 150 168" stroke="#8CF5C240" stroke-width="1" fill="none"></path>
+<path d="{{minorD}}" stroke="#8CF5C240" stroke-width="1" fill="none"></path>
+<path d="{{scopeD}}" stroke="#9BFFD0" stroke-width="1.8" fill="none" style="filter: drop-shadow(0 0 3px #5CF0A8)"></path>
+</svg>
+<span style="position: absolute; left: 10px; top: 8px; font-size: 8.5px; letter-spacing: .1em; color: #8CF5C2B0">TONE STACK</span>
+<span style="position: absolute; right: 10px; top: 8px; font-size: 8.5px; color: #8CF5C2B0">2 dB/div</span>
+<span style="position: absolute; left: 10px; bottom: 7px; font-size: 8.5px; color: #8CF5C280">20 Hz</span>
+<span style="position: absolute; right: 10px; bottom: 7px; font-size: 8.5px; color: #8CF5C280">20 kHz</span>
+</div>
+</div>
+</section>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":700}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const PH = '#8CF5C2', PG = '0 0 6px 1px #8CF5C2AA', DIM = '#1C3A2F';
+    const f1 = (n) => n.toFixed(1);
+    const P = (cx, cy, a, r) => { const t = a * Math.PI / 180; return [cx + r * Math.sin(t), cy - r * Math.cos(t)]; };
+    const tickPath = (cx, cy, r0, r1, a0, a1, n) => { let d = ''; for (let i = 0; i <= n; i++) { const a = a0 + (a1 - a0) * i / n, p = P(cx, cy, a, r0), q = P(cx, cy, a, r1); d += 'M ' + f1(p[0]) + ' ' + f1(p[1]) + ' L ' + f1(q[0]) + ' ' + f1(q[1]) + ' '; } return d; };
+    const arc = (a0, a1, r) => { if (a1 - a0 < 0.5) return ''; const p = P(50, 50, a0, r), q = P(50, 50, a1, r); return 'M ' + f1(p[0]) + ' ' + f1(p[1]) + ' A ' + r + ' ' + r + ' 0 ' + (a1 - a0 > 180 ? 1 : 0) + ' 1 ' + f1(q[0]) + ' ' + f1(q[1]); };
+    const tabs = ['Editor', 'Effects', 'Control', 'Library', 'Monitor'].map((t, i) => ({ label: t, n: String(i + 1), c: i === 0 ? PH : '#6F8790', u: i === 0 ? 'inset 0 -1px 0 ' + PH + ', 0 6px 10px -8px ' + PH : 'none', kb: i === 0 ? PH + '88' : '#2A3A43', kc: i === 0 ? PH : '#6F8790' }));
+    const slotGroups = [['Live', [['PANEL', 62, false]]], ['Bank A', [['CH1', 46, true], ['CH2', 46, false]]], ['Bank B', [['CH1', 46, false], ['CH2', 46, false]]]].map(([label, s]) => ({ label, slots: s.map(([l, w, on]) => ({ label: l, w, on,
+      b: on ? PH : '#2A3A43', bg: on ? '#8CF5C214' : '#0E161A', c: on ? PH : '#A8C0C9', g: on ? '0 0 12px #8CF5C226' : 'none', led: on ? PH : DIM, lg: on ? PG : 'none' })) }));
+    const ann = [['A', 1], ['B', 0], ['CH1', 1], ['CH2', 0], ['EDIT', 1], ['MIDI', 1], ['Δ3', 1]].map(([t, on]) => ({ t, c: on ? PH : '#16362A', g: on ? '0 0 6px #8CF5C299' : 'none' }));
+    const name = 'EDGE OF BREAKUP', cells = [];
+    for (let i = 0; i < 16; i++) { const ch = name[i] || '', lit = ch && ch !== ' '; cells.push({ ch: lit ? ch : '', bg: lit ? 'transparent' : 'radial-gradient(circle, #8CF5C21F 0.9px, transparent 1.4px) center / 4px 4.4px' }); }
+    const CH = [['PDL', 'WAH 95E', 0], ['COMP'], ['OD', 'BLUES DRIVE', 1], ['FX1', 'PHASER 90E', 1], ['DIV'], ['AMP', 'BROWN', 1], ['PRE B'], ['MIX'], ['NS1', 'THR 35', 1], ['EQ', 'PEQ', 1], ['FX2', 'CHORUS', 1], ['DLY1', 'TAPE ECHO', 1], ['CHORUS'], ['DLY2', 'SDE-3000', 0], ['REV', 'SPRING', 1], ['FV', 'LVL 100', 1], ['S/R', 'SERIES', 0], ['NS2', 'THR 20', 0]];
+    let u = 0;
+    const chain = CH.map(([short, type, on]) => {
+      u++;
+      const ref = 'U' + u;
+      if (!type) return { isBlock: false, isAmp: false, isRO: true, short, ref };
+      if (short === 'AMP') return { isBlock: false, isAmp: true, isRO: false };
+      return { isBlock: true, isAmp: false, isRO: false, short, type, ref,
+        stroke: on ? PH : '#33454E', fill: on ? '#8CF5C20F' : '#0B1114', tc: on ? '#DDF7EA' : '#6F8790', glow: on ? '0 0 12px #8CF5C21F' : 'none', led: on ? PH : DIM, lg: on ? PG : 'none' };
+    });
+    const TL = ['ACOUSTIC', 'CLEAN', 'CRUNCH', 'LEAD', 'BROWN'];
+    const typeLabels = TL.map((t, i) => { const a = -90 + 45 * i, p = P(100, 80, a, i % 4 === 0 ? 64 : 56); return { t, x: f1(p[0]), y: f1(p[1]), c: i === 4 ? PH : '#A8C0C9', g: i === 4 ? '0 0 6px #8CF5C2AA' : 'none' }; });
+    const typeTicks = tickPath(100, 80, 34, 40, -90, 90, 4);
+    const KN = [['Gain', 62, 55, 92], ['Volume', 70, 70, 92], ['Bass', 45, 45, 76], ['Middle', 60, 60, 76], ['Treble', 58, 52, 76], ['Presence', 57, 50, 76]];
+    const knobs = KN.map(([label, v, s, box]) => {
+      const big = box > 90, ed = v !== s, d = v - s;
+      const nums = big ? [0, 2, 4, 6, 8, 10].map((n) => { const p = P(50, 50, -135 + n * 27, 50); return { t: String(n), x: f1(p[0]), y: f1(p[1]) }; }) : [];
+      return { label, box, rot: -135 + v * 2.7, ticks: tickPath(50, 50, 41, 44, -135, 135, big ? 20 : 10), track: arc(-135, 135, 37), arc: arc(-135, -135 + v * 2.7, 37), nums,
+        val: String(v), vc: ed ? PH : '#CFE3DA', vg: ed ? '0 0 6px #8CF5C288' : 'none', delta: ed ? 'Δ' + (d > 0 ? '+' : '') + d : '' };
+    });
+    const keys = [['SOLO', true], ['BRIGHT', false]].map(([label, on]) => ({ label, on, b: on ? PH + '99' : '#2A3A43', c: on ? PH : '#A8C0C9', led: on ? PH : DIM, lg: on ? PG : 'none' }));
+    let gratD = '';
+    for (let i = 1; i < 10; i++) gratD += 'M ' + (i * 30) + ' 0 L ' + (i * 30) + ' 168 ';
+    for (let j = 1; j < 8; j++) gratD += 'M 0 ' + (j * 21) + ' L 300 ' + (j * 21) + ' ';
+    let minorD = '';
+    for (let i = 0; i <= 50; i++) minorD += 'M ' + (i * 6) + ' 82 L ' + (i * 6) + ' 86 ';
+    for (let j = 0; j <= 40; j++) minorD += 'M 148 ' + (j * 4.2).toFixed(1) + ' L 152 ' + (j * 4.2).toFixed(1) + ' ';
+    const l2 = Math.log2;
+    const lsh = (f, fc, g) => g / (1 + Math.exp(2.4 * l2(f / fc)));
+    const hsh = (f, fc, g) => g / (1 + Math.exp(-2.4 * l2(f / fc)));
+    const pk = (f, fc, g, q) => { const o = l2(f / fc), s = 0.85 / q; return g * Math.exp(-(o * o) / (2 * s * s)); };
+    const db = (f) => lsh(f, 120, -0.9) + pk(f, 650, 1.4, 0.7) + hsh(f, 2800, 1.0) + pk(f, 5200, 0.84, 1.1);
+    let scopeD = '';
+    for (let i = 0; i <= 150; i++) { const f = 20 * Math.pow(1000, i / 150), x = i * 2, y = 84 - db(f) * 10.5; scopeD += (i ? ' L ' : 'M ') + x + ' ' + y.toFixed(1); }
+    return { tabs, slotGroups, ann, cells, chain, typeLabels, typeTicks, knobs, keys, gratD, minorD, scopeD };
+  }
+}
+</script>
+</body>
+</html>

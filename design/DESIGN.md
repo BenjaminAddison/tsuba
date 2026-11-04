@@ -1,211 +1,156 @@
-# Tsuba — UI design brief (Katana editor, egui)
+# Tsuba — UI design brief: "Outboard" (Katana editor, egui)
 
-The look is retro-modern spec-sheet / HUD on near-black. Think a printed equipment label crossed with a 1980s tactical display: solid off-white label bars, cut corners, 1px hairlines, monospaced meta text, and a few muted retro accent stripes. It should feel calm, precise and dense, never glossy.
+The editor looks like a stack of rack-mount outboard gear: brushed dark faces with ears and screws, silkscreened
+labels, grey keycaps with an LED above each, machined aluminium knobs, and VFD windows lit in one lamp colour.
+It should feel like hardware you already own: tactile, dense and calm, with light only where something is on.
 
-This brief covers visuals and layout only. All hardware behaviour, protocol and parameter data is yours to define. Block names, parameter lists and values in the mockups are **sample content**.
-
-Mockup boards: 01 Editor, 02 Effects, 03 Monitor (optional), 04 UI Kit.
+Mockup boards (from the design canvas): Main (Editor), Effects, Control, Library, Monitor, Details (components and
+states), Palette (command palette), and DirA/B/C (the explored directions; A was chosen). Values in them are sample
+content; the app shows the amp's own data.
 
 ---
 
-## 1. Hard rules
+## 1. Rules
 
-- Flat fills only. No blur, no shadows, no gradients. The hatch and barcode decor are drawn as plain line segments and rects.
-- All strokes are 1px. Corners are square, or **cut** (one 45° chamfer, top-right only). Never rounded.
-- Motion is limited to **movement and fading**. No scaling, bouncing, springs or colour tweens.
-- Fonts are fixed instances: Archivo Bold / ExtraBold in Normal, SemiExpanded and Expanded, plus a mono companion (mockups use IBM Plex Mono Regular; swap if needed).
-- Text is left-aligned. Never justify.
-- Use the standard OS title bar. Inside the window, the top row is an app bar, not window chrome.
+- **One lamp colour lights everything**: every LED, VFD, memory tick and glow. It is a setting (status bar, LAMP),
+  default MUSTARD. Silkscreen, keycaps and the cream meter never change colour.
+- **Red is reserved** for WRITE and DELETE (and LISTEN while capturing).
+- Light means state: a lit LED = on / latched / edited. Nothing glows for decoration.
+- Keys travel 1.5px when latched. The LED above a key is its state; the key face never changes colour.
+- Use the standard OS title bar. Inside the window, the top unit is the app bar.
 
 ## 2. Colour tokens
 
-| Token | Hex | Use |
+| Token | Value | Use |
 |---|---|---|
-| `BG` | `#0B0B0A` | Window ground, inputs, graph wells |
-| `PANEL` | `#121211` | Panel bodies |
-| `RAISED` | `#1C1B19` | Hover row, active list item (not selected) |
-| `LINE` | `#2A2926` | Hairlines, dividers, inactive tab outline |
-| `EDGE` | `#4A4842` | Panel borders, control borders, slider track, knob ticks |
-| `TEXT_3` | `#8A867D` | Meta labels (10px), axis labels |
-| `TEXT_2` | `#A29E94` | Secondary text, unselected option text |
-| `INK` | `#ECE8DE` | Primary text, label bars, selected fills, active borders |
-| `INK_ON` | `#0B0B0A` | Text on INK fills (sub-text on INK: `#3A3833`) |
-| `CORAL` | `#F2685A` | **Accent**: knob tip, slider thumb, unsaved dot, combined EQ curve, drag ghost edge. Drive category |
-| `STEEL` | `#6F8FB8` | Modulation category, received/RX |
-| `MUSTARD` | `#EDB03E` | Time-FX category, **focus ring**, sent/TX |
-| `SAND` | `#D8C8A4` | Dynamics / EQ / routing category |
-| `SAGE` | `#8FB98B` | Online / OK / confirmed |
+| `BODY` / `RAIL` | `#0D0D0F` / `#040404` | Window ground; darker rails at the sides |
+| `FACE` | `#222325` → `#1B1C1E` | Unit faces (vertical gradient, 3px brushing lines) |
+| `SILK` | `#E8E4DC` | Silkscreen titles and labels (13:1 on the face) |
+| `SILK2` | `#A29D95` | Secondary silk (6.1:1) |
+| `SILK3` | `#8F8A83` | Tertiary: hints, bypassed blocks (4.8:1) |
+| `KEY` | `#414245` → `#2C2D30` | Keycaps, text `#ECE8E0` |
+| `KEY · RED` | `#D8532F` → `#A63A20` | WRITE, DELETE, LISTEN; text `#FFF4EA` |
+| `GLASS` | lamp 5% on `#050302` | VFD windows, with a 3px dot screen, inner shade and a 162° glare |
+| `METER FACE` | `#F3DFAF` | The cream VU meter |
+| Lamps | MUSTARD `#FFB547` · CORAL `#FF6B4A` · SAGE `#8CFFB4` · STEEL `#7FDBFF` · SAND `#FFE3B3` | The lamp colour |
 
-The accent should be a single runtime setting (default CORAL). The only translucency allowed is the drag ghost at 45% opacity.
+Lit VFD text is the lamp mixed with 18% white plus a soft glow. Unlit annunciators are the lamp at 22% on near-black.
+A selected VFD row inverts: lamp fill, `#170D02` text.
 
 ## 3. Type
 
 | Role | Face | Size | Notes |
 |---|---|---|---|
-| Display (patch name) | Archivo ExtraBold, Normal | 64 | Line height 0.92, tracking −4.5%, sentence case |
-| Wordmark | Archivo ExtraBold, Normal | 22 | Tracking −4.5%, small ™ |
-| Label bar / tab / button | Archivo ExtraBold, Expanded | 11–12 | Uppercase, +4% tracking |
-| Control value (dropdown, type) | Archivo ExtraBold, Expanded | 14–16 | Uppercase |
-| List item (channel, block name) | Archivo ExtraBold, SemiExpanded | 12–13 | Uppercase |
-| Numeric readout | Archivo Bold, SemiExpanded / Expanded | 13–20 | Knob values zero-padded to 3 digits (`062`) |
-| Meta / table / help | Mono Regular | 10–12 | Uppercase for labels, sentence case for help text |
+| Silkscreen title / label | Archivo Bold, Expanded | 10–11 | Uppercase, +0.2em, 1px black drop |
+| Secondary silk, key caps | Archivo Bold, SemiExpanded | 8.5–9.5 | Uppercase, +0.16em |
+| Block title (DELAY 1) | Archivo ExtraBold, Expanded | 20 | |
+| Values, tables, VFD text | JetBrains Mono Regular / Bold | 9–15 | Tabular |
+| Patch name display | Doto ExtraBold (dot matrix) | 21–34 | Patch name, DIFF counter, big parameter value only |
 
-## 4. Spacing and shape
+The fonts are fixed instances embedded in the app (`app/fonts`, all OFL).
 
-- Spacing scale: 2, 4, 6, 8, 10, 12, 16, 18, 24, 40. Screen padding and panel gaps are 16. Panel body padding is 16.
-- Minimum hit target is 44px tall for every clickable thing, including list rows, segmented options and graph handles (the visible handle can be 10px).
-- Cut-corner sizes:
-  - main panel 18
-  - side panel 16
-  - chain block 10–12
-  - tab and primary button 10
-  - small button / quick pick 8
-  - label-bar slant 8
-- Panel border: draw the cut polygon filled `EDGE`, then the same polygon inset 1px filled `PANEL`. Both share the cut, which gives a clean 1px chamfered border.
+## 4. The unit
+
+- A unit is a full-width rack face: 3px radius, drop shadow `0 10 18 #00000090` plus a 2px black lip.
+- **Ears** 34px each side: darker, with vertical brushing and a groove; each holds 1 rack slot (units under 110px)
+  or 2, with a domed cross-head screw at a random angle.
+- **Header**: silk title top-left (never a bar), optional SILK2 subtitle, a 1px rule that fades to the right, an
+  optional right-hand title, and the outlined unit number (`03`).
+- Sections inside a unit are split by a **groove** (1px shadow + 1px highlight).
+- Units stack with a 5px gap; 12px rails either side of the stack.
 
 ## 5. Components
 
-**Panel (the core block)**
-- Header row, 30px tall, with a `LINE` bottom divider.
-- Label bar: `INK` fill, `INK_ON` ExtraBold Expanded 12px uppercase text. The right edge slants 8px.
-- Hatch block (optional, about 40–64px wide): 2px `INK` lines at 45° with a 6px pitch, the same slant as the label bar.
-- Meta text: mono 10px `TEXT_3`, right-aligned, with about 28px right padding so it clears the cut.
-- The body sits on `PANEL`.
+**Keycap**: 4px radius, grey gradient, inset top highlight, 2px solid drop + soft shadow. Hover brightens it,
+latched/pressed moves it down 1.5px with an inset shade. Label in SILK2-style caps. The 12×4 LED sits 5px above.
 
-**Read-only panel**
-- Square corners with a 1px dashed `EDGE` border.
-- Outlined label with a lock icon and `TEXT_2` text. No INK fill anywhere.
-- Use it for things set on the amp itself (power control, master).
+**LED**: dark window `lamp 13%` when off; lit = white-hot top fading through the lamp, with a glow. Round LEDs (5px)
+mark edited knobs; bar LEDs (12×4) sit over keys and chain blocks.
 
-**Group bracket**
-- A small 6px corner tick, then a mono label, then a line that ends in a down-tick.
-- Groups knobs: PREAMP (Gain, Volume) | EQ / 3-BAND (Bass, Middle, Treble) | POWER AMP (Presence). Groups are separated by 1px `LINE` verticals.
+**Knob**: 270° sweep (−135°…+135°), 11 ticks; large knobs add numbers 0–10 and minor ticks, tone knobs 0 and 10.
+Machined skirt (radial gradient), knurled edge (alternating 3° wedges), spun cap with a conic sheen, black
+pointer with a white dot. **Memory tick**: when the value differs from the stored channel, a lit tick marks the stored
+value. Drag up/down (Shift = fine), wheel, arrows (Shift = ×10), **double-click recalls memory**. Under it: LED dot
+(lit when edited), silk name, value (lit when edited). Sizes: L 92 (gain, volume), M 74 (tone), E 64 (effect
+parameters), S 42 (trims).
 
-**Buttons**
+**Fader**: slot track with ticks either side, a grey cap with a white index line, memory tick. Click or drag.
 
-| Kind | Look |
-|---|---|
-| Primary | `INK` fill, `INK_ON` text, 10px cut. Optional ▸▸ glyph. One per view (WRITE TO AMP) |
-| Secondary | Transparent with a 1px `EDGE` border |
-| Hover | Border goes `EDGE` → `INK`. Fill doesn't change |
-| Pressed / selected | `INK` fill |
-| Focus | 2px `MUSTARD` outline, offset 2px |
-| Disabled | Dashed `LINE` border, `TEXT_3` text |
-| Icon | 44×44 square with a 1px `EDGE` border |
+**Stepper**: ◀ [VFD value] ▶; clicking the value opens the full list on glass.
 
-Keep primary actions in their own strip (`PANEL` fill, `LINE` border), away from decor such as barcodes and stripes.
+**Rocker**: I/O switch for a block's master on/off (AMP in the preamp header).
 
-**Selectable block** (quick picks, channels, power-style choices)
-- Off: `EDGE` outline, `TEXT_2` text.
-- On: `INK` fill, `INK_ON` text.
-- 8–10px cut. A mono index (`01`) sits on the left and the label on the right.
+**VFD window**: 5px black bezel, glass, dot screen, inner shade, glare. Rows are selectable (invert) and hover with a
+faint lamp wash.
 
-**Tabs**
-- Active: `INK` fill with a 10px cut.
-- Inactive: `LINE` outline with an open bottom edge.
-- Content is a mono number followed by an ExtraBold Expanded label.
+**Signal path row**: IN → blocks → OUT on a bus with arrows. Blocks are outlined (on), dim (bypassed), dashed (fixed
+by firmware), cream-filled (AMP, or the selected block on Effects). LED above, type below.
 
-**Dropdown / combo**
-- 50px tall on a `BG` well with an `EDGE` border.
-- Layout: `MODEL` meta label, value in ExtraBold Expanded 16px, `09 / 26` count, then a 50px chevron cap separated by a 1px divider.
-- Open state: the border goes `INK`, the cap fills `INK` with an `INK_ON` chevron, and the list appears beneath in a 1px `INK` frame.
-- Options are 44px tiles in a wrapping grid, each with a mono index and a Bold SemiExpanded name.
+**Cover key** (DELETE): a red key under a translucent flip cover. The first click lifts the cover, the second deletes.
 
-**Switch**
-- 34×16 outline in `INK` with a 12×10 square thumb: `INK` when on, `EDGE` when off.
-- The label to its left reads ENABLED / BYPASSED.
+**Footswitch**: hex nut, chrome cap, LED above; label and its MIDI CC (or setting) under it.
 
-**Tick slider**
-- Rows are 44px tall.
-- A 1px `EDGE` track, with a 3px `INK` fill from 0 to the value.
-- Ticks every 10% underneath, 6px tall in `EDGE`.
-- Thumb is an 8×15 accent rect.
-- The label sits top-left (mono 10px `TEXT_2`) and the value top-right.
+**VU meter**: cream face, 0–10 scale with a red top fifth, black needle, glass reflection.
 
-**Segmented enum**
-- 44px cells with a 3px gap.
-- Selected cell is `INK` fill. Others have an `EDGE` border.
-
-**Knob** (about 104px)
-- Sweeps 270° (7:30 → 4:30).
-- Ticks every 5 units, with longer ticks every 25, in `EDGE`.
-- Value arc: 3px `INK` over a 3px `LINE` track.
-- Inner circle is `BG` with an `EDGE` ring. The pointer is a 2px `INK` line, and a 6px accent square marks the arc end.
-- Under the knob, a hairline carries the name (left) and a 3-digit value (right).
-- Interaction: drag vertically, Shift for fine control.
-
-**Channel list**
-- Rows are 48px with a 4px colour pip, name, and an amp-model sub-line.
-- The selected row is inverted.
-- Grouping: PANEL, then a `BANK A` bracket over A:CH1 and A:CH2, then a `BANK B` bracket over B:CH1 and B:CH2.
-
-**Chain block**
-
-| State | Look |
-|---|---|
-| Active | `EDGE` border on `PANEL` |
-| Selected | `INK` fill, `INK_ON` text |
-| Bypassed | `LINE` border on `BG`, `TEXT_3` text, hatched bar |
-| Dragging | Ghost at 45% opacity with an accent edge, sitting in its target slot |
-
-- 10px cut. Contents: slot number and grip (6 dots) on top, then name, then type, then a 4px category-colour bar at the bottom.
-- A 1px `EDGE` "bus" line runs behind the row, with IN / OUT labels at its ends.
+**Jewel**: pilot lamp (link state) and the five lamp-colour picks.
 
 ## 6. Screens
 
-**01 Editor** (three columns, wrapping to one on narrow windows)
-- *Left, about 250px:*
-  - CHANNELS panel with the 5 channels as above.
-  - LIBRARY panel with search, a tone list, and IMPORT / + NEW.
-- *Centre:*
-  1. Patch label in the Strata style: hairline-ruled. Top row has `PATCH / ID …` and a barcode. Middle row has a 10-line colour stripe stack beside left-aligned status text and three outline icons. Then the big patch name, then a `CHANNEL / A:CH2 … AMP / CLEAN` mono 18px line.
-  2. Action strip: UNSAVED dot and text, then REVERT and WRITE TO AMP.
-  3. AMP panel with the MODEL dropdown (26 models), a QUICK row (ACOUSTIC, CLEAN, CRUNCH, LEAD, BROWN), and the three knob groups.
-- *Right, about 280px:*
-  - DEVICE panel with a radar decor, model, and a spec list (connection, device ID, channel, buffer).
-  - ON THE AMP read-only panel.
-- No level meters.
+Every screen: the **top unit** (pilot jewel, KATANA-50 MK1, link + ping time, the five mode keys, a SEARCH window
+that opens the command palette, CTRL K, ?) and the **status unit** (MIDI IN/OUT LEDs that flicker on traffic, EDITOR
+MODE, TX/RX/ERR counters on glass, a hint or the latest message, LAMP colour jewels).
 
-**02 Effects**
-- SIGNAL CHAIN across the full width:
-  - 12 equal slots, drag to reorder.
-  - While dragging, the ghost sits in the slot under the cursor and the other blocks slide to their new slots (180ms ease-out). Dropping commits the order.
-  - Clicking a block selects it.
-  - Below the chain, a legend for the category colours and bypassed.
-- Two panels side by side below the chain:
-  - **Parameters**: a header with the block name, category chip and `POSITION 10 / 12`. A toolbar with ENABLED switch, TYPE dropdown, and ◀ ▶ move buttons (the keyboard alternative to dragging). Then a 5–20 parameter grid of tick sliders and segmented enums in 3 columns. Selecting AMP shows a short note that links to the Editor.
-  - **Frequency response**: a log-frequency graph from 20 Hz to 20 kHz and ±24 dB.
-    - Grid lines at 50 / 100 / 200 / 500 / 1k / 2k / 5k / 10k and every 6 dB in `#242320`. The 0 dB line is a dashed `EDGE` line.
-    - Each band component is drawn thin: `EDGE`, or `INK` when its band is selected. The combined curve is 2px accent.
-    - Square handles per band are hollow, or accent-filled when selected.
-    - Above the graph, band chips (LOW CUT, LOW, LO-MID, HI-MID, HIGH, HIGH CUT). Below it, a readout of BAND / FREQ / GAIN / Q (or SLOPE). It updates live as parameters move.
+**Editor**
+1. PATCH MEMORY: channel keys grouped LIVE / BANK A / BANK B; the dot-matrix display (annunciators PANEL A B CH1 CH2
+   EDIT MIDI MEM, name and length, then the touched parameter against memory or the channel's state; double-click to
+   rename); DIFF counter (hover lists the edits); REVERT; WRITE (red, LED blinks while unsaved).
+2. SIGNAL PATH: click a block to engage/bypass it, drag to reorder, double-click to open it on Effects. Legend.
+3. PREAMP · A: the panel's 5-way TYPE selector (ACOUSTIC CLEAN CRUNCH LEAD BROWN) plus a stepper over all 26 models;
+   LEVEL (gain, volume); TONE (bass, middle, treble, presence); SOLO and BRIGHT keys, SOLO LVL and T-COMP trims;
+   the AMP rocker.
+4. RESPONSE: the EQ (or MASTER EQ, or both) on glass, band handles to drag, wheel for Q, band keys and a readout.
+   MASTER EQ · PATCH: five faders; the VU meter showing the USB audio send level; MASTER and POWER noted as set on
+   the amp.
 
-**03 Monitor** (optional dev view)
-- Listener panel with a radar, counters, TX/RX/command filter toggles, and pause / export.
-- A log table (rows 36px, the selected row inverted, TX in `MUSTARD` and RX in `STEEL`).
-- A frame decode drawn as a row of byte blocks colour-coded by role. Command bytes use `INK` fill, address bytes a `STEEL` outline, data `CORAL` fill, and checksum `MUSTARD` fill.
-- An address map with 5-segment confidence bars, and a probe form.
+**Effects**: compact PATCH unit; SIGNAL PATH (click selects, drag reorders); BLOCK unit: title, type chip (click for
+every type), ON, MOVE ◀ ▶, RESET (back to memory), unit pages (DELAY 1/2), type keys for short lists, a visual on
+glass (delay repeats, the EQ curve, or every setting as a bar), knobs for numbers and keys/steppers for lists.
+PARAMETER panel: the touched parameter (value, memory, range), its CLI line with COPY, and the assigns driving it with
++ ASSIGN CONTROL.
 
-**Persistent chrome** (every screen)
-- App bar (44px): wordmark, 4-line colour stripe mark, `KATANA EDITOR / 0.1`, and a LINK status tag on the right.
-- Tab row: 01 EDITOR, 02 EFFECTS, 03 MONITOR.
-- Status bar (30px, mono 10px): ONLINE · BUFFER · DEVICE ID · shortcut hint.
+**Control**: ASSIGN · MATRIX (8 assigns on glass with on/off keys; edit source, target search, min/max knobs, mode,
+wave shape and rate). CTL · PEDALS (the six CTL/EXP functions), STOMP (footswitches for the blocks the amp's buttons
+and MIDI CCs switch), PATCH · GLOBAL (patch level, BPM, key).
 
-## 7. Motion
+**Library**: TONES (find, voicing filters with counts, FOLDER, IMPORT, SAVE AS TONE); LIBRARIAN table (name, amp,
+chain dots, age) with keyboard selection; PREVIEW (name, file, note, amp, chain, preamp bars, EQ curve, APPLY,
+COPY JSON, DELETE under a cover); BACKUP (all five channels to `backups/`, load any channel of the latest backup).
+
+**Monitor**: SHOW filters with counts, CAPTURE (PAUSE, LISTEN, REC timer), TX/RX rate meters and msg/s; LOG table
+(time, kind tag, decoded, frame); DECODE (frame bytes by role, command, address, value, checksum, bits, COPY HEX,
+RESEND own edit-buffer writes) or ADDR MAP (confidence bars); READ probe with a hex/ASCII dump.
+
+**Command palette** (Ctrl+K): searches parameters (with a value bar, ← → nudge) and commands; Enter runs a command
+in the CLI's syntax, Tab completes.
+
+## 7. Fitting the KATANA-50 MK1
+
+The mockups were drawn before some hardware findings; the app follows the amp:
+- Blocks the firmware fixes (COMP, CHORUS, PRE B, divider, mixer) are dashed and can't be engaged; ACCEL FX is on
+  the dead B path, so Control's ACCEL FX section became PATCH · GLOBAL, and MANUAL MODE became STOMP.
+- AMP / FX / BOTH on the response became EQ / MASTER / BOTH: only the EQ blocks are modelled, not amp tone stacks.
+- MASTER · GLOBAL faders are the patch's MASTER EQ. The amp's MASTER volume and POWER can't be read, so the meter
+  shows the USB send level and MASTER/POWER are noted as set on the amp.
+- RESTORE loads a backed-up channel into the edit buffer (WRITE keeps it) rather than writing slots directly, so
+  values the firmware filters on direct slot writes survive (notes/07).
+
+## 8. Motion
 
 | What | Timing |
 |---|---|
-| Chain reorder slide | 180ms ease-out (`left` only) |
-| Drag ghost fade | 120ms linear to 45% |
-| Dropdown open / close | Instant, or a 120ms fade |
-| Selection changes | Instant |
-
-## 8. Decor (use sparingly, at most one per panel)
-
-- **Colour stripe stack**: horizontal 3px lines in CORAL / SAND / STEEL / MUSTARD, 4px gap.
-- **Barcode**: 75×26, irregular 1–3px `INK` bars.
-- **Hatch block**: in panel headers only.
-- **Radar**: dotted outer ring, two inner rings, a crosshair, and one accent sweep line. Device panel or Monitor only.
-- **Group bracket**: see components.
-
-Decor never carries meaning and never sits next to a primary action.
+| Key travel | instant 1.5px |
+| Chain reorder slide | 180ms ease-out |
+| Drag ghost | 120ms fade to 45% |
+| WRITE LED, unsaved display line | 1Hz blink |
+| MIDI IN/OUT LEDs | lit ~90ms per message |
+| Search cursor | 1Hz blink |

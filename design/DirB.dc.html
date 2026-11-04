@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Direction B — Rig</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Doto:wght@400..900&amp;family=JetBrains+Mono:wght@400..700&amp;display=swap">
+<style>
+body{margin:0;background:#120E0B}
+.rg{font-family:Archivo,'Helvetica Neue',Arial,sans-serif;color:#EDE3CC;-webkit-font-smoothing:antialiased}
+.rg button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer}
+.rg :focus-visible{outline:2px solid #FFB14A;outline-offset:2px}
+.ink{font-size:10.5px;font-weight:800;font-stretch:72%;letter-spacing:.14em;text-transform:uppercase;color:#241A0E}
+.cr{font-size:10px;font-weight:700;font-stretch:78%;letter-spacing:.18em;text-transform:uppercase;color:#D9CCAE}
+.mono{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace}
+.btn{transition:transform .08s}.btn:active{transform:translateY(1px)}
+</style>
+</helmet>
+<div class="rg" style="min-height: 100vh; box-sizing: border-box; display: flex; flex-direction: column; background: radial-gradient(ellipse at 50% 0%, #2A2018, #120E0B 70%)">
+
+<header style="display: flex; align-items: center; gap: 28px; padding: 0 22px; min-height: 52px; flex-wrap: wrap">
+<span style="display: flex; align-items: center; gap: 11px">
+<span aria-hidden="true" style="width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #FFD9CC 0 12%, #E0452B 46%, #5E1206 100%); box-shadow: 0 0 0 2px #0B0806, 0 0 0 3px #8F8670, 0 0 12px 2px #E0452B88"></span>
+<span style="font-size: 13px; font-weight: 800; font-stretch: 70%; letter-spacing: .12em; text-transform: uppercase">Katana-50 MK1</span>
+<span class="mono" style="font-size: 10px; color: #A89A7E">USB · 3 ms</span>
+</span>
+<nav aria-label="Views" style="display: flex; gap: 4px">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="5"><a href="#" style="padding: 7px 12px; border-radius: 999px; text-decoration: none; font-size: 12.5px; font-weight: 650; color: {{t.c}}; background: {{t.bg}}">{{t.label}}</a></sc-for>
+</nav>
+<span style="margin-left: auto; display: flex; align-items: center; gap: 10px; height: 32px; padding: 0 10px 0 12px; border-radius: 999px; background: #0C0907; box-shadow: inset 0 1px 3px #000; font-size: 12px; color: #A89A7E; min-width: 260px">Search parameters or run a command<span class="mono" style="margin-left: auto; font-size: 9.5px; padding: 2px 6px; border-radius: 999px; border: 1px solid #4A3F31">Ctrl K</span></span>
+</header>
+
+<div style="padding: 6px 22px 22px; display: flex; flex-direction: column; gap: 22px">
+
+<section aria-label="Amp head" style="position: relative; border-radius: 18px; padding: 16px; background: repeating-linear-gradient(45deg, #FFFFFF07 0 2px, transparent 2px 5px), repeating-linear-gradient(-45deg, #00000055 0 2px, transparent 2px 5px), linear-gradient(180deg, #221B15, #15110D); box-shadow: inset 0 1px 0 #FFFFFF14, 0 0 0 1px #000, 0 18px 40px #000000B0">
+<sc-for list="{{corners}}" as="c" hint-placeholder-count="4"><span aria-hidden="true" style="position: absolute; {{c.pos}}; width: 26px; height: 26px; border-radius: {{c.r}}; background: radial-gradient(circle at 40% 35%, #F4F1EA, #A8A399 55%, #6B675F); box-shadow: 0 1px 2px #000"></span></sc-for>
+<div style="border: 1.5px solid #E6D9BB; border-radius: 10px; padding: 18px 22px 20px; display: flex; flex-direction: column; gap: 18px; box-shadow: 0 0 0 1px #00000080, inset 0 0 0 1px #00000080">
+
+<div style="display: flex; align-items: center; gap: 28px; flex-wrap: wrap">
+<div style="display: flex; gap: 16px; align-items: flex-end">
+<sc-for list="{{slotGroups}}" as="g" hint-placeholder-count="3">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span class="cr">{{g.label}}</span>
+<div style="display: flex; gap: 8px">
+<sc-for list="{{g.slots}}" as="s" hint-placeholder-count="2">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 7px">
+<span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 50%; background: {{s.lamp}}; box-shadow: {{s.g}}"></span>
+<button class="btn" aria-pressed="{{s.on}}" style="width: {{s.w}}px; height: 32px; border-radius: 5px; background: linear-gradient(180deg, #F3EAD5, #CDBF9F); box-shadow: inset 0 1px 0 #FFFFFF, inset 0 -2px 0 #00000026, 0 3px 0 #0B0806, 0 4px 6px #00000099; font-size: 10.5px; font-weight: 800; font-stretch: 75%; letter-spacing: .1em; color: #241A0E">{{s.label}}</button>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+
+<div style="padding: 4px; border-radius: 9px; background: linear-gradient(180deg, #F0EEE8, #8E8A82 55%, #CFCBC3); box-shadow: 0 2px 4px #000000A0">
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 9px 16px 11px; border-radius: 6px; background: radial-gradient(ellipse at 50% 40%, #FFC468, #F2A33C 60%, #C9771C); box-shadow: inset 0 2px 8px #6B3A0699, inset 0 0 0 1px #00000040">
+<div class="mono" style="display: flex; gap: 10px; font-size: 9.5px; font-weight: 600; color: #4A2808"><span>A:CH1</span><span>· edited · 3 changes</span><span style="margin-left: auto">15/16</span></div>
+<div style="display: grid; grid-template-columns: repeat(16, 24px); gap: 3px">
+<sc-for list="{{cells}}" as="c" hint-placeholder-count="16"><span style="display: grid; place-items: center; height: 40px; background: {{c.bg}}; font-family: Doto, monospace; font-weight: 900; font-size: 33px; line-height: 1; color: #2A1405">{{c.ch}}</span></sc-for>
+</div>
+</div>
+</div>
+
+<div style="margin-left: auto; display: flex; gap: 10px; align-items: flex-end">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 7px"><span class="cr">Diff</span><button class="btn" style="width: 50px; height: 32px; border-radius: 5px; background: linear-gradient(180deg, #F3EAD5, #CDBF9F); box-shadow: inset 0 1px 0 #FFFFFF, 0 3px 0 #0B0806, 0 4px 6px #00000099; font-size: 12px; font-weight: 800; color: #241A0E" class="mono">3</button></div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 7px"><span class="cr">Revert</span><button class="btn" aria-label="Revert" style="width: 50px; height: 32px; border-radius: 5px; background: linear-gradient(180deg, #F3EAD5, #CDBF9F); box-shadow: inset 0 1px 0 #FFFFFF, 0 3px 0 #0B0806, 0 4px 6px #00000099; display: grid; place-items: center"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#241A0E" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 3.5v3.5h3.5"></path><path d="M3.4 6.8A5 5 0 1 1 4.6 11.6"></path></svg></button></div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 7px"><span style="display: flex; align-items: center; gap: 7px"><span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #FFD9CC 0 12%, #E0452B 46%, #5E1206 100%); box-shadow: 0 0 10px 2px #E0452B99"></span><span class="cr" style="color: #EDE3CC">Write</span></span><button class="btn" style="width: 92px; height: 32px; border-radius: 5px; background: linear-gradient(180deg, #E35A3A, #A93520); box-shadow: inset 0 1px 0 #FFFFFF55, 0 3px 0 #0B0806, 0 4px 6px #00000099; font-size: 11px; font-weight: 800; font-stretch: 78%; letter-spacing: .12em; color: #FFF3E6">A:CH1</button></div>
+</div>
+</div>
+
+<div style="position: relative; border-radius: 8px; padding: 18px 26px 16px; background: repeating-linear-gradient(90deg, #FFFFFF12 0 1px, transparent 1px 3px), linear-gradient(180deg, #E2D2A6, #C4AC74 55%, #B49B62); box-shadow: inset 0 1px 0 #FFFFFF99, inset 0 -1px 0 #00000040, 0 2px 0 #00000080; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 4px">
+<div style="position: relative; width: 190px; height: 112px">
+<sc-for list="{{typeLabels}}" as="l" hint-placeholder-count="5"><span style="position: absolute; left: {{l.x}}px; top: {{l.y}}px; transform: translate(-50%, -50%); font-size: 9px; font-weight: 800; font-stretch: 70%; letter-spacing: .12em; color: {{l.c}}; white-space: nowrap">{{l.t}}</span></sc-for>
+<svg viewBox="0 0 190 112" aria-hidden="true" style="position: absolute; inset: 0"><path d="{{typeTicks}}" stroke="#241A0E" stroke-width="1.4" fill="none"></path></svg>
+<span aria-hidden="true" style="position: absolute; left: 65px; top: 48px; width: 60px; height: 60px; transform: rotate(90deg); filter: drop-shadow(0 4px 3px #0000008C)">
+<span style="position: absolute; left: 36%; top: 6%; width: 28%; height: 50%; clip-path: polygon(50% 0, 100% 100%, 0 100%); background: linear-gradient(90deg, #CDBF9E, #F6EEDC 45%, #D9CCAE)"></span>
+<span style="position: absolute; inset: 27%; border-radius: 50%; background: radial-gradient(circle at 42% 32%, #FFF9EC, #E6DAC0 55%, #BFAF8E)"></span>
+<span style="position: absolute; left: calc(50% - 1px); top: 9%; width: 2px; height: 30%; border-radius: 1px; background: #2A2016"></span>
+</span>
+</div>
+<span class="ink">Type · 23 Brown</span>
+</div>
+<span aria-hidden="true" style="align-self: stretch; width: 2px; background: linear-gradient(90deg, #8A7448, #F2E6C4)"></span>
+<sc-for list="{{knobs}}" as="k" hint-placeholder-count="6">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 2px">
+<div style="position: relative; width: {{k.box}}px; height: {{k.box}}px">
+<svg viewBox="0 0 100 100" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%"><path d="{{k.ticks}}" stroke="#241A0E" stroke-width="1.3" stroke-linecap="round" fill="none"></path></svg>
+<sc-for list="{{k.nums}}" as="n" hint-placeholder-count="6"><span style="position: absolute; left: {{n.x}}%; top: {{n.y}}%; transform: translate(-50%, -50%); font-size: 8.5px; font-weight: 800; font-stretch: 75%; color: #241A0E">{{n.t}}</span></sc-for>
+<span aria-hidden="true" style="position: absolute; inset: 0; transform: rotate({{k.rot}}deg); filter: drop-shadow(0 4px 3px #00000080)">
+<span style="position: absolute; left: 32%; top: 9%; width: 36%; height: 48%; clip-path: polygon(50% 0, 100% 100%, 0 100%); background: linear-gradient(90deg, #BFAF8E, #F6EEDC 48%, #CDBF9E)"></span>
+<span style="position: absolute; inset: 29%; border-radius: 50%; background: radial-gradient(circle at 42% 32%, #FFF9EC, #E6DAC0 55%, #BFAF8E)"></span>
+<span style="position: absolute; left: calc(50% - 1px); top: 12%; width: 2px; height: 30%; border-radius: 1px; background: #2A2016"></span>
+</span>
+</div>
+<span class="ink" style="display: flex; align-items: center; gap: 5px">{{k.label}}<sc-if value="{{k.ed}}" hint-placeholder-val="{{false}}"><span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: #C8361E; box-shadow: 0 0 0 1.5px #F2E6C4"></span></sc-if></span>
+<span class="mono" style="font-size: 10.5px; font-weight: 600; color: #4A3518">{{k.val}}</span>
+</div>
+</sc-for>
+<span aria-hidden="true" style="align-self: stretch; width: 2px; background: linear-gradient(90deg, #8A7448, #F2E6C4)"></span>
+<div style="display: flex; gap: 22px">
+<sc-for list="{{toggles}}" as="s" hint-placeholder-count="2">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 5px">
+<span class="ink">{{s.label}}</span>
+<span class="ink" style="font-size: 8px; opacity: .8">On</span>
+<span aria-hidden="true" style="position: relative; width: 22px; height: 22px; border-radius: 50%; margin: 12px 0; background: radial-gradient(circle at 40% 35%, #F7F5F0, #9A968F 70%, #5A5753); box-shadow: 0 1px 2px #0009, 0 0 0 3px #00000022">
+<span style="position: absolute; left: 7.5px; top: {{s.top}}; width: 7px; height: 20px; border-radius: 4px; background: linear-gradient(90deg, #85827C, #F7F5F0 50%, #85827C); box-shadow: 0 2px 2px #0007"></span>
+</span>
+<span class="ink" style="font-size: 8px; opacity: .8">Off</span>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</section>
+
+<section aria-label="Pedalboard" style="position: relative; border-radius: 12px; padding: 20px 24px 22px; background: radial-gradient(#FFFFFF09 1px, transparent 1.5px) 0 0 / 5px 5px, linear-gradient(180deg, #26221E, #1A1714); box-shadow: inset 0 2px 0 #FFFFFF12, 0 0 0 1px #000, 0 12px 26px #000000A0">
+<span aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 0; height: 7px; border-radius: 12px 12px 0 0; background: linear-gradient(180deg, #E9E6DF, #8D8981)"></span>
+<div style="display: flex; align-items: center; gap: 12px; margin: 4px 0 16px"><span class="cr" style="color: #EDE3CC">Pedalboard</span><span class="cr" style="letter-spacing: .1em">9 of 13 on · stomp to toggle</span></div>
+<div style="overflow-x: auto">
+<div style="display: flex; align-items: flex-start; min-width: max-content">
+<span class="cr" style="margin-top: 22px; padding-right: 8px">In</span>
+<sc-for list="{{chain}}" as="b" hint-placeholder-count="18">
+<span aria-hidden="true" style="flex: 1 1 8px; min-width: 10px; height: 5px; margin-top: 26px; border-radius: 3px; background: linear-gradient(180deg, #3D3935, #0A0908); box-shadow: 0 2px 2px #0009"></span>
+<sc-if value="{{b.isPedal}}" hint-placeholder-val="{{true}}">
+<button class="btn" aria-pressed="{{b.on}}" aria-label="{{b.short}} {{b.type}}" style="position: relative; flex: none; width: 62px; height: 94px; border-radius: 9px; background: linear-gradient(160deg, #FFFFFF30, transparent 42%), {{b.color}}; box-shadow: inset 0 1px 0 #FFFFFF50, inset 0 -3px 0 #00000045, 0 6px 10px #000000B8; filter: {{b.filter}}; display: flex; flex-direction: column; align-items: center; padding-top: 8px; box-sizing: border-box">
+<span aria-hidden="true" style="display: flex; gap: 12px"><span style="width: 9px; height: 9px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #555, #111)"></span><span style="width: 9px; height: 9px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #555, #111)"></span></span>
+<span aria-hidden="true" style="margin-top: 7px; width: 6px; height: 6px; border-radius: 50%; background: {{b.led}}; box-shadow: {{b.g}}"></span>
+<span style="margin-top: 5px; font-size: 12px; font-weight: 900; font-stretch: 68%; letter-spacing: .08em; color: {{b.ink}}">{{b.short}}</span>
+<span aria-hidden="true" style="position: absolute; bottom: 8px; left: calc(50% - 10px); width: 20px; height: 20px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #FBFAF7, #A6A29A 55%, #5C5953); box-shadow: 0 0 0 2px #00000033, 0 2px 2px #0008"></span>
+</button>
+</sc-if>
+<sc-if value="{{b.isAmp}}" hint-placeholder-val="{{false}}">
+<div style="flex: none; width: 80px; height: 58px; box-sizing: border-box; border-radius: 7px; padding: 6px; background: repeating-linear-gradient(45deg, #FFFFFF08 0 2px, transparent 2px 5px), #1B1611; box-shadow: inset 0 0 0 1.5px #E6D9BB55, 0 6px 10px #000000B8; display: flex; flex-direction: column; justify-content: space-between">
+<span style="font-size: 11px; font-weight: 900; font-stretch: 68%; letter-spacing: .1em; color: #EDE3CC; text-align: center">AMP</span>
+<span style="height: 16px; border-radius: 3px; background: linear-gradient(180deg, #E2D2A6, #B49B62); display: flex; justify-content: space-evenly; align-items: center"><sc-for list="{{five}}" as="x" hint-placeholder-count="5"><span style="width: 6px; height: 6px; border-radius: 50%; background: #F6EEDC; box-shadow: 0 1px 1px #0007"></span></sc-for></span>
+</div>
+</sc-if>
+<sc-if value="{{b.isRO}}" hint-placeholder-val="{{false}}">
+<span style="flex: none; width: 24px; height: 94px; box-sizing: border-box; border-radius: 7px; border: 1.5px dashed #D9CCAE40; display: grid; place-items: center"><span style="writing-mode: vertical-rl; transform: rotate(180deg); font-size: 8.5px; font-weight: 700; font-stretch: 75%; letter-spacing: .16em; color: #A89A7E">{{b.short}} · locked</span></span>
+</sc-if>
+</sc-for>
+<span aria-hidden="true" style="flex: 1 1 8px; min-width: 10px; height: 5px; margin-top: 26px; border-radius: 3px; background: linear-gradient(180deg, #3D3935, #0A0908); box-shadow: 0 2px 2px #0009"></span>
+<span class="cr" style="margin-top: 22px; padding-left: 8px">Out</span>
+</div>
+</div>
+</section>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":700}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const f1 = (n) => n.toFixed(1);
+    const P = (cx, cy, a, r) => { const t = a * Math.PI / 180; return [cx + r * Math.sin(t), cy - r * Math.cos(t)]; };
+    const tickPath = (cx, cy, r0, r1, a0, a1, n) => { let d = ''; for (let i = 0; i <= n; i++) { const a = a0 + (a1 - a0) * i / n, p = P(cx, cy, a, r0), q = P(cx, cy, a, r1); d += 'M ' + f1(p[0]) + ' ' + f1(p[1]) + ' L ' + f1(q[0]) + ' ' + f1(q[1]) + ' '; } return d; };
+    const tabs = ['Editor', 'Effects', 'Control', 'Library', 'Monitor'].map((t, i) => ({ label: t, c: i === 0 ? '#241A0E' : '#A89A7E', bg: i === 0 ? 'linear-gradient(180deg, #F3EAD5, #CDBF9F)' : 'transparent' }));
+    const LAMP_ON = 'radial-gradient(circle at 35% 30%, #FFD9CC 0 12%, #E0452B 46%, #5E1206 100%)', LAMP_OFF = 'radial-gradient(circle at 35% 30%, #6A3A30 0 12%, #3A120A 50%, #1A0704 100%)';
+    const slotGroups = [['Live', [['PANEL', 62, false]]], ['Bank A', [['CH1', 46, true], ['CH2', 46, false]]], ['Bank B', [['CH1', 46, false], ['CH2', 46, false]]]].map(([label, s]) => ({ label, slots: s.map(([l, w, on]) => ({ label: l, w, on, lamp: on ? LAMP_ON : LAMP_OFF, g: on ? '0 0 10px 2px #E0452B99' : 'inset 0 1px 1px #000' })) }));
+    const name = 'EDGE OF BREAKUP', cells = [];
+    for (let i = 0; i < 16; i++) { const ch = name[i] || '', lit = ch && ch !== ' '; cells.push({ ch: lit ? ch : '', bg: lit ? 'transparent' : 'radial-gradient(circle, #6B3A0633 0.9px, transparent 1.4px) center / 4px 4.4px' }); }
+    const TL = ['ACOUSTIC', 'CLEAN', 'CRUNCH', 'LEAD', 'BROWN'];
+    const typeLabels = TL.map((t, i) => { const a = -90 + 45 * i, p = P(95, 78, a, i % 4 === 0 ? 62 : 54); return { t, x: f1(p[0]), y: f1(p[1]), c: i === 4 ? '#A0260F' : '#241A0E' }; });
+    const typeTicks = tickPath(95, 78, 34, 40, -90, 90, 4);
+    const KN = [['Gain', 62, 55, 100], ['Volume', 70, 70, 100], ['Bass', 45, 45, 84], ['Middle', 60, 60, 84], ['Treble', 58, 52, 84], ['Presence', 57, 50, 84]];
+    const knobs = KN.map(([label, v, s, box]) => {
+      const big = box > 90;
+      const nums = (big ? [0, 2, 4, 6, 8, 10] : [0, 5, 10]).map((n) => { const p = P(50, 50, -135 + n * 27, 46); return { t: String(n), x: f1(p[0]), y: f1(p[1]) }; });
+      return { label, box, rot: -135 + v * 2.7, ticks: tickPath(50, 50, 35, 39, -135, 135, 10), nums, val: String(v), ed: v !== s };
+    });
+    const toggles = [['Bright', false], ['Solo', true]].map(([label, on]) => ({ label, top: on ? '-12px' : '14px' }));
+    const COL = { drive: '#C9672F', mod: '#4A76A3', dly: '#3A8673', rev: '#65549E', wah: '#6E6A63', eq: '#BEB49D', util: '#36322E' };
+    const CH = [['PDL', 'WAH 95E', 0, 'wah'], ['COMP'], ['OD', 'BLUES DRIVE', 1, 'drive'], ['FX1', 'PHASER 90E', 1, 'mod'], ['DIV'], ['AMP', 'BROWN', 1, 'amp'], ['PRE B'], ['MIX'], ['NS1', 'THR 35', 1, 'util'], ['EQ', 'PEQ', 1, 'eq'], ['FX2', 'CHORUS', 1, 'mod'], ['DLY1', 'TAPE ECHO', 1, 'dly'], ['CHORUS'], ['DLY2', 'SDE-3000', 0, 'dly'], ['REV', 'SPRING', 1, 'rev'], ['FV', 'LVL 100', 1, 'util'], ['S/R', 'SERIES', 0, 'util'], ['NS2', 'THR 20', 0, 'util']];
+    const chain = CH.map(([short, type, on, fam]) => {
+      if (!type) return { isPedal: false, isAmp: false, isRO: true, short };
+      if (fam === 'amp') return { isPedal: false, isAmp: true, isRO: false, short };
+      return { isPedal: true, isAmp: false, isRO: false, short, type, on: !!on, color: COL[fam], ink: fam === 'eq' ? '#241A0E' : '#F7EFDF',
+        filter: on ? 'none' : 'saturate(.35) brightness(.62)', led: on ? '#FF4A2A' : '#3A120A', g: on ? '0 0 8px 2px #FF4A2AAA' : 'inset 0 1px 1px #000' };
+    });
+    return {
+      tabs, slotGroups, cells, typeLabels, typeTicks, knobs, toggles, chain, five: [1, 2, 3, 4, 5],
+      corners: [['left: -3px; top: -3px', '14px 4px 10px 4px'], ['right: -3px; top: -3px', '4px 14px 4px 10px'], ['left: -3px; bottom: -3px', '4px 10px 4px 14px'], ['right: -3px; bottom: -3px', '10px 4px 14px 4px']].map(([pos, r]) => ({ pos, r }))
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -134,6 +134,25 @@ pub fn eq<'a>(cat: &'a Catalog, mem: &Memory) -> Option<Eq<'a>> {
     Some(Eq { on, graphic, level_db: level, bands })
 }
 
+/// The patch's MASTER EQ (`60 00 07 11`–`15`): low shelf, a mid peak with frequency and Q, high shelf. Always on.
+pub fn master_eq<'a>(cat: &'a Catalog, mem: &Memory) -> Option<Eq<'a>> {
+    let p = |name: &str| cat.get(name);
+    let num = |p: Option<&Param>| p.and_then(|p| p.raw(mem).map(|r| p.number(r)));
+    let label = |p: Option<&Param>| {
+        p.and_then(|p| cat.value(p, mem)).and_then(|v| v.as_str().map(String::from)).unwrap_or_default()
+    };
+    let (lg, mf, mq, mg, hg) =
+        (p("MASTER EQ: LOW GAIN"), p("MASTER EQ: MID FREQ"), p("MASTER EQ: MID Q"), p("MASTER EQ: MID GAIN"), p("MASTER EQ: HIGH GAIN"));
+    let q = label(mq).parse::<f64>().unwrap_or(1.0);
+    let b = |name, kind, freq, gain_db, q, fp, gp, qp| Band { name, kind, freq, gain_db, q, freq_param: fp, gain_param: gp, q_param: qp };
+    let bands = vec![
+        b("LOW", Kind::LowShelf, Some(LOW_SHELF_HZ), num(lg)?, 0.707, None, lg, None),
+        b("MID", Kind::Peak, parse_hz(&label(mf)), num(mg)?, q, mf, mg, mq),
+        b("HIGH", Kind::HighShelf, Some(HIGH_SHELF_HZ), num(hg)?, 0.707, None, hg, None),
+    ];
+    Some(Eq { on: true, graphic: false, level_db: 0.0, bands })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -153,5 +172,19 @@ mod tests {
         assert!(close(band(Kind::HighCut, 5000.0, 0.0, 0.707).db(5000.0), -3.0));
         assert!(close(band(Kind::LowShelf, 100.0, -6.0, 0.707).db(20.0), -6.0));
         assert!(close(band(Kind::HighShelf, 6300.0, 4.0, 0.707).db(20000.0), 4.0));
+    }
+
+    #[test]
+    fn master_eq_reads_the_patch() {
+        let c = Catalog::load();
+        let mut mem: Memory = c.params.iter().flat_map(|p| (0..p.size as u32).map(move |i| (crate::sysex::lin(p.addr) + i, 0))).collect();
+        for (n, v) in [("MASTER EQ: MID GAIN", serde_json::json!(6)), ("MASTER EQ: MID FREQ", serde_json::json!("1.00kHz")), ("MASTER EQ: LOW GAIN", serde_json::json!(0)), ("MASTER EQ: HIGH GAIN", serde_json::json!(0))] {
+            let (a, d) = c.encode(n, &v).unwrap();
+            mem.extend(d.iter().enumerate().map(|(i, &b)| (crate::sysex::lin(a) + i as u32, b)));
+        }
+        let eq = master_eq(&c, &mem).unwrap();
+        assert_eq!(eq.bands.len(), 3);
+        assert!((eq.db(1000.0) - 6.0).abs() < 0.2);
+        assert!(eq.db(20.0).abs() < 0.5);
     }
 }

@@ -2,362 +2,314 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Tsuba — SysEx Monitor</title>
-<script src="./vendor/react.js"></script>
-<script src="./vendor/react-dom.js"></script>
+<title>Katana editor — MIDI monitor</title>
 <script src="./support.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Doto:wght@400..900&amp;family=JetBrains+Mono:wght@400..700&amp;display=swap">
 <style>
-body{margin:0;background:#0B0B0A}
-a{color:#ECE8DE}a:hover{color:#FFFFFF}
-button{cursor:pointer}
-::placeholder{color:#A29E94;opacity:1}
-:focus-visible{outline:2px solid #EDB03E;outline-offset:2px}
+body{margin:0;background:#070708}
+.ob{--led:#FFB547;--silk:#E8E4DC;--silk2:#A29D95;--silk3:#8F8A83;font-family:Archivo,'Helvetica Neue',Arial,sans-serif;color:var(--silk);-webkit-font-smoothing:antialiased}
+.led-mustard{--led:#FFB547}.led-coral{--led:#FF6B4A}.led-sage{--led:#8CFFB4}.led-steel{--led:#7FDBFF}.led-sand{--led:#FFE3B3}
+:where(.ob) :where(button,input){font:inherit;color:inherit;background:none;border:0;padding:0;margin:0}
+:where(.ob) button{cursor:pointer}
+.ob :focus-visible{outline:2px solid var(--led);outline-offset:2px}
+.unit{position:relative;display:flex;border-radius:3px;background:linear-gradient(180deg,#FFFFFF10 0,#FFFFFF00 14px),repeating-linear-gradient(0deg,#FFFFFF05 0 1px,#00000000 1px 2px,#00000012 2px 3px),linear-gradient(180deg,#222325,#1B1C1E);box-shadow:inset 0 1px 0 #FFFFFF1F,inset 0 -1px 0 #000000B0,0 2px 0 #000,0 10px 18px #00000090}
+.ear{flex:none;width:34px;display:flex;flex-direction:column;justify-content:space-around;align-items:center;background:repeating-linear-gradient(90deg,#FFFFFF05 0 1px,transparent 1px 3px),linear-gradient(90deg,#0000002A,#FFFFFF07 55%,#00000024)}
+.earL{border-right:1px solid #000000B8;box-shadow:1px 0 0 #FFFFFF0E}
+.earR{border-left:1px solid #000000B8;box-shadow:inset 1px 0 0 #FFFFFF0E}
+.slot{position:relative;width:18px;height:10px;border-radius:5px;background:#050506;box-shadow:inset 0 1px 2px #000,0 1px 0 #FFFFFF14}
+.screw{position:absolute;top:0;width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 36% 30%,#F2EFEA,#9A968F 50%,#3E3C39 100%);box-shadow:0 1px 1px #000000CC}
+.screw::before,.screw::after{content:'';position:absolute;left:4.3px;top:1.6px;width:1.4px;height:6.8px;border-radius:1px;background:#33302C}
+.screw::after{transform:rotate(90deg)}
+.silk{font-size:10px;font-weight:700;font-stretch:125%;letter-spacing:.2em;text-transform:uppercase;color:var(--silk);text-shadow:0 1px 0 #000000B0;line-height:1.2;white-space:nowrap}
+.silk2{font-size:9px;font-weight:600;font-stretch:118%;letter-spacing:.18em;text-transform:uppercase;color:var(--silk2);text-shadow:0 1px 0 #000000B0;line-height:1.2;white-space:nowrap}
+.mono{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+.rule{flex:1;height:1px;background:linear-gradient(90deg,#E8E4DC33,#E8E4DC14)}
+.num{padding:1px 5px;border:1px solid #E8E4DC40;border-radius:2px}
+.key{position:relative;display:grid;place-items:center;border-radius:4px;background:linear-gradient(180deg,#414245,#2C2D30);box-shadow:inset 0 1px 0 #FFFFFF22,inset 0 -1px 0 #00000070,0 2px 0 #050505,0 3px 6px #000000A8;font-size:9.5px;font-weight:700;font-stretch:115%;letter-spacing:.14em;text-transform:uppercase;color:#ECE8E0;text-decoration:none;white-space:nowrap;transition:transform .06s,box-shadow .06s,filter .12s}
+.key:hover{filter:brightness(1.12)}
+.key:active,.key.dn{transform:translateY(1.5px);box-shadow:inset 0 1px 2px #00000090,0 .5px 0 #050505}
+.key.red{background:linear-gradient(180deg,#D8532F,#A63A20);color:#FFF4EA;box-shadow:inset 0 1px 0 #FFFFFF45,inset 0 -1px 0 #00000070,0 2px 0 #050505,0 3px 6px #000000A8}
+.key.red.dn{box-shadow:inset 0 1px 3px #00000090,0 .5px 0 #050505;filter:brightness(.92)}
+.lw{display:inline-block;flex:none;width:12px;height:4px;border-radius:1px;background:color-mix(in oklab,var(--led) 13%,#0C0805);box-shadow:inset 0 1px 1px #000,0 1px 0 #FFFFFF10}
+.lw.on{background:linear-gradient(180deg,#FFF6E2 0,var(--led) 42%,color-mix(in oklab,var(--led) 55%,#000) 100%);box-shadow:0 0 7px 1px color-mix(in oklab,var(--led) 65%,transparent),0 0 1px var(--led)}
+.bezel{padding:5px;border-radius:5px;background:linear-gradient(180deg,#040404,#101011);box-shadow:inset 0 1px 0 #000,0 1px 0 #FFFFFF16}
+.glass{position:relative;overflow:hidden;border-radius:2px;background:radial-gradient(ellipse at 50% -30%,color-mix(in oklab,var(--led) 16%,transparent),transparent 62%),color-mix(in oklab,var(--led) 5%,#050302);box-shadow:inset 0 0 26px #000000E0}
+.glass::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle,color-mix(in oklab,var(--led) 9%,transparent) .7px,transparent 1.1px) 0 0/3px 3px}
+.glass::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(162deg,#FFFFFF12 0,#FFFFFF05 34%,transparent 35%)}
+.vfd{color:color-mix(in oklab,var(--led) 82%,#FFFFFF);text-shadow:0 0 7px color-mix(in oklab,var(--led) 85%,transparent),0 0 1px var(--led)}
+.vrow{transition:background-color .1s}.vrow:hover{background-color:color-mix(in oklab,var(--led) 10%,transparent)}
+.seg{flex:none;width:7px;height:100%;border-radius:1px}
+.lvl{width:27px;animation:lv 2.4s steps(1,end) infinite}
+.pk{left:72px;animation:pk 2.4s steps(1,end) infinite}
+@keyframes lv{0%{width:27px}8.33%{width:72px}16.67%{width:45px}25%{width:153px}33.33%{width:63px}41.67%{width:36px}50%{width:90px}58.33%{width:54px}66.67%{width:18px}75%{width:99px}83.33%{width:45px}91.67%{width:27px}100%{width:27px}}
+@keyframes pk{0%{left:72px}8.33%{left:63px}16.67%{left:54px}25%{left:144px}33.33%{left:144px}41.67%{left:135px}50%{left:126px}58.33%{left:117px}66.67%{left:108px}75%{left:99px}83.33%{left:90px}91.67%{left:81px}100%{left:72px}}
+.cur{animation:bl 1.06s steps(1) infinite}
+.rec{animation:bl .7s steps(1) infinite}
+@keyframes bl{50%{opacity:.3}}
+.mi{animation:mf 1.9s infinite}.mo{animation:mf 2.6s .5s infinite}
+@keyframes mf{0%,100%{opacity:.18}6%{opacity:1}14%{opacity:.18}52%{opacity:.18}57%{opacity:1}63%{opacity:.18}}
+@media (prefers-reduced-motion:reduce){.lvl,.pk,.cur,.rec,.mi,.mo{animation:none}}
 </style>
 </helmet>
-<div style="width: 100%; min-height: 900px; box-sizing: border-box; display: flex; flex-direction: column; background: #0B0B0A; color: #ECE8DE; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.02em">
+<div class="ob led-{{accent}}" style="min-height: 100vh; box-sizing: border-box; padding: 12px 12px 14px; display: flex; flex-direction: column; gap: 5px; background: linear-gradient(90deg, #040404, #0D0D0F 18%, #0D0D0F 82%, #040404)">
 
-<header style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap; min-height: 44px; padding: 0 16px; border-bottom: 1px solid #2A2926">
-  <div style="display: flex; align-items: flex-start; gap: 2px">
-    <span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 22px; line-height: 1; letter-spacing: -0.045em">Tsuba</span>
-    <span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 9px; line-height: 1">™</span>
-  </div>
-  <div aria-hidden="true" style="display: flex; flex-direction: column; gap: 2px; width: 20px">
-    <div style="height: 2px; background: #F2685A"></div>
-    <div style="height: 2px; background: #6F8FB8"></div>
-    <div style="height: 2px; background: #EDB03E"></div>
-    <div style="height: 2px; background: #D8C8A4"></div>
-  </div>
-  <span style="font-size: 11px; color: #A29E94">KATANA EDITOR / 0.1</span>
-  <div style="flex: 1 1 24px"></div>
-  <div style="display: flex; align-items: stretch; border: 1px solid #4A4842; height: 26px">
-    <span style="display: flex; align-items: center; padding: 0 8px; background: #ECE8DE; color: #0B0B0A; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 10px; letter-spacing: 0.06em">LINK</span>
-    <span style="display: flex; align-items: center; gap: 8px; padding: 0 10px; font-size: 11px">USB-MIDI · KATANA-50 MK1 <span aria-hidden="true" style="width: 7px; height: 7px; background: #8FB98B"></span></span>
-  </div>
-</header>
-
-<nav aria-label="Sections" style="display: flex; flex-wrap: wrap; align-items: stretch; gap: 4px; padding: 6px 16px 0; border-bottom: 1px solid #2A2926">
-  <a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 24px 0 14px; color: #A29E94; text-decoration: none; border: 1px solid #2A2926; border-bottom: 0"><span style="font-size: 10px">01</span><span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 12px; letter-spacing: 0.04em">EDITOR</span></a>
-  <a href="Effects.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 24px 0 14px; color: #A29E94; text-decoration: none; border: 1px solid #2A2926; border-bottom: 0"><span style="font-size: 10px">02</span><span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 12px; letter-spacing: 0.04em">EFFECTS</span></a>
-  <a href="Monitor.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 24px 0 14px; background: #ECE8DE; color: #0B0B0A; text-decoration: none; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)"><span style="font-size: 10px">03</span><span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 12px; letter-spacing: 0.04em">MONITOR</span></a>
-  <div style="margin-left: auto; display: flex; align-items: center; gap: 18px; padding: 0 4px; font-size: 11px; color: #8A867D">
-    <span>SESSION / 007</span>
-    <span>Q4/2026</span>
-  </div>
+<section class="unit" aria-label="Session and views">
+<span class="ear earL" aria-hidden="true"><sc-for list="{{scr.a}}" as="s" hint-placeholder-count="1"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+<div style="flex: 1; min-width: 0; display: flex; align-items: center; gap: 26px; padding: 0 18px; min-height: 54px; flex-wrap: wrap">
+<button aria-label="Session: Katana-50 MK1 online" style="display: flex; align-items: center; gap: 12px">
+<span aria-hidden="true" style="width: 13px; height: 13px; border-radius: 50%; background: radial-gradient(circle at 36% 30%, #FFFBF0 0 11%, var(--led) 40%, color-mix(in oklab, var(--led) 40%, #000) 100%); box-shadow: 0 0 0 2px #050505, 0 0 0 3.5px #5A5853, 0 0 0 4.5px #1A1A1B, 0 0 16px 3px color-mix(in oklab, var(--led) 45%, transparent)"></span>
+<span style="display: flex; flex-direction: column; gap: 3px; align-items: flex-start"><span class="silk" style="font-size: 11px">Katana-50 MK1</span><span class="mono" style="font-size: 9.5px; color: var(--silk3)">USB-MIDI · 3.1 ms</span></span>
+</button>
+<span aria-hidden="true" style="align-self: stretch; width: 1px; margin: 10px 0; background: #00000080; box-shadow: 1px 0 0 #FFFFFF0E"></span>
+<nav aria-label="Views" style="display: flex; align-items: flex-end; gap: 8px; flex-wrap: wrap">
+<sc-for list="{{modes}}" as="m" hint-placeholder-count="5"><span style="display: flex; flex-direction: column; align-items: center; gap: 5px"><span class="lw {{m.on}}" aria-hidden="true" style="width: 10px; height: 3px"></span><a class="key {{m.dn}}" href="{{m.href}}" aria-current="{{m.cur}}" style="height: 22px; padding: 0 11px; font-size: 8.5px">{{m.label}}</a></span></sc-for>
 </nav>
+<a href="Palette.dc.html" class="bezel" aria-label="Search parameters or run a command" style="margin-left: auto; text-decoration: none"><span class="glass" style="display: flex; align-items: center; gap: 8px; width: 270px; max-width: 60vw; height: 24px; padding: 0 10px; box-sizing: border-box"><span class="mono vfd" style="font-size: 10.5px; letter-spacing: .08em">SEARCH ▸</span><span class="cur" aria-hidden="true" style="width: 7px; height: 12px; background: color-mix(in oklab, var(--led) 85%, #FFF); box-shadow: 0 0 6px var(--led)"></span><span class="mono" style="font-size: 10px; color: color-mix(in oklab, var(--led) 38%, #0B0704)">param or command</span></span></a>
+<span class="silk2" style="margin-left: -14px">Ctrl K</span>
+<button class="key" aria-label="Help" style="width: 26px; height: 22px; font-size: 10px">?</button>
+</div>
+<span class="ear earR" aria-hidden="true"><sc-for list="{{scr.b}}" as="s" hint-placeholder-count="1"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+</section>
 
-<main style="flex: 1 1 auto; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 16px; padding: 16px">
+<section class="unit" aria-label="Analyzer controls">
+<span class="ear earL" aria-hidden="true"><sc-for list="{{scr.c}}" as="s" hint-placeholder-count="1"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+<div style="flex: 1; min-width: 0; display: flex; align-items: center; gap: 22px; padding: 8px 18px; min-height: 64px; flex-wrap: wrap">
+<span class="silk">Show</span>
+<div role="group" aria-label="Message filters" style="display: flex; gap: 6px; align-items: flex-end">
+<sc-for list="{{filters}}" as="f" hint-placeholder-count="5"><span style="display: flex; flex-direction: column; align-items: center; gap: 5px"><span class="lw {{f.on}}" aria-hidden="true" style="width: 10px; height: 3px"></span><button class="key {{f.dn}}" onClick="{{f.toggle}}" aria-pressed="{{f.active}}" style="display: flex; align-items: center; gap: 6px; height: 22px; padding: 0 9px; font-size: 8px">{{f.label}}<span class="mono" style="font-size: 8.5px; letter-spacing: 0; color: #ECE8E09C">{{f.n}}</span></button></span></sc-for>
+</div>
+<span aria-hidden="true" style="align-self: stretch; width: 1px; margin: 4px 0; background: #00000080; box-shadow: 1px 0 0 #FFFFFF0E"></span>
+<span class="silk">Capture</span>
+<span style="display: flex; align-items: flex-end; gap: 8px">
+<span style="display: flex; flex-direction: column; align-items: center; gap: 5px"><span class="lw {{pauseLed}}" aria-hidden="true" style="width: 10px; height: 3px"></span><button class="key {{pauseDn}}" onClick="{{togglePause}}" aria-pressed="{{paused}}" style="height: 22px; width: 64px; font-size: 8px">{{pauseTxt}}</button></span>
+<span style="display: flex; flex-direction: column; align-items: center; gap: 4px"><span class="{{recCls}}" aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: {{recBg}}; box-shadow: {{recSh}}"></span><button class="key red {{lsDn}}" onClick="{{toggleListen}}" aria-pressed="{{listening}}" style="height: 22px; width: 64px; font-size: 8px">{{lsTxt}}</button></span>
+<span class="bezel" style="padding: 3px"><span class="glass mono vfd" style="display: flex; align-items: center; gap: 6px; height: 16px; padding: 0 7px; font-size: 10px; white-space: nowrap"><span style="position: relative; opacity: {{lsLblO}}">REC</span><span class="{{lsCntCls}}" style="position: relative">{{lsCount}}</span></span></span>
+</span>
+<div style="margin-left: auto; display: flex; align-items: center; gap: 14px">
+<div role="img" aria-label="Traffic meters, TX and RX" style="display: flex; flex-direction: column; gap: 7px">
+<sc-for list="{{meters}}" as="m" hint-placeholder-count="2">
+<div style="display: flex; align-items: center; gap: 9px"><span class="silk2" style="width: 16px">{{m.label}}</span>
+<span style="position: relative; display: block; width: 178px; height: 6px">
+<span style="position: absolute; inset: 0; display: flex; gap: 2px"><sc-for list="{{m.segs}}" as="g" hint-placeholder-count="20"><span class="seg" style="background: {{g.dim}}; box-shadow: inset 0 1px 1px #000"></span></sc-for></span>
+<span class="lvl" style="position: absolute; left: 0; top: 0; bottom: 0; overflow: hidden; animation-duration: {{m.dur}}; animation-delay: {{m.del}}; animation-play-state: {{m.play}}"><span style="display: flex; gap: 2px; width: 178px; height: 100%"><sc-for list="{{m.segs}}" as="g" hint-placeholder-count="20"><span class="seg" style="background: {{g.bg}}; box-shadow: {{g.sh}}"></span></sc-for></span></span>
+<span class="pk seg" style="position: absolute; top: 0; background: linear-gradient(180deg, #FFFFFF, #FFE9C4); box-shadow: 0 0 7px 1px color-mix(in oklab, var(--led) 70%, transparent); animation-duration: {{m.dur}}; animation-delay: {{m.del}}; animation-play-state: {{m.play}}"></span>
+</span>
+</div>
+</sc-for>
+<span aria-hidden="true" style="display: flex; justify-content: space-between; margin-left: 25px; width: 178px"><span class="mono" style="font-size: 7.5px; color: var(--silk3)">0</span><span class="mono" style="font-size: 7.5px; color: var(--silk3)">20</span><span class="mono" style="font-size: 7.5px; color: var(--silk3)">40</span><span class="mono" style="font-size: 7.5px; color: #E07A62">60 msg/s</span></span>
+</div>
+<span class="bezel" style="padding: 3px"><span class="glass mono vfd" style="display: flex; flex-direction: column; justify-content: center; height: 36px; padding: 0 9px; font-size: 10px; line-height: 1.35; white-space: nowrap"><span style="position: relative">12 MSG/S</span><span style="position: relative; opacity: .55">0 ERRORS</span></span></span>
+</div>
+</div>
+<span class="ear earR" aria-hidden="true"><sc-for list="{{scr.d}}" as="s" hint-placeholder-count="1"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+</section>
 
-  <aside aria-label="Listener" style="flex: 1 1 270px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
-    <section aria-labelledby="h-lis" style="background: #4A4842; padding: 1px; clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)">
-      <div style="background: #121211; clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)">
-        <div style="display: flex; align-items: stretch; min-height: 30px; border-bottom: 1px solid #2A2926">
-          <h2 id="h-lis" style="margin: 0; display: flex; align-items: center; padding: 0 18px 0 10px; background: #ECE8DE; color: #0B0B0A; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 12px; letter-spacing: 0.04em; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%)">LISTENER</h2>
-          <div aria-hidden="true" style="width: 40px; margin-left: 4px; background: repeating-linear-gradient(-45deg, #ECE8DE 0 2px, transparent 2px 6px); clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)"></div>
-          <span style="margin-left: auto; align-self: center; padding: 0 24px 0 8px; font-size: 10px; color: {{recColor}}">{{recLabel}}</span>
-        </div>
-        <div style="display: flex; justify-content: center; padding: 16px 14px 10px">
-          <svg width="200" height="200" viewBox="0 0 200 200" aria-hidden="true">
-            <circle cx="100" cy="100" r="96" fill="none" stroke="#ECE8DE" stroke-width="1.6" stroke-dasharray="1.6 5"></circle>
-            <path d="{{radarTicks}}" fill="none" stroke="#4A4842" stroke-width="1"></path>
-            <circle cx="100" cy="100" r="60" fill="none" stroke="#4A4842" stroke-width="1"></circle>
-            <circle cx="100" cy="100" r="34" fill="none" stroke="#4A4842" stroke-width="1" stroke-dasharray="2 3"></circle>
-            <path d="M100 18v164M18 100h164" stroke="#2A2926" stroke-width="1"></path>
-            <path d="M94 100h12M100 94v12" stroke="#ECE8DE" stroke-width="1.4"></path>
-            <path d="{{sweep}}" fill="{{accent}}" fill-opacity="0.18" stroke="none"></path>
-            <line x1="100" y1="100" x2="{{sweepX}}" y2="{{sweepY}}" stroke="{{accent}}" stroke-width="1.6"></line>
-            <rect x="139" y="62" width="7" height="7" fill="#ECE8DE"></rect>
-            <rect x="58" y="128" width="7" height="7" fill="#ECE8DE"></rect>
-            <rect x="122" y="140" width="5" height="5" fill="{{accent}}"></rect>
-            <circle cx="100" cy="4" r="3.5" fill="#ECE8DE"></circle>
-            <circle cx="183.1" cy="148" r="3.5" fill="#ECE8DE"></circle>
-            <circle cx="16.9" cy="148" r="3.5" fill="#ECE8DE"></circle>
-            <text x="108" y="22" fill="#A29E94" font-family="IBM Plex Mono, monospace" font-size="10">041</text>
-            <text x="150" y="172" fill="#A29E94" font-family="IBM Plex Mono, monospace" font-size="10">TX</text>
-            <text x="34" y="172" fill="#A29E94" font-family="IBM Plex Mono, monospace" font-size="10">RX</text>
-          </svg>
-        </div>
-        <dl style="margin: 0; padding: 0 14px 12px; display: flex; flex-direction: column; font-size: 11px">
-          <div style="display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-top: 1px solid #2A2926"><dt style="color: #8A867D">PORT</dt><dd style="margin: 0">KATANA · MIDI 1</dd></div>
-          <div style="display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-top: 1px solid #2A2926"><dt style="color: #8A867D">FRAMES TX</dt><dd style="margin: 0">0318</dd></div>
-          <div style="display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-top: 1px solid #2A2926"><dt style="color: #8A867D">FRAMES RX</dt><dd style="margin: 0">1204</dd></div>
-          <div style="display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-top: 1px solid #2A2926; border-bottom: 1px solid #2A2926"><dt style="color: #8A867D">BAD SUM</dt><dd style="margin: 0">0000</dd></div>
-        </dl>
-        <div role="group" aria-label="Filters" style="display: flex; flex-direction: column; gap: 8px; padding: 2px 14px 12px">
-          <span style="font-size: 10px; color: #8A867D">FILTER</span>
-          <div style="display: flex; flex-wrap: wrap; gap: 4px">
-            <sc-for list="{{filters}}" as="f" hint-placeholder-count="5">
-              <button type="button" onClick="{{f.pick}}" aria-pressed="{{f.pressed}}" style="flex: 1 1 44px; min-height: 44px; padding: 0 6px; background: {{f.bg}}; color: {{f.fg}}; border: 1px solid {{f.border}}; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 11px">{{f.k}}</button>
-            </sc-for>
-          </div>
-        </div>
-        <div style="display: flex; gap: 6px; padding: 0 14px 14px">
-          <button type="button" onClick="{{toggleRec}}" aria-pressed="{{recPressed}}" style="flex: 1 1 0; min-height: 44px; display: flex; align-items: center; justify-content: center; gap: 8px; background: transparent; border: 1px solid #4A4842; color: #ECE8DE; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 11px; letter-spacing: 0.04em"><span aria-hidden="true" style="width: 8px; height: 8px; background: {{recDot}}"></span>{{recBtn}}</button>
-          <button type="button" style="flex: 1 1 0; min-height: 44px; background: transparent; border: 1px solid #4A4842; color: #ECE8DE; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 11px; letter-spacing: 0.04em">.SYX ↓</button>
-        </div>
-      </div>
-    </section>
-  </aside>
+<section class="unit" aria-label="Message log and decoder" style="flex: 1">
+<span class="ear earL" aria-hidden="true"><sc-for list="{{scr.e}}" as="s" hint-placeholder-count="3"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+<div style="flex: 1; min-width: 0; padding: 12px 20px 18px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 12px"><span class="silk">Log</span><span class="silk2" style="letter-spacing: .12em">{{shown}} shown · 667 in buffer</span><span class="rule"></span><span class="silk">Decode</span><span class="rule" style="flex: 0 0 40px"></span><span class="silk2 num">03</span></div>
+<div style="flex: 1; display: flex; gap: 26px; align-items: stretch; flex-wrap: wrap">
 
-  <div style="flex: 999 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<div style="flex: 1 1 760px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<div class="bezel" style="flex: 1; overflow-x: auto">
+<div class="glass" style="display: flex; flex-direction: column; height: 100%; min-width: 720px; padding: 6px 4px 0; box-sizing: border-box">
+<div class="mono vfd" style="position: relative; display: grid; grid-template-columns: 10px 96px 46px minmax(0, 1fr) 286px; gap: 12px; height: 22px; align-items: center; padding: 0 10px; font-size: 9px; letter-spacing: .12em"><span></span><span style="opacity: .6">TIME</span><span style="opacity: .6">KIND</span><span style="opacity: .6">DECODED</span><span style="opacity: .6">FRAME</span></div>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="18">
+<button class="vrow mono" onClick="{{r.pick}}" aria-label="Decode {{r.kind}} message at {{r.time}}{{r.ms}}" aria-pressed="{{r.sel}}" style="position: relative; display: grid; grid-template-columns: 10px 96px 46px minmax(0, 1fr) 286px; gap: 12px; width: 100%; height: 25px; align-items: center; padding: 0 10px; box-sizing: border-box; text-align: left; font-size: 11px; background: {{r.bg}}; color: {{r.c}}; text-shadow: {{r.g}}">
+<span aria-hidden="true" style="font-size: 10px">{{r.caret}}</span>
+<span style="font-size: 10.5px; opacity: .8">{{r.time}}<span style="opacity: .6">{{r.ms}}</span></span>
+<span style="justify-self: start; padding: 0 4px; border: 1px solid currentColor; border-radius: 2px; font-size: 8.5px; line-height: 13px; letter-spacing: .06em; opacity: {{r.o}}">{{r.kind}}</span>
+<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: {{r.o}}"><span style="opacity: .7">{{r.arrow}}</span> {{r.desc}}</span>
+<span style="font-size: 10.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis"><sc-for list="{{r.segs}}" as="s" hint-placeholder-count="5"><span style="opacity: {{s.o}}">{{s.t}} </span></sc-for></span>
+</button>
+</sc-for>
+<sc-if value="{{empty}}" hint-placeholder-val="{{false}}"><div class="mono vfd" style="position: relative; padding: 18px 32px; font-size: 11px">ALL MESSAGE KINDS FILTERED OUT</div></sc-if>
+<div class="mono vfd" style="position: relative; margin-top: auto; display: flex; gap: 18px; align-items: center; height: 26px; padding: 0 10px 0 32px; border-top: 1px dashed color-mix(in oklab, var(--led) 22%, transparent); font-size: 9px; letter-spacing: .1em"><span class="{{stateCls}}">{{stateTxt}}</span><span style="margin-left: auto; opacity: .6">SPACE PAUSE · ↑↓ STEP · C COPY HEX</span></div>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 8px">
+<button class="key" style="height: 26px; padding: 0 12px; font-size: 8.5px">Clear</button>
+<button class="key" style="height: 26px; padding: 0 12px; font-size: 8.5px">Export log .txt</button>
+<span class="silk2" style="margin-left: auto; letter-spacing: .12em">Keeps the last 1,000 messages</span>
+</div>
+</div>
 
-    <section aria-labelledby="h-log" style="background: #4A4842; padding: 1px; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)">
-      <div style="background: #121211; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)">
-        <div style="display: flex; align-items: stretch; min-height: 30px; border-bottom: 1px solid #2A2926">
-          <h2 id="h-log" style="margin: 0; display: flex; align-items: center; padding: 0 20px 0 10px; background: #ECE8DE; color: #0B0B0A; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 12px; letter-spacing: 0.04em; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%)">SYSEX LOG</h2>
-          <div aria-hidden="true" style="width: 64px; margin-left: 4px; background: repeating-linear-gradient(-45deg, #ECE8DE 0 2px, transparent 2px 6px); clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)"></div>
-          <span style="align-self: center; padding: 0 12px; font-size: 10px; color: #8A867D">SYSEX · PROGRAM CHANGE</span>
-          <span style="margin-left: auto; align-self: center; padding: 0 28px 0 8px; font-size: 10px; color: #8A867D">{{rowCount}}</span>
-        </div>
-        <div style="overflow-x: auto; padding: 8px 12px 12px">
-          <div style="min-width: 700px; display: flex; flex-direction: column">
-            <div aria-hidden="true" style="display: grid; grid-template-columns: 104px 36px 44px 132px 64px 40px minmax(0, 1fr); gap: 12px; padding: 8px 10px; border-bottom: 1px solid #4A4842; font-size: 10px; color: #8A867D">
-              <span>TIME</span><span>DIR</span><span>CMD</span><span>ADDRESS</span><span>DATA</span><span>SUM</span><span>NOTE</span>
-            </div>
-            <sc-for list="{{rows}}" as="r" hint-placeholder-count="9">
-              <button type="button" onClick="{{r.pick}}" aria-pressed="{{r.pressed}}" style="display: grid; grid-template-columns: 104px 36px 44px 132px 64px 40px minmax(0, 1fr); gap: 12px; align-items: center; min-height: 36px; padding: 0 10px; border: 0; border-bottom: 1px solid #2A2926; background: {{r.bg}}; color: {{r.fg}}; font: inherit; font-size: 11px; letter-spacing: 0.02em; text-align: left">
-                <span style="color: {{r.dim}}">{{r.time}}</span>
-                <span style="color: {{r.dirC}}">{{r.dir}}</span>
-                <span>{{r.cmd}}</span>
-                <span>{{r.addr}}</span>
-                <span>{{r.data}}</span>
-                <span>{{r.sum}}</span>
-                <span style="color: {{r.dim}}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{r.note}}</span>
-              </button>
-            </sc-for>
-          </div>
-        </div>
-      </div>
-    </section>
+<span aria-hidden="true" style="align-self: stretch; width: 1px; background: #00000080; box-shadow: 1px 0 0 #FFFFFF0E"></span>
 
-    <section aria-labelledby="h-dec" style="background: #4A4842; padding: 1px; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)">
-      <div style="background: #121211; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)">
-        <div style="display: flex; align-items: stretch; min-height: 30px; border-bottom: 1px solid #2A2926">
-          <h2 id="h-dec" style="margin: 0; display: flex; align-items: center; padding: 0 20px 0 10px; background: #ECE8DE; color: #0B0B0A; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 12px; letter-spacing: 0.04em; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%)">FRAME DECODE</h2>
-          <span style="align-self: center; padding: 0 12px; font-size: 10px; color: #8A867D">{{decTitle}}</span>
-          <span style="margin-left: auto; align-self: center; padding: 0 28px 0 8px; font-size: 10px; color: #8A867D">{{decLen}}</span>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 14px; padding: 16px">
-          <div style="display: flex; flex-wrap: wrap; gap: 4px">
-            <sc-for list="{{blocks}}" as="b" hint-placeholder-count="9">
-              <div style="flex: {{b.flex}}; min-width: 0; display: flex; flex-direction: column">
-                <div style="display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 8px; background: {{b.bg}}; color: {{b.fg}}; border: 1px solid {{b.border}}; font-family: 'Archivo', sans-serif; font-weight: 700; font-stretch: 112.5%; font-size: 17px; letter-spacing: 0.04em; white-space: nowrap">{{b.hex}}</div>
-                <div style="padding-top: 6px; font-size: 10px; color: #A29E94; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{b.label}}</div>
-              </div>
-            </sc-for>
-          </div>
-          <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding-top: 12px; border-top: 1px solid #2A2926; font-size: 11px">
-            <span style="display: flex; align-items: center; gap: 8px"><span aria-hidden="true" style="width: 7px; height: 7px; background: {{sumDot}}"></span>{{sumState}}</span>
-            <span style="color: #A29E94">{{sumMath}}</span>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
+<div style="flex: 1 1 400px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; align-items: flex-end; gap: 8px">
+<sc-for list="{{itabs}}" as="t" hint-placeholder-count="2"><span style="display: flex; flex-direction: column; align-items: center; gap: 5px"><span class="lw {{t.on}}" aria-hidden="true" style="width: 10px; height: 3px"></span><button class="key {{t.dn}}" onClick="{{t.pick}}" aria-pressed="{{t.active}}" style="height: 22px; padding: 0 10px; font-size: 8px">{{t.label}}</button></span></sc-for>
+<span class="mono" style="margin-left: auto; font-size: 10px; color: var(--silk3)">{{selWhen}}</span>
+</div>
+<sc-if value="{{showDecode}}" hint-placeholder-val="{{true}}">
+<div class="bezel"><div class="glass" style="min-height: 82px; padding: 12px 12px 10px; box-sizing: border-box">
+<sc-if value="{{dec.has}}" hint-placeholder-val="{{true}}">
+<div style="position: relative; display: flex; flex-wrap: wrap; gap: 10px 6px">
+<sc-for list="{{dec.groups}}" as="g" hint-placeholder-count="9">
+<div class="vfd" style="display: flex; flex-direction: column; gap: 4px; opacity: {{g.o}}">
+<span style="display: flex; gap: 2px"><sc-for list="{{g.bytes}}" as="b" hint-placeholder-count="1"><span class="mono" style="display: grid; place-items: center; width: 21px; height: 28px; border-radius: 1px; font-size: 12px; background: {{g.bg}}; color: {{g.c}}; text-shadow: {{g.ts}}">{{b}}</span></sc-for></span>
+<span aria-hidden="true" style="height: 3px; border: 1px solid currentColor; border-top: 0; opacity: .7"></span>
+<span class="mono" style="font-size: 7.5px; letter-spacing: .08em; text-align: center; white-space: nowrap">{{g.label}}</span>
+</div>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{dec.none}}" hint-placeholder-val="{{false}}"><div class="mono vfd" style="position: relative; font-size: 11px; line-height: 1.6">{{dec.msg}}</div><div class="mono vfd" style="position: relative; margin-top: 4px; font-size: 10px; line-height: 1.6; opacity: .6">{{dec.msg2}}</div></sc-if>
+</div></div>
+<sc-if value="{{dec.has}}" hint-placeholder-val="{{true}}">
+<div style="display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 8px 12px; align-items: baseline">
+<sc-for list="{{dec.fields}}" as="f" hint-placeholder-count="4"><span class="silk2">{{f.k}}</span><span class="mono" style="font-size: 11px; color: {{f.c}}">{{f.v}}</span></sc-for>
+<sc-if value="{{dec.hasBits}}" hint-placeholder-val="{{true}}"><span class="silk2">Bits</span><span style="display: flex; align-items: center; gap: 5px"><sc-for list="{{dec.bits}}" as="b" hint-placeholder-count="7"><span style="display: flex; flex-direction: column; align-items: center; gap: 3px"><span class="lw {{b.on}}" aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%"></span><span class="mono" style="font-size: 8px; color: var(--silk3)">{{b.n}}</span></span></sc-for><span class="mono" style="margin-left: 8px; font-size: 10px; color: var(--silk3)">{{dec.bitTxt}}</span></span></sc-if>
+</div>
+<div style="display: flex; align-items: center; gap: 8px">
+<button class="key" style="height: 24px; padding: 0 10px; font-size: 8px">Copy hex</button>
+<button class="key" style="height: 24px; padding: 0 10px; font-size: 8px">Resend</button>
+<span class="silk2" style="margin-left: auto; letter-spacing: .12em">Resend writes these bytes again</span>
+</div>
+</sc-if>
+</sc-if>
+<sc-if value="{{showMap}}" hint-placeholder-val="{{false}}">
+<div class="bezel"><div class="glass" style="padding: 6px 12px; box-sizing: border-box">
+<sc-for list="{{amap}}" as="m" hint-placeholder-count="10"><div class="mono vfd" style="position: relative; display: grid; grid-template-columns: 96px minmax(0, 1fr) 30px; gap: 10px; align-items: center; height: 22px; font-size: 10.5px"><span>{{m.a}}</span><span style="opacity: .85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{m.n}}</span><span style="opacity: .5; text-align: right">{{m.s}}</span></div></sc-for>
+</div></div>
+</sc-if>
 
-  <aside aria-label="Address map" style="flex: 1 1 290px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
-    <section aria-labelledby="h-map" style="background: #4A4842; padding: 1px; clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)">
-      <div style="background: #121211; clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)">
-        <div style="display: flex; align-items: stretch; min-height: 30px; border-bottom: 1px solid #2A2926">
-          <h2 id="h-map" style="margin: 0; display: flex; align-items: center; padding: 0 18px 0 10px; background: #ECE8DE; color: #0B0B0A; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 12px; letter-spacing: 0.04em; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%)">ADDRESS MAP</h2>
-          <span style="margin-left: auto; align-self: center; padding: 0 24px 0 8px; font-size: 10px; color: #8A867D">01 / 05 CONFIRMED</span>
-        </div>
-        <div style="display: flex; flex-direction: column; padding: 4px 14px 0">
-          <sc-for list="{{map}}" as="m" hint-placeholder-count="5">
-            <div style="display: flex; flex-direction: column; gap: 6px; padding: 10px 0; border-bottom: 1px solid #2A2926">
-              <div style="display: flex; justify-content: space-between; gap: 10px; font-size: 11px"><span>{{m.addr}}</span><span style="color: {{m.tagC}}">{{m.tag}}</span></div>
-              <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px">
-                <span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 112.5%; font-size: 13px">{{m.name}}</span>
-                <span role="img" aria-label="{{m.aria}}" style="display: flex; gap: 2px">
-                  <sc-for list="{{m.segs}}" as="g" hint-placeholder-count="5"><span style="width: 10px; height: 8px; background: {{g.c}}"></span></sc-for>
-                </span>
-              </div>
-            </div>
-          </sc-for>
-        </div>
-        <p style="margin: 0; padding: 12px 14px 14px; font-size: 10px; line-height: 1.6; color: #8A867D">Names ending in ? are guesses from capture. Move one knob, watch one address, then confirm.</p>
-      </div>
-    </section>
+<div style="margin-top: auto; display: flex; align-items: center; gap: 12px; padding-top: 14px; border-top: 1px solid #00000070; box-shadow: inset 0 1px 0 #FFFFFF0A"><span class="silk">Read</span><span class="silk2" style="letter-spacing: .12em">RQ1 · ask the amp for bytes</span></div>
+<div style="display: flex; align-items: flex-end; gap: 10px; flex-wrap: wrap">
+<label style="display: flex; flex-direction: column; gap: 5px"><span class="silk2">Address</span><span class="bezel" style="display: block; padding: 3px"><span class="glass" style="display: flex; align-items: center; height: 20px; padding: 0 8px"><input type="text" value="60 00 00 00" aria-label="Address" class="mono vfd" style="position: relative; width: 84px; font-size: 11px; outline: none; caret-color: var(--led)"></span></span></label>
+<label style="display: flex; flex-direction: column; gap: 5px"><span class="silk2">Size</span><span class="bezel" style="display: block; padding: 3px"><span class="glass" style="display: flex; align-items: center; height: 20px; padding: 0 8px"><input type="text" value="16" aria-label="Size in bytes" class="mono vfd" style="position: relative; width: 24px; font-size: 11px; outline: none; caret-color: var(--led)"></span></span></label>
+<button class="key" style="height: 28px; padding: 0 14px; font-size: 9px">Read</button>
+<span class="mono" style="margin-left: auto; padding-bottom: 7px; font-size: 10px; color: var(--silk3)">rx in 4 ms · sum ok</span>
+</div>
+<div class="bezel"><div class="glass mono" style="padding: 8px 12px; font-size: 11px; line-height: 1.8">
+<sc-for list="{{dump}}" as="d" hint-placeholder-count="2"><div class="vfd" style="position: relative; display: flex; gap: 14px; white-space: nowrap"><span style="opacity: .5">{{d.off}}</span><span style="opacity: .8">{{d.hex}}</span><span>{{d.asc}}</span></div></sc-for>
+</div></div>
+</div>
+</div>
+</div>
+<span class="ear earR" aria-hidden="true"><sc-for list="{{scr.f}}" as="s" hint-placeholder-count="3"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+</section>
 
-    <section aria-labelledby="h-send" style="background: #4A4842; padding: 1px; clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)">
-      <div style="background: #121211; clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)">
-        <div style="display: flex; align-items: stretch; min-height: 30px; border-bottom: 1px solid #2A2926">
-          <h2 id="h-send" style="margin: 0; display: flex; align-items: center; padding: 0 18px 0 10px; background: #ECE8DE; color: #0B0B0A; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 12px; letter-spacing: 0.04em; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%)">PROBE</h2>
-          <div aria-hidden="true" style="width: 40px; margin-left: 4px; background: repeating-linear-gradient(-45deg, #ECE8DE 0 2px, transparent 2px 6px); clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)"></div>
-          <span style="margin-left: auto; align-self: center; padding: 0 24px 0 8px; font-size: 10px; color: #8A867D">RQ1</span>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 10px; padding: 14px">
-          <label style="display: flex; flex-direction: column; gap: 6px">
-            <span style="font-size: 10px; color: #8A867D">ADDRESS</span>
-            <input type="text" placeholder="60 00 00 51" style="height: 44px; box-sizing: border-box; padding: 0 10px; background: #0B0B0A; border: 1px solid #4A4842; border-radius: 0; color: #ECE8DE; font-family: 'IBM Plex Mono', monospace; font-size: 14px; letter-spacing: 0.08em">
-          </label>
-          <label style="display: flex; flex-direction: column; gap: 6px">
-            <span style="font-size: 10px; color: #8A867D">SIZE</span>
-            <input type="text" placeholder="00 00 00 01" style="height: 44px; box-sizing: border-box; padding: 0 10px; background: #0B0B0A; border: 1px solid #4A4842; border-radius: 0; color: #ECE8DE; font-family: 'IBM Plex Mono', monospace; font-size: 14px; letter-spacing: 0.08em">
-          </label>
-          <div style="display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid #2A2926; border-bottom: 1px solid #2A2926; font-size: 11px"><span style="color: #8A867D">CHECKSUM</span><span>4EH · AUTO</span></div>
-          <button type="button" style="min-height: 44px; display: flex; align-items: center; justify-content: center; gap: 12px; background: #ECE8DE; border: 0; color: #0B0B0A; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 125%; font-size: 12px; letter-spacing: 0.04em; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)">SEND RQ1<svg width="14" height="10" viewBox="0 0 14 10" aria-hidden="true"><path d="M1 1l6 4-6 4zM7 1l6 4-6 4z" fill="#0B0B0A"></path></svg></button>
-        </div>
-      </div>
-    </section>
-  </aside>
-</main>
-
-<footer style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; min-height: 30px; padding: 0 16px; border-top: 1px solid #2A2926; font-size: 10px; color: #8A867D">
-  <span style="display: flex; align-items: center; gap: 6px; color: #ECE8DE"><span aria-hidden="true" style="width: 6px; height: 6px; background: #8FB98B"></span>ONLINE</span>
-  <span>CAPTURE / {{recLabel}}</span>
-  <span>DEVICE ID / 00H</span>
-  <span style="margin-left: auto">ADDRESSES SHOWN ARE SAMPLE CAPTURES</span>
-  <span>TSUBA 0.1</span>
-</footer>
+<section class="unit" aria-label="Status">
+<span class="ear earL" aria-hidden="true"><sc-for list="{{scr.k}}" as="s" hint-placeholder-count="1"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+<div style="flex: 1; min-width: 0; display: flex; align-items: center; gap: 22px; padding: 0 18px; min-height: 40px; flex-wrap: wrap">
+<span style="display: flex; align-items: center; gap: 12px"><span class="silk2">MIDI</span><span style="display: flex; align-items: center; gap: 5px"><span class="lw on mi" aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%"></span><span class="silk2" style="color: var(--silk3)">In</span></span><span style="display: flex; align-items: center; gap: 5px"><span class="lw on mo" aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%"></span><span class="silk2" style="color: var(--silk3)">Out</span></span><span style="display: flex; align-items: center; gap: 5px"><span class="lw on" aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%"></span><span class="silk2" style="color: var(--silk3)">Editor mode</span></span></span>
+<span class="mono" style="font-size: 10px; color: var(--silk3)">KATANA MIDI 1 · tx 1,284 · rx 3,902 · 0 err</span>
+<span class="silk2" style="margin-left: auto; letter-spacing: .1em">Roland DT1 / RQ1 · model 00 00 00 33 · device 00</span>
+</div>
+<span class="ear earR" aria-hidden="true"><sc-for list="{{scr.l}}" as="s" hint-placeholder-count="1"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+</section>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#F2685A","options":["#F2685A","#EDB03E","#6F8FB8","#8FB98B"]},"$preview":{"width":1440,"height":900}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"enum","options":["mustard","coral","sage","steel","sand"],"default":"mustard","section":"Theme"},"$preview":{"width":1440,"height":900}}'>
 class Component extends DCLogic {
-  constructor(props) {
-    super(props);
-    this.state = { sel: 3, rec: true, f: { TX: true, RX: true, DT1: true, RQ1: true, PC: true } };
-  }
   renderVals() {
-    const accent = this.props.accent ?? '#F2685A';
-    const s = this.state;
-    const INK = '#ECE8DE';
-    const BG = '#0B0B0A';
-    const r1 = (n) => Math.round(n * 10) / 10;
-    const P = (r, deg) => { const t = deg * Math.PI / 180; return [r1(100 + r * Math.sin(t)), r1(100 - r * Math.cos(t))]; };
-    const hx = (n) => n.toString(16).toUpperCase().padStart(2, '0');
-    const bytes = (str) => str.split(' ').filter(Boolean).map((b) => parseInt(b, 16));
-
-    let radarTicks = '';
-    for (let a = 0; a < 360; a += 5) {
-      const p = P(a % 30 === 0 ? 78 : 84, a);
-      const q = P(88, a);
-      radarTicks += 'M' + p[0] + ' ' + p[1] + 'L' + q[0] + ' ' + q[1];
-    }
-    const sw0 = P(88, 22);
-    const sw1 = P(88, 52);
-    const sweep = 'M100 100L' + sw0[0] + ' ' + sw0[1] + 'A88 88 0 0 1 ' + sw1[0] + ' ' + sw1[1] + 'Z';
-
-    const LOG = [
-      { time: '10:42:07.112', dir: 'TX', cmd: 'DT1', addr: '7F 00 00 01', data: '01', note: 'EDITOR MODE ON' },
-      { time: '10:42:07.140', dir: 'TX', cmd: 'RQ1', addr: '60 00 00 00', data: '00 00 00 40', note: 'PATCH DUMP REQUEST', size: true },
-      { time: '10:42:07.188', dir: 'RX', cmd: 'DT1', addr: '60 00 00 00', data: '', note: 'PATCH DUMP · 64 BYTES', dump: true },
-      { time: '10:42:09.530', dir: 'TX', cmd: 'DT1', addr: '60 00 00 51', data: '2A', note: 'GAIN?' },
-      { time: '10:42:09.561', dir: 'RX', cmd: 'DT1', addr: '60 00 00 51', data: '2A', note: 'ECHO OF LAST WRITE' },
-      { time: '10:42:11.004', dir: 'TX', cmd: 'DT1', addr: '60 00 00 52', data: '40', note: 'VOLUME?' },
-      { time: '10:42:12.870', dir: 'TX', cmd: 'DT1', addr: '60 00 00 53', data: '1E', note: 'BASS?' },
-      { time: '10:42:14.215', dir: 'TX', cmd: 'PC', addr: '—', data: 'C0 01', note: 'PROGRAM CHANGE · CH 02', pc: true },
-      { time: '10:42:16.302', dir: 'RX', cmd: 'DT1', addr: '60 00 06 51', data: '32', note: 'UNMAPPED' }
+    const st = this.state || {};
+    const accent = this.props.accent ?? 'mustard';
+    const LIT = 'color-mix(in oklab, var(--led) 82%, #FFFFFF)', LG = '0 0 6px color-mix(in oklab, var(--led) 70%, transparent)';
+    const INV = 'color-mix(in oklab, var(--led) 88%, #FFF)', DARK = '#170D02';
+    const ROT = [117, 30, 150, 69, 11, 125, 84, 37, 166, 103, 22, 141, 58, 92];
+    let ri = 0;
+    const screws = (n) => Array.from({ length: n }, () => { const r = ROT[ri % ROT.length]; ri++; return { r, x: 2 + (r % 5) }; });
+    const scr = { a: screws(1), b: screws(1), c: screws(1), d: screws(1), e: screws(3), f: screws(3), k: screws(1), l: screws(1) };
+    const hx = (n) => (n < 16 ? '0' : '') + n.toString(16).toUpperCase();
+    const sum = (arr) => (128 - (arr.reduce((a, b) => a + b, 0) % 128)) % 128;
+    const HEAD = [0xF0, 0x41, 0x00, 0x00, 0x00, 0x00, 0x33];
+    const dt1 = (addr, data) => HEAD.concat([0x12], addr, data, [sum(addr.concat(data)), 0xF7]);
+    const rq1 = (addr, size) => HEAD.concat([0x11], addr, size, [sum(addr.concat(size)), 0xF7]);
+    const asc = (s) => s.split('').map((c) => c.charCodeAt(0));
+    const NAME = asc('EDGE OF BREAKUP ');
+    const CHAIN = [0x0C, 0x00, 0x01, 0x05, 0x0F, 0x02, 0x03, 0x10, 0x0A, 0x04, 0x06, 0x07, 0x08, 0x11, 0x09, 0x0D, 0x0E, 0x0B, 0x12, 0x13];
+    const L = [
+      ['22:38:01.004', 'SYS', null, 'port open · KATANA MIDI 1'],
+      ['22:38:01.019', 'TX', dt1([0x7F, 0x00, 0x00, 0x01], [0x01]), 'EDITOR MODE ← ON'],
+      ['22:38:01.027', 'TX', rq1([0x60, 0x00, 0x00, 0x00], [0x00, 0x00, 0x00, 0x10]), 'read PATCH NAME · 16 B'],
+      ['22:38:01.031', 'RX', dt1([0x60, 0x00, 0x00, 0x00], NAME), 'PATCH NAME = "EDGE OF BREAKUP"'],
+      ['22:38:01.040', 'TX', rq1([0x60, 0x00, 0x07, 0x20], [0x00, 0x00, 0x00, 0x14]), 'read CHAIN · 20 B'],
+      ['22:38:01.046', 'RX', dt1([0x60, 0x00, 0x07, 0x20], CHAIN), 'CHAIN = 20 positions'],
+      ['22:38:01.052', 'SYS', null, 'COMP, CHORUS, PRE B, DIV, MIX refused by firmware · marked DNP'],
+      ['22:38:02.310', 'SYS', null, 'ping 3.1 ms'],
+      ['22:39:14.882', 'EDIT', dt1([0x60, 0x00, 0x00, 0x52], [62]), 'PREAMP A: GAIN = 62'],
+      ['22:39:15.206', 'EDIT', dt1([0x60, 0x00, 0x00, 0x56], [58]), 'PREAMP A: TREBLE = 58'],
+      ['22:39:15.731', 'EDIT', dt1([0x60, 0x00, 0x00, 0x57], [57]), 'PREAMP A: PRESENCE = 57'],
+      ['22:39:40.118', 'RX', dt1([0x60, 0x00, 0x00, 0x30], [0x01]), 'BOOSTER: ON = 1 · panel button'],
+      ['22:40:02.507', 'CMD', null, 'set "DELAY: TIME" 420'],
+      ['22:40:02.511', 'EDIT', dt1([0x60, 0x00, 0x05, 0x62], [0x03, 0x24]), 'DELAY: TIME = 420 ms'],
+      ['22:40:09.090', 'EDIT', dt1([0x60, 0x00, 0x05, 0x64], [38]), 'DELAY: FEEDBACK = 38'],
+      ['22:41:30.441', 'CMD', null, 'listen 10'],
+      ['22:41:33.902', 'RX', [0xC0, 0x01], 'PROGRAM CHANGE 1 · A:CH1'],
+      ['22:41:34.115', 'SYS', null, 'listen · 2 messages captured']
     ];
-    const sumOf = (e) => {
-      const list = bytes(e.addr).concat(bytes(e.data));
-      const total = list.reduce((a, b) => a + b, 0);
-      return { total, mod: total % 128, sum: (128 - (total % 128)) % 128 };
+    const AR = { TX: '→', RX: '←', EDIT: '→', SYS: '·', CMD: '>' };
+    const CNT = { TX: 214, RX: 397, EDIT: 38, SYS: 12, CMD: 6 };
+    const flt = st.flt ?? { TX: true, RX: true, EDIT: true, SYS: true, CMD: true };
+    const selI = st.selI ?? 8;
+    const ADDR = { '60 00 00 00': 'PATCH NAME', '60 00 07 20': 'CHAIN', '60 00 00 52': 'PREAMP A: GAIN', '60 00 00 56': 'PREAMP A: TREBLE', '60 00 00 57': 'PREAMP A: PRESENCE', '60 00 00 30': 'BOOSTER: ON', '60 00 05 62': 'DELAY: TIME', '60 00 05 64': 'DELAY: FEEDBACK', '7F 00 00 01': 'EDITOR MODE' };
+    const segsOf = (fr) => {
+      if (!fr) return [{ t: '—', o: '.45' }];
+      if (fr[0] === 0xC0) return [{ t: 'C0 01', o: '1' }];
+      const data = fr.slice(12, fr.length - 2), shown = data.slice(0, 4).map(hx).join(' ') + (data.length > 4 ? ' …' : '');
+      return [{ t: 'F0 41 00 ·· 33', o: '.4' }, { t: hx(fr[7]), o: '.6' }, { t: fr.slice(8, 12).map(hx).join(' '), o: '1' }, { t: shown, o: '.85' }, { t: hx(fr[fr.length - 2]), o: '.5' }];
     };
-
-    const visible = LOG.map((e, i) => Object.assign({ i }, e)).filter((e) => s.f[e.dir] && s.f[e.cmd]);
-    const rows = visible.map((e) => {
-      const on = e.i === s.sel;
-      const sm = e.pc || e.dump ? null : sumOf(e);
-      return {
-        time: e.time, dir: e.dir, cmd: e.cmd, addr: e.addr,
-        data: e.dump ? '64 B' : (e.size ? 'SZ 40' : e.data),
-        sum: sm ? hx(sm.sum) : '—',
-        note: e.note,
-        pressed: on ? 'true' : 'false',
-        bg: on ? INK : 'transparent', fg: on ? BG : INK,
-        dim: on ? '#3A3833' : '#A29E94',
-        dirC: on ? BG : (e.dir === 'TX' ? '#EDB03E' : '#6F8FB8'),
-        pick: () => this.setState({ sel: e.i })
-      };
+    const rows = [];
+    L.forEach((l, i) => {
+      if (!flt[l[1]]) return;
+      const on = i === selI;
+      rows.push({ time: l[0].slice(0, 8), ms: l[0].slice(8), kind: l[1], arrow: AR[l[1]], desc: l[3], segs: segsOf(l[2]), sel: on, caret: on ? '▸' : '', o: l[1] === 'SYS' && !on ? '.62' : '1', bg: on ? INV : '', c: on ? DARK : LIT, g: on ? 'none' : LG, pick: () => this.setState({ selI: i }) });
     });
-
-    const e = LOG[s.sel] || LOG[3];
-    let blocks = [];
-    let decTitle = '';
-    let sumState = '';
-    let sumMath = '';
-    let sumDot = '#8FB98B';
-    const B = (hex, label, kind, flex) => {
-      const k = {
-        frame: { bg: 'transparent', fg: '#A29E94', border: '#4A4842' },
-        id: { bg: 'transparent', fg: INK, border: INK },
-        cmd: { bg: INK, fg: BG, border: INK },
-        addr: { bg: 'transparent', fg: INK, border: '#6F8FB8' },
-        data: { bg: '#F2685A', fg: BG, border: '#F2685A' },
-        sum: { bg: '#EDB03E', fg: BG, border: '#EDB03E' }
-      }[kind];
-      return Object.assign({ hex, label, flex: flex || '1 1 60px' }, k);
-    };
-    if (e.pc) {
-      decTitle = 'MIDI PROGRAM CHANGE';
-      blocks = [B('C0', 'STATUS · PC · MIDI CH 1', 'cmd', '1 1 160px'), B('01', 'PROGRAM 01', 'data', '1 1 120px')];
-      sumState = 'NO CHECKSUM';
-      sumMath = 'CHANNEL MESSAGES ARE NOT SYSEX';
-      sumDot = '#8A867D';
+    const sl = L[selI], fr = sl[2];
+    let dec;
+    if (fr && fr[0] === 0xF0) {
+      const addr = fr.slice(8, 12), data = fr.slice(12, fr.length - 2), cs = fr[fr.length - 2], ok = sum(addr.concat(data)) === cs;
+      const akey = addr.map(hx).join(' ');
+      const G = (label, bytes, kind) => ({ label, bytes: bytes.map(hx), o: kind ? '1' : '.5', bg: kind === 'a' ? INV : 'transparent', c: kind === 'a' ? DARK : LIT, ts: kind === 'a' ? 'none' : LG });
+      const isRq = fr[7] === 0x11;
+      const dshow = data.length > 6 ? data.slice(0, 6) : data;
+      const val = isRq ? (data[3] + ' bytes') : (data.length === 2 && akey === '60 00 05 62' ? hx(data[0]) + ' ' + hx(data[1]) + ' → ' + (data[0] * 128 + data[1]) + ' ms (7-bit pair)' : (data.length > 2 ? data.length + ' bytes' + (data.every((b) => b >= 32 && b < 127) ? ' · "' + String.fromCharCode.apply(null, data).trim() + '"' : '') : hx(data[0]) + ' → ' + data[0]));
+      const one = !isRq && data.length === 1;
+      dec = { has: true, none: false, msg: '', msg2: '', hasBits: one,
+        bits: one ? [6, 5, 4, 3, 2, 1, 0].map((b) => ({ n: String(b), on: (data[0] >> b) & 1 ? 'on' : '' })) : [],
+        bitTxt: one ? data[0].toString(2).padStart(7, '0') + ' · 7-bit' : '',
+        groups: [G('SOX', [0xF0]), G('ROLAND', [0x41]), G('DEV', [0x00]), G('MODEL', [0x00, 0x00, 0x00, 0x33]), G(isRq ? 'RQ1' : 'DT1', [fr[7]]), G('ADDRESS', addr, 'a'), G(isRq ? 'SIZE' : 'DATA' + (data.length > 6 ? ' +' + (data.length - 6) : ''), dshow, 'd'), G('SUM', [cs]), G('EOX', [0xF7])],
+        fields: [
+          { k: 'Command', v: isRq ? 'RQ1 · data request' : 'DT1 · data set', c: 'var(--silk)' },
+          { k: 'Address', v: akey + '  →  ' + (ADDR[akey] || 'unmapped'), c: 'var(--silk)' },
+          { k: isRq ? 'Size' : 'Value', v: val, c: 'var(--silk)' },
+          { k: 'Checksum', v: hx(cs) + (ok ? '  ✓ valid' : '  ✗ mismatch'), c: ok ? 'var(--silk2)' : '#FF9F86' }
+        ] };
+    } else if (fr) {
+      dec = { has: false, none: true, hasBits: false, bits: [], bitTxt: '', msg: 'C0 01 · PROGRAM CHANGE ON CH 1 → A:CH1', msg2: 'NOT SYSEX, SO NO ADDRESS OR CHECKSUM', groups: [], fields: [] };
     } else {
-      const isRq = e.cmd === 'RQ1';
-      decTitle = 'ROLAND ' + e.cmd + (isRq ? ' · DATA REQUEST' : ' · DATA SET');
-      blocks = [
-        B('F0', 'SOX', 'frame'),
-        B('41', 'ROLAND', 'id'),
-        B('00', 'DEVICE', 'id'),
-        B('00 00 00 33', 'MODEL', 'id', '2 1 130px'),
-        B(isRq ? '11' : '12', e.cmd, 'cmd'),
-        B(e.addr, 'ADDRESS', 'addr', '2 1 130px')
-      ];
-      if (e.dump) {
-        blocks.push(B('…64 B…', 'DATA', 'data', '2 1 110px'));
-        blocks.push(B('··', 'SUM', 'sum'));
-        sumState = 'CHECKSUM VALID';
-        sumMath = 'BULK FRAME · SUM COVERS ADDRESS + 64 DATA BYTES';
-      } else {
-        blocks.push(B(e.data, isRq ? 'SIZE' : 'DATA', 'data', isRq ? '2 1 130px' : '1 1 60px'));
-        const sm = sumOf(e);
-        blocks.push(B(hx(sm.sum), 'SUM', 'sum'));
-        sumState = 'CHECKSUM VALID';
-        sumMath = 'Σ ADDR+DATA = ' + hx(sm.total) + 'H · MOD 80H = ' + hx(sm.mod) + 'H · 80H − ' + hx(sm.mod) + 'H = ' + hx(sm.sum) + 'H';
-      }
-      blocks.push(B('F7', 'EOX', 'frame'));
+      const NOTE = { 'set "DELAY: TIME" 420': 'SENT AS THE DT1 ON THE NEXT ROW ↓', 'listen 10': 'OPENED A 10 S CAPTURE WINDOW', 'ping 3.1 ms': 'ROUND TRIP OF A 1-BYTE READ' };
+      dec = { has: false, none: true, hasBits: false, bits: [], bitTxt: '', msg: (sl[1] === 'CMD' ? 'TYPED COMMAND · ' : 'EDITOR NOTE · ') + sl[3].toUpperCase(), msg2: NOTE[sl[3]] || 'NOTHING WAS SENT ON THE WIRE', groups: [], fields: [] };
     }
-    const decLen = e.pc ? '2 BYTES' : (e.dump ? '78 BYTES' : (e.cmd === 'RQ1' ? '17 BYTES' : '14 BYTES'));
-
-    const MAP = [
-      ['7F 00 00 01', 'EDITOR MODE', 5, 'CONFIRMED'],
-      ['60 00 00 51', 'GAIN?', 3, '3 HITS'],
-      ['60 00 00 52', 'VOLUME?', 2, '2 HITS'],
-      ['60 00 00 53', 'BASS?', 1, '1 HIT'],
-      ['60 00 06 51', 'UNKNOWN', 0, 'NEW']
-    ];
-    const map = MAP.map(([addr, name, lvl, tag]) => ({
-      addr, name, tag,
-      tagC: lvl === 5 ? '#8FB98B' : (lvl === 0 ? accent : '#A29E94'),
-      aria: name + ' confidence ' + lvl + ' of 5',
-      segs: [0, 1, 2, 3, 4].map((i) => ({ c: i < lvl ? (lvl === 5 ? '#8FB98B' : INK) : '#2A2926' }))
-    }));
-
-    const filters = ['TX', 'RX', 'DT1', 'RQ1', 'PC'].map((k) => {
-      const on = !!s.f[k];
-      return {
-        k, pressed: on ? 'true' : 'false', bg: on ? INK : 'transparent', fg: on ? BG : '#A29E94', border: on ? INK : '#4A4842',
-        pick: () => { const f = Object.assign({}, this.state.f); f[k] = !f[k]; this.setState({ f }); }
-      };
-    });
-
+    const keyOf = (on) => ({ on: on ? 'on' : '', dn: on ? 'dn' : '', active: !!on });
+    const filters = ['TX', 'RX', 'EDIT', 'SYS', 'CMD'].map((k) => Object.assign({ label: k, n: String(CNT[k]), toggle: () => { const n = Object.assign({}, flt); n[k] = !flt[k]; this.setState({ flt: n }); } }, keyOf(flt[k])));
+    const paused = !!st.paused, listening = !!st.listen, itab = st.itab ?? 'DECODE';
+    const ON = 'linear-gradient(180deg, #FFF6E2 0, var(--led) 42%, color-mix(in oklab, var(--led) 55%, #000) 100%)';
+    const HOT = 'linear-gradient(180deg, #FFE6DC 0, #FF5A3C 42%, #8E2410 100%)';
+    const segs = Array.from({ length: 20 }, (_, i) => { const hot = i >= 15; return { dim: hot ? 'color-mix(in oklab, #FF5A3C 15%, #0C0805)' : 'color-mix(in oklab, var(--led) 13%, #0C0805)', bg: hot ? HOT : ON, sh: hot ? '0 0 6px 1px #FF5A3C80' : '0 0 6px 1px color-mix(in oklab, var(--led) 55%, transparent)' }; });
+    const play = paused ? 'paused' : 'running';
+    const meters = [{ label: 'TX', dur: '2.4s', del: '0s' }, { label: 'RX', dur: '3.1s', del: '-1.3s' }].map((m) => Object.assign(m, { segs, play }));
+    const AM = [['60 00 00 00', 'PATCH NAME', '16'], ['60 00 00 30', 'BOOSTER: ON', '1'], ['60 00 00 31', 'BOOSTER: TYPE', '1'], ['60 00 00 32', 'BOOSTER: DRIVE', '1'], ['60 00 00 51', 'PREAMP A: TYPE', '1'], ['60 00 00 52', 'PREAMP A: GAIN', '1'], ['60 00 00 56', 'PREAMP A: TREBLE', '1'], ['60 00 05 62', 'DELAY: TIME', '2'], ['60 00 07 20', 'CHAIN', '20'], ['7F 00 00 01', 'EDITOR MODE', '1']];
+    const modes = [['Editor', 'Main.dc.html'], ['Effects', 'Effects.dc.html'], ['Control', 'Control.dc.html'], ['Library', 'Library.dc.html'], ['Monitor', 'Monitor.dc.html']].map(([label, href], i) => ({ label, href, on: i === 4 ? 'on' : '', dn: i === 4 ? 'dn' : '', cur: i === 4 ? 'page' : 'false' }));
+    const dump = [[0, 8], [8, 16]].map(([a, b]) => ({ off: '60 00 00 ' + hx(a), hex: NAME.slice(a, b).map(hx).join(' '), asc: String.fromCharCode.apply(null, NAME.slice(a, b)).replace(/ /g, '·') }));
     return {
-      accent, radarTicks, sweep, sweepX: sw1[0], sweepY: sw1[1],
-      rows, rowCount: String(rows.length).padStart(2, '0') + ' / ' + String(LOG.length).padStart(2, '0') + ' FRAMES',
-      blocks, decTitle, decLen, sumState, sumMath, sumDot, map, filters,
-      recLabel: s.rec ? 'REC' : 'PAUSED',
-      recColor: s.rec ? accent : '#8A867D',
-      recDot: s.rec ? accent : '#4A4842',
-      recBtn: s.rec ? 'PAUSE' : 'RECORD',
-      recPressed: s.rec ? 'true' : 'false',
-      toggleRec: () => this.setState({ rec: !this.state.rec })
+      accent, scr, modes, filters, rows, empty: rows.length === 0, shown: String(rows.length), dec, dump, meters,
+      amap: AM.map(([a, n, s]) => ({ a, n, s })),
+      itabs: ['DECODE', 'ADDR MAP'].map((t) => Object.assign({ label: t, pick: () => this.setState({ itab: t }) }, keyOf(t === itab))),
+      showDecode: itab === 'DECODE', showMap: itab === 'ADDR MAP', selWhen: 'row ' + sl[0],
+      paused, pauseTxt: paused ? 'Resume' : 'Pause', pauseLed: paused ? 'on cur' : '', pauseDn: paused ? 'dn' : '',
+      togglePause: () => this.setState({ paused: !paused }),
+      listening, lsTxt: listening ? 'Stop' : 'Listen', lsDn: listening ? 'dn' : '',
+      recCls: listening ? 'rec' : '', recBg: listening ? 'radial-gradient(circle at 40% 35%, #FFE6DC, #FF4A2A 55%, #8E1A08)' : '#2A0E08', recSh: listening ? '0 0 8px 2px #FF4A2A90' : 'inset 0 1px 1px #000',
+      lsLblO: listening ? '1' : '.4', lsCntCls: listening ? 'cur' : '', lsCount: listening ? '07 S' : '10 S',
+      toggleListen: () => this.setState({ listen: !listening }),
+      stateTxt: paused ? '‖ PAUSED · 4 NEW' : '● LIVE', stateCls: paused ? 'cur' : ''
     };
   }
 }

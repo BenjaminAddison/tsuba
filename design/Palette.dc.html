@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Katana editor — Command palette</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Doto:wght@400..900&amp;family=JetBrains+Mono:wght@400..700&amp;display=swap">
+<style>
+body{margin:0;background:#070708}
+.ob{--led:#FFB547;--silk:#E8E4DC;--silk2:#A29D95;--silk3:#8F8A83;font-family:Archivo,'Helvetica Neue',Arial,sans-serif;color:var(--silk);-webkit-font-smoothing:antialiased}
+.led-mustard{--led:#FFB547}.led-coral{--led:#FF6B4A}.led-sage{--led:#8CFFB4}.led-steel{--led:#7FDBFF}.led-sand{--led:#FFE3B3}
+:where(.ob) :where(button,input){font:inherit;color:inherit;background:none;border:0;padding:0;margin:0}
+:where(.ob) button{cursor:pointer}
+.ob :focus-visible{outline:2px solid var(--led);outline-offset:2px}
+.ob input::placeholder{color:color-mix(in oklab,var(--led) 38%,#0B0704)}
+.unit{position:relative;display:flex;border-radius:3px;background:linear-gradient(180deg,#FFFFFF10 0,#FFFFFF00 14px),repeating-linear-gradient(0deg,#FFFFFF05 0 1px,#00000000 1px 2px,#00000012 2px 3px),linear-gradient(180deg,#222325,#1B1C1E);box-shadow:inset 0 1px 0 #FFFFFF1F,inset 0 -1px 0 #000000B0,0 2px 0 #000,0 10px 18px #00000090}
+.screw{position:absolute;width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 36% 30%,#F2EFEA,#9A968F 50%,#3E3C39 100%);box-shadow:0 1px 1px #000000CC,0 0 0 2px #0000004D}
+.screw::before,.screw::after{content:'';position:absolute;left:4.3px;top:1.6px;width:1.4px;height:6.8px;border-radius:1px;background:#33302C}
+.screw::after{transform:rotate(90deg)}
+.silk{font-size:10px;font-weight:700;font-stretch:125%;letter-spacing:.2em;text-transform:uppercase;color:var(--silk);text-shadow:0 1px 0 #000000B0;line-height:1.2;white-space:nowrap}
+.silk2{font-size:9px;font-weight:600;font-stretch:118%;letter-spacing:.18em;text-transform:uppercase;color:var(--silk2);text-shadow:0 1px 0 #000000B0;line-height:1.2;white-space:nowrap}
+.mono{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+.key{position:relative;display:grid;place-items:center;border-radius:4px;background:linear-gradient(180deg,#414245,#2C2D30);box-shadow:inset 0 1px 0 #FFFFFF22,inset 0 -1px 0 #00000070,0 2px 0 #050505,0 3px 6px #000000A8;font-size:9.5px;font-weight:700;font-stretch:115%;letter-spacing:.14em;text-transform:uppercase;color:#ECE8E0;text-decoration:none;white-space:nowrap;transition:transform .06s,box-shadow .06s,filter .12s}
+.key:hover{filter:brightness(1.12)}
+.key:active,.key.dn{transform:translateY(1.5px);box-shadow:inset 0 1px 2px #00000090,0 .5px 0 #050505}
+.cap{display:inline-grid;place-items:center;min-width:18px;height:17px;padding:0 5px;box-sizing:border-box;border-radius:3px;background:linear-gradient(180deg,#3A3B3E,#28292C);box-shadow:inset 0 1px 0 #FFFFFF1C,0 1.5px 0 #050505;font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:9.5px;color:#E2DED6}
+.lw{display:inline-block;flex:none;width:12px;height:4px;border-radius:1px;background:color-mix(in oklab,var(--led) 13%,#0C0805);box-shadow:inset 0 1px 1px #000,0 1px 0 #FFFFFF10}
+.lw.on{background:linear-gradient(180deg,#FFF6E2 0,var(--led) 42%,color-mix(in oklab,var(--led) 55%,#000) 100%);box-shadow:0 0 7px 1px color-mix(in oklab,var(--led) 65%,transparent),0 0 1px var(--led)}
+.bezel{padding:5px;border-radius:5px;background:linear-gradient(180deg,#040404,#101011);box-shadow:inset 0 1px 0 #000,0 1px 0 #FFFFFF16}
+.glass{position:relative;overflow:hidden;border-radius:2px;background:radial-gradient(ellipse at 50% -30%,color-mix(in oklab,var(--led) 16%,transparent),transparent 62%),color-mix(in oklab,var(--led) 5%,#050302);box-shadow:inset 0 0 26px #000000E0}
+.glass::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle,color-mix(in oklab,var(--led) 9%,transparent) .7px,transparent 1.1px) 0 0/3px 3px}
+.glass::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(162deg,#FFFFFF12 0,#FFFFFF05 34%,transparent 35%)}
+.vfd{color:color-mix(in oklab,var(--led) 82%,#FFFFFF);text-shadow:0 0 7px color-mix(in oklab,var(--led) 85%,transparent),0 0 1px var(--led)}
+.vrow{transition:background-color .1s}.vrow:hover{background-color:color-mix(in oklab,var(--led) 10%,transparent)}
+</style>
+</helmet>
+<div class="ob led-{{accent}}" style="position: relative; width: 720px; height: 520px; overflow: hidden; box-sizing: border-box; background: linear-gradient(90deg, #040404, #0D0D0F 18%, #0D0D0F 82%, #040404)">
+<div aria-hidden="true" style="position: absolute; inset: 0; padding: 12px; display: flex; flex-direction: column; gap: 5px; opacity: .5; filter: blur(1.5px)">
+<div class="unit" style="height: 54px"></div><div class="unit" style="height: 120px"></div><div class="unit" style="height: 220px"></div><div class="unit" style="height: 96px"></div>
+</div>
+<div aria-hidden="true" style="position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 30%, #00000066, #000000C8 75%)"></div>
+
+<div role="dialog" aria-label="Command palette" style="position: absolute; left: 40px; top: 24px; width: 640px; box-sizing: border-box; padding: 18px 22px 14px; display: flex; flex-direction: column; gap: 12px; border-radius: 5px; background: linear-gradient(180deg, #FFFFFF12 0, #FFFFFF00 16px), repeating-linear-gradient(0deg, #FFFFFF05 0 1px, #00000000 1px 2px, #00000012 2px 3px), linear-gradient(180deg, #252628, #1C1D1F); box-shadow: inset 0 1px 0 #FFFFFF24, inset 0 -1px 0 #000000B0, 0 0 0 1px #000, 0 24px 50px #000000E8, 0 0 40px color-mix(in oklab, var(--led) 6%, transparent)">
+<span class="screw" aria-hidden="true" style="left: 7px; top: 7px; transform: rotate(38deg)"></span>
+<span class="screw" aria-hidden="true" style="right: 7px; top: 7px; transform: rotate(112deg)"></span>
+<span class="screw" aria-hidden="true" style="left: 7px; bottom: 7px; transform: rotate(161deg)"></span>
+<span class="screw" aria-hidden="true" style="right: 7px; bottom: 7px; transform: rotate(74deg)"></span>
+
+<div style="display: flex; align-items: center; gap: 12px; padding: 0 8px">
+<span class="silk">Search</span><span class="silk2" style="letter-spacing: .12em">parameters · commands</span>
+<span style="flex: 1; height: 1px; background: linear-gradient(90deg, #E8E4DC33, #E8E4DC14)"></span>
+<span class="silk2">Close</span><span class="cap">esc</span>
+</div>
+
+<label class="bezel" style="display: block">
+<span class="glass" style="display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 14px">
+<span class="mono vfd" aria-hidden="true" style="position: relative; font-size: 15px">▸</span>
+<input type="text" value="{{q}}" onInput="{{setQ}}" placeholder="search params or type a command" aria-label="Command or parameter search" class="mono vfd" style="position: relative; flex: 1; min-width: 0; font-size: 15px; letter-spacing: .02em; outline: none; caret-color: var(--led)">
+<span class="mono vfd" style="position: relative; font-size: 9px; letter-spacing: .1em; opacity: .55; white-space: nowrap">{{matchTxt}}</span>
+</span>
+</label>
+
+<div class="bezel">
+<div class="glass" style="height: 292px; overflow-y: auto; padding: 6px 4px">
+<sc-if value="{{run.show}}" hint-placeholder-val="{{false}}">
+<div class="mono" style="position: relative; display: flex; align-items: center; gap: 10px; height: 34px; margin-bottom: 6px; padding: 0 12px; background: color-mix(in oklab, var(--led) 88%, #FFF); color: #170D02">
+<span style="font-size: 9px; font-weight: 700; letter-spacing: .14em">RUN ▸</span>
+<span style="flex: 1; min-width: 0; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{run.text}}</span>
+<span style="font-size: 10px; opacity: .7">{{run.hint}}</span>
+<span style="font-size: 11px">⏎</span>
+</div>
+<sc-if value="{{run.has}}" hint-placeholder-val="{{false}}">
+<div class="mono vfd" style="position: relative; display: grid; grid-template-columns: 10px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 6px 12px 12px; font-size: 11.5px">
+<span aria-hidden="true" style="opacity: .5">↳</span>
+<span>{{run.path}}</span>
+<span style="white-space: nowrap"><span style="opacity: .55">{{run.from}}</span> → {{run.to}}</span>
+<span></span>
+<span style="grid-column: 2 / 4; font-size: 9.5px; letter-spacing: .08em; opacity: .6">{{run.note}}</span>
+</div>
+</sc-if>
+</sc-if>
+<sc-if value="{{hasParams}}" hint-placeholder-val="{{true}}">
+<div class="mono vfd" style="position: relative; display: flex; gap: 8px; height: 22px; align-items: center; padding: 0 12px; font-size: 9px; letter-spacing: .14em"><span style="opacity: .6">PARAMETERS</span><span style="opacity: .4">{{pCount}}</span></div>
+<sc-for list="{{params}}" as="p" hint-placeholder-count="6">
+<button class="vrow mono" onClick="{{p.pick}}" aria-label="Edit {{p.path}}" aria-pressed="{{p.sel}}" style="position: relative; display: grid; grid-template-columns: 10px minmax(0, 1fr) 100px 100px; align-items: center; gap: 12px; width: 100%; height: 30px; padding: 0 12px; box-sizing: border-box; text-align: left; background: {{p.bg}}; color: {{p.c}}; text-shadow: {{p.g}}">
+<span aria-hidden="true" style="font-size: 10px">{{p.caret}}</span>
+<span style="font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{p.pre}}<span style="background: {{p.hbg}}; color: {{p.hc}}; text-shadow: none; padding: 1px 0">{{p.hit}}</span>{{p.post}}</span>
+<span aria-hidden="true" style="display: flex; gap: 2px; align-items: center"><sc-for list="{{p.segs}}" as="s" hint-placeholder-count="10"><span style="flex: 1; height: 5px; border-radius: 1px; background: {{s.bg}}; box-shadow: {{s.sh}}"></span></sc-for></span>
+<span style="display: flex; align-items: center; justify-content: flex-end; gap: 6px; font-size: 11px; white-space: nowrap"><span aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%; background: {{p.dot}}; box-shadow: {{p.dotSh}}"></span>{{p.val}}</span>
+</button>
+</sc-for>
+</sc-if>
+<sc-if value="{{hasCmds}}" hint-placeholder-val="{{true}}">
+<div class="mono vfd" style="position: relative; display: flex; gap: 8px; height: 22px; align-items: center; margin-top: 6px; padding: 0 12px; font-size: 9px; letter-spacing: .14em; border-top: 1px dashed color-mix(in oklab, var(--led) 20%, transparent)"><span style="opacity: .6">COMMANDS</span><span style="opacity: .4">{{cCount}}</span></div>
+<sc-for list="{{cmds}}" as="c" hint-placeholder-count="4">
+<button class="vrow mono vfd" onClick="{{c.pick}}" aria-label="Type {{c.cmd}}" style="position: relative; display: grid; grid-template-columns: 10px minmax(0, 1fr) 200px; align-items: center; gap: 12px; width: 100%; height: 28px; padding: 0 12px; box-sizing: border-box; text-align: left">
+<span aria-hidden="true" style="font-size: 10px; opacity: .5">&gt;</span>
+<span style="font-size: 11.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{c.verb}} <span style="opacity: .5">{{c.args}}</span></span>
+<span style="font-size: 10px; opacity: .6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: right">{{c.desc}}</span>
+</button>
+</sc-for>
+</sc-if>
+<sc-if value="{{nothing}}" hint-placeholder-val="{{false}}"><div class="mono vfd" style="position: relative; padding: 18px 12px; font-size: 11px; line-height: 1.6">NOTHING MATCHES<br><span style="opacity: .6">PRESS ⏎ TO SEND IT AS A RAW COMMAND</span></div></sc-if>
+</div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 14px; padding: 0 8px; flex-wrap: wrap">
+<span style="display: flex; align-items: center; gap: 5px"><span class="cap">↑</span><span class="cap">↓</span><span class="silk2" style="margin-left: 3px">Move</span></span>
+<span style="display: flex; align-items: center; gap: 5px"><span class="cap">⏎</span><span class="silk2" style="margin-left: 3px">Run</span></span>
+<span style="display: flex; align-items: center; gap: 5px"><span class="cap">tab</span><span class="silk2" style="margin-left: 3px">Complete</span></span>
+<span style="display: flex; align-items: center; gap: 5px"><span class="cap">← →</span><span class="silk2" style="margin-left: 3px">Nudge</span></span>
+<span class="silk2" style="margin-left: auto; letter-spacing: .1em; color: var(--silk3)">CLI syntax works</span>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"enum","options":["mustard","coral","sage","steel","sand"],"default":"mustard","section":"Theme"},"$preview":{"width":720,"height":520}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const st = this.state || {};
+    const accent = this.props.accent ?? 'mustard';
+    const LIT = 'color-mix(in oklab, var(--led) 82%, #FFFFFF)', LG = '0 0 6px color-mix(in oklab, var(--led) 70%, transparent)';
+    const INV = 'color-mix(in oklab, var(--led) 88%, #FFF)', DARK = '#170D02';
+    const ON = 'linear-gradient(180deg, #FFF6E2 0, var(--led) 42%, color-mix(in oklab, var(--led) 55%, #000) 100%)';
+    const q = st.q ?? 'gain';
+    const qq = q.trim().toLowerCase();
+    const P = [
+      ['PREAMP A: GAIN', 62, 0, 100, '62 Δ+7', true], ['PREAMP A: VOLUME', 70, 0, 100, '70'], ['PREAMP A: TREBLE', 58, 0, 100, '58 Δ+6', true], ['PREAMP A: PRESENCE', 57, 0, 100, '57 Δ+7', true],
+      ['EQ: LOW GAIN', 2, -20, 20, '+2 dB'], ['EQ: LOW-MID GAIN', -4, -20, 20, '−4 dB'], ['EQ: HIGH-MID GAIN', 3, -20, 20, '+3 dB'], ['EQ: HIGH GAIN', -1, -20, 20, '−1 dB'], ['EQ: LEVEL', 0, -20, 20, '0 dB'],
+      ['MASTER EQ: LOW GAIN', 2, -20, 20, '+2 dB'], ['MASTER EQ: MID GAIN', 0, -20, 20, '0 dB'], ['MASTER EQ: HIGH GAIN', 1, -20, 20, '+1 dB'],
+      ['BOOSTER: DRIVE', 42, 0, 120, '42'], ['BOOSTER: TONE', 8, -50, 50, '+8'], ['DELAY: TIME', 420, 1, 2000, '420 ms Δ+40', true], ['DELAY: FEEDBACK', 38, 0, 100, '38 Δ+8', true],
+      ['REVERB: TIME', 24, 1, 100, '2.4 s'], ['REVERB: PRE DELAY', 12, 0, 500, '12 ms'], ['FX2: RATE', 35, 0, 100, '35'], ['NS1: THRESHOLD', 35, 0, 100, '35'], ['FV: LEVEL', 100, 0, 100, '100']
+    ];
+    const C = [
+      ['amp gain', '0-100', 'set the preamp gain'], ['amp model', 'NAME|0-25', 'pick one of 26 amp models'], ['amp quick', 'acoustic|clean|crunch|lead|brown', 'panel voicing'],
+      ['set', '"BLOCK: PARAM" VALUE', 'any parameter by name'], ['get', '"BLOCK: PARAM"', 'read a value from the amp'], ['params', '[FILTER]', 'list parameters'], ['locked', '', 'list read-only parameters'],
+      ['write', '[SLOT]', 'store the edit buffer'], ['revert', '', 'drop unsaved edits'], ['diff', '[SLOT]', 'compare buffer with a slot'], ['select', 'PANEL|A:CH1|A:CH2|B:CH1|B:CH2', 'switch channel'],
+      ['name', '"TEXT"', 'rename the patch, 16 chars'], ['chain move', 'BLOCK POSITION', 'reorder the signal chain'], ['block on', 'BLOCK on|off', 'toggle a block'],
+      ['tone apply', 'FILE', 'load a tone file'], ['tone save', '[NAME]', 'save the buffer as a tone'], ['backup', 'FILE', 'back up all channels'], ['restore', 'FILE [SLOT]', 'restore from a backup'],
+      ['eq band', 'BAND -20..+20', 'GE-10 band gain'], ['response band', 'BAND', 'select a response band'], ['assign target', 'N PARAM [MIN] [MAX]', 'point an assign at a parameter'],
+      ['listen', '[SECONDS]', 'capture incoming messages'], ['read', 'ADDRESS SIZE', 'RQ1 memory read'], ['decode', 'FRAME', 'decode a SysEx frame'], ['accent', 'mustard|coral|sage|steel|sand', 'lamp colour'],
+      ['ping', '', 'round-trip time'], ['reconnect', '', 'reopen the MIDI port'], ['demo', '', 'run without an amp'], ['help', '', 'all commands']
+    ];
+    const sel = st.sel ?? 0;
+    const pAll = P.filter((p) => !qq || p[0].toLowerCase().indexOf(qq) >= 0);
+    const pm = pAll.slice(0, 6);
+    const params = pm.map((p, i) => {
+      const on = i === sel;
+      const idx = qq ? p[0].toLowerCase().indexOf(qq) : -1;
+      const pct = (p[1] - p[2]) / (p[3] - p[2]), bi = p[2] < 0;
+      const lo = bi ? Math.min(0.5, pct) : 0, hi = bi ? Math.max(0.5, pct) : pct;
+      const segs = Array.from({ length: 10 }, (_, k) => {
+        const mid = (k + 0.5) / 10, lit = mid >= lo && mid <= hi && !(bi && Math.abs(pct - 0.5) < 0.03);
+        return { bg: on ? (lit ? DARK : '#170D0224') : (lit ? ON : 'color-mix(in oklab, var(--led) 16%, #0B0704)'), sh: !on && lit ? '0 0 5px color-mix(in oklab, var(--led) 60%, transparent)' : 'none' };
+      });
+      return {
+        path: p[0], sel: on, caret: on ? '▸' : '', pre: idx >= 0 ? p[0].slice(0, idx) : p[0], hit: idx >= 0 ? p[0].slice(idx, idx + qq.length) : '', post: idx >= 0 ? p[0].slice(idx + qq.length) : '',
+        val: p[4], segs, bg: on ? INV : '', c: on ? DARK : LIT, g: on ? 'none' : LG,
+        hbg: on ? DARK : INV, hc: on ? INV : DARK,
+        dot: p[5] ? (on ? DARK : LIT) : 'transparent', dotSh: p[5] && !on ? '0 0 6px var(--led)' : 'none',
+        pick: () => this.setState({ sel: i })
+      };
+    });
+    const cAll = C.filter((c) => !qq || (c[0] + ' ' + c[1] + ' ' + c[2]).toLowerCase().indexOf(qq) >= 0);
+    const cmds = cAll.slice(0, 5).map((c) => ({ cmd: c[0], verb: c[0], args: c[1], desc: c[2], pick: () => this.setState({ q: c[0] + ' ', sel: 0 }) }));
+    const verbs = C.map((c) => c[0].split(' ')[0]);
+    const first = qq.split(' ')[0];
+    const isCmd = qq.indexOf(' ') > 0 && verbs.indexOf(first) >= 0;
+    const run = { show: isCmd, has: false, path: '', from: '', to: '', note: '', text: q.trim(), hint: isCmd ? (C.find((c) => c[0].split(' ')[0] === first) || ['', '', ''])[2] : '' };
+    const m = isCmd && first === 'set' ? /^set\s+"([^"]+)"\s+(-?\d+(?:\.\d+)?)/i.exec(q.trim()) : null;
+    const tp = m ? P.find((p) => p[0].toLowerCase() === m[1].trim().toLowerCase()) : null;
+    if (tp) {
+      const v = +m[2], unit = tp[4].split(' ')[1] || '', u = unit === 'ms' || unit === 'dB' ? ' ' + unit : '';
+      const inR = v >= tp[2] && v <= tp[3];
+      Object.assign(run, { has: true, path: tp[0], from: tp[4].split(' Δ')[0], to: v + u, note: inR ? 'RANGE ' + tp[2] + '–' + tp[3] + ' · SENDS ONE DT1 · UNDO WITH REVERT' : 'OUT OF RANGE ' + tp[2] + '–' + tp[3] + ' · WILL CLAMP TO ' + Math.min(tp[3], Math.max(tp[2], v)) });
+    } else if (m) {
+      Object.assign(run, { has: true, path: m[1].toUpperCase(), from: '?', to: m[2], note: 'NO PARAMETER BY THAT NAME · TAB TO COMPLETE' });
+    }
+    return {
+      accent, q, setQ: (e) => this.setState({ q: e.target.value, sel: 0 }), params, cmds, run,
+      hasParams: params.length > 0, hasCmds: cmds.length > 0, nothing: !params.length && !cmds.length && !isCmd,
+      pCount: String(pAll.length), cCount: String(cAll.length), matchTxt: isCmd ? 'COMMAND' : (qq ? (pAll.length + cAll.length) + ' MATCHES' : 'ALL')
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Katana editor — Control</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Doto:wght@400..900&amp;family=JetBrains+Mono:wght@400..700&amp;display=swap">
+<style>
+body{margin:0;background:#070708}
+.ob{--led:#FFB547;--silk:#E8E4DC;--silk2:#A29D95;--silk3:#8F8A83;font-family:Archivo,'Helvetica Neue',Arial,sans-serif;color:var(--silk);-webkit-font-smoothing:antialiased}
+.led-mustard{--led:#FFB547}.led-coral{--led:#FF6B4A}.led-sage{--led:#8CFFB4}.led-steel{--led:#7FDBFF}.led-sand{--led:#FFE3B3}
+:where(.ob) :where(button,input){font:inherit;color:inherit;background:none;border:0;padding:0;margin:0}
+:where(.ob) button{cursor:pointer}
+.ob :focus-visible{outline:2px solid var(--led);outline-offset:2px}
+.unit{position:relative;display:flex;border-radius:3px;background:linear-gradient(180deg,#FFFFFF10 0,#FFFFFF00 14px),repeating-linear-gradient(0deg,#FFFFFF05 0 1px,#00000000 1px 2px,#00000012 2px 3px),linear-gradient(180deg,#222325,#1B1C1E);box-shadow:inset 0 1px 0 #FFFFFF1F,inset 0 -1px 0 #000000B0,0 2px 0 #000,0 10px 18px #00000090}
+.ear{flex:none;width:34px;display:flex;flex-direction:column;justify-content:space-around;align-items:center;background:repeating-linear-gradient(90deg,#FFFFFF05 0 1px,transparent 1px 3px),linear-gradient(90deg,#0000002A,#FFFFFF07 55%,#00000024)}
+.earL{border-right:1px solid #000000B8;box-shadow:1px 0 0 #FFFFFF0E}
+.earR{border-left:1px solid #000000B8;box-shadow:inset 1px 0 0 #FFFFFF0E}
+.slot{position:relative;width:18px;height:10px;border-radius:5px;background:#050506;box-shadow:inset 0 1px 2px #000,0 1px 0 #FFFFFF14}
+.screw{position:absolute;top:0;width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 36% 30%,#F2EFEA,#9A968F 50%,#3E3C39 100%);box-shadow:0 1px 1px #000000CC}
+.screw::before,.screw::after{content:'';position:absolute;left:4.3px;top:1.6px;width:1.4px;height:6.8px;border-radius:1px;background:#33302C}
+.screw::after{transform:rotate(90deg)}
+.silk{font-size:10px;font-weight:700;font-stretch:125%;letter-spacing:.2em;text-transform:uppercase;color:var(--silk);text-shadow:0 1px 0 #000000B0;line-height:1.2;white-space:nowrap}
+.silk2{font-size:9px;font-weight:600;font-stretch:118%;letter-spacing:.18em;text-transform:uppercase;color:var(--silk2);text-shadow:0 1px 0 #000000B0;line-height:1.2;white-space:nowrap}
+.mono{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+.rule{flex:1;height:1px;background:linear-gradient(90deg,#E8E4DC33,#E8E4DC14)}
+.num{padding:1px 5px;border:1px solid #E8E4DC40;border-radius:2px}
+.key{position:relative;display:grid;place-items:center;border-radius:4px;background:linear-gradient(180deg,#414245,#2C2D30);box-shadow:inset 0 1px 0 #FFFFFF22,inset 0 -1px 0 #00000070,0 2px 0 #050505,0 3px 6px #000000A8;font-size:9.5px;font-weight:700;font-stretch:115%;letter-spacing:.14em;text-transform:uppercase;color:#ECE8E0;text-decoration:none;white-space:nowrap;transition:transform .06s,box-shadow .06s,filter .12s}
+.key:hover{filter:brightness(1.12)}
+.key:active,.key.dn{transform:translateY(1.5px);box-shadow:inset 0 1px 2px #00000090,0 .5px 0 #050505}
+.key.red{background:linear-gradient(180deg,#D8532F,#A63A20);color:#FFF4EA;box-shadow:inset 0 1px 0 #FFFFFF45,inset 0 -1px 0 #00000070,0 2px 0 #050505,0 3px 6px #000000A8}
+.lw{display:inline-block;flex:none;width:12px;height:4px;border-radius:1px;background:color-mix(in oklab,var(--led) 13%,#0C0805);box-shadow:inset 0 1px 1px #000,0 1px 0 #FFFFFF10}
+.lw.on{background:linear-gradient(180deg,#FFF6E2 0,var(--led) 42%,color-mix(in oklab,var(--led) 55%,#000) 100%);box-shadow:0 0 7px 1px color-mix(in oklab,var(--led) 65%,transparent),0 0 1px var(--led)}
+.bezel{padding:5px;border-radius:5px;background:linear-gradient(180deg,#040404,#101011);box-shadow:inset 0 1px 0 #000,0 1px 0 #FFFFFF16}
+.glass{position:relative;overflow:hidden;border-radius:2px;background:radial-gradient(ellipse at 50% -30%,color-mix(in oklab,var(--led) 16%,transparent),transparent 62%),color-mix(in oklab,var(--led) 5%,#050302);box-shadow:inset 0 0 26px #000000E0}
+.glass::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle,color-mix(in oklab,var(--led) 9%,transparent) .7px,transparent 1.1px) 0 0/3px 3px}
+.glass::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(162deg,#FFFFFF12 0,#FFFFFF05 34%,transparent 35%)}
+.vfd{color:color-mix(in oklab,var(--led) 82%,#FFFFFF);text-shadow:0 0 7px color-mix(in oklab,var(--led) 85%,transparent),0 0 1px var(--led)}
+.knurl{position:absolute;inset:0;border-radius:50%;background:repeating-conic-gradient(#00000038 0 3deg,#FFFFFF16 3deg 6deg);-webkit-mask:radial-gradient(circle,transparent 0 83%,#000 85%);mask:radial-gradient(circle,transparent 0 83%,#000 85%)}
+.knob{touch-action:none;cursor:ns-resize}
+.vrow{transition:background-color .1s}.vrow:hover{background-color:color-mix(in oklab,var(--led) 10%,transparent)}
+.cur{animation:bl 1.06s steps(1) infinite}
+@keyframes bl{50%{opacity:.3}}
+.mi{animation:mf 1.9s infinite}.mo{animation:mf 2.6s .5s infinite}
+@keyframes mf{0%,100%{opacity:.18}6%{opacity:1}14%{opacity:.18}52%{opacity:.18}57%{opacity:1}63%{opacity:.18}}
+@media (prefers-reduced-motion:reduce){.cur,.mi,.mo{animation:none}}
+</style>
+</helmet>
+<div class="ob led-{{accent}}" style="min-height: 100vh; box-sizing: border-box; padding: 12px 12px 14px; display: flex; flex-direction: column; gap: 5px; background: linear-gradient(90deg, #040404, #0D0D0F 18%, #0D0D0F 82%, #040404)">
+
+<section class="unit" aria-label="Session and views">
+<span class="ear earL" aria-hidden="true"><sc-for list="{{scr.a}}" as="s" hint-placeholder-count="1"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+<div style="flex: 1; min-width: 0; display: flex; align-items: center; gap: 26px; padding: 0 18px; min-height: 54px; flex-wrap: wrap">
+<button aria-label="Session: Katana-50 MK1 online" style="display: flex; align-items: center; gap: 12px">
+<span aria-hidden="true" style="width: 13px; height: 13px; border-radius: 50%; background: radial-gradient(circle at 36% 30%, #FFFBF0 0 11%, var(--led) 40%, color-mix(in oklab, var(--led) 40%, #000) 100%); box-shadow: 0 0 0 2px #050505, 0 0 0 3.5px #5A5853, 0 0 0 4.5px #1A1A1B, 0 0 16px 3px color-mix(in oklab, var(--led) 45%, transparent)"></span>
+<span style="display: flex; flex-direction: column; gap: 3px; align-items: flex-start"><span class="silk" style="font-size: 11px">Katana-50 MK1</span><span class="mono" style="font-size: 9.5px; color: var(--silk3)">USB-MIDI · 3.1 ms</span></span>
+</button>
+<span aria-hidden="true" style="align-self: stretch; width: 1px; margin: 10px 0; background: #00000080; box-shadow: 1px 0 0 #FFFFFF0E"></span>
+<nav aria-label="Views" style="display: flex; align-items: flex-end; gap: 8px; flex-wrap: wrap">
+<sc-for list="{{modes}}" as="m" hint-placeholder-count="5"><span style="display: flex; flex-direction: column; align-items: center; gap: 5px"><span class="lw {{m.on}}" aria-hidden="true" style="width: 10px; height: 3px"></span><a class="key {{m.dn}}" href="{{m.href}}" aria-current="{{m.cur}}" style="height: 22px; padding: 0 11px; font-size: 8.5px">{{m.label}}</a></span></sc-for>
+</nav>
+<a href="Palette.dc.html" class="bezel" aria-label="Search parameters or run a command" style="margin-left: auto; text-decoration: none"><span class="glass" style="display: flex; align-items: center; gap: 8px; width: 270px; max-width: 60vw; height: 24px; padding: 0 10px; box-sizing: border-box"><span class="mono vfd" style="font-size: 10.5px; letter-spacing: .08em">SEARCH ▸</span><span class="cur" aria-hidden="true" style="width: 7px; height: 12px; background: color-mix(in oklab, var(--led) 85%, #FFF); box-shadow: 0 0 6px var(--led)"></span><span class="mono" style="font-size: 10px; color: color-mix(in oklab, var(--led) 38%, #0B0704)">param or command</span></span></a>
+<span class="silk2" style="margin-left: -14px">Ctrl K</span>
+<button class="key" aria-label="Help" style="width: 26px; height: 22px; font-size: 10px">?</button>
+</div>
+<span class="ear earR" aria-hidden="true"><sc-for list="{{scr.b}}" as="s" hint-placeholder-count="1"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+</section>
+
+<section class="unit" aria-label="Patch">
+<span class="ear earL" aria-hidden="true"><sc-for list="{{scr.c}}" as="s" hint-placeholder-count="1"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+<div style="flex: 1; min-width: 0; display: flex; align-items: center; gap: 24px; padding: 8px 18px; min-height: 58px; flex-wrap: wrap">
+<span class="silk">Patch</span>
+<div style="display: flex; gap: 7px; align-items: flex-end">
+<sc-for list="{{slots}}" as="s" hint-placeholder-count="5"><span style="display: flex; flex-direction: column; align-items: center; gap: 5px"><span class="lw {{s.on}}" aria-hidden="true" style="width: 10px; height: 3px"></span><button class="key {{s.dn}}" aria-pressed="{{s.active}}" style="height: 24px; padding: 0 9px; font-size: 8.5px">{{s.label}}</button></span></sc-for>
+</div>
+<span class="bezel" style="padding: 4px"><span class="glass" style="display: flex; align-items: center; gap: 12px; padding: 3px 10px"><span class="mono vfd" style="font-size: 8.5px; letter-spacing: .12em">A:CH1</span><span style="display: grid; grid-template-columns: repeat(16, 16px); gap: 2px"><sc-for list="{{cells}}" as="c" hint-placeholder-count="16"><span class="vfd" style="display: grid; place-items: center; height: 26px; font-family: Doto, monospace; font-weight: 800; font-size: 23px; line-height: 1">{{c}}</span></sc-for></span><span class="mono vfd" style="font-size: 8.5px; letter-spacing: .12em">EDIT</span></span></span>
+<div style="margin-left: auto; display: flex; gap: 10px; align-items: center">
+<button class="key" style="height: 26px; padding: 0 10px; font-size: 8.5px">Revert</button>
+<span class="lw on" aria-hidden="true" style="width: 4px; height: 10px; background: linear-gradient(180deg, #FFE0D6, #FF4A2A 45%, #7A1606); box-shadow: 0 0 8px 1px #FF4A2AB0"></span>
+<button class="key red" style="height: 26px; padding: 0 12px; font-size: 8.5px">Write A:CH1</button>
+</div>
+</div>
+<span class="ear earR" aria-hidden="true"><sc-for list="{{scr.d}}" as="s" hint-placeholder-count="1"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+</section>
+
+<section class="unit" aria-label="Assign matrix">
+<span class="ear earL" aria-hidden="true"><sc-for list="{{scr.e}}" as="s" hint-placeholder-count="3"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+<div style="flex: 1; min-width: 0; padding: 12px 20px 18px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 12px"><span class="silk">Assign · matrix</span><span class="silk2" style="letter-spacing: .12em">{{activeCount}} of 8 active</span><span class="rule"></span><span class="silk">Edit · A{{sel.n}}</span><span class="rule" style="flex: 0 0 40px"></span><span class="silk2 num">03</span></div>
+<div style="display: flex; gap: 26px; align-items: flex-start; flex-wrap: wrap">
+
+<div style="flex: 1 1 600px; min-width: 0; display: flex; gap: 10px; align-items: stretch">
+<div style="display: flex; flex-direction: column; padding-top: 31px; gap: 0">
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="8"><button onClick="{{r.toggle}}" aria-pressed="{{r.on}}" aria-label="{{r.tl}}" style="height: 27px; width: 26px; display: grid; place-items: center"><span class="key" style="width: 18px; height: 14px"><span class="lw {{r.ledCls}}" aria-hidden="true" style="width: 6px; height: 3px"></span></span></button></sc-for>
+</div>
+<div class="bezel" style="flex: 1; min-width: 0">
+<div class="glass" style="padding: 6px 4px 6px">
+<div class="mono vfd" style="position: relative; display: grid; grid-template-columns: 30px 18px 104px 14px minmax(0, 1fr) 70px 54px; gap: 8px; height: 22px; align-items: center; padding: 0 8px; font-size: 9px; letter-spacing: .12em; opacity: .6"><span>#</span><span></span><span>SOURCE</span><span></span><span>TARGET</span><span>RANGE</span><span>MODE</span></div>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="8">
+<button class="vrow mono" onClick="{{r.pick}}" aria-label="Select assign {{r.n}}" aria-pressed="{{r.sel}}" style="position: relative; display: grid; grid-template-columns: 30px 18px 104px 14px minmax(0, 1fr) 70px 54px; gap: 8px; width: 100%; height: 27px; align-items: center; padding: 0 8px; box-sizing: border-box; text-align: left; font-size: 11px; background: {{r.bg}}; color: {{r.c}}; text-shadow: {{r.g}}">
+<span>A{{r.n}}</span><span>{{r.dot}}</span><span style="white-space: nowrap; overflow: hidden">{{r.src}}</span><span style="opacity: .7">→</span><span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{r.tgt}}</span><span>{{r.rtxt}}</span><span>{{r.mode}}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</div>
+
+<span aria-hidden="true" style="align-self: stretch; width: 1px; background: #00000080; box-shadow: 1px 0 0 #FFFFFF0E"></span>
+
+<div style="flex: 1 1 520px; min-width: 0; display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 16px 14px; align-items: start">
+<span class="silk2" style="padding-top: 14px">Source</span>
+<div style="display: grid; grid-template-columns: repeat(4, max-content); gap: 8px 6px; align-items: end">
+<sc-for list="{{srcKeys}}" as="k" hint-placeholder-count="8"><span style="display: flex; flex-direction: column; align-items: center; gap: 5px"><span class="lw {{k.on}}" aria-hidden="true" style="width: 10px; height: 3px"></span><button class="key {{k.dn}}" onClick="{{k.pick}}" aria-pressed="{{k.active}}" style="height: 22px; padding: 0 8px; font-size: 8px">{{k.label}}</button></span></sc-for>
+</div>
+<span class="silk2" style="padding-top: 15px">Target</span>
+<div style="display: flex; align-items: center; gap: 18px; flex-wrap: wrap">
+<button class="bezel" style="padding: 3px"><span class="glass mono vfd" style="display: flex; gap: 10px; align-items: center; height: 22px; padding: 0 10px; font-size: 11px; white-space: nowrap">{{sel.tgt}}<span style="opacity: .6">▾</span></span></button>
+<sc-for list="{{rangeKnobs}}" as="k" hint-placeholder-count="2">
+<div style="display: flex; align-items: center; gap: 8px">
+<div style="position: relative; width: 40px; height: 40px; flex: none">
+<svg viewBox="0 0 100 100" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible"><path d="{{k.ticks}}" stroke="#E8E4DCB0" stroke-width="2.2" stroke-linecap="round" fill="none"></path></svg>
+<button class="knob" aria-label="{{k.aria}}" onPointerDown="{{k.down}}" onPointerMove="{{k.move}}" onPointerUp="{{k.up}}" style="position: absolute; inset: 15%; border-radius: 50%; background: radial-gradient(circle at 50% 30%, #F6F4F0, #B6B2AB 58%, #6C6862); box-shadow: 0 4px 7px #000000B8, 0 1px 2px #000"><span class="knurl" aria-hidden="true"></span><span aria-hidden="true" style="position: absolute; inset: 13%; border-radius: 50%; background: conic-gradient(from 25deg, #FFFFFF5A, #00000026 25%, #FFFFFF5A 50%, #00000026 75%, #FFFFFF5A), repeating-radial-gradient(circle, #DCD9D3 0 .7px, #C6C2BB .7px 1.5px)"></span><span aria-hidden="true" style="position: absolute; inset: 0; transform: rotate({{k.rot}}deg)"><span style="position: absolute; left: calc(50% - 1px); top: 7%; width: 2px; height: 38%; border-radius: 1px; background: #141414"></span></span></button>
+</div>
+<span style="display: flex; flex-direction: column; gap: 3px"><span class="silk2" style="color: var(--silk)">{{k.label}}</span><span class="mono" style="font-size: 10.5px; color: var(--silk2)">{{k.txt}}</span></span>
+</div>
+</sc-for>
+</div>
+<span class="silk2" style="padding-top: 14px">Mode</span>
+<div style="display: flex; gap: 6px; align-items: flex-end">
+<sc-for list="{{modeKeys}}" as="k" hint-placeholder-count="2"><span style="display: flex; flex-direction: column; align-items: center; gap: 5px"><span class="lw {{k.on}}" aria-hidden="true" style="width: 10px; height: 3px"></span><button class="key {{k.dn}}" onClick="{{k.pick}}" aria-pressed="{{k.active}}" style="height: 22px; padding: 0 10px; font-size: 8px">{{k.label}}</button></span></sc-for>
+<span class="silk2" style="margin-left: 12px; align-self: center; color: var(--silk3); letter-spacing: .1em">Range 0–100 · for footswitch sources</span>
+</div>
+<sc-if value="{{sel.isWave}}" hint-placeholder-val="{{true}}">
+<span class="silk2" style="padding-top: 14px">Wave</span>
+<div style="display: flex; align-items: center; gap: 12px 16px; flex-wrap: wrap">
+<div style="display: flex; gap: 6px; align-items: flex-end"><sc-for list="{{waveKeys}}" as="k" hint-placeholder-count="4"><span style="display: flex; flex-direction: column; align-items: center; gap: 5px"><span class="lw {{k.on}}" aria-hidden="true" style="width: 10px; height: 3px"></span><button class="key {{k.dn}}" onClick="{{k.pick}}" aria-pressed="{{k.active}}" style="width: 40px; height: 22px; font-size: 8px">{{k.label}}</button></span></sc-for></div>
+<span class="mono" style="font-size: 10.5px; color: var(--silk2)">Rate 62 · 1.4 Hz</span>
+<span class="bezel" style="flex: 1 1 100%; min-width: 180px; padding: 4px"><span class="glass" style="display: block; height: 46px"><svg viewBox="0 0 300 46" preserveAspectRatio="none" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%"><path d="M 0 23 L 300 23" stroke-width="1" vector-effect="non-scaling-stroke" stroke-dasharray="1 3" style="stroke: color-mix(in oklab, var(--led) 35%, transparent)"></path><path d="{{waveD}}" fill="none" stroke-width="1.7" vector-effect="non-scaling-stroke" style="stroke: color-mix(in oklab, var(--led) 85%, #FFFFFF); filter: drop-shadow(0 0 3px var(--led))"></path></svg></span></span>
+</div>
+</sc-if>
+<sc-if value="{{sel.isPedal}}" hint-placeholder-val="{{false}}">
+<span class="silk2" style="padding-top: 14px">Int pedal</span>
+<div style="display: flex; align-items: center; gap: 12px 16px; flex-wrap: wrap">
+<div style="display: flex; gap: 6px; align-items: flex-end"><sc-for list="{{curveKeys}}" as="k" hint-placeholder-count="3"><span style="display: flex; flex-direction: column; align-items: center; gap: 5px"><span class="lw {{k.on}}" aria-hidden="true" style="width: 10px; height: 3px"></span><button class="key {{k.dn}}" onClick="{{k.pick}}" aria-pressed="{{k.active}}" style="height: 22px; padding: 0 8px; font-size: 8px">{{k.label}}</button></span></sc-for></div>
+<span class="mono" style="font-size: 10.5px; color: var(--silk2)">Trigger patch change · time 40</span>
+<span class="bezel" style="flex: 1 1 100%; min-width: 180px; padding: 4px"><span class="glass" style="display: block; height: 46px"><svg viewBox="0 0 300 46" preserveAspectRatio="none" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%"><path d="{{curveD}}" fill="none" stroke-width="1.7" vector-effect="non-scaling-stroke" style="stroke: color-mix(in oklab, var(--led) 85%, #FFFFFF); filter: drop-shadow(0 0 3px var(--led))"></path></svg></span></span>
+</div>
+</sc-if>
+</div>
+</div>
+</div>
+<span class="ear earR" aria-hidden="true"><sc-for list="{{scr.f}}" as="s" hint-placeholder-count="3"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+</section>
+
+<section class="unit" aria-label="Foot control" style="flex: 1">
+<span class="ear earL" aria-hidden="true"><sc-for list="{{scr.g}}" as="s" hint-placeholder-count="2"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+<div style="flex: 1; min-width: 0; padding: 12px 20px 18px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 12px"><span class="silk">CTL · sources</span><span class="rule"></span><span class="silk">Manual mode</span><span class="rule"></span><span class="silk">Accel · fx</span><span class="rule" style="flex: 0 0 40px"></span><span class="silk2 num">04</span></div>
+<div style="display: flex; gap: 26px; align-items: flex-start; flex-wrap: wrap">
+<div class="bezel" style="flex: 1 1 330px; min-width: 0">
+<div class="glass" style="padding: 6px 4px">
+<sc-for list="{{ctl}}" as="c" hint-placeholder-count="6"><div class="mono vfd" style="position: relative; display: grid; grid-template-columns: 88px minmax(0, 1fr) 58px; gap: 10px; height: 25px; align-items: center; padding: 0 9px; font-size: 10.5px"><span style="opacity: .75">{{c.name}}</span><span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{c.func}}</span><span style="opacity: .75; text-align: right">{{c.mode}}</span></div></sc-for>
+</div>
+</div>
+<span aria-hidden="true" style="align-self: stretch; width: 1px; background: #00000080; box-shadow: 1px 0 0 #FFFFFF0E"></span>
+<div style="flex: 1 1 420px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 10px">
+<sc-for list="{{fsw}}" as="f" hint-placeholder-count="8">
+<button onClick="{{f.pick}}" aria-pressed="{{f.sel}}" aria-label="{{f.aria}}" style="display: flex; flex-direction: column; align-items: center; gap: 6px">
+<span class="lw {{f.on}}" aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%"></span>
+<span aria-hidden="true" style="position: relative; width: 40px; height: 40px; display: grid; place-items: center">
+<span style="position: absolute; inset: 0; clip-path: polygon(25% 3%, 75% 3%, 100% 50%, 75% 97%, 25% 97%, 0 50%); background: linear-gradient(160deg, #D9D6D0, #77736D 55%, #4A4844)"></span>
+<span style="position: relative; width: 26px; height: 26px; border-radius: 50%; background: radial-gradient(circle at 38% 30%, #FFFFFF, #CFCBC4 35%, #8E8A84 70%, #4E4B47); box-shadow: 0 3px 4px #000000B0, inset 0 -1px 2px #00000050"></span>
+</span>
+<span class="silk2" style="font-size: 8px; color: var(--silk3)">{{f.sw}}</span>
+<span class="silk" style="font-size: 9px; letter-spacing: .14em; color: {{f.fc}}; text-shadow: {{f.fg}}">{{f.func}}</span>
+</button>
+</sc-for>
+</div>
+<span aria-hidden="true" style="align-self: stretch; width: 1px; background: #00000080; box-shadow: 1px 0 0 #FFFFFF0E"></span>
+<div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: flex-end"><sc-for list="{{accelKeys}}" as="k" hint-placeholder-count="6"><span style="display: flex; flex-direction: column; align-items: center; gap: 5px"><span class="lw {{k.on}}" aria-hidden="true" style="width: 10px; height: 3px"></span><button class="key {{k.dn}}" onClick="{{k.pick}}" aria-pressed="{{k.active}}" style="height: 22px; padding: 0 8px; font-size: 8px">{{k.label}}</button></span></sc-for></div>
+<div style="display: flex; gap: 18px; flex-wrap: wrap">
+<sc-for list="{{accelKnobs}}" as="k" hint-placeholder-count="3">
+<div style="display: flex; align-items: center; gap: 8px">
+<div style="position: relative; width: 40px; height: 40px; flex: none">
+<svg viewBox="0 0 100 100" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible"><path d="{{k.ticks}}" stroke="#E8E4DCB0" stroke-width="2.2" stroke-linecap="round" fill="none"></path></svg>
+<button class="knob" aria-label="{{k.aria}}" onPointerDown="{{k.down}}" onPointerMove="{{k.move}}" onPointerUp="{{k.up}}" style="position: absolute; inset: 15%; border-radius: 50%; background: radial-gradient(circle at 50% 30%, #F6F4F0, #B6B2AB 58%, #6C6862); box-shadow: 0 4px 7px #000000B8, 0 1px 2px #000"><span class="knurl" aria-hidden="true"></span><span aria-hidden="true" style="position: absolute; inset: 13%; border-radius: 50%; background: conic-gradient(from 25deg, #FFFFFF5A, #00000026 25%, #FFFFFF5A 50%, #00000026 75%, #FFFFFF5A), repeating-radial-gradient(circle, #DCD9D3 0 .7px, #C6C2BB .7px 1.5px)"></span><span aria-hidden="true" style="position: absolute; inset: 0; transform: rotate({{k.rot}}deg)"><span style="position: absolute; left: calc(50% - 1px); top: 7%; width: 2px; height: 38%; border-radius: 1px; background: #141414"></span></span></button>
+</div>
+<span style="display: flex; flex-direction: column; gap: 3px"><span class="silk2" style="color: var(--silk)">{{k.label}}</span><span class="mono" style="font-size: 10.5px; color: var(--silk2)">{{k.txt}}</span></span>
+</div>
+</sc-for>
+</div>
+<span class="silk2" style="color: var(--silk3); letter-spacing: .1em; white-space: normal; line-height: 1.5">Fires while Accel/CTL is held · {{accelType}}</span>
+</div>
+</div>
+</div>
+<span class="ear earR" aria-hidden="true"><sc-for list="{{scr.h}}" as="s" hint-placeholder-count="2"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+</section>
+
+<section class="unit" aria-label="Status">
+<span class="ear earL" aria-hidden="true"><sc-for list="{{scr.k}}" as="s" hint-placeholder-count="1"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+<div style="flex: 1; min-width: 0; display: flex; align-items: center; gap: 22px; padding: 0 18px; min-height: 40px; flex-wrap: wrap">
+<span style="display: flex; align-items: center; gap: 12px"><span class="silk2">MIDI</span><span style="display: flex; align-items: center; gap: 5px"><span class="lw on mi" aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%"></span><span class="silk2" style="color: var(--silk3)">In</span></span><span style="display: flex; align-items: center; gap: 5px"><span class="lw on mo" aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%"></span><span class="silk2" style="color: var(--silk3)">Out</span></span><span style="display: flex; align-items: center; gap: 5px"><span class="lw on" aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%"></span><span class="silk2" style="color: var(--silk3)">Editor mode</span></span></span>
+<span class="bezel" style="padding: 2px"><span class="glass mono vfd" style="display: flex; height: 18px; align-items: center; padding: 0 8px; font-size: 9.5px; white-space: nowrap">TX 1284 · RX 3902 · ERR 0</span></span>
+<span class="silk2" style="margin-left: auto; letter-spacing: .1em">Assigns and footswitches are stored per patch · no tuner on the 50 MK1</span>
+</div>
+<span class="ear earR" aria-hidden="true"><sc-for list="{{scr.l}}" as="s" hint-placeholder-count="1"><span class="slot"><span class="screw" style="left: {{s.x}}px; transform: rotate({{s.r}}deg)"></span></span></sc-for></span>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"enum","options":["mustard","coral","sage","steel","sand"],"default":"mustard","section":"Theme"},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const st = this.state || {};
+    const accent = this.props.accent ?? 'mustard';
+    const LIT = 'color-mix(in oklab, var(--led) 82%, #FFFFFF)', LG = '0 0 6px color-mix(in oklab, var(--led) 70%, transparent)';
+    const f1 = (n) => n.toFixed(1);
+    const P = (a, r) => { const t = a * Math.PI / 180; return [50 + r * Math.sin(t), 50 - r * Math.cos(t)]; };
+    const tickPath = (r0, r1) => { let d = ''; for (let i = 0; i <= 10; i++) { const a = -135 + 27 * i, p = P(a, r0), q = P(a, r1); d += 'M ' + f1(p[0]) + ' ' + f1(p[1]) + ' L ' + f1(q[0]) + ' ' + f1(q[1]) + ' '; } return d; };
+    const ROT = [133, 27, 76, 159, 41, 110, 8, 94, 62, 147, 19, 120, 53, 88, 172, 35];
+    let ri = 0;
+    const screws = (n) => Array.from({ length: n }, () => { const r = ROT[ri % ROT.length]; ri++; return { r, x: 2 + (r % 5) }; });
+    const scr = { a: screws(1), b: screws(1), c: screws(1), d: screws(1), e: screws(3), f: screws(3), g: screws(2), h: screws(2), k: screws(1), l: screws(1) };
+    const keyOf = (on) => ({ on: on ? 'on' : '', dn: on ? 'dn' : '', active: on });
+    const smallKnob = (label, v, min, max, fmt, set) => ({
+      label, txt: fmt ? fmt(v) : String(v), rot: -135 + (v - min) / (max - min) * 270, ticks: tickPath(40, 48), aria: label + ' ' + (fmt ? fmt(v) : v),
+      down: (e) => { try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {} this._drag = { label, y: e.clientY, v }; },
+      move: (e) => { const d = this._drag; if (!d || d.label !== label) return; set(Math.max(min, Math.min(max, Math.round(d.v + (d.y - e.clientY) * (max - min) / 160)))); },
+      up: () => { this._drag = null; }
+    });
+    const SRC = ['EXP', 'EXP SW', 'ACCEL/CTL', 'SUB CTL1', 'SUB CTL2', 'SUB EXP', 'INT PEDAL', 'WAVE PEDAL'];
+    const A0 = [
+      { n: 1, on: true, src: 'EXP', tgt: 'DELAY: FEEDBACK', min: 20, max: 65, mode: 'MOMENT', sw: false },
+      { n: 2, on: true, src: 'ACCEL/CTL', tgt: 'DELAY 2: ON/OFF', min: 0, max: 100, mode: 'TOGGLE', sw: true },
+      { n: 3, on: true, src: 'WAVE PEDAL', tgt: 'PREAMP A: VOLUME', min: 70, max: 100, mode: 'MOMENT', sw: false },
+      { n: 4, on: true, src: 'INT PEDAL', tgt: 'PEDAL FX: POSITION', min: 0, max: 100, mode: 'MOMENT', sw: false },
+      { n: 5, on: true, src: 'EXP SW', tgt: 'FX2: ON/OFF', min: 0, max: 100, mode: 'TOGGLE', sw: true },
+      { n: 6, on: false, src: '—', tgt: 'UNASSIGNED', min: 0, max: 100, mode: '—', empty: true },
+      { n: 7, on: false, src: '—', tgt: 'UNASSIGNED', min: 0, max: 100, mode: '—', empty: true },
+      { n: 8, on: false, src: '—', tgt: 'UNASSIGNED', min: 0, max: 100, mode: '—', empty: true }
+    ];
+    const edits = st.asg ?? {};
+    const A = A0.map((a) => Object.assign({}, a, edits[a.n] || {}));
+    const selN = st.selN ?? 3;
+    const setA = (n, patch) => { const e = Object.assign({}, edits); e[n] = Object.assign({}, edits[n] || {}, patch); this.setState({ asg: e }); };
+    let activeCount = 0;
+    const rows = A.map((a) => {
+      if (a.on && !a.empty) activeCount++;
+      const sel = a.n === selN, lit = a.on && !a.empty;
+      return {
+        n: String(a.n), on: a.on, sel, src: a.src, tgt: a.tgt, mode: a.mode === 'MOMENT' ? 'MOM' : (a.mode === 'TOGGLE' ? 'TOG' : '—'),
+        rtxt: a.empty ? '' : (a.sw ? 'OFF↔ON' : a.min + '–' + a.max), dot: a.empty ? '·' : (a.on ? '●' : '○'),
+        bg: sel ? 'color-mix(in oklab, var(--led) 88%, #FFF)' : '', c: sel ? '#170D02' : (a.empty ? 'color-mix(in oklab, var(--led) 38%, #0B0704)' : LIT), g: sel || a.empty ? 'none' : LG,
+        ledCls: lit ? 'on' : '', tl: (a.on ? 'Turn off assign ' : 'Turn on assign ') + a.n,
+        pick: () => this.setState({ selN: a.n }), toggle: () => setA(a.n, { on: !a.on })
+      };
+    });
+    const s = A.find((a) => a.n === selN);
+    const sel = { n: String(s.n), src: s.src, tgt: s.tgt, isWave: s.src === 'WAVE PEDAL', isPedal: s.src === 'INT PEDAL' };
+    const srcKeys = SRC.map((x) => Object.assign({ label: x, pick: () => setA(s.n, { src: x, empty: false, sw: ['EXP SW', 'ACCEL/CTL', 'SUB CTL1', 'SUB CTL2'].indexOf(x) >= 0 }) }, keyOf(x === s.src)));
+    const modeKeys = ['MOMENT', 'TOGGLE'].map((x) => Object.assign({ label: x, pick: () => setA(s.n, { mode: x }) }, keyOf(x === s.mode)));
+    const rangeKnobs = [smallKnob('Min', s.min, 0, 100, null, (v) => setA(s.n, { min: Math.min(v, s.max) })), smallKnob('Max', s.max, 0, 100, null, (v) => setA(s.n, { max: Math.max(v, s.min) }))];
+    const wave = st.wave ?? 'TRI', curve = st.curve ?? 'SLOW RISE';
+    const waveKeys = ['TRI', 'SIN', 'SAW', 'SQR'].map((x) => Object.assign({ label: x, pick: () => this.setState({ wave: x }) }, keyOf(x === wave)));
+    const curveKeys = ['LINEAR', 'SLOW RISE', 'FAST RISE'].map((x) => Object.assign({ label: x, pick: () => this.setState({ curve: x }) }, keyOf(x === curve)));
+    let waveD = '';
+    for (let i = 0; i <= 200; i++) { const u = i / 200, ph = (u * 3) % 1; const y = wave === 'SIN' ? Math.sin(ph * Math.PI * 2) : wave === 'SAW' ? 1 - ph * 2 : wave === 'SQR' ? (ph < 0.5 ? 1 : -1) : (ph < 0.5 ? -1 + ph * 4 : 3 - ph * 4); waveD += (i ? ' L ' : 'M ') + f1(u * 300) + ' ' + f1(23 - y * 17); }
+    const g = curve === 'LINEAR' ? 1 : (curve === 'SLOW RISE' ? 2.4 : 0.42);
+    let curveD = '';
+    for (let i = 0; i <= 100; i++) { const u = i / 100; curveD += (i ? ' L ' : 'M ') + f1(10 + u * 280) + ' ' + f1(41 - Math.pow(u, g) * 36); }
+    const ctl = [['ACCEL/CTL', 'ACCEL FX', 'MOM'], ['EXP SW', 'FX2 ON/OFF', 'TOG'], ['SUB CTL1', 'BOOSTER ON/OFF', 'TOG'], ['SUB CTL2', 'REVERB ON/OFF', 'TOG'], ['EXP', 'FOOT VOLUME 0–100', 'PEDAL'], ['SUB EXP', 'PATCH LVL 40–100', 'PEDAL']].map(([name, func, mode]) => ({ name, func, mode }));
+    const FS = [['BANK-DOWN', 'NS1'], ['BANK-UP', 'REVERB'], ['PEDAL1', 'BOOSTER'], ['PEDAL2', 'FX1'], ['PEDAL3', 'FX2'], ['PEDAL4', 'DELAY 1'], ['LOOP', 'S/R'], ['ACCEL', 'ACCEL FX']];
+    const fsel = st.fsel ?? 'PEDAL1';
+    const fsw = FS.map(([sw, func]) => { const on = sw === fsel; return { sw, func, sel: on, on: on ? 'on' : '', aria: sw + ' footswitch, ' + func, fc: on ? LIT : 'var(--silk)', fg: on ? LG : '0 1px 0 #000000B0', pick: () => this.setState({ fsel: sw }) }; });
+    const AC = {
+      'S-BEND': [['Pitch', 12, -24, 24, (v) => (v > 0 ? '+' : '') + v + ' st'], ['Rise', 40, 0, 100], ['Fall', 30, 0, 100]],
+      'LASER BEAM': [['Rate', 60, 0, 100], ['Depth', 70, 0, 100], ['Rise', 20, 0, 100]],
+      'RING MOD': [['Freq', 50, 0, 100], ['E.level', 60, 0, 100], ['Rise', 10, 0, 100]],
+      'TWIST': [['Level', 50, 0, 100], ['Rise', 40, 0, 100], ['Fall', 40, 0, 100]],
+      'WARP': [['Level', 60, 0, 100], ['Rise', 50, 0, 100], ['Fall', 30, 0, 100]],
+      'FEEDBACKER': [['Depth', 60, 0, 100], ['Rise', 30, 0, 100], ['Level', 55, 0, 100]]
+    };
+    const accType = st.accType ?? 'S-BEND';
+    const av = (st.acc && st.acc[accType]) || {};
+    const accelKeys = Object.keys(AC).map((x) => Object.assign({ label: x, pick: () => this.setState({ accType: x }) }, keyOf(x === accType)));
+    const accelKnobs = AC[accType].map(([label, v0, min, max, fmt]) => smallKnob(label, av[label] ?? v0, min, max, fmt, (v) => { const na = Object.assign({}, st.acc || {}); na[accType] = Object.assign({}, av); na[accType][label] = v; this.setState({ acc: na }); }));
+    const modes = [['Editor', 'Main.dc.html'], ['Effects', 'Effects.dc.html'], ['Control', 'Control.dc.html'], ['Library', 'Library.dc.html'], ['Monitor', 'Monitor.dc.html']].map(([label, href], i) => ({ label, href, on: i === 2 ? 'on' : '', dn: i === 2 ? 'dn' : '', cur: i === 2 ? 'page' : 'false' }));
+    const slots = ['PANEL', 'A:CH1', 'A:CH2', 'B:CH1', 'B:CH2'].map((x) => Object.assign({ label: x }, keyOf(x === 'A:CH1')));
+    const name = 'EDGE OF BREAKUP', cells = [];
+    for (let i = 0; i < 16; i++) { const ch = name[i] || ''; cells.push(ch === ' ' ? '' : ch); }
+    return { accent, scr, modes, slots, cells, rows, activeCount: String(activeCount), sel, srcKeys, modeKeys, rangeKnobs, waveKeys, curveKeys, waveD, curveD, ctl, fsw, accelKeys, accelKnobs, accelType: accType };
+  }
+}
+</script>
+</body>
+</html>

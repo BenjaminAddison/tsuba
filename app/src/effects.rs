@@ -1,590 +1,415 @@
-//! 02 EFFECTS: the signal chain (drag to reorder), the selected block's parameters, and the EQ's live frequency
-//! response.
+//! EFFECTS: the signal path (click to select, drag to reorder), the selected block's settings, and the PARAMETER
+//! panel: the touched parameter against memory, its CLI line, and the assigns that drive it.
 
-use std::collections::HashMap;
-
-use eframe::egui::{emath::easing, pos2, vec2, Align2, Color32, Id, Pos2, Rect, Sense, Shape, Stroke, StrokeKind, Ui};
-use katana::amp::CHAIN;
+use eframe::egui::{pos2, vec2, Align2, Id, Pos2, Rect, Shape, Stroke, Ui};
 use katana::catalog::Param;
-use katana::response::{self, Kind};
 use katana::sysex;
 
-use crate::editor::grid_height;
+use crate::chain::{self, Mode, AMP};
+use crate::control;
+use crate::editor::knob_param;
+use crate::graph::{self, Src};
 use crate::theme::*;
 use crate::widgets::*;
-use crate::worker::Cmd;
-use crate::{store, App, Tab};
-
-const SLIDE: f64 = 0.18; // chain reorder slide, ease-out
-const DIV: u8 = 17;
-const MXDV: u8 = 18;
-const AMP: u8 = 2;
+use crate::{patch_unit, display, App, Tab, GAP};
 
 #[derive(Default)]
 pub struct State {
-    sel: Option<u8>,
-    type_open: bool,
     page: usize,
-    band: usize,
-    drag: Option<(u8, usize)>,
-    /// Per block: (from slot, to slot, start time) for the slide.
-    anim: HashMap<u8, (f32, f32, f64)>,
-}
-
-/// UI name, category colour and effects-map blocks for each chain block ID (notes/07).
-fn info(id: u8) -> (&'static str, Color32, &'static [&'static str]) {
-    match id {
-        0 => ("COMP", SAND, &["COMP"]),
-        1 => ("SEND/RTN", SAND, &["SEND_RETURN"]),
-        2 => ("AMP", INK, &["PREAMP_A"]),
-        3 => ("AMP B", INK, &["PREAMP_B"]),
-        4 => ("EQ", SAND, &["EQ"]),
-        5 => ("MOD", STEEL, &["FX1"]),
-        6 => ("FX", STEEL, &["FX2"]),
-        7 => ("DELAY", MUSTARD, &["DELAY", "DELAY2"]),
-        8 => ("CHORUS", STEEL, &["CHORUS"]),
-        9 => ("REVERB", MUSTARD, &["REVERB"]),
-        10 => ("ACCEL", CORAL, &["ACCEL_FX"]),
-        11 => ("PEDAL FX", STEEL, &["PEDAL_FX"]),
-        12 => ("FOOT VOL", SAND, &["FOOT_VOLUME"]),
-        13 => ("NS", SAND, &["NS1"]),
-        14 => ("NS 2", SAND, &["NS2"]),
-        15 => ("BOOSTER", CORAL, &["ODDS"]),
-        16 => ("USB OUT", SAND, &[]),
-        _ => ("ROUTING", SAND, &[]),
-    }
-}
-
-fn chain(app: &App) -> Option<[u8; 20]> {
-    let base = sysex::lin(CHAIN);
-    let v: Option<Vec<u8>> = (0..20).map(|i| app.mem.get(&(base + i)).copied()).collect();
-    v?.try_into().ok()
-}
-
-/// The live (Ch A) path: the blocks between DIV and MXDV.
-fn live_path(order: &[u8; 20]) -> (usize, usize) {
-    match (order.iter().position(|&b| b == DIV), order.iter().position(|&b| b == MXDV)) {
-        (Some(d), Some(m)) if d < m => (d + 1, m),
-        _ => (0, 20),
-    }
-}
-
-fn switch_param(app: &App, key: &str) -> Option<&'static Param> {
-    app.cat.blocks.get(key)?.on.and_then(|a| app.cat.at(a))
-}
-
-fn type_param(app: &App, key: &str) -> Option<&'static Param> {
-    app.cat.blocks.get(key)?.type_addr.and_then(|a| app.cat.at(a))
-}
-
-/// (on, locked) for a chain block. Blocks without a switch are always on.
-fn block_state(app: &App, id: u8) -> (bool, bool) {
-    let (_, _, keys) = info(id);
-    match keys.first().and_then(|k| switch_param(app, k)) {
-        Some(p) => (app.raw(p) == Some(1), p.is_locked()),
-        None => (true, false),
-    }
-}
-
-fn type_text(app: &App, id: u8) -> String {
-    let (_, _, keys) = info(id);
-    match keys.first().and_then(|k| type_param(app, k)) {
-        Some(p) => app.shown(p),
-        None if id == 16 => "TAP".into(),
-        None => "—".into(),
-    }
+    type_open: bool,
+    pub band: usize,
+    popup: Option<u32>,
 }
 
 pub fn show(app: &mut App, ui: &mut Ui, o: Pos2, w: f32) -> f32 {
-    let x0 = o.x + 16.0;
-    let full_w = w - 32.0;
-    let ch = chain_panel(app, ui, pos2(x0, o.y + 16.0), full_w);
-    let y = o.y + 16.0 + ch + 16.0;
-    let pw = ((full_w - 16.0) * 0.56).floor();
-    let h1 = params_panel(app, ui, pos2(x0, y), pw);
-    let h2 = response_panel(app, ui, pos2(x0 + pw + 16.0, y), full_w - pw - 16.0);
-    y - o.y + h1.max(h2) + 16.0
+    let mut y = o.y;
+    y += patch_unit(app, ui, pos2(o.x, y), w, false) + GAP;
+    y += path_unit(app, ui, pos2(o.x, y), w) + GAP;
+    y += block_unit(app, ui, pos2(o.x, y), w);
+    y - o.y
 }
 
-// --- chain ----------------------------------------------------------------------------------------------------
-
-fn chain_panel(app: &mut App, ui: &mut Ui, o: Pos2, w: f32) -> f32 {
-    let h = 31.0 + 16.0 + 96.0 + 14.0 + 14.0 + 16.0 + 1.0;
-    let order = chain(app);
-    let (a, b) = order.as_ref().map_or((0, 0), live_path);
-    let seg: Vec<u8> = order.map_or(vec![], |o| o[a..b].to_vec());
-    let hint = match app.fx.drag {
-        Some((id, over)) => format!("DROP TO PLACE {} AT {:02}", info(id).0, over + 1),
-        None if seg.is_empty() => "WAITING FOR THE AMP".into(),
-        None => "DRAG TO REORDER · CLICK TO EDIT".into(),
-    };
-    let r = Rect::from_min_size(o, vec2(w, h));
-    let body = panel(ui.painter(), r, 18.0, "SIGNAL CHAIN", 64.0, &hint, &format!("{} BLOCKS · IN → OUT", seg.len()));
-    let y = body.top() + 16.0;
-    let p = ui.painter();
-    text(p, pos2(body.left() + 16.0, y + 48.0), Align2::LEFT_CENTER, "IN", F::Mono, 10.0, TEXT_3);
-    text(p, pos2(body.right() - 16.0, y + 48.0), Align2::RIGHT_CENTER, "OUT", F::Mono, 10.0, TEXT_3);
-    let (ax0, ax1) = (body.left() + 44.0, body.right() - 52.0);
-    hline(p, ax0 - 8.0, ax1 + 8.0, y + 48.0, EDGE);
-    legend(p, pos2(body.left() + 16.0, y + 96.0 + 14.0));
-    if seg.is_empty() {
-        return h;
-    }
-    if app.fx.sel.is_none_or(|s| !seg.contains(&s)) {
-        app.fx.sel = seg.iter().copied().find(|&b| b == 4).or(seg.first().copied());
-    }
-
-    let n = seg.len();
-    let sw = (ax1 - ax0 - (n - 1) as f32 * 6.0) / n as f32;
-    let slot_x = |pos: f32| ax0 + pos * (sw + 6.0);
-    let preview: Vec<u8> = match app.fx.drag {
-        Some((id, over)) => {
-            let mut v: Vec<u8> = seg.iter().copied().filter(|&b| b != id).collect();
-            v.insert(over.min(v.len()), id);
-            v
-        }
-        None => seg.clone(),
-    };
-    let now = ui.input(|i| i.time);
-    let mut animating = false;
-    let mut commit = None;
-    // dragged block last so it draws on top
-    let mut ids = seg.clone();
-    ids.sort_by_key(|&id| app.fx.drag.is_some_and(|d| d.0 == id));
-    for id in ids {
-        let target = preview.iter().position(|&b| b == id).unwrap() as f32;
-        let e = app.fx.anim.entry(id).or_insert((target, target, now));
-        let eval = |e: &(f32, f32, f64)| {
-            let t = (((now - e.2) / SLIDE) as f32).clamp(0.0, 1.0);
-            e.0 + (e.1 - e.0) * easing::cubic_out(t)
-        };
-        if (e.1 - target).abs() > 1e-3 {
-            *e = (eval(e), target, now);
-        }
-        let pos = eval(e);
-        animating |= now - e.2 < SLIDE;
-        let r = Rect::from_min_size(pos2(slot_x(pos), y), vec2(sw, 96.0));
-        let resp = ui.interact(r, Id::unique(("block", id)), Sense::click_and_drag());
-        if resp.drag_started() {
-            app.fx.drag = Some((id, seg.iter().position(|&b| b == id).unwrap()));
-        }
-        if let (Some(d), true, Some(pt)) = (app.fx.drag.as_mut(), resp.dragged(), resp.interact_pointer_pos()) {
-            d.1 = (((pt.x - ax0) / (sw + 6.0)).floor().max(0.0) as usize).min(n - 1);
-        }
-        if resp.drag_stopped() {
-            commit = Some(id);
-        }
-        if resp.clicked() {
-            app.fx.sel = Some(id);
-            app.fx.type_open = false;
+fn path_unit(app: &mut App, ui: &mut Ui, o: Pos2, w: f32) -> f32 {
+    let h = 118.0;
+    let face = unit(ui, Rect::from_min_size(o, vec2(w, h)), 2);
+    header(ui.painter(), face, face.top() + 22.0, "SIGNAL PATH", "SELECT A BLOCK TO EDIT · DRAG TO MOVE · LED ENGAGES", "", 2);
+    let row = Rect::from_min_max(pos2(face.left() + 20.0, face.top() + 50.0), pos2(face.right() - 20.0, face.top() + 82.0));
+    if let Some(id) = chain::row(app, ui, row, Mode::Select) {
+        if app.chain.sel != Some(id) {
+            app.chain.sel = Some(id);
             app.fx.page = 0;
+            app.fx.type_open = false;
         }
-        let dragging = app.fx.drag.is_some_and(|d| d.0 == id);
-        let ghost = ui.ctx().animate_bool_with_time(Id::unique(("ghost", id)), dragging, 0.12);
-        draw_block(app, ui, r, id, preview.iter().position(|&b| b == id).unwrap(), &resp, dragging, 1.0 - 0.55 * ghost);
-    }
-    if animating || app.fx.drag.is_some() {
-        ui.ctx().request_repaint();
-    }
-    if let Some(id) = commit {
-        if preview != seg {
-            write_chain(app, a, b, &preview);
-        }
-        app.fx.drag = None;
-        app.fx.sel = Some(id);
     }
     h
 }
 
-fn write_chain(app: &mut App, a: usize, b: usize, seg: &[u8]) {
-    let Some(mut order) = chain(app) else { return };
-    order[a..b].copy_from_slice(seg);
-    if app.online() {
-        store(&mut app.mem, CHAIN, &order);
-        app.send(Cmd::Chain(order));
-    }
+/// Parameters of the selected block's current page, in the amp's own panel order.
+fn page_params(app: &App, key: &str) -> Vec<&'static Param> {
+    let mut ps: Vec<&'static Param> = app.cat.block_params(key, &app.mem).into_iter().filter(|p| !p.is_locked()).collect();
+    ps.sort_by_key(|p| sysex::lin(p.addr));
+    ps
 }
 
-#[allow(clippy::too_many_arguments)]
-fn draw_block(app: &App, ui: &Ui, r: Rect, id: u8, slot: usize, resp: &eframe::egui::Response, dragging: bool, alpha: f32) {
-    let p = ui.painter();
-    let (name, cat, _) = info(id);
-    let (on, locked) = block_state(app, id);
-    let selected = app.fx.sel == Some(id) && !dragging;
-    let a = |c: Color32| c.gamma_multiply(alpha);
-    let (fill, edge, fg, sub) = if dragging {
-        (PANEL, ACCENT, INK, TEXT_2)
-    } else if selected {
-        (INK, INK, INK_ON, INK_SUB)
-    } else if on && !locked {
-        (PANEL, if resp.hovered() { INK } else { EDGE }, INK, TEXT_2)
-    } else {
-        (BG, if resp.hovered() { EDGE } else { LINE }, TEXT_3, TEXT_3)
-    };
-    cut_frame(p, r, 11.0, a(fill), a(edge));
-    let (x0, x1) = (r.left() + 10.0, r.right() - 10.0);
-    let nr = text(p, pos2(x0, r.top() + 10.0), Align2::LEFT_TOP, &format!("{:02}", slot + 1), F::Mono, 10.0, a(sub));
-    for (cx, cy) in [(0.0, 0.0), (4.0, 0.0), (0.0, 4.0), (4.0, 4.0), (0.0, 8.0), (4.0, 8.0)] {
-        p.rect_filled(Rect::from_min_size(pos2(nr.right() + 6.0 + cx, r.top() + 11.0 + cy), vec2(2.0, 2.0)), 0.0, a(sub));
-    }
-    if locked {
-        lock_icon(p, pos2(x1 - 6.0, r.top() + 16.0), a(sub));
-    }
-    text_max(p, pos2(x0, r.top() + 36.0), Align2::LEFT_CENTER, name, F::Semi, 13.0, a(fg), x1 - x0);
-    text_max(p, pos2(x0, r.top() + 55.0), Align2::LEFT_CENTER, &type_text(app, id), F::Mono, 10.0, a(sub), x1 - x0);
-    let bar = Rect::from_min_max(pos2(x0, r.bottom() - 14.0), pos2(x1, r.bottom() - 10.0));
-    if on && !locked {
-        p.rect_filled(bar, 0.0, a(if selected && cat == INK { INK_ON } else { cat }));
-    } else {
-        let mut x = bar.left();
-        while x < bar.right() {
-            p.rect_filled(Rect::from_min_max(pos2(x, bar.top()), pos2((x + 2.0).min(bar.right()), bar.bottom())), 0.0, a(EDGE));
-            x += 5.0;
-        }
-    }
-    if resp.has_focus() {
-        focus_ring(p, r, 11.0);
-    }
+/// Option lists short enough to show as a row of keys.
+fn as_keys(p: &Param) -> bool {
+    !p.options.is_empty() && p.options.len() <= 4 && p.options.iter().all(|o| o.1.len() <= 9)
 }
 
-fn legend(p: &eframe::egui::Painter, o: Pos2) {
-    let mut x = o.x;
-    for (label, c) in [("DRIVE", CORAL), ("MODULATION", STEEL), ("TIME", MUSTARD), ("DYNAMICS · EQ · ROUTING", SAND), ("BYPASSED", EDGE)] {
-        let sq = Rect::from_min_size(pos2(x, o.y + 3.0), vec2(8.0, 8.0));
-        if label == "BYPASSED" {
-            p.rect_filled(Rect::from_min_size(sq.min, vec2(2.0, 8.0)), 0.0, c);
-            p.rect_filled(Rect::from_min_size(sq.min + vec2(5.0, 0.0), vec2(2.0, 8.0)), 0.0, c);
-        } else {
-            p.rect_filled(sq, 0.0, c);
-        }
-        let t = text(p, pos2(x + 14.0, o.y + 7.0), Align2::LEFT_CENTER, label, F::Mono, 10.0, TEXT_3);
-        x = t.right() + 20.0;
-    }
-}
-
-// --- parameters -------------------------------------------------------------------------------------------------
-
-fn params_panel(app: &mut App, ui: &mut Ui, o: Pos2, w: f32) -> f32 {
-    let Some(id) = app.fx.sel else {
-        let r = Rect::from_min_size(o, vec2(w, 120.0));
-        panel(ui.painter(), r, 18.0, "PARAMETERS", 0.0, "", "");
+fn block_unit(app: &mut App, ui: &mut Ui, o: Pos2, w: f32) -> f32 {
+    let Some(id) = app.chain.sel else {
+        let face = unit(ui, Rect::from_min_size(o, vec2(w, 120.0)), 5);
+        header(ui.painter(), face, face.top() + 22.0, "BLOCK", "", "PARAMETER", 3);
+        text(ui.painter(), face.center(), Align2::CENTER_CENTER, if app.online() { "READING THE CHAIN" } else { "WAITING FOR THE AMP" }, F::Mono, 11.0, SILK3);
         return 120.0;
     };
-    let (name, cat, keys) = info(id);
-    let order = chain(app).unwrap_or([0; 20]);
-    let (a, b) = live_path(&order);
-    let pos = order[a..b].iter().position(|&x| x == id).unwrap_or(0);
-    let meta = format!("POSITION {:02} / {:02}", pos + 1, b - a);
+    let (_, full, keys) = chain::info(id);
     let page = app.fx.page.min(keys.len().saturating_sub(1));
-    let key = keys.get(page).copied();
-    let (on, locked) = block_state(app, id);
-    let mut params: Vec<&'static Param> = key.map_or(vec![], |k| app.cat.block_params(k, &app.mem)).into_iter().filter(|p| !p.is_locked()).collect();
-    params.sort_by_key(|p| sysex::lin(p.addr)); // address order is the amp's own panel order
-    let note = if id == AMP {
-        Some(("AMP SETTINGS LIVE ON THE EDITOR TAB", "Drag the AMP block to move it in the chain. Select it to edit model, gain and EQ."))
-    } else if locked {
-        Some(("LOCKED ON THE KATANA-50", "The firmware keeps this block switched off. It can still move in the chain. For chorus, use MOD or FX with type CHORUS."))
-    } else if keys.is_empty() {
-        Some(("NO SETTINGS", "A routing point in the chain. It can still be moved."))
-    } else {
-        None
-    };
+    let bkey = keys.get(page).copied();
+    let (on, locked) = chain::block_state(app, id);
+    let params = bkey.map_or(vec![], |k| page_params(app, k));
+    let (knobs, settings): (Vec<&'static Param>, Vec<&'static Param>) = params.iter().partition(|p| p.options.is_empty());
+    let right_w = 330.0;
 
-    let tparam = key.and_then(|k| type_param(app, k));
-    let types = tparam.map_or(vec![], |p| p.options.clone());
-    let pages_h = if keys.len() > 1 { 64.0 + 16.0 } else { 0.0 };
-    let grid_h = if app.fx.type_open && !types.is_empty() { 12.0 + grid_height(w - 34.0, types.len(), 150.0) } else { 0.0 };
-    let rows = params.len().div_ceil(3);
-    let params_h = if rows > 0 { 18.0 + rows as f32 * 64.0 + (rows - 1) as f32 * 18.0 } else { 0.0 };
-    let body_h = match note {
-        Some(_) => 120.0,
-        None => pages_h + 50.0 + grid_h + params_h,
-    };
-    let h = 31.0 + 16.0 + body_h + 16.0 + 1.0;
-    let r = Rect::from_min_size(o, vec2(w, h));
-    let sub = format!("PARAMETERS / {:02}", params.len());
-    let body = panel(ui.painter(), r, 18.0, name, 0.0, "", &meta);
+    // height: header, title row, page/type keys, then the visual beside the knobs, then settings
+    let tparam = bkey.and_then(|k| chain::type_param(app, k));
+    let types: Vec<(u32, String)> = tparam.map_or(vec![], |p| p.options.clone());
+    let face_w = w - 2.0 * EAR;
+    let left_w = face_w - 40.0 - right_w - 32.0;
+    let vis_w = 340.0;
+    let kcols = (((left_w - vis_w - 24.0) / 96.0).floor() as usize).max(1);
+    let krows = knobs.len().div_ceil(kcols);
+    let srows = settings.len().div_ceil(2);
+    let body_h = (krows as f32 * 112.0).max(196.0) + srows as f32 * 58.0;
+    let note = note_for(app, id, locked, keys.is_empty());
+    let h = if note.is_some() { 330.0 } else { (44.0 + 52.0 + 50.0 + body_h + 24.0).max(330.0) };
+    let face = unit(ui, Rect::from_min_size(o, vec2(w, h)), 5);
+    let page_name = if keys.len() > 1 { format!("{full} {}", page + 1) } else { full.to_string() };
+    header(ui.painter(), face, face.top() + 22.0, &format!("BLOCK · {page_name}"), "", "PARAMETER", 3);
+    let x0 = face.left() + 20.0;
+    let lx1 = x0 + left_w;
+    groove(ui.painter(), lx1 + 16.0, face.top() + 44.0, face.bottom() - 18.0);
+
+    // title row
+    let ty = face.top() + 64.0;
     let p = ui.painter();
-    let lw = text_w(p, name, F::Exp, 12.0) + 28.0;
-    p.rect_filled(Rect::from_min_size(pos2(body.left() + lw + 8.0, body.top() - 19.0), vec2(8.0, 8.0)), 0.0, cat);
-    text(p, pos2(body.left() + lw + 26.0, body.top() - 15.5), Align2::LEFT_CENTER, &sub, F::Mono, 10.0, TEXT_3);
-    let (x0, x1) = (body.left() + 16.0, body.right() - 16.0);
-    let mut y = body.top() + 16.0;
-
-    if let Some((title, help)) = note {
-        let nr = Rect::from_min_size(pos2(x0, y), vec2(x1 - x0, 120.0));
-        dashed_rect(p, nr, EDGE);
-        text(p, pos2(x0 + 14.0, y + 16.0), Align2::LEFT_TOP, title, F::Exp, 12.0, INK);
-        para(p, pos2(x0 + 14.0, y + 38.0), help, 11.0, TEXT_2, x1 - x0 - 28.0, 17.0);
-        if id == AMP {
-            let br = Rect::from_min_size(pos2(x0 + 14.0, y + 120.0 - 44.0 - 10.0), vec2(160.0, 36.0));
-            if button(ui, br, Id::unique("open-editor"), "OPEN EDITOR →").clicked() {
-                app.tab = Tab::Editor;
-            }
-        }
-        return h;
-    }
-
-    if keys.len() > 1 {
-        let opts: Vec<String> = keys.iter().enumerate().map(|(i, _)| format!("{} {}", name, i + 1)).collect();
-        if let Some(i) = segmented(ui, Rect::from_min_size(pos2(x0, y), vec2((x1 - x0) / 2.0, 64.0)), Id::unique("page"), "UNIT", &opts, page) {
-            app.fx.page = i;
-            app.fx.type_open = false;
-        }
-        y += 64.0 + 16.0;
-    }
-
-    // toolbar: switch, type, move
-    let sw_w = 170.0;
-    let mut tx = x0;
-    if let Some(sp) = key.and_then(|k| switch_param(app, k)) {
-        if let Some(v) = switch(ui, Rect::from_min_size(pos2(x0, y), vec2(sw_w, 50.0)), Id::unique(("sw", sp.addr)), on, !sp.is_locked()) {
-            app.set(sp, v as u32);
-        }
-        tx += sw_w + 10.0;
-    }
-    let mx = x1 - 2.0 * 50.0 - 6.0;
+    let tr = silk(p, pos2(x0, ty), Align2::LEFT_CENTER, &page_name, F::Title, 20.0, SILK);
+    let mut x = tr.right() + 16.0;
     if let Some(tp) = tparam {
         let cur = app.raw(tp);
         let i = cur.and_then(|c| types.iter().position(|t| t.0 == c));
-        let count = i.map_or("—".into(), |i| format!("{:02} / {:02}", i + 1, types.len()));
-        let dd = Rect::from_min_max(pos2(tx, y), pos2(mx - 10.0, y + 50.0));
-        if dropdown(ui, dd, Id::unique(("type", tp.addr)), "TYPE", &app.shown(tp), &count, app.fx.type_open).clicked() {
+        let label = format!("{}  {}", app.shown(tp), i.map_or(String::new(), |i| format!("{}/{}", i + 1, types.len())));
+        let cw = text_w(p, &label, F::MonoB, 11.0) + 30.0;
+        let cr = Rect::from_min_size(pos2(x, ty - 15.0), vec2(cw, 30.0));
+        let resp = ui.interact(cr, Id::unique(("type-chip", tp.addr)), eframe::egui::Sense::click());
+        let g = glass(ui, cr);
+        vfd(ui.painter(), pos2(g.left() + 9.0, g.center().y), Align2::LEFT_CENTER, &label, F::MonoB, 11.0);
+        if resp.clicked() && app.online() {
             app.fx.type_open = !app.fx.type_open;
         }
+        let resp = resp.on_hover_text("Click for every type");
+        if app.fx.type_open {
+            let names: Vec<String> = types.iter().map(|t| t.1.clone()).collect();
+            match option_popup(ui, Id::unique("types-popup"), resp.rect, &names, i, 200.0) {
+                Some(Some(k)) => {
+                    app.set(tp, types[k].0);
+                    app.fx.type_open = false;
+                }
+                Some(None) => app.fx.type_open = false,
+                None => {}
+            }
+        }
+        x = cr.right() + 16.0;
     }
-    for (k, (dx, label)) in [(-1i32, "◀"), (1, "▶")].into_iter().enumerate() {
-        let br = Rect::from_min_size(pos2(mx + k as f32 * 56.0, y), vec2(50.0, 50.0));
+    let edited = params.iter().filter(|p| app.edited(p)).count();
+    if note.is_none() {
+        silk(ui.painter(), pos2(x, ty), Align2::LEFT_CENTER, &format!("{} PARAMS · {edited} EDITED", params.len()), F::Silk2, 9.0, SILK2);
+    }
+
+    // ON, MOVE, RESET (right of the left area)
+    let order = chain::chain(app).unwrap_or([0; 20]);
+    let (a, b) = chain::live_path(&order);
+    let pos = order[a..b].iter().position(|&x| x == id).unwrap_or(0);
+    let rx = lx1;
+    let reset = Rect::from_min_size(pos2(rx - 64.0, ty - 12.0), vec2(64.0, 24.0));
+    if edited > 0 && app.online() {
+        if key(ui, reset, Id::unique("reset"), "RESET", false, None).on_hover_text("Put this block's settings back to memory").clicked() {
+            app.revert_params(&params);
+        }
+    } else {
+        key_off(ui, reset, "RESET");
+    }
+    let nr = Rect::from_min_size(pos2(reset.left() - 14.0 - 28.0, ty - 12.0), vec2(28.0, 24.0));
+    let pr = Rect::from_min_size(pos2(nr.left() - 54.0 - 28.0, ty - 12.0), vec2(28.0, 24.0));
+    for (r, dx) in [(pr, -1i32), (nr, 1)] {
         let target = pos as i32 + dx;
-        if (0..(b - a) as i32).contains(&target) {
-            if move_button(ui, br, Id::unique(("move", k)), dx < 0, label).clicked() {
+        if (0..(b - a) as i32).contains(&target) && app.online() {
+            let tip = if dx < 0 { "Move earlier in the chain" } else { "Move later in the chain" };
+            if icon_key(ui, r, Id::unique(("move", dx)), tip, |p, f, c| tri(p, f.center(), dx < 0, c)).clicked() {
                 let mut seg = order[a..b].to_vec();
                 seg.swap(pos, target as usize);
-                write_chain(app, a, b, &seg);
+                chain::write_chain(app, a, b, &seg);
             }
         } else {
-            dashed_rect(ui.painter(), br, LINE);
+            key_off(ui, r, if dx < 0 { "◀" } else { "▶" });
         }
     }
-    y += 50.0;
-    if app.fx.type_open {
-        if let Some(tp) = tparam {
-            let (gh, picked) = option_grid(ui, pos2(x0, y + 12.0), x1 - x0, Id::unique("types"), &types, app.raw(tp), 150.0);
-            if let Some(raw) = picked {
-                app.set(tp, raw);
+    silk(ui.painter(), pos2((pr.right() + nr.left()) / 2.0, ty), Align2::CENTER_CENTER, "MOVE", F::Silk2, 9.0, SILK2);
+    let onr = Rect::from_min_size(pos2(pr.left() - 18.0 - 66.0, ty - 12.0), vec2(66.0, 24.0));
+    if locked {
+        key_off(ui, onr, "FIXED");
+    } else if key(ui, onr, Id::unique("block-on"), if on { "ON" } else { "OFF" }, on, Some(on)).on_hover_text("Engage or bypass").clicked() {
+        chain::toggle(app, id);
+    }
+
+    // unit pages and type keys
+    let mut ky = ty + 34.0;
+    let mut kx = x0;
+    if keys.len() > 1 {
+        for (i, _) in keys.iter().enumerate() {
+            let label = format!("{full} {}", i + 1);
+            let kw = text_w(ui.painter(), &label, F::Silk2, 9.0) + 24.0;
+            let kr = Rect::from_min_size(pos2(kx, ky), vec2(kw, 24.0));
+            if key(ui, kr, Id::unique(("page", i)), &label, page == i, Some(page == i)).clicked() {
+                app.fx.page = i;
                 app.fx.type_open = false;
             }
-            y += 12.0 + gh;
+            kx += kw + 8.0;
+        }
+        kx += 18.0;
+    }
+    if let Some(tp) = tparam.filter(|_| types.len() <= 9 && note.is_none()) {
+        let cur = app.raw(tp);
+        for (i, (raw, name)) in types.iter().enumerate() {
+            let kw = text_w(ui.painter(), name, F::Silk2, 8.5) + 18.0;
+            if kx + kw > lx1 {
+                break;
+            }
+            let kr = Rect::from_min_size(pos2(kx, ky), vec2(kw, 24.0));
+            let sel = cur == Some(*raw);
+            if key(ui, kr, Id::unique(("tkey", i)), name, sel, Some(sel)).clicked() && app.online() {
+                app.set(tp, *raw);
+            }
+            kx += kw + 6.0;
+        }
+    }
+    ky += 40.0;
+    hline(ui.painter(), x0, lx1, ky, rgba(0x00000060));
+    hline(ui.painter(), x0, lx1, ky + 1.0, rgba(0xFFFFFF0C));
+    let by = ky + 16.0;
+
+    if let Some((title, help)) = note {
+        let nr = Rect::from_min_size(pos2(x0, by), vec2(left_w.min(620.0), 120.0));
+        let g = glass(ui, nr);
+        let p = ui.painter();
+        vfd(p, pos2(g.left() + 14.0, g.top() + 18.0), Align2::LEFT_CENTER, title, F::MonoB, 12.0);
+        para(p, pos2(g.left() + 14.0, g.top() + 36.0), help, F::Mono, 11.0, mix(lit(), BLACK, 0.25), g.width() - 28.0, 17.0);
+        if id == AMP {
+            let br = Rect::from_min_size(pos2(x0, nr.bottom() + 18.0), vec2(150.0, 28.0));
+            if key(ui, br, Id::unique("open-editor"), "OPEN EDITOR ▸", false, None).clicked() {
+                app.tab = Tab::Editor;
+            }
+        }
+    } else {
+        // visual
+        let vr = Rect::from_min_size(pos2(x0, by), vec2(vis_w, 196.0));
+        visual(app, ui, vr, id, &params);
+        // knobs
+        let kx0 = vr.right() + 24.0;
+        for (i, p) in knobs.iter().enumerate() {
+            let (c, r) = (i % kcols, i / kcols);
+            let at = pos2(kx0 + c as f32 * 96.0 + 16.0, by + r as f32 * 112.0 + 4.0);
+            knob_param(app, ui, at, Size::E, &p.label, p);
+        }
+        // settings: key groups and steppers, two columns
+        let sy = by + (krows as f32 * 112.0).max(196.0) + 18.0;
+        let cw = (left_w - 24.0) / 2.0;
+        for (i, p) in settings.iter().enumerate() {
+            let at = pos2(x0 + (i % 2) as f32 * (cw + 24.0), sy + (i / 2) as f32 * 58.0);
+            setting(app, ui, at, cw, p);
         }
     }
 
-    y += 18.0;
-    let cw = (x1 - x0 - 2.0 * 16.0) / 3.0;
-    for (i, prm) in params.iter().enumerate() {
-        let cell = Rect::from_min_size(pos2(x0 + (i % 3) as f32 * (cw + 16.0), y + (i / 3) as f32 * 82.0), vec2(cw, 64.0));
-        param_control(app, ui, cell, prm);
-    }
+    // PARAMETER panel
+    parameter_panel(app, ui, Rect::from_min_max(pos2(lx1 + 34.0, face.top() + 44.0), pos2(face.right() - 20.0, face.bottom() - 18.0)), &params);
     h
 }
 
-fn move_button(ui: &Ui, r: Rect, id: Id, left: bool, _label: &str) -> eframe::egui::Response {
-    let resp = ui.interact(r, id, Sense::click());
-    let p = ui.painter();
-    p.rect_stroke(r, 0.0, Stroke::new(1.0, if resp.hovered() { INK } else { EDGE }), StrokeKind::Inside);
-    let c = r.center();
-    let pts = if left {
-        vec![c + vec2(4.0, -5.0), c + vec2(4.0, 5.0), c + vec2(-4.0, 0.0)]
+fn note_for(_app: &App, id: u8, locked: bool, no_keys: bool) -> Option<(&'static str, &'static str)> {
+    if id == AMP {
+        Some(("AMP SETTINGS LIVE ON THE EDITOR", "Model, gain, tone, solo and bright are on the Editor's PREAMP unit. Drag the AMP block to move it in the chain."))
+    } else if locked {
+        Some(("FIXED BY THE KATANA-50 FIRMWARE", "The firmware keeps this block switched off. It can still move in the chain. For chorus, use FX1 or FX2 with type CHORUS."))
+    } else if no_keys {
+        Some(("NO SETTINGS", "A routing point in the chain. It can still be moved."))
     } else {
-        vec![c + vec2(-4.0, -5.0), c + vec2(4.0, 0.0), c + vec2(-4.0, 5.0)]
-    };
-    p.add(Shape::convex_polygon(pts, INK, Stroke::NONE));
-    if resp.has_focus() {
-        focus_ring(p, r, 0.0);
+        None
     }
-    resp.on_hover_text(if left { "Move block earlier in chain" } else { "Move block later in chain" })
 }
 
-/// Short option lists become segmented buttons; everything else a tick slider.
-fn param_control(app: &mut App, ui: &Ui, r: Rect, p: &'static Param) {
-    let id = Id::unique(("param", p.addr));
-    let label = p.label.to_uppercase();
-    if !p.options.is_empty() && p.options.len() <= 4 && p.options.iter().all(|o| o.1.len() <= 8) {
-        let opts: Vec<String> = p.options.iter().map(|o| o.1.to_uppercase()).collect();
-        let sel = app.raw(p).and_then(|c| p.options.iter().position(|o| o.0 == c)).unwrap_or(usize::MAX);
-        if let Some(i) = segmented(ui, r, id, &label, &opts, sel) {
-            app.set(p, p.options[i].0);
+/// A list setting: keys for short lists, else a stepper (click for the full list).
+fn setting(app: &mut App, ui: &Ui, at: Pos2, w: f32, p: &'static Param) {
+    let pp = ui.painter();
+    let ed = app.edited(p);
+    led_dot(pp, pos2(at.x + 2.5, at.y + 6.0), 5.0, ed);
+    silk(pp, pos2(at.x + 10.0, at.y + 6.0), Align2::LEFT_CENTER, &p.label, F::Silk2, 9.0, SILK2);
+    let cur = app.raw(p);
+    let row = Rect::from_min_size(pos2(at.x, at.y + 18.0), vec2(w, 26.0));
+    if as_keys(p) {
+        let n = p.options.len() as f32;
+        let kw = ((w - 6.0 * (n - 1.0)) / n).min(110.0);
+        for (i, (raw, name)) in p.options.iter().enumerate() {
+            let kr = Rect::from_min_size(pos2(row.left() + i as f32 * (kw + 6.0), row.top()), vec2(kw, 24.0));
+            let sel = cur == Some(*raw);
+            if key(ui, kr, Id::unique(("opt", p.addr, i)), name, sel, None).clicked() && app.online() {
+                app.set(p, *raw);
+            }
         }
+    } else {
+        let label = app.shown(p);
+        let (step, open) = stepper(ui, Rect::from_min_size(row.min, vec2(w.min(260.0), 24.0)), Id::unique(("step", p.addr)), &label);
+        if step != 0 && app.online() {
+            graph::step_option(app, p, step);
+        }
+        if open && app.online() {
+            app.fx.popup = if app.fx.popup == Some(sysex::lin(p.addr)) { None } else { Some(sysex::lin(p.addr)) };
+        }
+        if app.fx.popup == Some(sysex::lin(p.addr)) {
+            let names: Vec<String> = p.options.iter().map(|o| o.1.clone()).collect();
+            let i = cur.and_then(|c| p.options.iter().position(|o| o.0 == c));
+            match option_popup(ui, Id::unique(("opt-popup", p.addr)), row, &names, i, 170.0) {
+                Some(Some(k)) => {
+                    app.set(p, p.options[k].0);
+                    app.fx.popup = None;
+                }
+                Some(None) => app.fx.popup = None,
+                None => {}
+            }
+        }
+    }
+}
+
+/// What the block does, drawn on glass: delay repeats, the EQ curve, or every setting as a bar.
+fn visual(app: &mut App, ui: &Ui, r: Rect, id: u8, params: &[&'static Param]) {
+    if id == 4 {
+        let mut band = app.fx.band;
+        graph::graph(app, ui, r, Src::Eq, &mut band);
+        app.fx.band = band;
         return;
     }
-    let value = app.shown(p);
-    if p.options.is_empty() {
-        let (lo, hi) = p.raw_range();
-        let raw = app.raw(p).unwrap_or(lo).clamp(lo, hi);
-        if let Some(i) = slider(ui, r, id, &label, &value, (raw - lo) as usize, (hi - lo + 1) as usize) {
-            app.set(p, lo + i as u32);
+    let g = glass(ui, r);
+    let p = ui.painter();
+    let find = |s: &str| params.iter().find(|p| p.label.to_uppercase().contains(s)).copied();
+    let num = |p: Option<&'static Param>| p.and_then(|p| app.raw(p).map(|r| p.number(r)));
+    if id == 7 {
+        if let (Some(t), Some(fb)) = (num(find("TIME")), num(find("BACK"))) {
+            let lvl = num(find("EFFECT LEVEL")).unwrap_or(100.0) / 120.0;
+            let fb = (fb / 100.0).min(0.99);
+            let repeats = (1..=12).take_while(|n| lvl * fb.powi(*n - 1) > 0.04).count().max(1);
+            let span = (t * (repeats as f64 + 1.0)).max(t * 2.0);
+            let (x0, x1, y0, y1) = (g.left() + 22.0, g.right() - 16.0, g.top() + 34.0, g.bottom() - 26.0);
+            let xf = |ms: f64| x0 + (ms / span) as f32 * (x1 - x0);
+            hline(p, x0, x1, y1, alpha(led(), 0.35));
+            let bar = |p: &eframe::egui::Painter, x: f32, a: f64| {
+                let top = y1 - (y1 - y0) * a as f32;
+                glow(p, Rect::from_min_max(pos2(x - 1.5, top), pos2(x + 1.5, y1)), 1.0, 6.0, alpha(led(), 0.4));
+                p.rect_filled(Rect::from_min_max(pos2(x - 1.5, top), pos2(x + 1.5, y1)), 0.0, lit());
+            };
+            bar(p, xf(0.0), 1.0);
+            let mut pts = vec![];
+            for n in 1..=repeats {
+                let a = lvl * fb.powi(n as i32 - 1);
+                bar(p, xf(t * n as f64), a);
+                pts.push(pos2(xf(t * n as f64), y1 - (y1 - y0) * a as f32));
+            }
+            if pts.len() > 1 {
+                p.extend(Shape::dashed_line(&pts, Stroke::new(1.0, alpha(led(), 0.6)), 3.0, 3.0));
+            }
+            vfd(p, pos2(g.left() + 10.0, g.top() + 14.0), Align2::LEFT_CENTER, &format!("IMPULSE {t:.0}ms"), F::MonoB, 9.0);
+            vfd(p, pos2(g.right() - 10.0, g.top() + 14.0), Align2::RIGHT_CENTER, &format!("{repeats} REPEATS"), F::MonoB, 9.0);
+            vfd(p, pos2(x0, g.bottom() - 12.0), Align2::LEFT_CENTER, "0 ms", F::Mono, 8.5);
+            vfd(p, pos2(x1, g.bottom() - 12.0), Align2::RIGHT_CENTER, &format!("{span:.0} ms"), F::Mono, 8.5);
+            return;
         }
-    } else {
-        let sel = app.raw(p).and_then(|c| p.options.iter().position(|o| o.0 == c)).unwrap_or(0);
-        if let Some(i) = slider(ui, r, id, &label, &value, sel, p.options.len()) {
-            app.set(p, p.options[i].0);
-        }
+    }
+    // every numeric setting as a 10-segment bar
+    let nums: Vec<&&'static Param> = params.iter().filter(|p| p.options.is_empty()).collect();
+    if nums.is_empty() {
+        vfd(p, g.center(), Align2::CENTER_CENTER, "NO LEVELS ON THIS BLOCK", F::MonoB, 10.0);
+        return;
+    }
+    let rows = nums.len().min(9);
+    let rh = ((g.height() - 16.0) / rows as f32).min(22.0);
+    for (i, q) in nums.iter().take(rows).enumerate() {
+        let y = g.top() + 10.0 + rh * (i as f32 + 0.5);
+        vfd_max(p, pos2(g.left() + 10.0, y), Align2::LEFT_CENTER, &q.label.to_uppercase(), F::Mono, 9.5, 120.0);
+        let (lo, hi) = q.raw_range();
+        let f = app.raw(q).map_or(0.0, |r| (r.saturating_sub(lo)) as f32 / (hi - lo).max(1) as f32);
+        vfd_bar(p, Rect::from_min_size(pos2(g.left() + 136.0, y - 3.0), vec2(130.0, 6.0)), f, q.min < 0, false);
+        vfd(p, pos2(g.right() - 10.0, y), Align2::RIGHT_CENTER, &app.shown(q), F::Mono, 9.5);
     }
 }
 
-// --- frequency response -----------------------------------------------------------------------------------------
-
-fn fmt_hz(f: f64) -> String {
-    if f >= 1000.0 {
-        format!("{} KHZ", (f / 100.0).round() / 10.0)
-    } else {
-        format!("{} HZ", f.round())
+fn parameter_panel(app: &mut App, ui: &mut Ui, r: Rect, params: &[&'static Param]) {
+    let p = app.touched.filter(|t| params.iter().any(|q| std::ptr::eq(*q, *t))).or(params.first().copied());
+    let gr = Rect::from_min_size(r.min, vec2(r.width(), 76.0));
+    let g = glass(ui, gr);
+    let pp = ui.painter();
+    let Some(p) = p else {
+        vfd(pp, g.center(), Align2::CENTER_CENTER, "NO PARAMETERS", F::MonoB, 11.0);
+        return;
+    };
+    vfd_max(pp, pos2(g.left() + 12.0, g.top() + 16.0), Align2::LEFT_CENTER, &p.name.to_uppercase(), F::MonoB, 10.5, g.width() - 24.0);
+    let v = app.shown(p);
+    let vr = vfd(pp, pos2(g.left() + 12.0, g.bottom() - 20.0), Align2::LEFT_CENTER, &v, F::Dot, 24.0);
+    if let Some(s) = app.stored_raw(p) {
+        vfd(pp, pos2(vr.right() + 12.0, g.bottom() - 17.0), Align2::LEFT_CENTER, &format!("MEM {}", display(p, s)), F::MonoB, 9.0);
     }
-}
+    let range = if p.options.is_empty() { format!("{}…{}", p.min, p.max) } else { format!("{} CHOICES", p.options.len()) };
+    vfd(pp, pos2(g.right() - 12.0, g.bottom() - 17.0), Align2::RIGHT_CENTER, &range, F::MonoB, 9.0);
 
-fn response_panel(app: &mut App, ui: &mut Ui, o: Pos2, w: f32) -> f32 {
-    let eq = response::eq(app.cat, &app.mem);
-    let nb = eq.as_ref().map_or(6, |e| e.bands.len());
-    let chip_rows = if nb > 6 { 2 } else { 1 };
-    let gh = 260.0;
-    let h = 31.0 + 16.0 + chip_rows as f32 * 48.0 + 8.0 + gh + 22.0 + 12.0 + 44.0 + 16.0 + 1.0;
-    let r = Rect::from_min_size(o, vec2(w, h));
-    let meta = match &eq {
-        Some(e) if e.graphic => "EQ · GE-10",
-        Some(_) => "EQ · PARAMETRIC",
-        None => "EQ",
-    };
-    let body = panel(ui.painter(), r, 18.0, "FREQUENCY RESPONSE", 0.0, "", meta);
-    let p = ui.painter();
-    let lw = text_w(p, "FREQUENCY RESPONSE", F::Exp, 12.0) + 28.0;
-    let live = eq.as_ref().is_some_and(|e| e.on);
-    dot(p, pos2(body.left() + lw + 14.0, body.top() - 15.5), 6.0, if live { SAGE } else { TEXT_3 });
-    text(p, pos2(body.left() + lw + 22.0, body.top() - 15.5), Align2::LEFT_CENTER, if live { "LIVE" } else { "EQ OFF" }, F::Mono, 10.0, if live { INK } else { TEXT_3 });
-    let (x0, x1) = (body.left() + 16.0, body.right() - 16.0);
-    let mut y = body.top() + 16.0;
-    let Some(eq) = eq else {
-        text(p, pos2(x0, y), Align2::LEFT_TOP, "WAITING FOR THE AMP", F::Mono, 10.0, TEXT_3);
-        return h;
-    };
-    app.fx.band = app.fx.band.min(nb - 1);
+    // CLI line
+    let value = app.raw(p).map(|r| match p.display(r) {
+        serde_json::Value::String(s) => format!("\"{s}\""),
+        v => v.to_string(),
+    });
+    let cli = format!("set \"{}\" {}", p.name, value.unwrap_or_default());
+    let cr = Rect::from_min_size(pos2(r.left(), gr.bottom() + 14.0), vec2(r.width() - 72.0, 30.0));
+    let g = glass(ui, cr);
+    vfd_max(ui.painter(), pos2(g.left() + 10.0, g.center().y), Align2::LEFT_CENTER, &format!("> {cli}"), F::Mono, 10.5, g.width() - 20.0);
+    let kr = Rect::from_min_size(pos2(cr.right() + 10.0, cr.top() + 3.0), vec2(62.0, 24.0));
+    if key(ui, kr, Id::unique("copy-cli"), "COPY", false, None).on_hover_text("Copy for the command bar (Ctrl+K)").clicked() {
+        ui.ctx().copy_text(cli);
+        app.say("COPIED".into());
+    }
+    let pp = ui.painter();
+    let hy = cr.bottom() + 16.0;
+    silk(pp, pos2(r.left(), hy), Align2::LEFT_CENTER, "TOUCH A KNOB TO LOAD IT HERE · THE SAME", F::Silk2, 9.0, SILK2);
+    silk(pp, pos2(r.left(), hy + 14.0), Align2::LEFT_CENTER, "LINE WORKS IN THE COMMAND BAR", F::Silk2, 9.0, SILK2);
 
-    // band chips
-    let per_row = nb.div_ceil(chip_rows);
-    let cw = (x1 - x0 - (per_row - 1) as f32 * 4.0) / per_row as f32;
-    for (i, b) in eq.bands.iter().enumerate() {
-        let cr = Rect::from_min_size(pos2(x0 + (i % per_row) as f32 * (cw + 4.0), y + (i / per_row) as f32 * 48.0), vec2(cw, 44.0));
-        if toggle(ui, cr, Id::unique(("band", i)), b.name, app.fx.band == i).clicked() {
-            app.fx.band = i;
+    // assigns that drive this parameter
+    let ay = hy + 46.0;
+    let t = silk(pp, pos2(r.left(), ay), Align2::LEFT_CENTER, "ASSIGNED CONTROLS", F::Silk, 10.0, SILK);
+    rule(pp, t.right() + 12.0, r.right(), ay);
+    let target = control::target_for(app, p);
+    let list: Vec<control::Assign> = control::assigns(app).into_iter().filter(|a| a.on && target.is_some_and(|t| a.target == Some(t.val))).collect();
+    let mut y = ay + 22.0;
+    if list.is_empty() {
+        let msg = if target.is_some() { "NONE ON THIS PATCH" } else { "NOT AN ASSIGN TARGET" };
+        silk(pp, pos2(r.left(), y), Align2::LEFT_CENTER, msg, F::Silk2, 9.0, SILK3);
+        y += 20.0;
+    }
+    for a in &list {
+        led_dot(pp, pos2(r.left() + 3.0, y), 5.0, true);
+        text(pp, pos2(r.left() + 12.0, y), Align2::LEFT_CENTER, &format!("A{}", a.n), F::MonoB, 10.0, SILK);
+        text_max(pp, pos2(r.left() + 36.0, y), Align2::LEFT_CENTER, &format!("{} → {}", a.source, a.target_name), F::Mono, 9.5, SILK2, r.width() - 110.0);
+        text(pp, pos2(r.right(), y), Align2::RIGHT_CENTER, &a.range, F::Mono, 9.5, SILK2);
+        y += 20.0;
+    }
+    if let Some(t) = target {
+        let kr = Rect::from_min_size(pos2(r.left(), y + 6.0), vec2(150.0, 26.0));
+        if key(ui, kr, Id::unique("add-assign"), "+ ASSIGN CONTROL", false, None).clicked() {
+            control::new_assign(app, t.val);
         }
     }
-    y += chip_rows as f32 * 48.0 + 8.0;
-
-    // graph
-    let g = Rect::from_min_size(pos2(x0, y), vec2(x1 - x0, gh));
-    let p = ui.painter();
-    p.rect_filled(g, 0.0, BG);
-    p.rect_stroke(g, 0.0, Stroke::new(1.0, EDGE), StrokeKind::Inside);
-    let scale = (gh / 2.0 - 4.0) / 24.0;
-    let fx = |f: f64| g.left() + ((f / 20.0).log10() / 3.0) as f32 * g.width();
-    let fy = |db: f64| g.center().y - db as f32 * scale;
-    let gp = p.with_clip_rect(g.shrink(1.0).intersect(p.clip_rect()));
-    for f in [50.0, 100.0, 200.0, 500.0, 1000.0, 2000.0, 5000.0, 10000.0] {
-        vline(&gp, fx(f).round(), g.top(), g.bottom(), GRID);
-    }
-    for d in [-18.0, -12.0, -6.0, 6.0, 12.0, 18.0] {
-        hline(&gp, g.left(), g.right(), fy(d).round(), GRID);
-    }
-    gp.extend(Shape::dashed_line(&[pos2(g.left(), g.center().y), pos2(g.right(), g.center().y)], Stroke::new(1.0, EDGE), 3.0, 3.0));
-    text(&gp, g.right_top() + vec2(-8.0, 8.0), Align2::RIGHT_TOP, "DRAG HANDLE · SCROLL FOR Q", F::Mono, 10.0, TEXT_3);
-    for (s, d) in [("+12", 12.0), ("0 DB", 0.0), ("−12", -12.0)] {
-        text(&gp, pos2(g.left() + 6.0, fy(d) - 3.0), Align2::LEFT_BOTTOM, s, F::Mono, 10.0, TEXT_3);
-    }
-    let freqs: Vec<f64> = (0..=240).map(|i| 20.0 * 1000f64.powf(i as f64 / 240.0)).collect();
-    let curve = |db: &dyn Fn(f64) -> f64| freqs.iter().map(|&f| pos2(fx(f), fy(db(f).clamp(-30.0, 30.0)))).collect::<Vec<_>>();
-    for (i, b) in eq.bands.iter().enumerate() {
-        let c = if i == app.fx.band { INK } else { EDGE };
-        gp.line(curve(&|f| b.db(f)), Stroke::new(1.2, if eq.on { c } else { LINE }));
-    }
-    gp.line(curve(&|f| eq.db(f)), Stroke::new(2.2, if eq.on { ACCENT } else { TEXT_3 }));
-
-    // handles
-    for (i, b) in eq.bands.iter().enumerate() {
-        let cut = matches!(b.kind, Kind::LowCut | Kind::HighCut);
-        let hx = match (b.freq, b.kind) {
-            (Some(f), _) => fx(f),
-            (None, Kind::LowCut) => g.left() + 6.0,
-            (None, _) => g.right() - 6.0,
-        };
-        let hy = if cut { fy(if b.freq.is_some() { -3.0 } else { 0.0 }) } else { fy(b.gain_db) };
-        let c = pos2(hx, hy.clamp(g.top() + 6.0, g.bottom() - 6.0));
-        let resp = ui.interact(Rect::from_center_size(c, vec2(30.0, 30.0)), Id::unique(("handle", i)), Sense::click_and_drag());
-        if resp.clicked() || resp.drag_started() {
-            app.fx.band = i;
-        }
-        if let (true, Some(pt)) = (resp.dragged(), resp.interact_pointer_pos()) {
-            if let Some(fp) = b.freq_param {
-                let f = 20.0 * 10f64.powf(3.0 * ((pt.x - g.left()) / g.width()) as f64);
-                let flat = (b.kind == Kind::LowCut && pt.x <= g.left() + 4.0) || (b.kind == Kind::HighCut && pt.x >= g.right() - 4.0);
-                let best = fp.options.iter().filter(|o| (response::parse_hz(&o.1).is_none()) == flat).min_by(|x, y| {
-                    let d = |o: &(u32, String)| response::parse_hz(&o.1).map_or(0.0, |h| (h / f).log10().abs());
-                    d(x).total_cmp(&d(y))
-                });
-                if let Some(o) = best {
-                    if app.raw(fp) != Some(o.0) {
-                        app.set(fp, o.0);
-                    }
-                }
-            }
-            if let Some(gp_) = b.gain_param {
-                let db = ((g.center().y - pt.y) / scale) as f64;
-                let (lo, hi) = gp_.raw_range();
-                let raw = (((db - gp_.number(0)) / gp_.step).round().max(0.0) as u32).clamp(lo, hi);
-                if app.raw(gp_) != Some(raw) {
-                    app.set(gp_, raw);
-                }
-            }
-        }
-        let sel = i == app.fx.band;
-        let sq = Rect::from_center_size(c, vec2(10.0, 10.0));
-        ui.painter().rect_filled(sq, 0.0, if sel { ACCENT } else { BG });
-        ui.painter().rect_stroke(sq, 0.0, Stroke::new(1.0, if sel { ACCENT } else { INK }), StrokeKind::Inside);
-    }
-    // scroll over the graph steps the selected band's Q
-    let gresp = ui.interact(g, Id::unique("graph"), Sense::hover());
-    if let (true, Some(qp)) = (gresp.hovered(), eq.bands[app.fx.band].q_param) {
-        let s = wheel(ui);
-        if s != 0 {
-            let cur = app.raw(qp).and_then(|c| qp.options.iter().position(|o| o.0 == c)).unwrap_or(0) as i32;
-            let next = (cur + s).clamp(0, qp.options.len() as i32 - 1) as usize;
-            app.set(qp, qp.options[next].0);
-        }
-    }
-    y += gh + 6.0;
-    let p = ui.painter();
-    for (f, t) in [(20.0, "20"), (50.0, "50"), (100.0, "100"), (200.0, "200"), (500.0, "500"), (1000.0, "1K"), (2000.0, "2K"), (5000.0, "5K"), (10000.0, "10K"), (20000.0, "20K")] {
-        let al = if f == 20.0 { Align2::LEFT_TOP } else if f == 20000.0 { Align2::RIGHT_TOP } else { Align2::CENTER_TOP };
-        text(p, pos2(fx(f), y), al, t, F::Mono, 10.0, TEXT_3);
-    }
-    y += 16.0 + 12.0;
-
-    // readout
-    let b = &eq.bands[app.fx.band];
-    hline(p, x0, x1, y, LINE);
-    let freq = match (b.freq_param, b.freq) {
-        (Some(_), None) => "FLAT".into(),
-        (_, Some(f)) if b.freq_param.is_some() || eq.graphic => fmt_hz(f),
-        _ => "SHELF".into(),
-    };
-    let gain = if matches!(b.kind, Kind::LowCut | Kind::HighCut) { "—".into() } else { format!("{:+} DB", b.gain_db).replace('-', "−") };
-    let (ql, qv) = match b.kind {
-        Kind::LowCut | Kind::HighCut => ("SLOPE", "12 DB/OCT".to_string()),
-        _ if b.q_param.is_some() => ("Q", format!("{}", b.q)),
-        _ => ("Q", "—".into()),
-    };
-    let mut x = x0;
-    for (k, v) in [("BAND", b.name.to_string()), ("FREQ", freq), ("GAIN", gain), (ql, qv)] {
-        let kr = text(p, pos2(x, y + 22.0), Align2::LEFT_CENTER, k, F::Mono, 10.0, TEXT_3);
-        let vr = text(p, pos2(kr.right() + 8.0, y + 22.0), Align2::LEFT_CENTER, &v, F::ExpB, 13.0, INK);
-        x = vr.right() + 20.0;
-    }
-    h
 }
