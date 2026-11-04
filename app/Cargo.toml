@@ -9,3 +9,6 @@ katana = { path = "../katana" }
 # glow (OpenGL) starts faster than the default wgpu backend
 eframe = { version = "0.37", default-features = false, features = ["glow", "accesskit", "default_fonts", "wayland", "x11"] }
 serde_json = { version = "1", features = ["preserve_order"] }
+
+[build-dependencies]
+embed-resource = "3.0.12"
