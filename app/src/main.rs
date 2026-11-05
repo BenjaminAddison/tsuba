@@ -11,6 +11,7 @@ mod graph;
 mod library;
 mod monitor;
 mod palette;
+mod pedal;
 mod theme;
 mod widgets;
 mod worker;

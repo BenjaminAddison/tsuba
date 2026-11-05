@@ -92,7 +92,44 @@ pub fn block_state(app: &App, id: u8) -> (bool, bool) {
     }
 }
 
-/// The line under a block: its type, or its key setting.
+/// FX1 and FX2 are slots that hold any of 30 effects, so their blocks are named by the effect they hold
+/// ("CHORUS"), with the slot ("FX 1") on the line under. Every other block keeps its own name.
+pub fn label(app: &App, id: u8) -> String {
+    if id == AMP {
+        return if block_state(app, id).0 { "AMP".into() } else { "AMP OFF".into() };
+    }
+    if matches!(id, 5 | 6) {
+        if let Some(p) = type_param(app, info(id).2[0]).filter(|p| app.raw(p).is_some()) {
+            return short_type(&app.shown(p));
+        }
+    }
+    info(id).0.into()
+}
+
+/// A type name short enough for a chain block.
+pub fn short_type(name: &str) -> String {
+    let short = match name {
+        "PARAMETRIC EQ" => "PARA EQ",
+        "GRAPHIC EQ" => "GRAPH EQ",
+        "AC.GUITAR SIM" => "AC.GTR SIM",
+        "AC.PROCESSOR" => "AC.PROC",
+        "PITCH SHIFTER" => "P.SHIFTER",
+        "HEAVY OCTAVE" => "HVY OCTAVE",
+        "FLANGER 117E" => "FLGR 117E",
+        n => n,
+    };
+    short.chars().take(10).collect()
+}
+
+/// The line under a block: its type, or its key setting (for FX1 and FX2, named by their effect, the slot).
+pub fn sub_text(app: &App, id: u8) -> String {
+    if matches!(id, 5 | 6) && !block_state(app, id).1 {
+        return info(id).1.into();
+    }
+    type_text(app, id)
+}
+
+/// The block's type, or its key setting.
 pub fn type_text(app: &App, id: u8) -> String {
     let (_, _, keys) = info(id);
     if block_state(app, id).1 {
@@ -135,11 +172,11 @@ pub fn write_chain(app: &mut App, a: usize, b: usize, seg: &[u8]) {
     }
 }
 
-fn block_w(p: &eframe::egui::Painter, id: u8) -> f32 {
+fn block_w(app: &App, p: &eframe::egui::Painter, id: u8) -> f32 {
     if id == AMP {
         72.0
     } else {
-        (text_w(p, info(id).0, F::Silk2, 9.5) + 20.0).max(50.0)
+        (text_w(p, &label(app, id), F::Silk2, 9.5) + 20.0).max(50.0)
     }
 }
 
@@ -160,7 +197,7 @@ pub fn row(app: &mut App, ui: &Ui, r: Rect, mode: Mode) -> Option<u8> {
         app.chain.sel = seg.iter().copied().find(|&b| b == 7).or(seg.first().copied());
     }
     let (x0, x1) = (in_r.right() + 12.0, out_r.left() - 12.0);
-    let widths: HashMap<u8, f32> = seg.iter().map(|&id| (id, block_w(p, id))).collect();
+    let widths: HashMap<u8, f32> = seg.iter().map(|&id| (id, block_w(app, p, id))).collect();
     let total: f32 = widths.values().sum();
     let gap = ((x1 - x0 - total) / (seg.len() + 1) as f32).max(8.0);
     let layout = |list: &[u8]| -> Vec<(u8, f32)> {
@@ -293,10 +330,9 @@ fn draw_block(app: &App, ui: &Ui, r: Rect, id: u8, on: bool, locked: bool, selec
     if dragging {
         rrect_stroke(p, r.expand(1.0), 3.0, led());
     }
-    let label = if id == AMP && !on { "AMP OFF" } else { info(id).0 };
-    text(p, r.center(), Align2::CENTER_CENTER, label, F::Silk2, 9.5, am(fg));
+    text(p, r.center(), Align2::CENTER_CENTER, &label(app, id), F::Silk2, 9.5, am(fg));
     let tc = if selected { lit() } else { SILK3 };
-    text_max(p, pos2(r.center().x, r.bottom() + 12.0), Align2::CENTER_CENTER, &type_text(app, id), F::Mono, 8.5, am(tc), r.width() + 24.0);
+    text_max(p, pos2(r.center().x, r.bottom() + 12.0), Align2::CENTER_CENTER, &sub_text(app, id), F::Mono, 8.5, am(tc), r.width() + 24.0);
 }
 
 /// Legend under the row, right-aligned at `right`.

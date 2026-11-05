@@ -143,7 +143,7 @@ pub fn wheel(ui: &Ui) -> i32 {
 }
 
 /// Step with the wheel (hovered) or arrows (focused; Shift = 10). Returns the new index.
-fn step_input(ui: &Ui, resp: &Response, idx: usize, n: usize) -> usize {
+pub fn step_input(ui: &Ui, resp: &Response, idx: usize, n: usize) -> usize {
     let mut d: i32 = 0;
     if resp.hovered() {
         d += wheel(ui);
@@ -162,7 +162,7 @@ fn step_input(ui: &Ui, resp: &Response, idx: usize, n: usize) -> usize {
 }
 
 /// Vertical drag on `resp` in steps: `full` px per whole range (Shift: 4× finer).
-fn drag_steps(ui: &Ui, resp: &Response, id: Id, idx: usize, n: usize, full: f32) -> usize {
+pub fn drag_steps(ui: &Ui, resp: &Response, id: Id, idx: usize, n: usize, full: f32) -> usize {
     if !resp.dragged() || n < 2 {
         return idx;
     }
@@ -296,11 +296,6 @@ pub fn knob(ui: &Ui, o: Pos2, id: Id, size: Size, idx: usize, n: usize, mem: Opt
         p.circle_stroke(c, rs + 4.0, Stroke::new(2.0, led()));
     }
     ((new != idx).then_some(new), resp)
-}
-
-fn lerp_c(a: Color32, b: Color32, t: f32) -> Color32 {
-    let l = |x: u8, y: u8| (x as f32 + (y as f32 - x as f32) * t).round() as u8;
-    Color32::from_rgba_premultiplied(l(a.r(), b.r()), l(a.g(), b.g()), l(a.b(), b.b()), l(a.a(), b.a()))
 }
 
 /// Label row under a knob: LED dot (lit when edited) and silk name, then the value (lit when edited).

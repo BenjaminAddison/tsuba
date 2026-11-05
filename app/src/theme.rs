@@ -10,7 +10,7 @@ use eframe::egui::{
     Mesh, Painter, Pos2, Rect, Shape, Stroke, TextFormat, TextureHandle, TextureOptions,
 };
 
-const fn hex(rgb: u32) -> Color32 {
+pub const fn hex(rgb: u32) -> Color32 {
     Color32::from_rgb((rgb >> 16) as u8, (rgb >> 8) as u8, rgb as u8)
 }
 
@@ -249,7 +249,7 @@ pub fn para(p: &Painter, pos: Pos2, s: &str, f: F, size: f32, color: Color32, wi
 // --- fills ------------------------------------------------------------------------------------------------------
 
 /// Points of a rounded rect, clockwise from the top-left.
-fn rrect_points(r: Rect, rad: f32) -> Vec<Pos2> {
+pub fn rrect_points(r: Rect, rad: f32) -> Vec<Pos2> {
     let rad = rad.min(r.width() / 2.0).min(r.height() / 2.0);
     if rad <= 0.3 {
         return vec![r.left_top(), r.right_top(), r.right_bottom(), r.left_bottom()];
@@ -312,7 +312,7 @@ pub fn vstops(p: &Painter, r: Rect, stops: &[(f32, Color32)]) {
     p.add(Shape::mesh(m));
 }
 
-fn lerp_c(a: Color32, b: Color32, t: f32) -> Color32 {
+pub fn lerp_c(a: Color32, b: Color32, t: f32) -> Color32 {
     let l = |x: u8, y: u8| (x as f32 + (y as f32 - x as f32) * t).round() as u8;
     // premultiplied channels interpolate correctly as they are
     Color32::from_rgba_premultiplied(l(a.r(), b.r()), l(a.g(), b.g()), l(a.b(), b.b()), l(a.a(), b.a()))

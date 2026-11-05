@@ -84,7 +84,16 @@ parameters), S 42 (trims).
 faint lamp wash.
 
 **Signal path row**: IN → blocks → OUT on a bus with arrows. Blocks are outlined (on), dim (bypassed), dashed (fixed
-by firmware), cream-filled (AMP, or the selected block on Effects). LED above, type below.
+by firmware), cream-filled (AMP, or the selected block on Effects). LED above, type below. FX1 and FX2 are slots that
+hold any of 30 effects, so their blocks are named by the effect they hold (CHORUS), with the slot (FX 1) below.
+
+**Pedal**: each effect drawn as a stompbox of its own: an enclosure colour, a finish (gloss, sparkle, brushed,
+hammertone or a stripe) and a small stroke graphic of what it does (a clipped wave for drives, decaying bars for
+delays, arcs for reverbs, sliders for a graphic EQ), with knobs for its main settings, the lamp-colour LED, and a
+footswitch on a darker plate. Wahs, the pitch bend and the foot volume are treadles: rubber ridges, a lit position
+gauge, the toe as the switch. Print is near-black on light enclosures and cream on dark ones. The designs are the
+app's own: no maker's logos or trade dress. Fixed blocks show at 40% under a dashed FIXED band; the amp is a small
+cream head.
 
 **Cover key** (DELETE): a red key under a translucent flip cover. The first click lifts the cover, the second deletes.
 
@@ -112,9 +121,10 @@ MODE, TX/RX/ERR counters on glass, a hint or the latest message, LAMP colour jew
    MASTER EQ · PATCH: five faders; the VU meter showing the USB audio send level; MASTER and POWER noted as set on
    the amp.
 
-**Effects**: compact PATCH unit; SIGNAL PATH (click selects, drag reorders); BLOCK unit: title, type chip (click for
-every type), ON, MOVE ◀ ▶, RESET (back to memory), unit pages (DELAY 1/2), type keys for short lists, a visual on
-glass (delay repeats, the EQ curve, or every setting as a bar), knobs for numbers and keys/steppers for lists.
+**Effects**: compact PATCH unit; SIGNAL PATH (click selects, drag reorders); PEDALBOARD (the live path as pedals
+cabled in order: click selects, the footswitch engages); BLOCK unit: title (the effect, for FX1/FX2), type chip
+(click for every type), ON, MOVE ◀ ▶, RESET (back to memory), unit pages (DELAY 1/2), type keys for short lists, the
+block's pedal (its knobs turn the main settings, its footswitch engages it), a visual on glass (delay repeats, the EQ curve, or every setting as a bar), knobs for numbers and keys/steppers for lists.
 PARAMETER panel: the touched parameter (value, memory, range), its CLI line with COPY, and the assigns driving it with
 + ASSIGN CONTROL.
 

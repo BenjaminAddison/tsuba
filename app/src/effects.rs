@@ -9,6 +9,7 @@ use crate::chain::{self, Mode, AMP};
 use crate::control;
 use crate::editor::knob_param;
 use crate::graph::{self, Src};
+use crate::pedal;
 use crate::theme::*;
 use crate::widgets::*;
 use crate::{patch_unit, display, App, Tab, GAP};
@@ -25,6 +26,7 @@ pub fn show(app: &mut App, ui: &mut Ui, o: Pos2, w: f32) -> f32 {
     let mut y = o.y;
     y += patch_unit(app, ui, pos2(o.x, y), w, false) + GAP;
     y += path_unit(app, ui, pos2(o.x, y), w) + GAP;
+    y += board_unit(app, ui, pos2(o.x, y), w) + GAP;
     y += block_unit(app, ui, pos2(o.x, y), w);
     y - o.y
 }
@@ -40,6 +42,72 @@ fn path_unit(app: &mut App, ui: &mut Ui, o: Pos2, w: f32) -> f32 {
             app.fx.page = 0;
             app.fx.type_open = false;
         }
+    }
+    h
+}
+
+/// The live path as a pedalboard: each effect as its own pedal, cabled in order. Click a pedal to edit it, stomp
+/// its footswitch to engage it. Routing points (divider, mixer, USB) have no pedal.
+fn board_unit(app: &mut App, ui: &mut Ui, o: Pos2, w: f32) -> f32 {
+    let order = chain::chain(app);
+    let ids: Vec<u8> = order.map_or(vec![], |o| {
+        let (a, b) = chain::live_path(&o);
+        o[a..b].iter().copied().filter(|&id| id == AMP || !chain::info(id).2.is_empty()).collect()
+    });
+    let face_w = w - 2.0 * EAR;
+    let slot_w = (face_w - 40.0) / ids.len().max(1) as f32;
+    let pw = (slot_w - 16.0).clamp(56.0, 96.0);
+    let ph = pw * 1.5;
+    let h = 50.0 + ph + 30.0;
+    let face = unit(ui, Rect::from_min_size(o, vec2(w, h)), 4);
+    header(ui.painter(), face, face.top() + 22.0, "PEDALBOARD", "CLICK A PEDAL TO EDIT · STOMP TO ENGAGE", "", 3);
+    let board = Rect::from_min_max(pos2(face.left() + 20.0, face.top() + 38.0), pos2(face.right() - 20.0, face.bottom() - 10.0));
+    let p = ui.painter();
+    vgrad(p, board, 4.0, rgba(0x18181AFF), rgba(0x111112FF));
+    for t in [0.36, 0.72] {
+        let y = board.top() + board.height() * t;
+        hline(p, board.left() + 4.0, board.right() - 4.0, y, rgba(0x000000A0));
+        hline(p, board.left() + 4.0, board.right() - 4.0, y + 1.0, rgba(0xFFFFFF0A));
+    }
+    rrect_stroke(p, board, 4.0, rgba(0x00000090));
+    if ids.is_empty() {
+        text(p, board.center(), Align2::CENTER_CENTER, if app.online() { "READING THE CHAIN" } else { "WAITING FOR THE AMP" }, F::Mono, 11.0, SILK3);
+        return h;
+    }
+    let k = pw / 130.0;
+    let top = board.top() + 10.0;
+    let rects: Vec<Rect> = (0..ids.len()).map(|i| {
+        let cx = board.left() + slot_w * (i as f32 + 0.5);
+        Rect::from_min_size(pos2(cx - pw / 2.0, top), vec2(pw, ph))
+    }).collect();
+    // cables first, under the pedals: out of one into the next (a pedal's jacks sit 44 of its 196 down)
+    for w2 in rects.windows(2) {
+        let y = |r: &Rect| r.top() + r.height() * 44.0 / 196.0;
+        pedal::cable(ui.painter(), pos2(w2[0].right() + 6.0 * k, y(&w2[0])), pos2(w2[1].left() - 6.0 * k, y(&w2[1])), k);
+    }
+    for (&id, r) in ids.iter().zip(&rects) {
+        let selected = app.chain.sel == Some(id);
+        let (short, full, keys) = chain::info(id);
+        let clicked = if id == AMP {
+            pedal::amp_head(app, ui, *r, id, selected).clicked()
+        } else {
+            let slot = if matches!(id, 5 | 6) { full.to_string() } else { short.to_string() };
+            let pd = pedal::spec(app, id, keys[0], &slot, 3);
+            let out = pedal::draw(app, ui, *r, id, &pd, selected, false);
+            if out.stomped && app.online() {
+                chain::toggle(app, id);
+            }
+            out.clicked
+        };
+        if clicked && app.chain.sel != Some(id) {
+            app.chain.sel = Some(id);
+            app.fx.page = 0;
+            app.fx.type_open = false;
+        }
+        // the slot under the pedal (the pedal itself names the effect)
+        let c = if selected { lit() } else { SILK3 };
+        let slot = if matches!(id, 5 | 6) { full } else { short };
+        text_max(ui.painter(), pos2(r.center().x, r.bottom() + 11.0), Align2::CENTER_CENTER, slot, F::Silk2, 8.5, c, slot_w - 4.0);
     }
     h
 }
@@ -76,8 +144,8 @@ fn block_unit(app: &mut App, ui: &mut Ui, o: Pos2, w: f32) -> f32 {
     let types: Vec<(u32, String)> = tparam.map_or(vec![], |p| p.options.clone());
     let face_w = w - 2.0 * EAR;
     let left_w = face_w - 40.0 - right_w - 32.0;
-    let vis_w = 340.0;
-    let kcols = (((left_w - vis_w - 24.0) / 96.0).floor() as usize).max(1);
+    let vis_w = 300.0;
+    let kcols = (((left_w - PEDAL_W - 20.0 - vis_w - 24.0) / 96.0).floor() as usize).max(1);
     let krows = knobs.len().div_ceil(kcols);
     let srows = settings.len().div_ceil(2);
     let body_h = (krows as f32 * 112.0).max(196.0) + srows as f32 * 58.0;
@@ -85,7 +153,10 @@ fn block_unit(app: &mut App, ui: &mut Ui, o: Pos2, w: f32) -> f32 {
     let h = if note.is_some() { 330.0 } else { (44.0 + 52.0 + 50.0 + body_h + 24.0).max(330.0) };
     let face = unit(ui, Rect::from_min_size(o, vec2(w, h)), 5);
     let page_name = if keys.len() > 1 { format!("{full} {}", page + 1) } else { full.to_string() };
-    header(ui.painter(), face, face.top() + 22.0, &format!("BLOCK · {page_name}"), "", "PARAMETER", 3);
+    header(ui.painter(), face, face.top() + 22.0, &format!("BLOCK · {page_name}"), "", "PARAMETER", 4);
+    // FX1 and FX2 hold any effect: the title is the effect, the slot stays in the header
+    let fx_slot = matches!(id, 5 | 6) && tparam.is_some_and(|p| app.raw(p).is_some());
+    let title = if fx_slot { tparam.map_or(page_name.clone(), |p| app.shown(p)) } else { page_name.clone() };
     let x0 = face.left() + 20.0;
     let lx1 = x0 + left_w;
     groove(ui.painter(), lx1 + 16.0, face.top() + 44.0, face.bottom() - 18.0);
@@ -93,12 +164,13 @@ fn block_unit(app: &mut App, ui: &mut Ui, o: Pos2, w: f32) -> f32 {
     // title row
     let ty = face.top() + 64.0;
     let p = ui.painter();
-    let tr = silk(p, pos2(x0, ty), Align2::LEFT_CENTER, &page_name, F::Title, 20.0, SILK);
+    let tr = silk(p, pos2(x0, ty), Align2::LEFT_CENTER, &title, F::Title, 20.0, SILK);
     let mut x = tr.right() + 16.0;
     if let Some(tp) = tparam {
         let cur = app.raw(tp);
         let i = cur.and_then(|c| types.iter().position(|t| t.0 == c));
-        let label = format!("{}  {}", app.shown(tp), i.map_or(String::new(), |i| format!("{}/{}", i + 1, types.len())));
+        let count = i.map_or(String::new(), |i| format!("{}/{}", i + 1, types.len()));
+        let label = if fx_slot { format!("TYPE  {count}") } else { format!("{}  {count}", app.shown(tp)) };
         let cw = text_w(p, &label, F::MonoB, 11.0) + 30.0;
         let cr = Rect::from_min_size(pos2(x, ty - 15.0), vec2(cw, 30.0));
         let resp = ui.interact(cr, Id::unique(("type-chip", tp.addr)), eframe::egui::Sense::click());
@@ -211,8 +283,16 @@ fn block_unit(app: &mut App, ui: &mut Ui, o: Pos2, w: f32) -> f32 {
             }
         }
     } else {
+        // the block as a pedal: its knobs turn the main settings, its footswitch engages it
+        if let Some(k) = bkey {
+            let pr = Rect::from_min_size(pos2(x0, by), vec2(PEDAL_W, 196.0));
+            let pd = pedal::spec(app, id, k, &page_name, 4);
+            if pedal::draw(app, ui, pr, 200, &pd, false, true).stomped && app.online() {
+                chain::toggle(app, id);
+            }
+        }
         // visual
-        let vr = Rect::from_min_size(pos2(x0, by), vec2(vis_w, 196.0));
+        let vr = Rect::from_min_size(pos2(x0 + PEDAL_W + 20.0, by), vec2(vis_w, 196.0));
         visual(app, ui, vr, id, &params);
         // knobs
         let kx0 = vr.right() + 24.0;
@@ -234,6 +314,9 @@ fn block_unit(app: &mut App, ui: &mut Ui, o: Pos2, w: f32) -> f32 {
     parameter_panel(app, ui, Rect::from_min_max(pos2(lx1 + 34.0, face.top() + 44.0), pos2(face.right() - 20.0, face.bottom() - 18.0)), &params);
     h
 }
+
+/// The large pedal beside a block's settings (196 tall).
+const PEDAL_W: f32 = 130.0;
 
 fn note_for(_app: &App, id: u8, locked: bool, no_keys: bool) -> Option<(&'static str, &'static str)> {
     if id == AMP {

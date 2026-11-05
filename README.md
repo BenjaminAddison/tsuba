@@ -22,7 +22,7 @@ fully custom replacement app.
 | Folder | Contents |
 |---|---|
 | `notes/` | Findings |
-| `app/` | **Tsuba**, the replacement app (Rust, egui), in the "Outboard" rack look: Editor (patch memory, chain, preamp, EQ response, master EQ, USB level meter), Effects (drag-to-reorder chain, block settings), Control (assigns, CTL/EXP pedals, footswitches), Library (tones, preview, backups) and Monitor screens, plus a Ctrl+K command palette |
+| `app/` | **Tsuba**, the replacement app (Rust, egui), in the "Outboard" rack look: Editor (patch memory, chain, preamp, EQ response, master EQ, USB level meter), Effects (drag-to-reorder chain, a pedalboard with a pedal design for every effect type, block settings), Control (assigns, CTL/EXP pedals, footswitches), Library (tones, preview, backups) and Monitor screens, plus a Ctrl+K command palette |
 | `katana/` | Its backend: SysEx/MIDI (`amp.rs`), parameter catalog and tone files (`catalog.rs`), EQ curves (`response.rs`), USB audio meter (`audio.rs`), a test CLI (`main.rs`) |
 | `design/` | The UI design the app follows: [DESIGN.md](design/DESIGN.md) and the mockup boards |
 | `tones/` | Shareable tone files (JSON with named parameters) |
