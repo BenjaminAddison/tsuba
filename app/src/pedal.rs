@@ -400,10 +400,19 @@ pub fn ports(look: &Look, r: Rect) -> [(Pos2, Vec2); 2] {
     }
 }
 
-/// The amp head's jacks, for the cables either side of it.
+/// The amp's cabinet in slot `r`: a combo a little wider than tall, standing on the slot's bottom edge, with room
+/// above for its handle.
+pub fn amp_body(r: Rect) -> Rect {
+    let k = r.height() / 195.0;
+    let h = (r.width() / 1.15).min(r.height() - 12.0 * k);
+    let w = (h * 1.15).min(r.width());
+    Rect::from_min_size(pos2(r.center().x - w / 2.0, r.bottom() - h), vec2(w, h))
+}
+
+/// The amp's jacks: on its top panel, as on the real combo.
 pub fn amp_ports(r: Rect) -> [(Pos2, Vec2); 2] {
-    let y = r.top() + r.height() * 0.5;
-    [(pos2(r.left(), y), vec2(-1.0, 0.0)), (pos2(r.right(), y), vec2(1.0, 0.0))]
+    let b = amp_body(r);
+    [(pos2(b.left() + b.width() * 0.12, b.top()), vec2(0.0, -1.0)), (pos2(b.right() - b.width() * 0.12, b.top()), vec2(0.0, -1.0))]
 }
 
 /// What came of a pedal this frame: a click on it (select) or on its footswitch (engage or bypass).
@@ -1142,50 +1151,88 @@ fn glyph(p: &Painter, g: Rect, kind: Glyph, c: Color32, k: f32) {
     }
 }
 
-/// The amp, on the pedalboard: a small cream head with the model on its panel.
+/// The amp, on the pedalboard: the KATANA combo seen from the front. Black tolex, a carrying handle, black corner
+/// caps, a dotted black grille between two silver pipings, four grille screws and a plain nameplate (no maker's
+/// logo). Dimmed when the preamp is off.
 pub fn amp_head(app: &App, ui: &Ui, r: Rect, salt: u8, selected: bool) -> Response {
-    let resp = ui.interact(r, Id::unique(("amp-head", salt)), Sense::click());
-    let p = ui.painter();
-    let k = r.width() / 130.0;
+    let b = amp_body(r);
+    let k = r.height() / 195.0;
     let on = chain::block_state(app, chain::AMP).0;
+    let model = chain::type_text(app, chain::AMP);
+    let hit = b.union(Rect::from_min_max(pos2(b.left(), b.top() - 10.0 * k), b.right_top()));
+    let resp = ui.interact(hit, Id::unique(("amp-head", salt)), Sense::click());
+    let mut p = ui.painter().clone();
+    if !on {
+        p.multiply_opacity(0.55);
+    }
     if selected {
-        glow(p, r.expand(3.0 * k), 8.0 * k, 14.0 * k, alpha(led(), 0.28));
+        glow(&p, b.expand(3.0 * k), 6.0 * k, 14.0 * k, alpha(led(), 0.28));
     }
-    // handle
-    let hr = Rect::from_center_size(pos2(r.center().x, r.top() + 3.0 * k), vec2(r.width() * 0.4, 7.0 * k));
-    p.rect_stroke(hr, 3.0 * k, Stroke::new(2.5 * k, hex(0x111112)), eframe::egui::StrokeKind::Middle);
-    let box_r = Rect::from_min_max(pos2(r.left(), r.top() + 8.0 * k), r.max);
-    shadow(p, box_r, 6.0 * k, 6.0 * k, 12.0 * k, rgba(0x000000C8));
-    vgrad(p, box_r, 6.0 * k, hex(0xF2EFE8), hex(0xD9D5CC));
-    // grille
-    let gr = Rect::from_min_max(pos2(box_r.left() + 8.0 * k, box_r.top() + 8.0 * k), pos2(box_r.right() - 8.0 * k, box_r.bottom() - 54.0 * k));
-    p.rect_filled(gr, 3.0 * k, hex(0x2A2622));
-    let clip = p.with_clip_rect(gr.intersect(p.clip_rect()));
-    let step = 4.0 * k.max(0.6);
-    let mut x = gr.left() - gr.height();
-    while x < gr.right() {
-        clip.line_segment([pos2(x, gr.bottom()), pos2(x + gr.height(), gr.top())], Stroke::new(0.6, rgba(0xFFFFFF14)));
-        clip.line_segment([pos2(x, gr.top()), pos2(x + gr.height(), gr.bottom())], Stroke::new(0.6, rgba(0x00000040)));
-        x += step;
+    // handle: a black strap between two mounts
+    let hw = b.width() * 0.34;
+    let hr = Rect::from_min_max(pos2(b.center().x - hw / 2.0, b.top() - 9.0 * k), pos2(b.center().x + hw / 2.0, b.top() + 4.0 * k));
+    p.rect_stroke(hr, 4.5 * k, Stroke::new(3.2 * k.max(0.7), hex(0x2C2C30)), eframe::egui::StrokeKind::Middle);
+    hline(&p, hr.left() + 4.0 * k, hr.right() - 4.0 * k, hr.top() - 1.0 * k, rgba(0xFFFFFF30));
+    // cabinet
+    shadow(&p, b, 4.0 * k, 6.0 * k, 12.0 * k, rgba(0x000000C8));
+    vgrad(&p, b, 4.0 * k, hex(0x242427), hex(0x131315));
+    for x in [hr.left() + 2.0 * k, hr.right() - 2.0 * k] {
+        let m = Rect::from_center_size(pos2(x, b.top() + 1.0 * k), vec2(10.0 * k, 4.0 * k));
+        vgrad(&p, m, 1.5 * k, hex(0x2A2A2D), hex(0x0C0C0D));
     }
-    p.rect_stroke(gr, 3.0 * k, Stroke::new(1.0, rgba(0x00000080)), eframe::egui::StrokeKind::Inside);
-    // panel
-    let py = gr.bottom() + 14.0 * k;
-    for j in 0..4 {
-        let c = pos2(box_r.left() + box_r.width() * (j as f32 + 1.0) / 5.0, py);
-        p.circle_filled(c, 5.0 * k, hex(0x1A1A1B));
-        p.line_segment([c, point(c, -60.0 + 40.0 * j as f32, 4.5 * k)], Stroke::new(1.0, hex(0xF2EEE6)));
+    // grille: black cloth with a fine dot weave
+    let g = Rect::from_min_max(pos2(b.left() + b.width() * 0.035, b.top() + b.height() * 0.04), pos2(b.right() - b.width() * 0.035, b.bottom() - b.height() * 0.04));
+    p.rect_filled(g, 1.5 * k, hex(0x0D0D0E));
+    let step = (2.6 * k).max(2.2);
+    let dot = (0.9 * k).max(0.7);
+    let mut m = eframe::egui::Mesh::default();
+    let mut row = 0;
+    let mut y = g.top() + step / 2.0;
+    while y < g.bottom() {
+        let mut x = g.left() + step / 2.0 + if row % 2 == 1 { step / 2.0 } else { 0.0 };
+        while x < g.right() {
+            m.add_colored_rect(Rect::from_center_size(pos2(x, y), vec2(dot, dot)), rgba(0x5E5E6266));
+            x += step;
+        }
+        y += step;
+        row += 1;
     }
-    led_dot(p, pos2(box_r.right() - 10.0 * k, py), (6.0 * k).max(4.0), on);
-    name(p, pos2(box_r.center().x, box_r.bottom() - 24.0 * k), &chain::type_text(app, chain::AMP), box_r.width() - 14.0 * k, 12.0 * k, hex(0x18171A));
-    if k >= 0.8 {
-        text(p, pos2(box_r.center().x, box_r.bottom() - 10.0 * k), Align2::CENTER_CENTER, "PREAMP A", F::Silk2, 6.6 * k, rgba(0x18171AB0));
+    p.add(Shape::mesh(m));
+    // silver piping along the top and bottom of the grille
+    for py in [g.top() + g.height() * 0.03, g.bottom() - g.height() * 0.03] {
+        let pr = Rect::from_center_size(pos2(g.center().x, py), vec2(g.width(), (1.8 * k).max(1.2)));
+        vgrad(&p, pr, 0.5, hex(0xEDEDED), hex(0x8E8E8E));
     }
-    p.rect_stroke(box_r, 6.0 * k, Stroke::new(1.0, rgba(0x000000A0)), eframe::egui::StrokeKind::Outside);
+    // grille screws
+    for (fx, fy) in [(0.04, 0.09), (0.96, 0.09), (0.04, 0.91), (0.96, 0.91)] {
+        let c = pos2(g.left() + g.width() * fx, g.top() + g.height() * fy);
+        let rr = (2.4 * k).max(1.4);
+        radial_disc(&p, c, rr, c + vec2(-rr * 0.3, -rr * 0.4), rr * 1.6, &[(0.0, hex(0xFFFFFF)), (0.5, hex(0xB4B4B4)), (1.0, hex(0x5A5A5A))]);
+        p.line_segment([c - vec2(rr * 0.6, 0.0), c + vec2(rr * 0.6, 0.0)], Stroke::new(0.6, rgba(0x00000099)));
+        p.line_segment([c - vec2(0.0, rr * 0.6), c + vec2(0.0, rr * 0.6)], Stroke::new(0.6, rgba(0x00000099)));
+    }
+    // corner caps
+    let cc = (b.width() * 0.07).max(5.0);
+    for (fx, fy) in [(0.0f32, 0.0f32), (1.0, 0.0), (0.0, 1.0), (1.0, 1.0)] {
+        let c = pos2(b.left() + b.width() * fx, b.top() + b.height() * fy);
+        let cr = Rect::from_center_size(c + vec2((0.5 - fx) * cc * 0.6, (0.5 - fy) * cc * 0.6), vec2(cc, cc));
+        vgrad(&p, cr, 2.5 * k, hex(0x1B1B1D), hex(0x070708));
+        p.rect_stroke(cr, 2.5 * k, Stroke::new(0.7, rgba(0xFFFFFF1E)), eframe::egui::StrokeKind::Inside);
+    }
+    // a plain nameplate where the badge sits
+    let label = "KATANA-50";
+    let size = (8.5 * k).max(6.0);
+    let tw = text_w(&p, label, F::Title, size);
+    let plate = Rect::from_center_size(pos2(g.center().x, g.top() + g.height() * 0.2), vec2(tw + 10.0 * k, size + 6.0 * k));
+    p.rect_filled(plate, 1.5 * k, hex(0x08080A));
+    p.rect_stroke(plate, 1.5 * k, Stroke::new(0.8, hex(0xB8B8B8)), eframe::egui::StrokeKind::Inside);
+    text(&p, plate.center(), Align2::CENTER_CENTER, label, F::Title, size, hex(0xEDEDED));
+    p.rect_stroke(b, 4.0 * k, Stroke::new(1.0, rgba(0x000000C0)), eframe::egui::StrokeKind::Outside);
     if selected {
-        p.rect_stroke(r.expand(2.5 * k), 8.0 * k, Stroke::new(1.5, led()), eframe::egui::StrokeKind::Middle);
+        p.rect_stroke(b.expand(2.5 * k), 6.0 * k, Stroke::new(1.5, led()), eframe::egui::StrokeKind::Middle);
     }
-    resp.on_hover_text("The amp · its settings live on the Editor")
+    let state = if on { "" } else { " (off)" };
+    resp.on_hover_text(format!("The amp · {model}{state} · its settings live on the Editor"))
 }
 
 /// A patch cable from jack `a` to jack `b`, each given as (where it plugs in, the way it leaves), sagging a little.

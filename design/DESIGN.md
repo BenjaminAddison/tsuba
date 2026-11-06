@@ -99,8 +99,9 @@ jack position, and the board's patch cables run from jack to jack. Each type the
 delays, arcs for reverbs, sliders for a graphic EQ), with knobs for its main settings, the lamp-colour LED, and a
 footswitch on a darker plate. Wahs, the pitch bend and the foot volume are treadles: rubber ridges, a lit position
 gauge, the toe as the switch. Print is near-black on light enclosures and cream on dark ones. The designs are the
-app's own: no maker's logos or trade dress. Fixed blocks show at 40% under a dashed FIXED band; the amp is a small
-cream head.
+app's own: no maker's logos or trade dress. Fixed blocks show at 40% under a dashed FIXED band; the amp is the KATANA
+combo (black tolex, handle, corner caps, a dotted grille between silver pipings, a plain nameplate where
+the badge sits; no maker's logo), wider than a pedal and dimmed when the preamp is off.
 
 **Cover key** (DELETE): a red key under a translucent flip cover. The first click lifts the cover, the second deletes.
 

@@ -55,7 +55,11 @@ fn board_unit(app: &mut App, ui: &mut Ui, o: Pos2, w: f32) -> f32 {
         o[a..b].iter().copied().filter(|&id| id == AMP || !chain::info(id).2.is_empty()).collect()
     });
     let face_w = w - 2.0 * EAR;
-    let slot_w = (face_w - 40.0) / ids.len().max(1) as f32;
+    // the amp is a combo, wider than a pedal: it takes AMP_W slots
+    const AMP_W: f32 = 1.6;
+    let weight = |id: u8| if id == AMP { AMP_W } else { 1.0 };
+    let total: f32 = ids.iter().map(|&id| weight(id)).sum();
+    let slot_w = (face_w - 40.0) / total.max(1.0);
     let pw = (slot_w - 16.0).clamp(56.0, 96.0);
     let ph = pw * 1.5;
     let h = 56.0 + ph + 30.0;
@@ -76,9 +80,13 @@ fn board_unit(app: &mut App, ui: &mut Ui, o: Pos2, w: f32) -> f32 {
     }
     let k = pw / 130.0;
     let top = board.top() + 16.0; // room for jacks and cables on top of the bigger boxes
-    let rects: Vec<Rect> = (0..ids.len()).map(|i| {
-        let cx = board.left() + slot_w * (i as f32 + 0.5);
-        Rect::from_min_size(pos2(cx - pw / 2.0, top), vec2(pw, ph))
+    let mut x = board.left();
+    let rects: Vec<Rect> = ids.iter().map(|&id| {
+        let sw = slot_w * weight(id);
+        let cx = x + sw / 2.0;
+        x += sw;
+        let rw = if id == AMP { sw - 16.0 } else { pw };
+        Rect::from_min_size(pos2(cx - rw / 2.0, top), vec2(rw, ph))
     }).collect();
     let specs: Vec<Option<pedal::Pedal>> = ids.iter().map(|&id| {
         let (short, full, keys) = chain::info(id);
@@ -110,7 +118,7 @@ fn board_unit(app: &mut App, ui: &mut Ui, o: Pos2, w: f32) -> f32 {
         // the slot under the pedal (the pedal itself names the effect)
         let c = if selected { lit() } else { SILK3 };
         let slot = if matches!(id, 5 | 6) { full } else { short };
-        text_max(ui.painter(), pos2(r.center().x, r.bottom() + 11.0), Align2::CENTER_CENTER, slot, F::Silk2, 8.5, c, slot_w - 4.0);
+        text_max(ui.painter(), pos2(r.center().x, r.bottom() + 11.0), Align2::CENTER_CENTER, slot, F::Silk2, 8.5, c, slot_w * weight(id) - 4.0);
     }
     h
 }
