@@ -40,8 +40,9 @@ fully custom replacement app.
 
 Tagged builds are on the [releases page](../../releases): `tsuba.exe` on its own, or a zip of the exe plus `tones/`.
 Windows 64-bit, self-contained, no installer. To cut a new one, push a version tag
-(`git tag v0.1.0 && git push origin v0.1.0`) and [`.github/workflows/release.yml`](.github/workflows/release.yml)
-builds it and publishes the release.
+(`git tag v0.1.0 && git push origin v0.1.0`), or run Actions › Release › **Run workflow** with **publish** ticked to
+tag the version in `app/Cargo.toml`. Either way [`.github/workflows/release.yml`](.github/workflows/release.yml)
+builds the exe on a Windows runner and publishes the release.
 
 ## Running the app
 
