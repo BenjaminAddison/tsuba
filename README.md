@@ -36,6 +36,13 @@ fully custom replacement app.
 | `extracted/tone_studio_air_app/` | The unpacked Adobe AIR app (SWF, address map, presets, native extension) |
 | `decompiled/` | JPEXS ActionScript output: `tone_studio_as3/` (app), `rwc_ane_as3/` (native extension) |
 
+## Download
+
+Tagged builds are on the [releases page](../../releases): `tsuba.exe` on its own, or a zip of the exe plus `tones/`.
+Windows 64-bit, self-contained, no installer. To cut a new one, push a version tag
+(`git tag v0.1.0 && git push origin v0.1.0`) and [`.github/workflows/release.yml`](.github/workflows/release.yml)
+builds it and publishes the release.
+
 ## Running the app
 
 Rust 1.95+ (`rustup` on Windows; Fedora's `cargo` works on Linux). From the repo root:
