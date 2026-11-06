@@ -1,9 +1,11 @@
-//! Pedals: every effect drawn as a stompbox of its own (an enclosure colour, a finish and a small graphic per
-//! type), with wahs, the pitch bend and the foot volume as treadles. A pedal's knobs are its block's main settings
-//! and turn the real parameters; its footswitch (or a click on a treadle's toe) engages the block. The designs are
-//! the app's own: no maker's logos or trade dress, just colour and a graphic that says what the effect does.
+//! Pedals: every effect drawn as a stompbox of its own. Each effect family gets an enclosure modelled on the
+//! generic boxes real pedals are built in (a narrow mini, the everyday compact, a squat wide box, a big flat box with
+//! jacks on top, a sloped wedge, a chamfered or arched compact, and the treadle), and each type its own colour,
+//! finish and a small graphic of what it does. A pedal's knobs are its block's main settings and turn the real
+//! parameters; its footswitch (or a click on a treadle's toe) engages the block. The designs are the app's own: no
+//! maker's logos or trade dress.
 
-use eframe::egui::{pos2, vec2, Align2, Color32, Id, Painter, Pos2, Rect, Response, Sense, Shape, Stroke, Ui};
+use eframe::egui::{pos2, vec2, Align2, Color32, Id, Painter, Pos2, Rect, Response, Sense, Shape, Stroke, Ui, Vec2};
 use katana::catalog::Param;
 use katana::sysex;
 
@@ -58,9 +60,26 @@ pub enum Glyph {
     Laser,
 }
 
+/// The enclosure. Real pedals come in a few box families; each effect family gets one.
 #[derive(Clone, Copy, PartialEq)]
 pub enum Form {
-    Stomp,
+    /// The everyday tall box (1590B / 125B proportions): overdrives, filters, sims, dynamics.
+    Compact,
+    /// A narrow box (1590A proportions) with jacks on top: boosts, gates, simple octaves.
+    Mini,
+    /// The compact box with its top corners cut off: distortion and metal.
+    Chamfer,
+    /// The compact box with an arched top edge: vintage modulation, spring and room reverbs.
+    Arch,
+    /// A squat wide box (1590BB proportions), room for two rows of knobs: EQs, phasers, flangers.
+    Wide,
+    /// The wide box with two footswitches: the delay block, one switch for each of its delays.
+    Twin,
+    /// A big flat box (1590DD proportions) with jacks on top: big fuzz, synths, pitch, big reverbs.
+    BigBox,
+    /// A sloped wedge with a flat rear strip and a front lip: vintage fuzz and oddities.
+    Wedge,
+    /// A rocking treadle: wahs, the bend and the foot volume.
     Treadle,
 }
 
@@ -74,9 +93,36 @@ pub struct Look {
 
 /// The pedal for an effects-map block (`key`) holding type `ty` ("" for blocks without types).
 pub fn look(key: &str, ty: &str) -> Look {
+    let mut l = colours(key, ty);
+    if l.form != Form::Treadle {
+        l.form = form_for(key, ty);
+    }
+    l
+}
+
+/// Which box an effect is built in.
+fn form_for(key: &str, ty: &str) -> Form {
+    use Form::*;
+    match (key, ty) {
+        ("DELAY" | "DELAY2", _) => Twin,
+        ("NS1" | "NS2", _) => Mini,
+        ("REVERB", "MODULATE") => Arch,
+        ("COMP" | "SEND_RETURN" | "CHORUS", _) => Compact,
+        (_, "CLEAN BOOST" | "TREBLE BOOST" | "MID BOOST" | "OCTAVE" | "SLOW GEAR" | "S-BEND") => Mini,
+        (_, "DISTORTION" | "FAT DS" | "DST+" | "GUV DS" | "RAT" | "METAL ZONE" | "METAL DS" | "LEAD DS" | "LIMITER") => Chamfer,
+        (_, "'60S FUZZ" | "OCT FUZZ" | "RING MOD" | "LASER BEAM" | "FEEDBACKER" | "TWIST") => Wedge,
+        (_, "MUFF FUZZ" | "WAVE SYNTH" | "HARMONIST" | "PITCH SHIFTER" | "HEAVY OCTAVE" | "DC-30" | "HALL" | "HALL1" | "HALL2" | "PLATE" | "AMBIENCE" | "WARP") => BigBox,
+        (_, "CHORUS" | "VIBRATO" | "UNI-V" | "ROTARY" | "TREMOLO" | "PHASER 90E" | "FLANGER 117E" | "SPRING" | "ROOM" | "HUMANIZER") => Arch,
+        (_, "GRAPHIC EQ" | "GE-10" | "PARAMETRIC EQ" | "AC.PROCESSOR" | "PHASER" | "FLANGER" | "SLICER") => Wide,
+        _ => Compact,
+    }
+}
+
+/// Colour, finish and graphic per type (and the treadles).
+fn colours(key: &str, ty: &str) -> Look {
     use Finish::*;
     use Glyph::*;
-    let s = |c: u32, finish: Finish, glyph: Glyph| Look { body: hex(c), finish, glyph, form: Form::Stomp };
+    let s = |c: u32, finish: Finish, glyph: Glyph| Look { body: hex(c), finish, glyph, form: Form::Compact };
     let t = |c: u32, finish: Finish, glyph: Glyph| Look { body: hex(c), finish, glyph, form: Form::Treadle };
     match (key, ty) {
         // blocks with no type
@@ -185,7 +231,7 @@ pub fn look(key: &str, ty: &str) -> Look {
                 "PEDAL_FX" => Peak,
                 _ => Wave,
             };
-            let form = if key == "PEDAL_FX" { Form::Treadle } else { Form::Stomp };
+            let form = if key == "PEDAL_FX" { Form::Treadle } else { Form::Compact };
             Look { body: hex(palette[(h % palette.len() as u32) as usize]), finish: [Gloss, Sparkle, Brushed, Hammer][(h >> 8) as usize % 4], glyph, form }
         }
     }
@@ -235,6 +281,8 @@ pub struct Pedal {
     pub pos: Option<&'static Param>,
     /// A graphic EQ's bands, drawn as sliders.
     pub bands: Vec<&'static Param>,
+    /// A twin pedal's second footswitch (the delay block: DELAY 2's switch).
+    pub second: Option<&'static Param>,
 }
 
 /// The name a block's effect goes by: its type, else a plain name for typeless blocks.
@@ -250,8 +298,9 @@ pub fn effect_name(app: &App, key: &str) -> String {
     }
 }
 
-/// The pedal for chain block `id`, showing effects-map block `key` (one of the block's pages).
-pub fn spec(app: &App, id: u8, key: &str, slot: &str, max_knobs: usize) -> Pedal {
+/// The pedal for chain block `id`, showing effects-map block `key` (one of the block's pages). `big` pedals carry
+/// as many knobs as their box holds, pedalboard ones at most three.
+pub fn spec(app: &App, id: u8, key: &str, slot: &str, big: bool) -> Pedal {
     let name = effect_name(app, key);
     let ty = chain::type_param(app, key).filter(|p| app.raw(p).is_some()).map(|p| app.shown(p)).unwrap_or_default();
     let look = look(key, &ty);
@@ -270,9 +319,91 @@ pub fn spec(app: &App, id: u8, key: &str, slot: &str, max_knobs: usize) -> Pedal
     // the main settings first; DIRECT MIX only when there is room
     let mut ranked: Vec<(usize, &'static Param)> = params.iter().copied().enumerate().collect();
     ranked.sort_by_key(|(i, p)| (up(p).contains("DIRECT MIX") as usize, *i));
-    let mut knobs: Vec<(usize, &'static Param)> = ranked.into_iter().take(if look.form == Form::Treadle { 0 } else { max_knobs }).collect();
+    let cap = if look.form == Form::Treadle { 0 } else { plan(look.form).cap.min(if big { 6 } else { 3 }) };
+    let mut knobs: Vec<(usize, &'static Param)> = ranked.into_iter().take(cap).collect();
     knobs.sort_by_key(|(i, _)| *i);
-    Pedal { slot: slot.into(), name, look, on, locked, knobs: knobs.into_iter().map(|(_, p)| p).collect(), pos, bands }
+    let second = if look.form == Form::Twin && matches!(key, "DELAY" | "DELAY2") { chain::switch_param(app, "DELAY2") } else { None };
+    Pedal { slot: slot.into(), name, look, on, locked, knobs: knobs.into_iter().map(|(_, p)| p).collect(), pos, bands, second }
+}
+
+/// Where a pedal sits in its box and how its face is laid out, as fractions of the body's height.
+struct Plan {
+    knobs: (f32, f32),
+    glyph: f32,
+    name: f32,
+    slot: f32,
+    foot: (f32, f32),
+    /// The footswitch sits on a darker plate.
+    plate: bool,
+    /// Most knobs the box holds.
+    cap: usize,
+    /// Side jacks at this height, else jacks on top.
+    jack: Option<f32>,
+    name_size: f32,
+    glyph_k: f32,
+    /// Corner radius.
+    rad: f32,
+}
+
+fn plan(f: Form) -> Plan {
+    let base = Plan {
+        knobs: (0.05, 0.43),
+        glyph: 0.48,
+        name: 0.585,
+        slot: 0.665,
+        foot: (0.72, 0.965),
+        plate: true,
+        cap: 4,
+        jack: Some(0.22),
+        name_size: 13.0,
+        glyph_k: 1.0,
+        rad: 8.0,
+    };
+    match f {
+        Form::Compact => base,
+        Form::Treadle => Plan { jack: Some(0.30), rad: 10.0, ..base },
+        Form::Chamfer => Plan { knobs: (0.08, 0.44), jack: Some(0.26), rad: 5.0, ..base },
+        Form::Arch => Plan { knobs: (0.12, 0.45), glyph: 0.495, name: 0.595, slot: 0.67, jack: Some(0.32), ..base },
+        Form::Mini => Plan { knobs: (0.06, 0.42), glyph: 0.47, name: 0.565, slot: 0.625, foot: (0.69, 0.955), plate: false, cap: 2, jack: None, name_size: 10.0, glyph_k: 0.8, rad: 6.0 },
+        Form::Wide | Form::Twin => Plan { knobs: (0.05, 0.45), glyph: 0.515, name: 0.62, slot: 0.69, foot: (0.74, 0.965), cap: 5, jack: Some(0.25), ..base },
+        Form::BigBox => Plan { knobs: (0.07, 0.40), glyph: 0.47, name: 0.58, slot: 0.66, foot: (0.72, 0.97), plate: false, cap: 6, jack: None, name_size: 15.0, glyph_k: 1.35, rad: 7.0 },
+        Form::Wedge => Plan { knobs: (0.22, 0.49), glyph: 0.545, name: 0.635, slot: 0.70, foot: (0.79, 0.985), plate: false, cap: 3, jack: Some(0.09), name_size: 12.0, ..base },
+    }
+}
+
+/// The pedal's own footprint in its slot `r` (a 2:3 box), standing on the slot's bottom edge.
+pub fn body(f: Form, r: Rect) -> Rect {
+    let (fw, fh) = match f {
+        Form::Compact | Form::Chamfer | Form::Arch => (0.80, 0.96),
+        Form::Mini => (0.58, 0.84),
+        Form::Wide | Form::Twin => (1.0, 0.82),
+        Form::BigBox => (1.0, 1.0),
+        Form::Wedge => (0.88, 0.92),
+        Form::Treadle => (0.78, 1.0),
+    };
+    Rect::from_min_size(pos2(r.center().x - r.width() * fw / 2.0, r.bottom() - r.height() * fh), vec2(r.width() * fw, r.height() * fh))
+}
+
+/// The input and output jacks of a pedal in slot `r`: where a cable plugs in, and the way it leaves.
+pub fn ports(look: &Look, r: Rect) -> [(Pos2, Vec2); 2] {
+    let b = body(look.form, r);
+    let k = r.width() / 130.0;
+    match plan(look.form).jack {
+        Some(f) => {
+            let y = b.top() + b.height() * f;
+            [(pos2(b.left() - 6.0 * k, y), vec2(-1.0, 0.0)), (pos2(b.right() + 6.0 * k, y), vec2(1.0, 0.0))]
+        }
+        None => {
+            let y = b.top() - 6.0 * k;
+            [(pos2(b.left() + b.width() * 0.28, y), vec2(0.0, -1.0)), (pos2(b.right() - b.width() * 0.28, y), vec2(0.0, -1.0))]
+        }
+    }
+}
+
+/// The amp head's jacks, for the cables either side of it.
+pub fn amp_ports(r: Rect) -> [(Pos2, Vec2); 2] {
+    let y = r.top() + r.height() * 0.5;
+    [(pos2(r.left(), y), vec2(-1.0, 0.0)), (pos2(r.right(), y), vec2(1.0, 0.0))]
 }
 
 /// What came of a pedal this frame: a click on it (select) or on its footswitch (engage or bypass).
@@ -281,80 +412,239 @@ pub struct Out {
     pub stomped: bool,
 }
 
-/// Draws `pd` in `r` (a 2:3 box). `live` makes its knobs turn (else a click anywhere on it is a body click).
+/// Draws `pd` in slot `r` (a 2:3 box). `live` makes its knobs turn (else a click anywhere on it is a body click).
 pub fn draw(app: &mut App, ui: &Ui, r: Rect, salt: u8, pd: &Pedal, selected: bool, live: bool) -> Out {
-    let body = ui.interact(r, Id::unique(("pedal", salt)), Sense::click());
+    let b = body(pd.look.form, r);
+    let body_resp = ui.interact(b, Id::unique(("pedal", salt)), Sense::click());
     let k = r.width() / 130.0;
+    let pl = plan(pd.look.form);
+    let o = outline(pd.look.form, b, k, pl.rad * k);
     let mut p = ui.painter().clone();
     if pd.locked {
         p.multiply_opacity(0.42);
     }
     if selected {
-        glow(&p, r.expand(3.0 * k), 10.0 * k, 14.0 * k, alpha(led(), 0.28));
+        glow(&p, b.expand(3.0 * k), 10.0 * k, 14.0 * k, alpha(led(), 0.28));
     }
-    shadow(&p, r, 9.0 * k, 6.0 * k, 12.0 * k, rgba(0x000000C8));
+    shadow(&p, b, pl.rad * k, 6.0 * k, 12.0 * k, rgba(0x000000C8));
     let (stomped, heel) = match pd.look.form {
-        Form::Stomp => (stomp(app, ui, &p, r, k, salt, pd, live), false),
-        Form::Treadle => treadle(app, ui, &p, r, k, salt, pd, live),
+        Form::Treadle => treadle(app, ui, &p, b, k, salt, pd, live),
+        _ => (stomp(app, ui, &p, b, &o, &pl, k, salt, pd, live), false),
     };
     if selected {
-        p.rect_stroke(r.expand(2.5 * k), 10.0 * k, Stroke::new(1.5, led()), eframe::egui::StrokeKind::Middle);
+        p.add(Shape::closed_line(grow(&o.pts, 2.5 * k), Stroke::new(1.5, led())));
     }
     if pd.locked {
-        let tr = Rect::from_center_size(r.center(), vec2(r.width() + 6.0 * k, 16.0 * k.max(0.8)));
+        let tr = Rect::from_center_size(b.center(), vec2(b.width() + 6.0 * k, 16.0 * k.max(0.8)));
         let full = ui.painter();
         full.rect_filled(tr, 2.0, rgba(0x15151590));
         dashed_rect(full, tr, rgba(0xE8E4DC70));
         text_max(full, tr.center(), Align2::CENTER_CENTER, "FIXED", F::Silk2, 8.5 * k.max(0.85), SILK2, tr.width() - 6.0);
     }
-    Out { clicked: body.clicked() || heel, stomped }
+    Out { clicked: body_resp.clicked() || heel, stomped }
 }
 
-fn enclosure(p: &Painter, r: Rect, k: f32, rad: f32, look: &Look, seed: u32) {
-    let b = look.body;
-    vgrad(p, r, rad, mix(b, Color32::WHITE, 0.10), mix(b, BLACK, 0.22));
-    let clip = p.with_clip_rect(r.shrink(1.0).intersect(p.clip_rect()));
+// --- enclosure geometry -------------------------------------------------------------------------------------------
+
+/// A body's outline (convex, clockwise from the top-left) and its top edge, for the highlight.
+struct Outline {
+    pts: Vec<Pos2>,
+    top: Vec<Pos2>,
+}
+
+/// Arc points around `c` from `a0` to `a1` degrees (0 = right, 90 = down).
+fn arc(c: Pos2, r: f32, a0: f32, a1: f32, out: &mut Vec<Pos2>) {
+    for j in 0..=6 {
+        let a = (a0 + (a1 - a0) * j as f32 / 6.0).to_radians();
+        out.push(c + vec2(a.cos(), a.sin()) * r);
+    }
+}
+
+fn outline(f: Form, b: Rect, k: f32, rad: f32) -> Outline {
+    let (l, t, rt, bt) = (b.left(), b.top(), b.right(), b.bottom());
+    let mut pts = vec![];
+    let bottom = |pts: &mut Vec<Pos2>| {
+        arc(pos2(rt - rad, bt - rad), rad, 0.0, 90.0, pts);
+        arc(pos2(l + rad, bt - rad), rad, 90.0, 180.0, pts);
+    };
+    match f {
+        Form::Chamfer => {
+            let c = 13.0 * k;
+            let top = vec![pos2(l, t + c), pos2(l + c, t), pos2(rt - c, t), pos2(rt, t + c)];
+            pts.extend_from_slice(&top[1..]);
+            bottom(&mut pts);
+            pts.push(top[0]);
+            Outline { pts, top }
+        }
+        Form::Arch => {
+            let s = (b.width() * 0.14).min(18.0 * k);
+            let half = b.width() / 2.0;
+            let big_r = (half * half + s * s) / (2.0 * s);
+            let c = pos2(b.center().x, t + big_r);
+            let top: Vec<Pos2> = (0..=20)
+                .map(|j| {
+                    let x = l + b.width() * j as f32 / 20.0;
+                    pos2(x, c.y - (big_r * big_r - (x - c.x).powi(2)).max(0.0).sqrt())
+                })
+                .collect();
+            pts.extend(top.iter().copied());
+            bottom(&mut pts);
+            Outline { pts, top }
+        }
+        Form::Wedge => {
+            // the rear edge is further from the eye: a little narrower
+            let i = b.width() * 0.06;
+            let top = vec![pos2(l + i, t), pos2(rt - i, t)];
+            pts.extend(top.iter().copied());
+            bottom(&mut pts);
+            Outline { pts, top }
+        }
+        _ => Outline { pts: rrect_points(b, rad), top: vec![pos2(l + rad, t), pos2(rt - rad, t)] },
+    }
+}
+
+fn cross(a: Pos2, b: Pos2, q: Pos2) -> f32 {
+    (b.x - a.x) * (q.y - a.y) - (b.y - a.y) * (q.x - a.x)
+}
+
+fn orient(pts: &[Pos2]) -> f32 {
+    let n = pts.len();
+    (0..n).map(|i| pts[i].x * pts[(i + 1) % n].y - pts[(i + 1) % n].x * pts[i].y).sum::<f32>().signum()
+}
+
+fn inside(pts: &[Pos2], q: Pos2) -> bool {
+    let (s, n) = (orient(pts), pts.len());
+    (0..n).all(|i| cross(pts[i], pts[(i + 1) % n], q) * s >= 0.0)
+}
+
+/// `subject` cut to the convex polygon `clip` (Sutherland–Hodgman).
+fn clip_poly(subject: &[Pos2], clip: &[Pos2]) -> Vec<Pos2> {
+    let s = orient(clip);
+    let mut out = subject.to_vec();
+    for i in 0..clip.len() {
+        let (a, b) = (clip[i], clip[(i + 1) % clip.len()]);
+        if (b - a).length_sq() < 1e-6 {
+            continue;
+        }
+        let input = std::mem::take(&mut out);
+        if input.is_empty() {
+            break;
+        }
+        let ins = |q: Pos2| cross(a, b, q) * s >= 0.0;
+        for j in 0..input.len() {
+            let (p0, p1) = (input[(j + input.len() - 1) % input.len()], input[j]);
+            let hit = || {
+                let (d0, d1) = (cross(a, b, p0), cross(a, b, p1));
+                p0 + (p1 - p0) * (d0 / (d0 - d1))
+            };
+            match (ins(p0), ins(p1)) {
+                (true, true) => out.push(p1),
+                (true, false) => out.push(hit()),
+                (false, true) => {
+                    out.push(hit());
+                    out.push(p1);
+                }
+                _ => {}
+            }
+        }
+    }
+    out
+}
+
+/// Where a horizontal line at `y` enters and leaves the outline.
+fn span(pts: &[Pos2], y: f32) -> Option<(f32, f32)> {
+    let n = pts.len();
+    let xs: Vec<f32> = (0..n)
+        .filter_map(|i| {
+            let (a, b) = (pts[i], pts[(i + 1) % n]);
+            ((a.y <= y && b.y > y) || (b.y <= y && a.y > y)).then(|| a.x + (b.x - a.x) * (y - a.y) / (b.y - a.y))
+        })
+        .collect();
+    (xs.len() >= 2).then(|| (xs.iter().copied().fold(f32::MAX, f32::min), xs.iter().copied().fold(f32::MIN, f32::max)))
+}
+
+fn rect_pts(r: Rect) -> Vec<Pos2> {
+    vec![r.left_top(), r.right_top(), r.right_bottom(), r.left_bottom()]
+}
+
+fn fill(p: &Painter, pts: &[Pos2], c: Color32) {
+    if pts.len() >= 3 {
+        p.add(Shape::convex_polygon(pts.to_vec(), c, Stroke::NONE));
+    }
+}
+
+/// The outline pushed out by `d` (for the selection ring).
+fn grow(pts: &[Pos2], d: f32) -> Vec<Pos2> {
+    let c = pts.iter().fold(vec2(0.0, 0.0), |a, q| a + q.to_vec2()) / pts.len().max(1) as f32;
+    pts.iter().map(|q| *q + (q.to_vec2() - c).normalized() * d).collect()
+}
+
+fn enclosure(p: &Painter, o: &Outline, b: Rect, k: f32, look: &Look, seed: u32) {
+    let c = look.body;
+    let (top, bot) = (mix(c, Color32::WHITE, 0.10), mix(c, BLACK, 0.22));
+    grad_poly(p, &o.pts, |q| lerp_c(top, bot, ((q.y - b.top()) / b.height()).clamp(0.0, 1.0)));
     let mut rng = Rng(seed | 1);
-    let i = ink(b);
+    let i = ink(c);
     match look.finish {
         Finish::Gloss => {
-            let pts = vec![r.left_top() + vec2(rad, 0.0), pos2(r.left() + r.width() * 0.55, r.top()), pos2(r.left(), r.top() + r.height() * 0.42), pos2(r.left(), r.top() + rad)];
-            clip.add(Shape::convex_polygon(pts, rgba(0xFFFFFF14), Stroke::NONE));
+            let tri = [b.left_top(), pos2(b.left() + b.width() * 0.55, b.top()), pos2(b.left(), b.top() + b.height() * 0.42)];
+            fill(p, &clip_poly(&tri, &o.pts), rgba(0xFFFFFF14));
         }
         Finish::Sparkle => {
-            let n = (r.area() / (70.0 * k.max(0.5))) as usize;
+            let n = (b.area() / (70.0 * k.max(0.5))) as usize;
             for j in 0..n {
-                let q = pos2(r.left() + rng.next() * r.width(), r.top() + rng.next() * r.height());
-                let c = if j % 3 == 0 { rgba(0x00000030) } else { rgba(0xFFFFFF48) };
-                clip.circle_filled(q, (0.45 + rng.next() * 0.6) * k.max(0.7), c);
+                let q = pos2(b.left() + rng.next() * b.width(), b.top() + rng.next() * b.height());
+                let rr = (0.45 + rng.next() * 0.6) * k.max(0.7);
+                if inside(&o.pts, q) {
+                    p.circle_filled(q, rr, if j % 3 == 0 { rgba(0x00000030) } else { rgba(0xFFFFFF48) });
+                }
             }
         }
         Finish::Brushed => {
-            let mut y = r.top() + 1.0;
+            let mut y = b.top() + 1.0;
             let mut j = 0;
-            while y < r.bottom() {
-                let c = if j % 2 == 0 { rgba(0xFFFFFF0A) } else { rgba(0x00000012) };
-                clip.hline(r.left()..=r.right(), y, Stroke::new(0.8, c));
+            while y < b.bottom() {
+                if let Some((x0, x1)) = span(&o.pts, y) {
+                    let c = if j % 2 == 0 { rgba(0xFFFFFF0A) } else { rgba(0x00000012) };
+                    p.hline(x0 + 0.5..=x1 - 0.5, y, Stroke::new(0.8, c));
+                }
                 y += 1.6 + rng.next() * 1.4;
                 j += 1;
             }
         }
         Finish::Hammer => {
-            for j in 0..((r.area() / (260.0 * k.max(0.5))) as usize) {
-                let q = pos2(r.left() + rng.next() * r.width(), r.top() + rng.next() * r.height());
-                let c = if j % 2 == 0 { rgba(0xFFFFFF0E) } else { rgba(0x00000018) };
-                clip.circle_filled(q, (3.0 + rng.next() * 6.0) * k, c);
+            for j in 0..((b.area() / (260.0 * k.max(0.5))) as usize) {
+                let q = pos2(b.left() + rng.next() * b.width(), b.top() + rng.next() * b.height());
+                let rr = (3.0 + rng.next() * 6.0) * k;
+                if [vec2(rr, 0.0), vec2(-rr, 0.0), vec2(0.0, rr), vec2(0.0, -rr)].iter().all(|d| inside(&o.pts, q + *d)) {
+                    p.circle_filled(q, rr, if j % 2 == 0 { rgba(0xFFFFFF0E) } else { rgba(0x00000018) });
+                }
             }
         }
         Finish::Stripe => {
-            let sr = Rect::from_center_size(pos2(r.center().x, r.center().y), vec2(24.0 * k, r.height()));
-            clip.rect_filled(sr, 0.0, alpha(i, 0.20));
-            clip.vline(sr.left(), r.y_range(), Stroke::new(1.0 * k, alpha(i, 0.35)));
-            clip.vline(sr.right(), r.y_range(), Stroke::new(1.0 * k, alpha(i, 0.35)));
+            let band = clip_poly(&rect_pts(Rect::from_center_size(b.center(), vec2(24.0 * k, b.height() + 2.0))), &o.pts);
+            fill(p, &band, alpha(i, 0.20));
+            if band.len() >= 3 {
+                p.add(Shape::closed_line(band, Stroke::new(1.0 * k, alpha(i, 0.35))));
+            }
         }
     }
-    p.rect_stroke(r, rad, Stroke::new(1.0, rgba(0x000000A0)), eframe::egui::StrokeKind::Outside);
-    hline(&clip, r.left() + rad, r.right() - rad, r.top() + 0.5, rgba(0xFFFFFF40));
+    if look.form == Form::Wedge {
+        // a flat rear strip, the sloped face, a flat front lip
+        let (ry, fy) = (b.top() + b.height() * 0.17, b.top() + b.height() * 0.78);
+        let strip = |y0: f32, y1: f32, a: u32| fill(p, &clip_poly(&rect_pts(Rect::from_min_max(pos2(b.left() - 1.0, y0), pos2(b.right() + 1.0, y1))), &o.pts), rgba(a));
+        strip(b.top() - 1.0, ry, 0x00000050);
+        strip(fy, b.bottom() + 1.0, 0x00000034);
+        for y in [ry, fy] {
+            if let Some((x0, x1)) = span(&o.pts, y) {
+                p.hline(x0..=x1, y, Stroke::new(1.0, rgba(0x00000090)));
+                p.hline(x0 + 1.0..=x1 - 1.0, y + 1.0, Stroke::new(0.8, rgba(0xFFFFFF22)));
+            }
+        }
+    }
+    p.add(Shape::closed_line(o.pts.clone(), Stroke::new(1.0, rgba(0x000000A0))));
+    let hi: Vec<Pos2> = o.top.iter().map(|q| *q + vec2(0.0, 0.8)).collect();
+    p.add(Shape::line(hi, Stroke::new(1.0, rgba(0xFFFFFF40))));
 }
 
 fn screw(p: &Painter, c: Pos2, k: f32) {
@@ -364,9 +654,19 @@ fn screw(p: &Painter, c: Pos2, k: f32) {
     p.line_segment([c - vec2(rr * 0.7, 0.0), c + vec2(rr * 0.7, 0.0)], Stroke::new(0.7, rgba(0x00000099)));
 }
 
-fn jacks(p: &Painter, r: Rect, k: f32, y: f32) {
-    for (x, dir) in [(r.left(), -1.0), (r.right(), 1.0)] {
-        let jr = Rect::from_center_size(pos2(x + dir * 3.0 * k, y), vec2(6.0 * k, 12.0 * k));
+/// Jacks either side at `side` (a fraction of the height), or on the top edge.
+fn jacks(p: &Painter, b: Rect, k: f32, side: Option<f32>) {
+    let rects = match side {
+        Some(f) => {
+            let y = b.top() + b.height() * f;
+            [Rect::from_center_size(pos2(b.left() - 3.0 * k, y), vec2(6.0 * k, 12.0 * k)), Rect::from_center_size(pos2(b.right() + 3.0 * k, y), vec2(6.0 * k, 12.0 * k))]
+        }
+        None => {
+            let y = b.top() - 3.0 * k;
+            [Rect::from_center_size(pos2(b.left() + b.width() * 0.28, y), vec2(12.0 * k, 6.0 * k)), Rect::from_center_size(pos2(b.right() - b.width() * 0.28, y), vec2(12.0 * k, 6.0 * k))]
+        }
+    };
+    for jr in rects {
         vgrad(p, jr, 1.5 * k, hex(0xB9B6B0), hex(0x5A5853));
         p.rect_stroke(jr, 1.5 * k, Stroke::new(0.6, rgba(0x000000A0)), eframe::egui::StrokeKind::Inside);
     }
@@ -391,77 +691,134 @@ fn name(p: &Painter, c: Pos2, s: &str, w: f32, size: f32, color: Color32) {
     text(p, c + vec2(0.0, sz * 0.58), Align2::CENTER_CENTER, &b, F::Title, sz, color);
 }
 
+/// A stompbox in body `b`. Returns whether its (first) footswitch was stomped; a twin's second switch is handled here.
 #[allow(clippy::too_many_arguments)]
-fn stomp(app: &mut App, ui: &Ui, p: &Painter, r: Rect, k: f32, salt: u8, pd: &Pedal, live: bool) -> bool {
+fn stomp(app: &mut App, ui: &Ui, p: &Painter, b: Rect, o: &Outline, pl: &Plan, k: f32, salt: u8, pd: &Pedal, live: bool) -> bool {
     let look = &pd.look;
     let i = ink(look.body);
-    jacks(p, r, k, r.top() + 44.0 * k);
-    enclosure(p, r, k, 9.0 * k, look, hash(&pd.name));
-    for c in [pos2(r.left() + 7.0 * k, r.top() + 7.0 * k), pos2(r.right() - 7.0 * k, r.top() + 7.0 * k)] {
+    let y = |f: f32| b.top() + b.height() * f;
+    jacks(p, b, k, pl.jack);
+    enclosure(p, o, b, k, look, hash(&pd.name));
+    let inset = 7.0 * k;
+    let screws: Vec<Pos2> = match look.form {
+        Form::Compact => vec![pos2(b.left() + inset, b.top() + inset), pos2(b.right() - inset, b.top() + inset)],
+        Form::Wide | Form::Twin | Form::BigBox => vec![
+            pos2(b.left() + inset, b.top() + inset),
+            pos2(b.right() - inset, b.top() + inset),
+            pos2(b.left() + inset, b.bottom() - inset),
+            pos2(b.right() - inset, b.bottom() - inset),
+        ],
+        Form::Wedge => vec![pos2(b.left() + b.width() * 0.22, y(0.085)), pos2(b.right() - b.width() * 0.22, y(0.085))],
+        _ => vec![],
+    };
+    for c in screws {
         screw(p, c, k);
     }
 
     // knobs, or a graphic EQ's sliders
     let small = k < 0.8;
+    let zone = Rect::from_min_max(pos2(b.left() + 8.0 * k, y(pl.knobs.0)), pos2(b.right() - 8.0 * k, y(pl.knobs.1)));
     if !pd.bands.is_empty() {
-        let zone = Rect::from_min_max(pos2(r.left() + 14.0 * k, r.top() + 14.0 * k), pos2(r.right() - 14.0 * k, r.top() + 80.0 * k));
+        let zone = zone.shrink2(vec2(4.0 * k, 4.0 * k));
         let n = pd.bands.len();
-        for (j, b) in pd.bands.iter().enumerate() {
+        for (j, q) in pd.bands.iter().enumerate() {
             let x = zone.left() + zone.width() * (j as f32 + 0.5) / n as f32;
-            p.vline(x, zone.top()..=zone.bottom() - 6.0 * k, Stroke::new(1.6 * k, rgba(0x00000080)));
-            let (lo, hi) = b.raw_range();
-            let f = app.raw(b).map_or(0.5, |v| (v.saturating_sub(lo)) as f32 / (hi - lo).max(1) as f32);
-            let y = zone.bottom() - 6.0 * k - f * (zone.height() - 6.0 * k);
-            let cap = Rect::from_center_size(pos2(x, y), vec2(6.0 * k, 3.5 * k));
+            p.vline(x, zone.top()..=zone.bottom(), Stroke::new(1.6 * k, rgba(0x00000080)));
+            let (lo, hi) = q.raw_range();
+            let f = app.raw(q).map_or(0.5, |v| (v.saturating_sub(lo)) as f32 / (hi - lo).max(1) as f32);
+            let cy = zone.bottom() - f * zone.height();
+            let cap = Rect::from_center_size(pos2(x, cy), vec2(6.0 * k, 3.5 * k));
             vgrad(p, cap, 1.0, hex(0x3A3A3D), hex(0x111112));
             hline(p, cap.left(), cap.right(), cap.center().y - 0.5, alpha(Color32::WHITE, 0.7));
         }
     } else if !pd.knobs.is_empty() {
         let n = pd.knobs.len();
-        let (rows, cols) = if n == 4 { (2, 2) } else { (1, n) };
-        let rad = match (rows, cols) {
-            (2, _) => 11.0,
-            (_, 1) => 16.0,
-            (_, 2) => 14.0,
-            _ => 11.5,
-        } * k;
-        let zone_top = r.top() + 12.0 * k;
-        let zone_h = 74.0 * k;
-        for (j, q) in pd.knobs.iter().enumerate() {
-            let (row, col) = (j / cols, j % cols);
-            let row_n = if row == rows - 1 { n - row * cols } else { cols };
-            let x = r.left() + r.width() * (col as f32 + 0.5) / row_n as f32;
-            let label_h = if small { 0.0 } else { 10.0 * k };
-            let slot_h = zone_h / rows as f32;
-            let y = zone_top + slot_h * row as f32 + (slot_h - label_h) / 2.0;
-            pedal_knob(app, ui, p, pos2(x, y), rad, q, Id::unique(("pedal-knob", salt, j)), live, i);
-            if !small {
-                let lw = r.width() / cols as f32 - 4.0 * k;
-                text_max(p, pos2(x, y + rad + 7.0 * k), Align2::CENTER_CENTER, &q.label.to_uppercase(), F::Silk2, 6.6 * k, alpha(i, 0.9), lw);
+        let rows: Vec<usize> = match (look.form, n) {
+            (Form::Mini, 2) => vec![1, 1],
+            (_, 4) => vec![2, 2],
+            (_, 5) => vec![3, 2],
+            (_, 6) => vec![3, 3],
+            _ => vec![n],
+        };
+        let label_h = if small { 0.0 } else { 10.0 * k };
+        let slot_h = zone.height() / rows.len() as f32;
+        let max_cols = rows.iter().copied().max().unwrap_or(1) as f32;
+        let rad = (zone.width() / max_cols * 0.34).min((slot_h - label_h) * 0.42).min(16.0 * k);
+        let mut j = 0;
+        for (ri, &cols) in rows.iter().enumerate() {
+            for c in 0..cols {
+                let q = pd.knobs[j];
+                let x = zone.left() + zone.width() * (c as f32 + 0.5) / cols as f32;
+                let mut cy = zone.top() + slot_h * (ri as f32 + 0.5) - label_h / 2.0;
+                if look.form == Form::Wedge && cols == 3 && c == 1 {
+                    cy -= 4.0 * k;
+                }
+                pedal_knob(app, ui, p, pos2(x, cy), rad, q, Id::unique(("pedal-knob", salt, j)), live, i);
+                if !small {
+                    // long labels shrink to fit their column before they are cut
+                    let label = face_label(&q.label);
+                    let lw = zone.width() / cols as f32 - 2.0 * k;
+                    let size = 6.6 * k * (lw / text_w(p, &label, F::Silk2, 6.6 * k)).clamp(0.78, 1.0);
+                    text_max(p, pos2(x, cy + rad + 6.5 * k), Align2::CENTER_CENTER, &label, F::Silk2, size, alpha(i, 0.9), lw);
+                }
+                j += 1;
             }
         }
     }
 
-    // graphic, name, LED
-    let plate_y = r.top() + 88.0 * k;
-    let gr = Rect::from_center_size(pos2(r.center().x, plate_y + 8.0 * k), vec2(34.0 * k, 15.0 * k));
-    glyph(p, gr, look.glyph, i, k);
-    led_dot(p, pos2(r.right() - 14.0 * k, plate_y + 8.0 * k), (6.0 * k).max(4.0), pd.on && !pd.locked);
-    name(p, pos2(r.center().x, plate_y + 31.0 * k), &pd.name, r.width() - 16.0 * k, 13.0 * k, i);
+    // graphic, LED, name
+    let gy = y(pl.glyph);
+    let gr = Rect::from_center_size(pos2(b.center().x, gy), vec2(34.0 * k, 15.0 * k) * pl.glyph_k);
+    glyph(p, gr, look.glyph, i, k * pl.glyph_k);
+    if pd.second.is_none() {
+        led_dot(p, pos2(b.right() - 12.0 * k, gy), (6.0 * k).max(4.0), pd.on && !pd.locked);
+    }
+    name(p, pos2(b.center().x, y(pl.name)), &pd.name, b.width() - 14.0 * k, pl.name_size * k, i);
     if !small {
-        text_max(p, pos2(r.center().x, plate_y + 47.0 * k), Align2::CENTER_CENTER, &pd.slot, F::Silk2, 6.6 * k, alpha(i, 0.7), r.width() - 16.0 * k);
+        text_max(p, pos2(b.center().x, y(pl.slot)), Align2::CENTER_CENTER, &pd.slot, F::Silk2, 6.6 * k, alpha(i, 0.7), b.width() - 16.0 * k);
     }
 
-    // footswitch plate
-    let fr = Rect::from_min_max(pos2(r.left() + 7.0 * k, r.top() + 142.0 * k), pos2(r.right() - 7.0 * k, r.bottom() - 7.0 * k));
-    vgrad(p, fr, 6.0 * k, mix(look.body, BLACK, 0.42), mix(look.body, BLACK, 0.58));
-    hline(p, fr.left() + 6.0 * k, fr.right() - 6.0 * k, fr.top(), rgba(0x00000080));
-    hline(p, fr.left() + 6.0 * k, fr.right() - 6.0 * k, fr.bottom() - 1.0, rgba(0xFFFFFF18));
-    let resp = ui.interact(Rect::from_center_size(fr.center(), vec2(40.0 * k, 40.0 * k).max(vec2(24.0, 24.0))), Id::unique(("pedal-stomp", salt)), Sense::click());
-    footswitch(p, fr.center(), 15.0 * k, resp.is_pointer_button_down_on());
-    let tip = if pd.on { "Stomp to bypass" } else { "Stomp to engage" };
-    let resp = resp.on_hover_text(tip);
-    resp.clicked() && !pd.locked
+    // footswitch(es)
+    let fz = Rect::from_min_max(pos2(b.left() + 7.0 * k, y(pl.foot.0)), pos2(b.right() - 7.0 * k, y(pl.foot.1)));
+    if pl.plate {
+        let prad = if look.form == Form::Chamfer { 3.0 * k } else { 6.0 * k };
+        vgrad(p, fz, prad, mix(look.body, BLACK, 0.42), mix(look.body, BLACK, 0.58));
+        hline(p, fz.left() + prad, fz.right() - prad, fz.top(), rgba(0x00000080));
+        hline(p, fz.left() + prad, fz.right() - prad, fz.bottom() - 1.0, rgba(0xFFFFFF18));
+    }
+    let hexr = (15.0 * k).min(fz.height() * 0.40);
+    let switches: Vec<(f32, Option<&'static Param>)> = match pd.second {
+        Some(q) => vec![(0.3, None), (0.7, Some(q))],
+        None => vec![(0.5, None)],
+    };
+    let mut stomped = false;
+    for (n, (fx, sw)) in switches.into_iter().enumerate() {
+        let c = pos2(fz.left() + fz.width() * fx, fz.center().y);
+        let hit = vec2(hexr * 2.6, hexr * 2.6).max(vec2(24.0, 24.0));
+        let resp = ui.interact(Rect::from_center_size(c, hit), Id::unique(("pedal-stomp", salt, n)), Sense::click());
+        footswitch(p, c, hexr, resp.is_pointer_button_down_on());
+        let on = match sw {
+            Some(q) => app.raw(q) == Some(1),
+            None => pd.on && !pd.locked,
+        };
+        if pd.second.is_some() {
+            // each switch's LED on its left: delay 1, then delay 2
+            led_dot(p, c - vec2(hexr + 7.0 * k, 0.0), (5.0 * k).max(3.5), on);
+        }
+        let what = if pd.second.is_some() { format!("Delay {} · ", n + 1) } else { String::new() };
+        let resp = resp.on_hover_text(format!("{what}{}", if on { "Stomp to bypass" } else { "Stomp to engage" }));
+        if resp.clicked() {
+            match sw {
+                None => stomped = !pd.locked,
+                Some(q) => {
+                    if app.online() && !q.is_locked() {
+                        app.set(q, (!on) as u32);
+                    }
+                }
+            }
+        }
+    }
+    stomped
 }
 
 fn footswitch(p: &Painter, c: Pos2, hexr: f32, pressed: bool) {
@@ -474,6 +831,24 @@ fn footswitch(p: &Painter, c: Pos2, hexr: f32, pressed: bool) {
     let cr = hexr * if pressed { 0.55 } else { 0.6 };
     radial_disc(p, c, cr, c + vec2(-cr * 0.25, -cr * 0.3), cr * 1.7, &[(0.0, hex(0xFFFFFF)), (0.45, hex(0xBDBAB4)), (1.0, hex(0x4A4844))]);
     p.circle_stroke(c, cr, Stroke::new(0.8, rgba(0x00000090)));
+}
+
+/// A knob's name as printed on a pedal: short, the way real pedals print them.
+fn face_label(label: &str) -> String {
+    let up = label.to_uppercase();
+    let short = match up.as_str() {
+        "EFFECT LEVEL" => "E.LEVEL",
+        "DIRECT MIX" => "D.MIX",
+        "REVERB TIME" | "DELAY TIME" => "TIME",
+        "DENSITY" => "DENS",
+        "SPRING SENS" => "SPRING",
+        "FEEDBACK" => "F.BACK",
+        "THRESHOLD" | "THRESH" => "THRESH",
+        "FREQUENCY" => "FREQ",
+        "RESONANCE" => "RESO",
+        _ => up.as_str(),
+    };
+    short.replace("PRE DELAY", "PRE").replace("LOW ", "L.").replace("HIGH ", "H.").replace("PEDAL ", "P.")
 }
 
 /// A black dome knob with a white line; turns `q` when `live`.
@@ -522,8 +897,9 @@ fn pedal_knob(app: &mut App, ui: &Ui, p: &Painter, c: Pos2, rad: f32, q: &'stati
 fn treadle(app: &mut App, ui: &Ui, p: &Painter, r: Rect, k: f32, salt: u8, pd: &Pedal, live: bool) -> (bool, bool) {
     let look = &pd.look;
     let i = ink(look.body);
-    jacks(p, r, k, r.top() + 60.0 * k);
-    enclosure(p, r, k, 10.0 * k, look, hash(&pd.name));
+    jacks(p, r, k, plan(Form::Treadle).jack);
+    let o = outline(Form::Treadle, r, k, 10.0 * k);
+    enclosure(p, &o, r, k, look, hash(&pd.name));
     let tr = Rect::from_min_max(pos2(r.left() + 10.0 * k, r.top() + 9.0 * k), pos2(r.right() - 10.0 * k, r.bottom() - 52.0 * k));
     let pos = pd.pos;
     let f = pos.and_then(|q| {
@@ -812,17 +1188,33 @@ pub fn amp_head(app: &App, ui: &Ui, r: Rect, salt: u8, selected: bool) -> Respon
     resp.on_hover_text("The amp · its settings live on the Editor")
 }
 
-/// A patch cable between two jacks, sagging a little.
-pub fn cable(p: &Painter, a: Pos2, b: Pos2, k: f32) {
-    let sag = ((b.x - a.x).abs() * 0.25).clamp(4.0, 18.0) * k.max(0.6);
-    let pts: Vec<Pos2> = (0..=16).map(|j| {
-        let t = j as f32 / 16.0;
-        pos2(a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t + sag * 4.0 * t * (1.0 - t))
-    }).collect();
-    p.add(Shape::line(pts.clone(), Stroke::new(3.2 * k.max(0.7), hex(0x0B0B0C))));
-    p.add(Shape::line(pts, Stroke::new(1.0 * k.max(0.7), rgba(0xFFFFFF18))));
-    for (q, d) in [(a, 1.0), (b, -1.0)] {
-        let pr = Rect::from_center_size(q + vec2(d * 3.0 * k, 0.0), vec2(7.0 * k, 5.0 * k).max(vec2(4.0, 3.0)));
-        vgrad(p, pr, 1.0, hex(0x3A3A3D), hex(0x151516));
+/// A patch cable from jack `a` to jack `b`, each given as (where it plugs in, the way it leaves), sagging a little.
+pub fn cable(p: &Painter, a: (Pos2, Vec2), b: (Pos2, Vec2), k: f32) {
+    let km = k.max(0.6);
+    let d = (b.0 - a.0).length();
+    let lead = |dir: Vec2| if dir.y < 0.0 { 10.0 * km } else { (d * 0.45).clamp(8.0 * km, 30.0 * km) };
+    let sag = |dir: Vec2| if dir.y < 0.0 { Vec2::ZERO } else { vec2(0.0, (d * 0.18).clamp(3.0, 14.0) * km) };
+    // plugs stick out 7 from the jack
+    let (a0, b0) = (a.0 + a.1 * 7.0 * k, b.0 + b.1 * 7.0 * k);
+    let (c1, c2) = (a0 + a.1 * lead(a.1) + sag(a.1), b0 + b.1 * lead(b.1) + sag(b.1));
+    let pts: Vec<Pos2> = (0..=24)
+        .map(|j| {
+            let t = j as f32 / 24.0;
+            let u = 1.0 - t;
+            (a0.to_vec2() * u * u * u + c1.to_vec2() * 3.0 * u * u * t + c2.to_vec2() * 3.0 * u * t * t + b0.to_vec2() * t * t * t).to_pos2()
+        })
+        .collect();
+    let shade: Vec<Pos2> = pts.iter().map(|q| *q + vec2(0.0, 2.0 * km)).collect();
+    p.add(Shape::line(shade, Stroke::new(3.6 * km, rgba(0x00000070))));
+    p.add(Shape::line(pts.clone(), Stroke::new(3.4 * km, hex(0x323236))));
+    let hi: Vec<Pos2> = pts.iter().map(|q| *q - vec2(0.0, 0.8 * km)).collect();
+    p.add(Shape::line(hi, Stroke::new(0.9 * km, rgba(0xFFFFFF2C))));
+    for (q, dir) in [a, b] {
+        // a metal sleeve at the jack, a black boot behind it
+        let along = |l: f32, w: f32| if dir.x != 0.0 { vec2(l, w) } else { vec2(w, l) };
+        let sleeve = Rect::from_center_size(q + dir * 1.5 * k, along(3.5 * k, 5.0 * k).max(vec2(2.5, 2.5)));
+        let boot = Rect::from_center_size(q + dir * 5.0 * k, along(5.0 * k, 6.0 * k).max(vec2(3.0, 3.0)));
+        vgrad(p, boot, 1.5, hex(0x2C2C2F), hex(0x0E0E0F));
+        vgrad(p, sleeve, 0.5, hex(0xD8D5CF), hex(0x7A7771));
     }
 }

@@ -1,7 +1,7 @@
 //! EFFECTS: the signal path (click to select, drag to reorder), the selected block's settings, and the PARAMETER
 //! panel: the touched parameter against memory, its CLI line, and the assigns that drive it.
 
-use eframe::egui::{pos2, vec2, Align2, Id, Pos2, Rect, Shape, Stroke, Ui};
+use eframe::egui::{pos2, vec2, Align2, Id, Pos2, Rect, Shape, Stroke, Ui, Vec2};
 use katana::catalog::Param;
 use katana::sysex;
 
@@ -58,7 +58,7 @@ fn board_unit(app: &mut App, ui: &mut Ui, o: Pos2, w: f32) -> f32 {
     let slot_w = (face_w - 40.0) / ids.len().max(1) as f32;
     let pw = (slot_w - 16.0).clamp(56.0, 96.0);
     let ph = pw * 1.5;
-    let h = 50.0 + ph + 30.0;
+    let h = 56.0 + ph + 30.0;
     let face = unit(ui, Rect::from_min_size(o, vec2(w, h)), 4);
     header(ui.painter(), face, face.top() + 22.0, "PEDALBOARD", "CLICK A PEDAL TO EDIT · STOMP TO ENGAGE", "", 3);
     let board = Rect::from_min_max(pos2(face.left() + 20.0, face.top() + 38.0), pos2(face.right() - 20.0, face.bottom() - 10.0));
@@ -75,29 +75,32 @@ fn board_unit(app: &mut App, ui: &mut Ui, o: Pos2, w: f32) -> f32 {
         return h;
     }
     let k = pw / 130.0;
-    let top = board.top() + 10.0;
+    let top = board.top() + 16.0; // room for jacks and cables on top of the bigger boxes
     let rects: Vec<Rect> = (0..ids.len()).map(|i| {
         let cx = board.left() + slot_w * (i as f32 + 0.5);
         Rect::from_min_size(pos2(cx - pw / 2.0, top), vec2(pw, ph))
     }).collect();
-    // cables first, under the pedals: out of one into the next (a pedal's jacks sit 44 of its 196 down)
-    for w2 in rects.windows(2) {
-        let y = |r: &Rect| r.top() + r.height() * 44.0 / 196.0;
-        pedal::cable(ui.painter(), pos2(w2[0].right() + 6.0 * k, y(&w2[0])), pos2(w2[1].left() - 6.0 * k, y(&w2[1])), k);
-    }
-    for (&id, r) in ids.iter().zip(&rects) {
-        let selected = app.chain.sel == Some(id);
+    let specs: Vec<Option<pedal::Pedal>> = ids.iter().map(|&id| {
         let (short, full, keys) = chain::info(id);
-        let clicked = if id == AMP {
-            pedal::amp_head(app, ui, *r, id, selected).clicked()
-        } else {
-            let slot = if matches!(id, 5 | 6) { full.to_string() } else { short.to_string() };
-            let pd = pedal::spec(app, id, keys[0], &slot, 3);
-            let out = pedal::draw(app, ui, *r, id, &pd, selected, false);
+        let slot = if matches!(id, 5 | 6) { full } else { short };
+        (id != AMP).then(|| pedal::spec(app, id, keys[0], slot, false))
+    }).collect();
+    // cables first, under the pedals: out of one into the next, from wherever each box has its jacks
+    let ports: Vec<[(Pos2, Vec2); 2]> = specs.iter().zip(&rects).map(|(s, r)| s.as_ref().map_or(pedal::amp_ports(*r), |pd| pedal::ports(&pd.look, *r))).collect();
+    for w2 in ports.windows(2) {
+        pedal::cable(ui.painter(), w2[0][1], w2[1][0], k);
+    }
+    for ((&id, r), pd) in ids.iter().zip(&rects).zip(&specs) {
+        let selected = app.chain.sel == Some(id);
+        let (short, full, _) = chain::info(id);
+        let clicked = if let Some(pd) = pd {
+            let out = pedal::draw(app, ui, *r, id, pd, selected, false);
             if out.stomped && app.online() {
                 chain::toggle(app, id);
             }
             out.clicked
+        } else {
+            pedal::amp_head(app, ui, *r, id, selected).clicked()
         };
         if clicked && app.chain.sel != Some(id) {
             app.chain.sel = Some(id);
@@ -286,7 +289,7 @@ fn block_unit(app: &mut App, ui: &mut Ui, o: Pos2, w: f32) -> f32 {
         // the block as a pedal: its knobs turn the main settings, its footswitch engages it
         if let Some(k) = bkey {
             let pr = Rect::from_min_size(pos2(x0, by), vec2(PEDAL_W, 196.0));
-            let pd = pedal::spec(app, id, k, &page_name, 4);
+            let pd = pedal::spec(app, id, k, &page_name, true);
             if pedal::draw(app, ui, pr, 200, &pd, false, true).stomped && app.online() {
                 chain::toggle(app, id);
             }

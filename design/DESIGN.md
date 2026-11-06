@@ -87,8 +87,15 @@ faint lamp wash.
 by firmware), cream-filled (AMP, or the selected block on Effects). LED above, type below. FX1 and FX2 are slots that
 hold any of 30 effects, so their blocks are named by the effect they hold (CHORUS), with the slot (FX 1) below.
 
-**Pedal**: each effect drawn as a stompbox of its own: an enclosure colour, a finish (gloss, sparkle, brushed,
-hammertone or a stripe) and a small stroke graphic of what it does (a clipped wave for drives, decaying bars for
+**Pedal**: each effect drawn as a stompbox of its own. The box follows the generic enclosures real pedals use,
+by effect family: **mini** (1590A proportions, jacks on top: boosts, gates, simple octaves), **compact** (1590B/125B:
+overdrives, filters, sims, dynamics), **chamfered** compact (top corners cut: distortion, metal), **arched** compact
+(curved top edge: vintage modulation, spring and room reverbs), **wide** (1590BB, two rows of knobs: EQs, phasers,
+flangers), **twin** (the wide box with two footswitches, one per delay: the delay block), **big box** (1590DD, jacks
+on top: big fuzz, synths, pitch, big reverbs), **wedge** (sloped face between a flat rear strip and a front lip:
+vintage fuzz, ring mod) and the **treadle**. Each box has its own footprint in the pedalboard slot, knob layout and
+jack position, and the board's patch cables run from jack to jack. Each type then has an enclosure colour, a finish
+(gloss, sparkle, brushed, hammertone or a stripe) and a small stroke graphic of what it does (a clipped wave for drives, decaying bars for
 delays, arcs for reverbs, sliders for a graphic EQ), with knobs for its main settings, the lamp-colour LED, and a
 footswitch on a darker plate. Wahs, the pitch bend and the foot volume are treadles: rubber ridges, a lit position
 gauge, the toe as the switch. Print is near-black on light enclosures and cream on dark ones. The designs are the
