@@ -1,0 +1,70 @@
+# Builds Tsuba for Windows and publishes it as a GitHub release.
+#
+# Push a version tag to cut a release:
+#
+#     git tag v0.1.0 && git push origin v0.1.0
+#
+# Running it by hand (Actions > Release > Run workflow) builds the same exe and
+# leaves it as a run artifact, without creating a release.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    name: Windows (x86_64)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        run: |
+          rustup toolchain install stable --profile minimal --no-self-update
+          rustup default stable
+          rustc --version
+
+      - name: Build tsuba.exe
+        run: cargo build --release -p tsuba
+
+      - name: Test the backend
+        run: cargo test --release -p katana
+
+      - name: Package
+        id: package
+        shell: pwsh
+        run: |
+          $tag = if ($env:GITHUB_REF_TYPE -eq 'tag') { $env:GITHUB_REF_NAME } else { "v0.0.0-" + $env:GITHUB_SHA.Substring(0, 7) }
+          $name = "tsuba-$tag-windows-x86_64"
+          New-Item -ItemType Directory -Force -Path "dist/$name" | Out-Null
+          Copy-Item target/release/tsuba.exe "dist/$name/"
+          Copy-Item -Recurse tones "dist/$name/tones"
+          Copy-Item README.md "dist/$name/"
+          Compress-Archive -Path "dist/$name/*" -DestinationPath "dist/$name.zip"
+          Copy-Item target/release/tsuba.exe dist/tsuba.exe
+          "zip=dist/$name.zip" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          Get-ChildItem dist
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tsuba-windows-x86_64
+          path: |
+            dist/tsuba.exe
+            dist/*.zip
+
+      - name: Publish release
+        if: github.ref_type == 'tag'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          gh release create "${{ github.ref_name }}"
+          "dist/tsuba.exe"
+          "${{ steps.package.outputs.zip }}"
+          --title "Tsuba ${{ github.ref_name }}"
+          --notes-file .github/release-notes.md
